@@ -1,0 +1,46 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# pipr
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/PIP-Technical-Team/pipr/workflows/R-CMD-check/badge.svg)](https://github.com/PIP-Technical-Team/pipr/actions?workflow=R-CMD-check)
+[![test-coverage](https://github.com/PIP-Technical-Team/pipr/workflows/test-coverage/badge.svg)](https://github.com/PIP-Technical-Team/pipr/actions)
+[![pkgdown](https://github.com/PIP-Technical-Team/pipr/workflows/pkgdown/badge.svg)](https://github.com/PIP-Technical-Team/pipr/actions)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+
+The `pipr` package allows R users to compute poverty and inequality indicators for more than 160 countries and regions from the World Bank’s database of household surveys.
+
+## Installation
+
+You can install the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("PIP-Technical-Team/pipr")
+```
+
+## Example
+
+This is a basic example that shows how to retrieve some key poverty and inequity statistics. 
+
+```{r example, warning=FALSE, message=FALSE}
+library(dplyr)
+library(pipr)
+
+df <- get_stats(country = "ALB")
+glimpse(df)
+```

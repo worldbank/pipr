@@ -1,0 +1,44 @@
+Package: pipr
+Title: Client for the PIP API
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Tony",
+            family = "Fujs",
+            role = c("aut", "cre"),
+            email = "tfujs@worldbank.org"),
+     person(given = "Aleksander",
+            family = "Eilertsen",
+            role = "aut",
+            email = "aeilertsen@worldbank.org"),
+     person(given = "World Bank",
+            role = "cph")
+     )
+Description: Provides an interface to compute poverty and inequality 
+    indicators for more than 160 countries and regions from the World
+    Bank's database of household surveys. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+URL: https://github.com/PIP-Technical-Team/pipr
+BugReports: https://github.com/PIP-Technical-Team/pipr/issues
+Suggests: 
+    covr,
+    testthat (>= 3.0.0),
+    spelling,
+    knitr,
+    rmarkdown,
+    markdown
+Language: en-US
+Imports: 
+    attempt,
+    curl,
+    httr,
+    jsonlite,
+    tibble,
+    purrr
+Depends: 
+    R (>= 3.5.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
