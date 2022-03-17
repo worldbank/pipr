@@ -17,6 +17,8 @@
 #' @param format character: Response format
 #' @param simplify logical: If TRUE (default) the response is converted to a
 #'   data frame
+#' @param server character: Server. For WB internal use only
+#'
 #'
 #' @return tibble or list
 #' @export
@@ -51,8 +53,9 @@ get_stats <- function(country = "all",
                       reporting_level = c("all", "national", "urban", "rural"),
                       version = NULL,
                       api_version = "v1",
-                      format = c("rds", "json", "csv"),
-                      simplify = TRUE) {
+                      format = c("json", "csv", "rds"),
+                      simplify = TRUE,
+                      server = NULL) {
 
   # Match args
   welfare_type <- match.arg(welfare_type)
@@ -73,7 +76,7 @@ get_stats <- function(country = "all",
 
   # Check connection
   check_internet()
-  check_api(api_version)
+  check_api(api_version, server)
 
   # Build query string
   args <- build_args(
@@ -82,7 +85,7 @@ get_stats <- function(country = "all",
     reporting_level = reporting_level, version = version,
     format = format
   )
-  u <- build_url(base_url, endpoint, api_version)
+  u <- build_url(server, endpoint, api_version)
 
   # Send query
   res <- httr::GET(u, query = args)

@@ -4,10 +4,12 @@
 \alias{health_check}
 \title{Check API status}
 \usage{
-health_check(api_version = "v1")
+health_check(api_version = "v1", server = NULL)
 }
 \arguments{
 \item{api_version}{character: API version}
+
+\item{server}{character: Server. For WB internal use only}
 }
 \description{
 Check API status

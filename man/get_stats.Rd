@@ -15,8 +15,9 @@ get_stats(
   reporting_level = c("all", "national", "urban", "rural"),
   version = NULL,
   api_version = "v1",
-  format = c("rds", "json", "csv"),
-  simplify = TRUE
+  format = c("json", "csv", "rds"),
+  simplify = TRUE,
+  server = NULL
 )
 }
 \arguments{
@@ -48,6 +49,8 @@ sub-groups}
 
 \item{simplify}{logical: If TRUE (default) the response is converted to a
 data frame}
+
+\item{server}{character: Server. For WB internal use only}
 }
 \value{
 tibble or list

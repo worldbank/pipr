@@ -4,13 +4,27 @@
 \alias{get_regions}
 \title{Get regions}
 \usage{
-get_regions(api_version = "v1")
+get_regions(
+  version = NULL,
+  api_version = "v1",
+  format = c("json", "csv", "rds"),
+  server = NULL
+)
+}
+\arguments{
+\item{version}{character: Data version}
+
+\item{api_version}{character: API version}
+
+\item{format}{character: Response format}
+
+\item{server}{character: Server. For WB internal use only}
 }
 \value{
 tibble
 }
 \description{
-Get regions
+Get a dataset with all regions used in PIP.
 }
 \examples{
 get_regions()

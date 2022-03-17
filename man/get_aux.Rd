@@ -4,13 +4,31 @@
 \alias{get_aux}
 \title{Get AUX table}
 \usage{
-get_aux(table = NULL, api_version = "v1")
+get_aux(
+  table = NULL,
+  version = NULL,
+  api_version = "v1",
+  format = c("json", "csv", "rds"),
+  simplify = TRUE,
+  server = NULL
+)
 }
 \arguments{
 \item{table}{Aux table}
+
+\item{version}{character: Data version}
+
+\item{api_version}{character: API version}
+
+\item{format}{character: Response format}
+
+\item{simplify}{logical: If TRUE (default) the response is converted to a
+data frame}
+
+\item{server}{character: Server. For WB internal use only}
 }
 \value{
-tibble
+tibble or character vector
 }
 \description{
 Get an auxiliary table. If no table is specified it a vector with possible
@@ -22,5 +40,4 @@ x <- get_aux()
 
 # Get GDP data
 df <- get_aux("gdp")
-
 }

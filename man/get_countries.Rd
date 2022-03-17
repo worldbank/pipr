@@ -4,13 +4,27 @@
 \alias{get_countries}
 \title{Get countries}
 \usage{
-get_countries()
+get_countries(
+  version = NULL,
+  api_version = "v1",
+  format = c("json", "csv", "rds"),
+  server = NULL
+)
+}
+\arguments{
+\item{version}{character: Data version}
+
+\item{api_version}{character: API version}
+
+\item{format}{character: Response format}
+
+\item{server}{character: Server. For WB internal use only}
 }
 \value{
 tibble
 }
 \description{
-Get countries
+Get a dataset with all countries used in PIP.
 }
 \examples{
 get_countries()
