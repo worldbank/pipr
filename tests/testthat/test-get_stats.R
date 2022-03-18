@@ -37,6 +37,11 @@ test_that("get_stats() works w/ fill_gaps = TRUE", {
   expect_gte(nrow(df), 6000)
 })
 
+test_that("get_stats() works w/ popshare option", {
+  df <- get_stats("AGO", year = "all", popshare = .5)
+  expect_gte(nrow(df), 3)
+})
+
 test_that("get_stats() works w/ group_by = 'wb'", {
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
@@ -65,4 +70,25 @@ test_that("get_stats() works w/ group_by = 'none'", {
   df <- get_stats(c("ARG", "BRA"), year = 2011, group_by = "none", server = "qa")
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
+})
+
+test_that("get_stats() works w/ all response formats", {
+  df <- get_stats("AGO", year = "all", format = "json")
+  expect_true(tibble::is_tibble(df))
+  expect_gte(nrow(df), 3)
+  df <- get_stats("AGO", year = "all", format = "csv")
+  expect_true(tibble::is_tibble(df))
+  expect_gte(nrow(df), 3)
+  df <- get_stats("AGO", year = "all", format = "rds")
+  expect_true(tibble::is_tibble(df))
+  expect_gte(nrow(df), 3)
+})
+
+test_that("get_stats() works w/ simplify = FALSE", {
+  res <- get_stats("AGO", year = "all", simplify = FALSE)
+  expect_true(is.list(res))
+  expect_identical(names(res), c("url", "status", "type", "content", "response"))
+  expect_identical(class(res), "pip_api")
+  expect_true(is.data.frame(res$content))
+  expect_gte(nrow(res$content), 3)
 })
