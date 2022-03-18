@@ -49,6 +49,10 @@ build_url <- function(server, endpoint, api_version) {
     match.arg(server, c("prod", "qa", "dev"))
     if (server == "qa") base_url <- Sys.getenv("PIP_QA_URL")
     if (server == "dev") base_url <- Sys.getenv("PIP_DEV_URL")
+    attempt::stop_if(
+      base_url == "",
+      msg = sprintf("'%s' url not found. Check your .Renviron file.", server)
+    )
   }
   if (is.null(server) || server == "prod") base_url <- base_url
   sprintf("%s/%s/%s", base_url, api_version, endpoint)

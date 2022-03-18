@@ -12,7 +12,7 @@ get_countries(
 )
 }
 \arguments{
-\item{version}{character: Data version}
+\item{version}{character: Data version. See \code{get_versions()}}
 
 \item{api_version}{character: API version}
 

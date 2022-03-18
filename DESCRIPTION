@@ -38,7 +38,8 @@ Imports:
     httr,
     jsonlite,
     tibble,
-    purrr
+    purrr,
+    readr
 Depends: 
     R (>= 3.5.0)
 VignetteBuilder: knitr

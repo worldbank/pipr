@@ -46,6 +46,11 @@ test_that("build_url() works", {
   expect_identical(x, paste0(Sys.getenv("PIP_QA_URL"), "/v1/pip"))
   x <- build_url("dev", "pip", "v1")
   expect_identical(x, paste0(Sys.getenv("PIP_DEV_URL"), "/v1/pip"))
+
+  # Expect error if ENV vars are not found
+  # Sys.setenv("PIP_QA_URL" = ""); Sys.setenv("PIP_DEV_URL" = "")
+  # expect_error(build_url("qa", "pip", "v1"))
+  # expect_error(build_url("dev", "pip", "v1"))
 })
 
 test_that("build_args() works for all individual parameters", {

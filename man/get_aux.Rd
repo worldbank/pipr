@@ -16,7 +16,7 @@ get_aux(
 \arguments{
 \item{table}{Aux table}
 
-\item{version}{character: Data version}
+\item{version}{character: Data version. See \code{get_versions()}}
 
 \item{api_version}{character: API version}
 
@@ -31,7 +31,7 @@ data frame}
 tibble or character vector
 }
 \description{
-Get an auxiliary table. If no table is specified it a vector with possible
+Get an auxiliary table. If no table is specified a vector with possible
 inputs will be returned.
 }
 \examples{

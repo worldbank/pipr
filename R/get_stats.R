@@ -12,7 +12,7 @@
 #'   sub-groups
 #' @param welfare_type character: Welfare type
 #' @param reporting_level character: Geographical reporting level
-#' @param version character: Data version
+#' @param version character: Data version. See `get_versions()`
 #' @param api_version character: API version
 #' @param format character: Response format
 #' @param simplify logical: If TRUE (default) the response is converted to a

@@ -2,6 +2,8 @@
 
 export(get_aux)
 export(get_countries)
+export(get_pip_info)
 export(get_regions)
 export(get_stats)
+export(get_versions)
 export(health_check)
