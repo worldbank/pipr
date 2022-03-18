@@ -72,6 +72,11 @@ build_args <- function(country = NULL,
                        table = NULL,
                        version = NULL,
                        format = NULL) {
+
+  # Collapse to a single string
+  if (length(country) > 1) country <- paste0(country, collapse = ",")
+  if (length(year) > 1) year <- paste0(year, collapse = ",")
+
   args <- list(
     country = country, year = year, povline = povline,
     popshare = popshare, fill_gaps = fill_gaps,

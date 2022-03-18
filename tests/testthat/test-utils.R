@@ -48,9 +48,29 @@ test_that("build_url() works", {
   expect_identical(x, paste0(Sys.getenv("PIP_DEV_URL"), "/v1/pip"))
 
   # Expect error if ENV vars are not found
-  # Sys.setenv("PIP_QA_URL" = ""); Sys.setenv("PIP_DEV_URL" = "")
-  # expect_error(build_url("qa", "pip", "v1"))
-  # expect_error(build_url("dev", "pip", "v1"))
+  skip_if(Sys.getenv("PIP_QA_URL") != "")
+  expect_error(build_url("qa", "pip", "v1"))
+  skip_if(Sys.getenv("PIP_DEV_URL") != "")
+  expect_error(build_url("dev", "pip", "v1"))
+})
+
+test_that("build_url() works for internal URLS", {
+
+  # Check internal URLs
+  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
+  x <- build_url("qa", "pip", "v1")
+  expect_identical(x, paste0(Sys.getenv("PIP_QA_URL"), "/v1/pip"))
+  x <- build_url("dev", "pip", "v1")
+  expect_identical(x, paste0(Sys.getenv("PIP_DEV_URL"), "/v1/pip"))
+})
+
+test_that("build_url() throws error for internal URLs if ENV vars are not found", {
+
+  # Expect error if ENV vars are not found
+  skip_if(Sys.getenv("PIP_QA_URL") != "")
+  expect_error(build_url("qa", "pip", "v1"))
+  skip_if(Sys.getenv("PIP_DEV_URL") != "")
+  expect_error(build_url("dev", "pip", "v1"))
 })
 
 test_that("build_args() works for all individual parameters", {
@@ -60,12 +80,20 @@ test_that("build_args() works for all individual parameters", {
   expect_equal(length(x), 1)
   expect_identical(names(x), "country")
   expect_identical(x$country, "AGO")
+  x <- build_args(country = c("ARG", "BRA"))
+  expect_equal(length(x), 1)
+  expect_identical(names(x), "country")
+  expect_identical(x$country, "ARG,BRA")
 
   # year
   x <- build_args(year = "all")
   expect_equal(length(x), 1)
   expect_identical(names(x), "year")
   expect_identical(x$year, "all")
+  x <- build_args(year = c(2008, 2009))
+  expect_equal(length(x), 1)
+  expect_identical(names(x), "year")
+  expect_identical(x$year, "2008,2009")
 
   # povline
   x <- build_args(povline = 1.9)
