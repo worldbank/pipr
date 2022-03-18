@@ -1,0 +1,10 @@
+pandoc: 2.7.3
+pkgdown: 2.0.2
+pkgdown_sha: ~
+articles:
+  pipr: pipr.html
+last_built: 2022-03-18T07:06Z
+urls:
+  reference: https://pip-technical-team.github.io/pipr/reference
+  article: https://pip-technical-team.github.io/pipr/articles
+
