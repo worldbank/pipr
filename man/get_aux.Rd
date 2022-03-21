@@ -2,7 +2,9 @@
 % Please edit documentation in R/get_aux.R
 \name{get_aux}
 \alias{get_aux}
-\title{Get AUX table}
+\alias{get_countries}
+\alias{get_regions}
+\title{Get auxiliary data}
 \usage{
 get_aux(
   table = NULL,
@@ -10,6 +12,20 @@ get_aux(
   api_version = "v1",
   format = c("json", "csv", "rds"),
   simplify = TRUE,
+  server = NULL
+)
+
+get_countries(
+  version = NULL,
+  api_version = "v1",
+  format = c("json", "csv", "rds"),
+  server = NULL
+)
+
+get_regions(
+  version = NULL,
+  api_version = "v1",
+  format = c("json", "csv", "rds"),
   server = NULL
 )
 }
@@ -31,7 +47,7 @@ data frame}
 tibble or character vector
 }
 \description{
-Get an auxiliary table. If no table is specified a vector with possible
+Get an auxiliary dataset. If no table is specified a vector with possible
 inputs will be returned.
 }
 \examples{
@@ -40,4 +56,13 @@ x <- get_aux()
 
 # Get GDP data
 df <- get_aux("gdp")
+
+# Get countries
+df <- get_aux("countries")
+
+# Short hand to get countries
+get_countries()
+
+# Short hand to get regions
+get_regions()
 }

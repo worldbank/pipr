@@ -1,42 +1,6 @@
-#' Get countries
+#' Get auxiliary data
 #'
-#' Get a dataset with all countries used in PIP.
-#'
-#' @inheritParams get_stats
-#' @return tibble
-#' @export
-#' @examples
-#' get_countries()
-get_countries <- function(version = NULL, api_version = "v1",
-                          format = c("json", "csv", "rds"),
-                          server = NULL) {
-  get_aux("countries",
-          version = version, api_version = api_version,
-          format = format, server = server
-  )
-}
-
-#' Get regions
-#'
-#' Get a dataset with all regions used in PIP.
-#'
-#' @inheritParams get_stats
-#' @return tibble
-#' @export
-#' @examples
-#' get_regions()
-get_regions <- function(version = NULL, api_version = "v1",
-                        format = c("json", "csv", "rds"),
-                        server = NULL) {
-  get_aux("regions",
-          version = version, api_version = api_version,
-          format = format, server = server
-  )
-}
-
-#' Get AUX table
-#'
-#' Get an auxiliary table. If no table is specified a vector with possible
+#' Get an auxiliary dataset. If no table is specified a vector with possible
 #' inputs will be returned.
 #'
 #' @param table Aux table
@@ -49,6 +13,9 @@ get_regions <- function(version = NULL, api_version = "v1",
 #'
 #' # Get GDP data
 #' df <- get_aux("gdp")
+#'
+#' # Get countries
+#' df <- get_aux("countries")
 get_aux <- function(table = NULL, version = NULL, api_version = "v1",
                     format = c("json", "csv", "rds"),
                     simplify = TRUE, server = NULL) {
@@ -87,3 +54,37 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
     parse_response(res, simplify = simplify)
   }
 }
+
+
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#'
+#' # Short hand to get countries
+#' get_countries()
+get_countries <- function(version = NULL, api_version = "v1",
+                          format = c("json", "csv", "rds"),
+                          server = NULL) {
+  get_aux("countries",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#'
+#' # Short hand to get regions
+#' get_regions()
+get_regions <- function(version = NULL, api_version = "v1",
+                        format = c("json", "csv", "rds"),
+                        server = NULL) {
+  get_aux("regions",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
