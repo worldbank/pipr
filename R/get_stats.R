@@ -19,7 +19,6 @@
 #'   data frame
 #' @param server character: Server. For WB internal use only
 #'
-#'
 #' @return tibble or list
 #' @export
 #'
@@ -34,7 +33,7 @@
 #' # All countries and years
 #' res <- get_stats(country = "all", year = "all")
 #'
-#' # All countries and years w/ alternativ poverty line
+#' # All countries and years w/ alternative poverty line
 #' res <- get_stats(country = "all", year = "all", povline = 3.2)
 #'
 #' # Fill gaps for years without available survey data
@@ -42,6 +41,12 @@
 #'
 #' # Proportion living below the poverty line
 #' res <- get_stats(country = "all", year = "all", popshare = .4)
+#'
+#' # World Bank global and regional aggregates
+#' get_stats("all", year = "all", group_by = "wb")
+#'
+#' # Custom aggregates
+#' get_stats(c("ARG", "BRA"), year = "all", group_by = "none")
 #' }
 get_stats <- function(country = "all",
                       year = "all",
@@ -81,9 +86,10 @@ get_stats <- function(country = "all",
   # Build query string
   args <- build_args(
     country = country, year = year, povline = povline,
-    fill_gaps = fill_gaps, welfare_type = welfare_type,
-    reporting_level = reporting_level, version = version,
-    format = format
+    fill_gaps = fill_gaps, group_by = group_by,
+    welfare_type = welfare_type,
+    reporting_level = reporting_level,
+    version = version, format = format
   )
   u <- build_url(server, endpoint, api_version)
 

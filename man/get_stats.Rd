@@ -69,7 +69,7 @@ res <- get_stats(country = "AGO", year = "all")
 # All countries and years
 res <- get_stats(country = "all", year = "all")
 
-# All countries and years w/ alternativ poverty line
+# All countries and years w/ alternative poverty line
 res <- get_stats(country = "all", year = "all", povline = 3.2)
 
 # Fill gaps for years without available survey data
@@ -77,5 +77,11 @@ res <- get_stats(country = "all", year = "all", fill_gaps = TRUE)
 
 # Proportion living below the poverty line
 res <- get_stats(country = "all", year = "all", popshare = .4)
+
+# World Bank global and regional aggregates
+get_stats("all", year = "all", group_by = "wb")
+
+# Custom aggregates
+get_stats(c("ARG", "BRA"), year = "all", group_by = "none")
 }
 }

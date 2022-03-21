@@ -1,0 +1,90 @@
+---
+title: "pipr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pipr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  purl = NOT_CRAN
+)
+```
+
+```{r setup}
+library(pipr)
+```
+
+The `pipr` package allows to easily query the [PIP API](https://pip.worldbank.org/api) from R.
+
+Here are a few examples to get you started:
+
+## Using default options
+
+By default, `get_stats()` returns all available  
+
+- countries  
+- reporting levels (national, urban, rural)  
+- for all available survey years  
+- at the 1.9 USD poverty line  
+
+```{r message=FALSE, warning=FALSE, eval=NOT_CRAN}
+get_stats()
+```
+
+## Basic options
+
+### Filter by country
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Specify ONE country
+get_stats(country = "ALB")
+# Specify MULTIPLE countries
+get_stats(country = c("ALB", "CHN"))
+```
+
+### Filter by year
+
+By default, `get_stats` will only return data if a survey is available for the requested __country__ and the requested __year__.
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Survey year available
+get_stats(country = "ALB", year = 2012)
+# Survey year NOT available - Empty response
+get_stats(country = "ALB", year = 2000)
+```
+
+### Modify the poverty line
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+get_stats(country = "ALB", povline = 3.2)
+```
+
+## Other features
+
+### Get estimates when survey year is not available
+
+The `fill_gaps` argument will trigger the interpolation / extrapolation of poverty estimates when survey year is not available.
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# fill_gaps = FALSE (default)
+get_stats(country = "HTI")
+# fill_gaps = TRUE
+get_stats(country = "HTI", fill_gaps = TRUE)
+```
+
+### Compute custom aggregates
+
+`get_stats()` can also be used to compute aggregate welfare statistics of custom group of countries.
+
+```{r, warning=FALSE, message=FALSE, eval=FALSE}
+# World Bank aggregate
+get_stats(country = "all", group_by = "wb")
+
+# Custom aggregate
+get_stats(country = c("CHL", "ARG", "BOL"), group_by = "none")
+```

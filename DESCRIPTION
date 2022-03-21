@@ -39,7 +39,9 @@ Imports:
     jsonlite,
     tibble,
     purrr,
-    readr
+    readr,
+    memoise,
+    cachem
 Depends: 
     R (>= 3.5.0)
 VignetteBuilder: knitr
