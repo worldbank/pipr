@@ -1,5 +1,7 @@
 # constants
 countries <- get_aux("countries")
+dev_host <- gsub("/api|http://", "", Sys.getenv("PIP_DEV_URL"))
+qa_host <- gsub("/api|http://", "", Sys.getenv("PIP_QA_URL"))
 
 # tests
 test_that("get_stats() returns the correct format", {
@@ -46,6 +48,8 @@ test_that("get_stats() works w/ group_by = 'wb'", {
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
+  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
+          message = "Could not connect to QA host")
   #  df <- get_stats("all", year = 2018, group_by = "wb")
   df <- get_stats("all", year = 2011, group_by = "wb", server = "qa")
   expect_equal(nrow(df), 8)
@@ -62,6 +66,8 @@ test_that("get_stats() works w/ group_by = 'none'", {
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
+  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
+          message = "Could not connect to QA host")
   # df <- get_stats("all", year = 2018, group_by = "none")
   df <- get_stats("all", year = 2011, group_by = "none", server = "qa")
   expect_equal(nrow(df), 1)
