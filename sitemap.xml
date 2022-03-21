@@ -16,6 +16,12 @@
     <loc>https://pip-technical-team.github.io/pipr/PULL_REQUEST_TEMPLATE.html</loc>
   </url>
   <url>
+    <loc>https://pip-technical-team.github.io/pipr/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://pip-technical-team.github.io/pipr/articles/pipr.html</loc>
+  </url>
+  <url>
     <loc>https://pip-technical-team.github.io/pipr/authors.html</loc>
   </url>
   <url>
@@ -28,13 +34,7 @@
     <loc>https://pip-technical-team.github.io/pipr/reference/get_aux.html</loc>
   </url>
   <url>
-    <loc>https://pip-technical-team.github.io/pipr/reference/get_countries.html</loc>
-  </url>
-  <url>
     <loc>https://pip-technical-team.github.io/pipr/reference/get_pip_info.html</loc>
-  </url>
-  <url>
-    <loc>https://pip-technical-team.github.io/pipr/reference/get_regions.html</loc>
   </url>
   <url>
     <loc>https://pip-technical-team.github.io/pipr/reference/get_stats.html</loc>

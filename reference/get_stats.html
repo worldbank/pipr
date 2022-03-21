@@ -23,6 +23,9 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
+  <a href="../articles/pipr.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -121,7 +124,7 @@ data frame</p></dd>
 <span class="r-in"><span class="co"># All countries and years</span></span>
 <span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_stats</span><span class="op">(</span>country <span class="op">=</span> <span class="st">"all"</span>, year <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># All countries and years w/ alternativ poverty line</span></span>
+<span class="r-in"><span class="co"># All countries and years w/ alternative poverty line</span></span>
 <span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_stats</span><span class="op">(</span>country <span class="op">=</span> <span class="st">"all"</span>, year <span class="op">=</span> <span class="st">"all"</span>, povline <span class="op">=</span> <span class="fl">3.2</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Fill gaps for years without available survey data</span></span>
@@ -129,6 +132,12 @@ data frame</p></dd>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Proportion living below the poverty line</span></span>
 <span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_stats</span><span class="op">(</span>country <span class="op">=</span> <span class="st">"all"</span>, year <span class="op">=</span> <span class="st">"all"</span>, popshare <span class="op">=</span> <span class="fl">.4</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># World Bank global and regional aggregates</span></span>
+<span class="r-in"><span class="fu">get_stats</span><span class="op">(</span><span class="st">"all"</span>, year <span class="op">=</span> <span class="st">"all"</span>, group_by <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Custom aggregates</span></span>
+<span class="r-in"><span class="fu">get_stats</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ARG"</span>, <span class="st">"BRA"</span><span class="op">)</span>, year <span class="op">=</span> <span class="st">"all"</span>, group_by <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
