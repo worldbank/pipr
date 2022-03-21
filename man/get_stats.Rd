@@ -82,7 +82,6 @@ res <- get_stats(country = "all", year = "all", popshare = .4)
 get_stats("all", year = "all", group_by = "wb")
 
 # Custom aggregates
-get_stats(c("ARG", "BRA"), year = 2018, group_by = "none")
-
+get_stats(c("ARG", "BRA"), year = "all", group_by = "none")
 }
 }
