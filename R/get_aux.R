@@ -17,7 +17,7 @@
 #' # Get countries
 #' df <- get_aux("countries")
 get_aux <- function(table = NULL, version = NULL, api_version = "v1",
-                    format = c("json", "csv", "rds"),
+                    format = c("rds", "json", "csv"),
                     simplify = TRUE, server = NULL) {
 
   # Match args
