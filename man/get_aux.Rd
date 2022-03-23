@@ -10,7 +10,7 @@ get_aux(
   table = NULL,
   version = NULL,
   api_version = "v1",
-  format = c("json", "csv", "rds"),
+  format = c("rds", "json", "csv"),
   simplify = TRUE,
   server = NULL
 )
