@@ -10,7 +10,7 @@ get_stats(
   povline = 1.9,
   popshare = NULL,
   fill_gaps = FALSE,
-  group_by = NULL,
+  subgroup = NULL,
   welfare_type = c("all", "income", "consumption"),
   reporting_level = c("all", "national", "urban", "rural"),
   version = NULL,
@@ -34,8 +34,8 @@ poverty line}
 \item{fill_gaps}{logical: If TRUE, will interpolate / extrapolate values for
 missing years}
 
-\item{group_by}{character: If used result will be aggregated for predefined
-sub-groups}
+\item{subgroup}{character: If used result will be aggregated for predefined
+sub-groups. Either 'wb_regions' or 'none'.}
 
 \item{welfare_type}{character: Welfare type}
 
@@ -79,9 +79,9 @@ res <- get_stats(country = "all", year = "all", fill_gaps = TRUE)
 res <- get_stats(country = "all", year = "all", popshare = .4)
 
 # World Bank global and regional aggregates
-get_stats("all", year = "all", group_by = "wb")
+get_stats("all", year = "all", subgroup = "wb")
 
 # Custom aggregates
-get_stats(c("ARG", "BRA"), year = "all", group_by = "none")
+get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
 }
 }
