@@ -58,10 +58,10 @@ get_stats <- function(country = "all",
                       reporting_level = c("all", "national", "urban", "rural"),
                       version = NULL,
                       api_version = "v1",
-                      format = c("json", "csv", "rds"),
+                      format = c("rds", "json", "csv"),
                       simplify = TRUE,
                       server = NULL) {
-
+  # browser()
   # Match args
   welfare_type <- match.arg(welfare_type)
   reporting_level <- match.arg(reporting_level)

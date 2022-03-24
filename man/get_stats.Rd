@@ -15,7 +15,7 @@ get_stats(
   reporting_level = c("all", "national", "urban", "rural"),
   version = NULL,
   api_version = "v1",
-  format = c("json", "csv", "rds"),
+  format = c("rds", "json", "csv"),
   simplify = TRUE,
   server = NULL
 )

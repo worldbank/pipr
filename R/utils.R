@@ -1,5 +1,3 @@
-base_url <- "https://api.worldbank.org/pip"
-
 #' check_internet
 #' @noRd
 check_internet <- function() {
@@ -40,21 +38,13 @@ check_status <- function(res, parsed) {
 }
 
 #' build_url
-#' @param server Server
-#' @param endpoint Endpoint
+#' @param server character: Server
+#' @param endpoint character: Endpoint
+#' @param api_version character: API version
 #' @inheritParams get_stats
 #' @noRd
 build_url <- function(server, endpoint, api_version) {
-  if (!is.null(server)) {
-    match.arg(server, c("prod", "qa", "dev"))
-    if (server == "qa") base_url <- Sys.getenv("PIP_QA_URL")
-    if (server == "dev") base_url <- Sys.getenv("PIP_DEV_URL")
-    attempt::stop_if(
-      base_url == "",
-      msg = sprintf("'%s' url not found. Check your .Renviron file.", server)
-    )
-  }
-  if (is.null(server) || server == "prod") base_url <- base_url
+  base_url <- select_base_url(server = server)
   sprintf("%s/%s/%s", base_url, api_version, endpoint)
 }
 
@@ -130,4 +120,31 @@ parse_response <- function(res, simplify) {
       class = "pip_api"
     )
   }
+}
+
+#' Select base URL
+#'
+#' Helper function to switch base URLs depending on PIP server being used
+#'
+#' @param server character: c("prod", "qa", "dev"). Defaults to NULL (ie. prod).
+#' @return character
+#' @noRd
+select_base_url <- function(server) {
+  if (!is.null(server)) {
+    match.arg(server, c("prod", "qa", "dev"))
+    if (server %in% c("qa", "dev")) {
+      if (server == "qa") base_url <- Sys.getenv("PIP_QA_URL")
+      if (server == "dev") base_url <- Sys.getenv("PIP_DEV_URL")
+      attempt::stop_if(
+        base_url == "",
+        msg = sprintf("'%s' url not found. Check your .Renviron file.", server)
+      )
+    }
+  }
+
+  if (is.null(server) || server == "prod") {
+    base_url <- prod_url
+  }
+
+  return(base_url)
 }

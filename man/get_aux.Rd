@@ -10,7 +10,7 @@ get_aux(
   table = NULL,
   version = NULL,
   api_version = "v1",
-  format = c("json", "csv", "rds"),
+  format = c("rds", "json", "csv"),
   simplify = TRUE,
   server = NULL
 )
@@ -18,14 +18,14 @@ get_aux(
 get_countries(
   version = NULL,
   api_version = "v1",
-  format = c("json", "csv", "rds"),
+  format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_regions(
   version = NULL,
   api_version = "v1",
-  format = c("json", "csv", "rds"),
+  format = c("rds", "json", "csv"),
   server = NULL
 )
 }

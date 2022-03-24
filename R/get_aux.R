@@ -17,7 +17,7 @@
 #' # Get countries
 #' df <- get_aux("countries")
 get_aux <- function(table = NULL, version = NULL, api_version = "v1",
-                    format = c("json", "csv", "rds"),
+                    format = c("rds", "json", "csv"),
                     simplify = TRUE, server = NULL) {
 
   # Match args
@@ -64,7 +64,7 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
 #' # Short hand to get countries
 #' get_countries()
 get_countries <- function(version = NULL, api_version = "v1",
-                          format = c("json", "csv", "rds"),
+                          format = c("rds", "json", "csv"),
                           server = NULL) {
   get_aux("countries",
           version = version, api_version = api_version,
@@ -80,7 +80,7 @@ get_countries <- function(version = NULL, api_version = "v1",
 #' # Short hand to get regions
 #' get_regions()
 get_regions <- function(version = NULL, api_version = "v1",
-                        format = c("json", "csv", "rds"),
+                        format = c("rds", "json", "csv"),
                         server = NULL) {
   get_aux("regions",
           version = version, api_version = api_version,

@@ -31,11 +31,11 @@ test_that("build_url() works", {
 
   # Check that url is correctly pasted together
   x <- build_url(server = NULL, endpoint = "pip", api_version = "v1")
-  expect_identical(x, paste0(base_url, "/v1/pip"))
+  expect_identical(x, paste0(prod_url, "/v1/pip"))
   x <- build_url("prod", "pip", api_version = "v1")
-  expect_identical(x, paste0(base_url, "/v1/pip"))
+  expect_identical(x, paste0(prod_url, "/v1/pip"))
   x <- build_url("prod", "pip-grp", api_version = "v2")
-  expect_identical(x, paste0(base_url, "/v2/pip-grp"))
+  expect_identical(x, paste0(prod_url, "/v2/pip-grp"))
 
   # Expect error if server arg is incorrect
   expect_error(build_url("tmp", "pip", "v1"))
