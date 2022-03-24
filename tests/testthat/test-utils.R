@@ -3,6 +3,8 @@ res_ex_json <- readRDS("../testdata/res-ex-json.RDS")
 res_ex_csv <- readRDS("../testdata/res-ex-csv.RDS")
 res_ex_rds <- readRDS("../testdata/res-ex-rds.RDS")
 
+library(bench)
+
 # tests
 test_that("check_internet() works", {
   expect_true(check_internet())
@@ -25,6 +27,52 @@ test_that("check_status() works", {
   expect_error(check_status(res, parsed))
   res$status_code <- 400
   expect_error(check_status(res, parsed))
+})
+
+test_that("retry_host() works", {
+  expect_invisible(retry_host("google.com"))
+  expect_error(retry_host("google.tmp", 1)) # "Error: Could not connect to google.tmp"
+  expect_error(retry_host("google.tmp", 2, min = 0.1, max = .2))
+  tmp <- bench::system_time(try(retry_host("google.tmp", times = 3, min = 1, max = 1)))
+  expect_gte(tmp[2], 3)
+  # TO DO: Should tests for explicit iteration as well
+})
+
+test_that("retry_request() works", {
+  # 200 (no retry)
+  tmp <- retry_request("http://httpbin.org/status/200")
+  expect_equal(tmp$status_code, 200)
+  tmp <- bench::system_time(retry_request("http://httpbin.org/status/200", min = 1, max = 1))
+  expect_lte(tmp[2], .5)
+
+  # 400 (no retry)
+  tmp <- retry_request("http://httpbin.org/status/400")
+  expect_equal(tmp$status_code, 400)
+  tmp <- bench::system_time(retry_request("http://httpbin.org/status/400", min = 1, max = 1))
+  expect_lte(tmp[2], .5)
+
+  # 500 (should retry)
+  tmp <- retry_request("http://httpbin.org/status/500", min = 0.1, max = 0.1)
+  expect_equal(tmp$status_code, 500)
+  tmp <- bench::system_time(retry_request("http://httpbin.org/status/500", min = 1, max = 1))
+  expect_gte(tmp[2], 3)
+
+  # TO DO: Should tests for explicit iteration as well
+})
+
+test_that("check_host() works", {
+  expect_true(check_host(NULL))
+  expect_true(check_host("prod"))
+  skip_if(Sys.getenv("PIP_DEV_URL") != "")
+  expect_error(check_host("dev", times = 2, min = 0.1, max = .5))
+})
+
+test_that("send_query() works", {
+  res <- send_query("prod", query = list(country = "AGO"), api_version = "v1", endpoint = "pip")
+  expect_equal(res$status_code, 200)
+  res <- send_query("prod", query = list(country = "AGO"), api_version = "v1", endpoint = "tmp")
+  expect_equal(res$status_code, 404)
+  # TO DO: Add more tests to make sure dots arguments are passed correctly
 })
 
 test_that("build_url() works", {
@@ -208,3 +256,5 @@ test_that("parse_response() works for different formats", {
   expect_identical(class(res$response), "response")
   expect_true(all(class(res$content) %in% c("data.table", "data.frame")))
 })
+
+

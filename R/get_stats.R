@@ -79,10 +79,6 @@ get_stats <- function(country = "all",
     endpoint <- "pip"
   }
 
-  # Check connection
-  check_internet()
-  check_api(api_version, server)
-
   # Build query string
   args <- build_args(
     country = country, year = year, povline = povline,
@@ -91,10 +87,12 @@ get_stats <- function(country = "all",
     reporting_level = reporting_level,
     version = version, format = format
   )
-  u <- build_url(server, endpoint, api_version)
 
   # Send query
-  res <- httr::GET(u, query = args)
+  res <- send_query(
+    server, query = args,
+    endpoint = endpoint,
+    api_version = api_version)
 
   # Parse result
   out <- parse_response(res, simplify)

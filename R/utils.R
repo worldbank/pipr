@@ -37,8 +37,84 @@ check_status <- function(res, parsed) {
   invisible(TRUE)
 }
 
+#' check_host
+#' @inheritParams send_query
+#' @return logical
+#' @noRd
+check_host <- function(server, ...)  {
+  base_url <- select_base_url(server)
+  host <- gsub("/pip|/api|http(s)?://", "", base_url)
+  retry_host(host, ...)
+  invisible(TRUE)
+}
+
+#' Retry host
+#'
+#' Retry connection to a server host in case the host could not be resolved.
+#'
+#' @param host A server host
+#' @param times Maximum number of requests to attempt
+#' @param min Minimum number of seconds to sleep for each retry
+#' @param max Maximum number of seconds to sleep for each retry
+#' @return logical
+#' @noRd
+#' @examples
+#' retry_host("google.com")
+#' retry_host("google.tmp")
+#' @importFrom stats runif
+retry_host <- function(host, times = 3L, min = 1, max = 3) {
+  # Only do one request of times == 1
+  if (times == 1)  {
+    check <- curl::nslookup(host, error = FALSE)
+  } else {
+    # Else iterate over n times
+    for (i in seq_len(times)) {
+      check <- curl::nslookup(host, error = FALSE)
+      if (!is.null(check)) break
+      sleep <- round(runif(1, min, max), 1)
+      message(sprintf("Could not connect to %s. Retrying in %s seconds...", host, sleep))
+      Sys.sleep(sleep)
+    }
+  }
+  attempt::stop_if(is.null(check), msg = sprintf("Could not connect to %s", host))
+  invisible(TRUE)
+}
+
+#' Retry request
+#'
+#' Retry a GET request in case the server returns a 500 type error.
+#'
+#' @param url A URL
+#' @param query Query parameters (optional)
+#' @param times Maximum number of requests to attempt
+#' @param min Minimum number of seconds to sleep for each retry
+#' @param max Maximum number of seconds to sleep for each retry
+#' @return A httr response
+#' @noRd
+#' @examples
+#' retry_request("http://httpbin.org/status/200")
+#' retry_request("http://httpbin.org/status/400")
+#' retry_request("http://httpbin.org/status/500")
+retry_request <- function(url, query = NULL, times = 3L, min = 1, max = 3) {
+  # Only do one request if times == 1
+  if (times == 1)  {
+    res <- httr::GET(url, query = query)
+    return(res)
+  }
+  # Iterate over n times
+  for (i in seq_len(times)) {
+    res <- httr::GET(url, query = query)
+    if (!res$status_code %in% seq(500, 511, 1)) break
+    sleep <- round(runif(1, min, max), 1)
+    message(sprintf("Request failed [%s]. Retrying in %s seconds...", res$status_code, sleep))
+    Sys.sleep(sleep)
+  }
+  return(res)
+}
+
 #' build_url
-#' @param server character: Server
+#' @param server character: Server. Either "prod", "qa" or "dev". Defaults to
+#'   NULL (ie. prod).
 #' @param endpoint character: Endpoint
 #' @param api_version character: API version
 #' @inheritParams get_stats
@@ -46,6 +122,36 @@ check_status <- function(res, parsed) {
 build_url <- function(server, endpoint, api_version) {
   base_url <- select_base_url(server = server)
   sprintf("%s/%s/%s", base_url, api_version, endpoint)
+}
+
+#' Select base URL
+#'
+#' Helper function to switch base URLs depending on PIP server being used
+#'
+#' @inheritParams build_url
+#' @return character
+#' @noRd
+select_base_url <- function(server) {
+
+  if (!is.null(server)) {
+    match.arg(server, c("prod", "qa", "dev"))
+    # Check ENV vars for DEV/QA urls
+    if (server %in% c("qa", "dev")) {
+      if (server == "qa") base_url <- Sys.getenv("PIP_QA_URL")
+      if (server == "dev") base_url <- Sys.getenv("PIP_DEV_URL")
+      attempt::stop_if(
+        base_url == "",
+        msg = sprintf("'%s' url not found. Check your .Renviron file.", server)
+      )
+    }
+  }
+
+  # Set base_url to prod_url (standard)
+  if (is.null(server) || server == "prod") {
+    base_url <- prod_url
+  }
+
+  return(base_url)
 }
 
 #' build_args
@@ -81,6 +187,21 @@ build_args <- function(country = NULL,
 
   return(args)
 }
+
+#' Send API query
+#'
+#' @inheritParams build_url
+#' @inheritParams query Query parameters (optional)
+#' @param ... Additional parameters passed to `retry_host()` and
+#'   `retry_request()`
+#' @return A httr response
+#' @noRd
+send_query <- function(server, query = NULL, endpoint, api_version, ...) {
+  check_host(server, ...)
+  u <- build_url(server, endpoint, api_version)
+  retry_request(u, query = query, ...)
+}
+
 
 #' parse_response
 #' @param res A httr response
@@ -120,31 +241,4 @@ parse_response <- function(res, simplify) {
       class = "pip_api"
     )
   }
-}
-
-#' Select base URL
-#'
-#' Helper function to switch base URLs depending on PIP server being used
-#'
-#' @param server character: c("prod", "qa", "dev"). Defaults to NULL (ie. prod).
-#' @return character
-#' @noRd
-select_base_url <- function(server) {
-  if (!is.null(server)) {
-    match.arg(server, c("prod", "qa", "dev"))
-    if (server %in% c("qa", "dev")) {
-      if (server == "qa") base_url <- Sys.getenv("PIP_QA_URL")
-      if (server == "dev") base_url <- Sys.getenv("PIP_DEV_URL")
-      attempt::stop_if(
-        base_url == "",
-        msg = sprintf("'%s' url not found. Check your .Renviron file.", server)
-      )
-    }
-  }
-
-  if (is.null(server) || server == "prod") {
-    base_url <- prod_url
-  }
-
-  return(base_url)
 }

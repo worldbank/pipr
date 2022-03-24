@@ -5,8 +5,7 @@
 #' @examples
 #' health_check()
 health_check <- function(api_version = "v1", server = NULL) {
-  check_internet()
-  res <- check_api(api_version, server = server)
+  res <- send_query(server, endpoint = "health-check", api_version = api_version)
   parse_response(res, simplify = FALSE)$content
 }
 
@@ -19,9 +18,7 @@ health_check <- function(api_version = "v1", server = NULL) {
 #' @examples
 #' get_versions()
 get_versions <- function(api_version = "v1", server = NULL) {
-  check_internet()
-  u <- build_url(server, "versions", api_version)
-  res <- httr::GET(u)
+  res <- send_query(server, endpoint = "versions", api_version = api_version)
   parse_response(res, simplify = FALSE)$content
 }
 
@@ -34,8 +31,6 @@ get_versions <- function(api_version = "v1", server = NULL) {
 #' @examples
 #' get_pip_info()
 get_pip_info <- function(api_version = "v1", server = NULL) {
-  check_internet()
-  u <- build_url(server, "pip-info", api_version)
-  res <- httr::GET(u)
+  res <- send_query(server, endpoint = "pip-info", api_version = api_version)
   parse_response(res, simplify = FALSE)$content
 }
