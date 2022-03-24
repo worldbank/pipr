@@ -8,8 +8,8 @@
 #'   poverty line
 #' @param fill_gaps logical: If TRUE, will interpolate / extrapolate values for
 #'   missing years
-#' @param group_by character: If used result will be aggregated for predefined
-#'   sub-groups
+#' @param subgroup character: If used result will be aggregated for predefined
+#'   sub-groups. Either 'wb_regions' or 'none'.
 #' @param welfare_type character: Welfare type
 #' @param reporting_level character: Geographical reporting level
 #' @param version character: Data version. See `get_versions()`
@@ -43,17 +43,20 @@
 #' res <- get_stats(country = "all", year = "all", popshare = .4)
 #'
 #' # World Bank global and regional aggregates
-#' get_stats("all", year = "all", group_by = "wb")
+#' res <- get_stats("all", year = "all", subgroup = "wb")
+#'
+#' # Short hand to get WB global/regional stats
+#' res <- get_wb()
 #'
 #' # Custom aggregates
-#' get_stats(c("ARG", "BRA"), year = "all", group_by = "none")
+#' res <- get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
 #' }
 get_stats <- function(country = "all",
                       year = "all",
                       povline = 1.9,
                       popshare = NULL,
                       fill_gaps = FALSE,
-                      group_by = NULL,
+                      subgroup = NULL,
                       welfare_type = c("all", "income", "consumption"),
                       reporting_level = c("all", "national", "urban", "rural"),
                       version = NULL,
@@ -71,12 +74,18 @@ get_stats <- function(country = "all",
   # popshare can't be used together with povline
   if (!is.null(popshare)) povline <- NULL
 
-  if (!is.null(group_by)) {
-    fill_gaps <- NULL # group_by can't be used together with fill_gaps
+  if (!is.null(subgroup)) {
+    fill_gaps <- NULL # subgroup can't be used together with fill_gaps
     endpoint <- "pip-grp"
-    group_by <- match.arg(group_by, c("none", "wb"))
+    subgroup <- match.arg(subgroup, c("none", "wb_regions"))
+    if (subgroup == "wb_regions") {
+      group_by <- "wb"
+    } else {
+      group_by <- subgroup
+    }
   } else {
     endpoint <- "pip"
+    group_by <- NULL
   }
 
   # Build query string
@@ -92,6 +101,38 @@ get_stats <- function(country = "all",
   res <- send_query(
     server, query = args,
     endpoint = endpoint,
+    api_version = api_version)
+
+  # Parse result
+  out <- parse_response(res, simplify)
+
+  return(out)
+}
+
+#' @rdname get_stats
+#' @export
+get_wb <- function(year = "all",
+                   povline = 1.9,
+                   version = NULL,
+                   api_version = "v1",
+                   format = c("rds", "json", "csv"),
+                   simplify = TRUE,
+                   server = NULL) {
+
+  # Match args
+  api_version <- match.arg(api_version)
+  format <- match.arg(format)
+
+  # Build query string
+  args <- build_args(
+    country = "all", year = year, povline = povline,
+    group_by = "wb", version = version, format = format
+  )
+  
+  # Send query
+  res <- send_query(
+    server, query = args,
+    endpoint = "pip-grp",
     api_version = api_version)
 
   # Parse result

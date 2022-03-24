@@ -83,8 +83,8 @@ get_stats(country = "HTI", fill_gaps = TRUE)
 
 ```{r, warning=FALSE, message=FALSE, eval=FALSE}
 # World Bank aggregate
-get_stats(country = "all", group_by = "wb")
+get_stats(country = "all", subgroup = "wb_regions")
 
 # Custom aggregate
-get_stats(country = c("CHL", "ARG", "BOL"), group_by = "none")
+get_stats(country = c("CHL", "ARG", "BOL"), subgroup = "none")
 ```
