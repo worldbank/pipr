@@ -67,8 +67,8 @@ get_countries <- function(version = NULL, api_version = "v1",
                           format = c("rds", "json", "csv"),
                           server = NULL) {
   get_aux("countries",
-          version = version, api_version = api_version,
-          format = format, server = server
+    version = version, api_version = api_version,
+    format = format, server = server
   )
 }
 
@@ -83,8 +83,7 @@ get_regions <- function(version = NULL, api_version = "v1",
                         format = c("rds", "json", "csv"),
                         server = NULL) {
   get_aux("regions",
-          version = version, api_version = api_version,
-          format = format, server = server
+    version = version, api_version = api_version,
+    format = format, server = server
   )
 }
-

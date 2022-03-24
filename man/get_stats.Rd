@@ -2,6 +2,7 @@
 % Please edit documentation in R/get_stats.R
 \name{get_stats}
 \alias{get_stats}
+\alias{get_wb}
 \title{Get poverty and inequality statistics}
 \usage{
 get_stats(
@@ -13,6 +14,16 @@ get_stats(
   subgroup = NULL,
   welfare_type = c("all", "income", "consumption"),
   reporting_level = c("all", "national", "urban", "rural"),
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  simplify = TRUE,
+  server = NULL
+)
+
+get_wb(
+  year = "all",
+  povline = 1.9,
   version = NULL,
   api_version = "v1",
   format = c("rds", "json", "csv"),
@@ -79,9 +90,12 @@ res <- get_stats(country = "all", year = "all", fill_gaps = TRUE)
 res <- get_stats(country = "all", year = "all", popshare = .4)
 
 # World Bank global and regional aggregates
-get_stats("all", year = "all", subgroup = "wb")
+res <- get_stats("all", year = "all", subgroup = "wb")
+
+# Short hand to get WB global/regional stats
+res <- get_wb()
 
 # Custom aggregates
-get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
+res <- get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
 }
 }
