@@ -44,6 +44,8 @@ test_that("retry_request() works", {
   expect_equal(tmp$status_code, 200)
   tmp <- bench::system_time(retry_request("http://httpbin.org/status/200", min = 1, max = 1))
   expect_lte(tmp[2], .5)
+  tmp <- bench::system_time(retry_request("http://httpbin.org/status/200", times = 1))
+  expect_lte(tmp[2], .5)
 
   # 400 (no retry)
   tmp <- retry_request("http://httpbin.org/status/400")
