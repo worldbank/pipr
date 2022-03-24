@@ -43,10 +43,13 @@
 #' res <- get_stats(country = "all", year = "all", popshare = .4)
 #'
 #' # World Bank global and regional aggregates
-#' get_stats("all", year = "all", subgroup = "wb")
+#' res <- get_stats("all", year = "all", subgroup = "wb")
+#'
+#' # Short hand to get WB global/regional stats
+#' res <- get_wb()
 #'
 #' # Custom aggregates
-#' get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
+#' res <- get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
 #' }
 get_stats <- function(country = "all",
                       year = "all",
@@ -98,6 +101,40 @@ get_stats <- function(country = "all",
     version = version, format = format
   )
   u <- build_url(server, endpoint, api_version)
+
+  # Send query
+  res <- httr::GET(u, query = args)
+
+  # Parse result
+  out <- parse_response(res, simplify)
+
+  return(out)
+}
+
+#' @rdname get_stats
+#' @export
+get_wb <- function(year = "all",
+                   povline = 1.9,
+                   version = NULL,
+                   api_version = "v1",
+                   format = c("rds", "json", "csv"),
+                   simplify = TRUE,
+                   server = NULL) {
+
+  # Match args
+  api_version <- match.arg(api_version)
+  format <- match.arg(format)
+
+  # Check connection
+  check_internet()
+  check_api(api_version, server)
+
+  # Build query string
+  args <- build_args(
+    country = "all", year = year, povline = povline,
+    group_by = "wb", version = version, format = format
+  )
+  u <- build_url(server, "pip-grp", api_version)
 
   # Send query
   res <- httr::GET(u, query = args)

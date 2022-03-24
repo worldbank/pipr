@@ -2,5 +2,6 @@
 prod_url <- "https://api.worldbank.org/pip"
 
 usethis::use_data(prod_url,
-                  internal = TRUE,
-                  overwrite = TRUE)
+  internal = TRUE,
+  overwrite = TRUE
+)
