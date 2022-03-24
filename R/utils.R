@@ -197,7 +197,7 @@ build_args <- function(country = NULL,
 #' @return A httr response
 #' @noRd
 send_query <- function(server, query = NULL, endpoint, api_version, ...) {
-  check_host(server, ...)
+  # check_host(server, ...)
   u <- build_url(server, endpoint, api_version)
   retry_request(u, query = query, ...)
 }
