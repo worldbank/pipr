@@ -103,7 +103,7 @@ get_stats <- function(country = "all",
   u <- build_url(server, endpoint, api_version)
 
   # Send query
-  res <- httr::GET(u, query = args)
+  res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
 
   # Parse result
   out <- parse_response(res, simplify)
@@ -137,7 +137,7 @@ get_wb <- function(year = "all",
   u <- build_url(server, "pip-grp", api_version)
 
   # Send query
-  res <- httr::GET(u, query = args)
+  res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
 
   # Parse result
   out <- parse_response(res, simplify)

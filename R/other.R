@@ -21,7 +21,7 @@ health_check <- function(api_version = "v1", server = NULL) {
 get_versions <- function(api_version = "v1", server = NULL) {
   check_internet()
   u <- build_url(server, "versions", api_version)
-  res <- httr::GET(u)
+  res <- httr::GET(u, httr::user_agent(pipr_user_agent))
   parse_response(res, simplify = FALSE)$content
 }
 
@@ -36,6 +36,6 @@ get_versions <- function(api_version = "v1", server = NULL) {
 get_pip_info <- function(api_version = "v1", server = NULL) {
   check_internet()
   u <- build_url(server, "pip-info", api_version)
-  res <- httr::GET(u)
+  res <- httr::GET(u, httr::user_agent(pipr_user_agent))
   parse_response(res, simplify = FALSE)$content
 }
