@@ -98,12 +98,12 @@ retry_host <- function(host, times = 3L, min = 1, max = 3) {
 retry_request <- function(url, query = NULL, times = 3L, min = 1, max = 3) {
   # Only do one request if times == 1
   if (times == 1)  {
-    res <- httr::GET(url, query = query)
+    res <- httr::GET(url, query = query, httr::user_agent(pipr_user_agent))
     return(res)
   }
   # Iterate over n times
   for (i in seq_len(times)) {
-    res <- httr::GET(url, query = query)
+    res <- httr::GET(url, query = query, httr::user_agent(pipr_user_agent))
     if (!res$status_code %in% seq(500, 511, 1)) break
     sleep <- round(runif(1, min, max), 1)
     message(sprintf("Request failed [%s]. Retrying in %s seconds...", res$status_code, sleep))
