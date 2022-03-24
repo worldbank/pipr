@@ -8,8 +8,8 @@
 #'   poverty line
 #' @param fill_gaps logical: If TRUE, will interpolate / extrapolate values for
 #'   missing years
-#' @param group_by character: If used result will be aggregated for predefined
-#'   sub-groups
+#' @param subgroup character: If used result will be aggregated for predefined
+#'   sub-groups. Either 'wb_regions' or 'none'.
 #' @param welfare_type character: Welfare type
 #' @param reporting_level character: Geographical reporting level
 #' @param version character: Data version. See `get_versions()`
@@ -43,17 +43,17 @@
 #' res <- get_stats(country = "all", year = "all", popshare = .4)
 #'
 #' # World Bank global and regional aggregates
-#' get_stats("all", year = "all", group_by = "wb")
+#' get_stats("all", year = "all", subgroup = "wb")
 #'
 #' # Custom aggregates
-#' get_stats(c("ARG", "BRA"), year = "all", group_by = "none")
+#' get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
 #' }
 get_stats <- function(country = "all",
                       year = "all",
                       povline = 1.9,
                       popshare = NULL,
                       fill_gaps = FALSE,
-                      group_by = NULL,
+                      subgroup = NULL,
                       welfare_type = c("all", "income", "consumption"),
                       reporting_level = c("all", "national", "urban", "rural"),
                       version = NULL,
@@ -71,12 +71,18 @@ get_stats <- function(country = "all",
   # popshare can't be used together with povline
   if (!is.null(popshare)) povline <- NULL
 
-  if (!is.null(group_by)) {
-    fill_gaps <- NULL # group_by can't be used together with fill_gaps
+  if (!is.null(subgroup)) {
+    fill_gaps <- NULL # subgroup can't be used together with fill_gaps
     endpoint <- "pip-grp"
-    group_by <- match.arg(group_by, c("none", "wb"))
+    subgroup <- match.arg(subgroup, c("none", "wb_regions"))
+    if (subgroup == "wb_regions") {
+      group_by <- "wb"
+    } else {
+      group_by <- subgroup
+    }
   } else {
     endpoint <- "pip"
+    group_by <- NULL
   }
 
   # Check connection

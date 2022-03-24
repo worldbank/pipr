@@ -44,14 +44,14 @@ test_that("get_stats() works w/ popshare option", {
   expect_gte(nrow(df), 3)
 })
 
-test_that("get_stats() works w/ group_by = 'wb'", {
+test_that("get_stats() works w/ subgroup = 'wb_regions'", {
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
           message = "Could not connect to QA host")
-  #  df <- get_stats("all", year = 2018, group_by = "wb")
-  df <- get_stats("all", year = 2011, group_by = "wb", server = "qa")
+  #  df <- get_stats("all", year = 2018, subgroup = "wb")
+  df <- get_stats("all", year = 2011, subgroup = "wb_regions", server = "qa")
   expect_equal(nrow(df), 8)
   expect_identical(
     df$region_code,
@@ -62,18 +62,18 @@ test_that("get_stats() works w/ group_by = 'wb'", {
   )
 })
 
-test_that("get_stats() works w/ group_by = 'none'", {
+test_that("get_stats() works w/ subgroup = 'none'", {
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
           message = "Could not connect to QA host")
-  # df <- get_stats("all", year = 2018, group_by = "none")
-  df <- get_stats("all", year = 2011, group_by = "none", server = "qa")
+  # df <- get_stats("all", year = 2018, subgroup = "none")
+  df <- get_stats("all", year = 2011, subgroup = "none", server = "qa")
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
-  # df <- get_stats(c("ARG", "BRA"), year = 2011, group_by = "none")
-  df <- get_stats(c("ARG", "BRA"), year = 2011, group_by = "none", server = "qa")
+  # df <- get_stats(c("ARG", "BRA"), year = 2011, subgroup = "none")
+  df <- get_stats(c("ARG", "BRA"), year = 2011, subgroup = "none", server = "qa")
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
 })
