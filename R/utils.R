@@ -45,7 +45,6 @@ check_status <- function(res, parsed) {
 #' @noRd
 build_url <- function(server, endpoint, api_version) {
   base_url <- select_base_url(server = server)
-
   sprintf("%s/%s/%s", base_url, api_version, endpoint)
 }
 
@@ -132,6 +131,7 @@ parse_response <- function(res, simplify) {
 #' @noRd
 select_base_url <- function(server) {
   if (!is.null(server)) {
+    match.arg(server, c("prod", "qa", "dev"))
     if (server %in% c("qa", "dev")) {
       if (server == "qa") base_url <- Sys.getenv("PIP_QA_URL")
       if (server == "dev") base_url <- Sys.getenv("PIP_DEV_URL")
