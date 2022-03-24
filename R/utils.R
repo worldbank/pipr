@@ -1,4 +1,3 @@
-
 #' check_internet
 #' @noRd
 check_internet <- function() {
@@ -125,13 +124,12 @@ parse_response <- function(res, simplify) {
 }
 
 #' Select base URL
+#'
 #' Helper function to switch base URLs depending on PIP server being used
 #'
-#' @param server character: c("prod", "qa", "dev")
-#'
+#' @param server character: c("prod", "qa", "dev"). Defaults to NULL (ie. prod).
 #' @return character
-#' @export
-#'
+#' @noRd
 select_base_url <- function(server) {
   if (!is.null(server)) {
     if (server %in% c("qa", "dev")) {
