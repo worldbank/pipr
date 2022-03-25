@@ -104,7 +104,7 @@ retry_request <- function(url, query = NULL, times = 3L, min = 1, max = 3) {
   # Iterate over n times
   for (i in seq_len(times)) {
     res <- httr::GET(url, query = query, httr::user_agent(pipr_user_agent))
-    if (!res$status_code %in% seq(500, 511, 1)) break
+    if (!res$status_code %in% c(429, 500, 503, 504)) break
     sleep <- round(runif(1, min, max), 1)
     message(sprintf("Request failed [%s]. Retrying in %s seconds...", res$status_code, sleep))
     Sys.sleep(sleep)
