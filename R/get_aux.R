@@ -32,7 +32,7 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
   u <- build_url(server, "aux", api_version = api_version)
 
   # Get available tables
-  res <- httr::GET(u)
+  res <- httr::GET(u, httr::user_agent(pipr_user_agent))
   tables <- parse_response(res, simplify = FALSE)$content
 
   # Check table input
@@ -50,12 +50,10 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
     return(tables)
   } else {
     args <- build_args(table = table, version = version, format = format)
-    res <- httr::GET(u, query = args)
+    res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
     parse_response(res, simplify = simplify)
   }
 }
-
-
 
 #' @rdname get_aux
 #' @export

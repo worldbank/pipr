@@ -47,3 +47,12 @@ test_that("get_aux() works", {
   expect_true(sapply(dl, function(x) any(class(x) != "try-error")))
   # expect_false(sapply(dl, function(x) any(names(x) == "error")))
 })
+
+test_that("User agent works", {
+  # res <- get_aux(simplify = FALSE)
+  # tmp <- res$response$request$options$useragent
+  # expect_identical(tmp, pipr_user_agent)
+  res <- get_aux("gdp", simplify = FALSE)
+  tmp <- res$response$request$options$useragent
+  expect_identical(tmp, pipr_user_agent)
+})
