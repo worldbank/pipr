@@ -41,7 +41,8 @@ Imports:
     purrr,
     readr,
     memoise,
-    cachem
+    cachem,
+    data.table
 Depends: 
     R (>= 3.5.0)
 VignetteBuilder: knitr
