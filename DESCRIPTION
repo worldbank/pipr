@@ -30,7 +30,8 @@ Suggests:
     spelling,
     knitr,
     rmarkdown,
-    markdown
+    markdown,
+    callr
 Language: en-US
 Imports: 
     attempt,
