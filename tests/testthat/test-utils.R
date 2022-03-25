@@ -208,3 +208,21 @@ test_that("parse_response() works for different formats", {
   expect_identical(class(res$response), "response")
   expect_true(all(class(res$content) %in% c("data.table", "data.frame")))
 })
+
+
+test_that("Temporay renaming of response columns work", {
+
+  # Rename when simplify = TRUE
+  res <- parse_response(res_ex_json, simplify = TRUE)
+  expect_true(all(c("welfare_time", "year", "pop", "gdp", "hfce") %in% names(res)))
+  expect_false(all(c("survey_year", "reporting_year",
+                     "reporting_pop", "reporting_gdp",
+                     "reporting_pce") %in% names(res)))
+
+  # Don't rename when simplify = FALSE
+  res <- parse_response(res_ex_json, simplify = FALSE)$content
+  expect_false(all(c("welfare_time", "year", "pop", "gdp", "hfce") %in% names(res)))
+  expect_true(all(c("survey_year", "reporting_year",
+                     "reporting_pop", "reporting_gdp",
+                     "reporting_pce") %in% names(res)))
+})

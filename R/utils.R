@@ -107,6 +107,11 @@ parse_response <- function(res, simplify) {
   if (simplify) {
     check_status(res, parsed)
     parsed <- tibble::as_tibble(parsed)
+    # TEMP fix for renaming of columns
+    # To be removed when pipapi#207
+    # has been implemented
+    parsed <- tmp_rename_cols(parsed)
+    # TEMP fix END
     return(parsed)
   } else {
     structure(
@@ -147,4 +152,18 @@ select_base_url <- function(server) {
   }
 
   return(base_url)
+}
+
+#' Rename columns
+#' TEMP function to rename response cols
+#' @param df A data.frame
+#' @noRd
+tmp_rename_cols <- function(df) {
+  df <- data.table::setnames(
+    df,
+    old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
+    new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level"),
+    skip_absent = TRUE
+  )
+  return(df)
 }
