@@ -14,11 +14,9 @@ test_that("get_regions() works", {
 
 test_that("get_aux() works", {
 
-  # Return character vector with tables if table = NULL
-  res <- get_aux()
-  expect_true(is.character(res))
-
   # Return tibble as default
+  res <- get_aux()
+  expect_true(tibble::is_tibble(res))
   res <- get_aux("gdp")
   expect_true(tibble::is_tibble(res))
 
@@ -37,8 +35,12 @@ test_that("get_aux() works", {
   expect_true(tibble::is_tibble(res))
 
   # Check failure if table doesn't exist
-  expect_error(get_aux("tmp"))
-  expect_error(get_aux("tmp", simplify = FALSE))
+  # TO DO: Use prod server for this test when API has been released
+  # expect_error(get_aux("tmp"))
+  # expect_true(is.list(get_aux("tmp", simplify = FALSE)))
+  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
+  expect_error(get_aux("tmp", server = "qa"))
+  expect_true(is.list(get_aux("tmp", simplify = FALSE, server = "qa")))
 
   # Check all tables
   skip("survey_metadata gives a 500 error. Need to add functionality for list data")

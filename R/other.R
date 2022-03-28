@@ -14,15 +14,15 @@ health_check <- function(api_version = "v1", server = NULL) {
 #'
 #' Get available data versions.
 #' @inheritParams get_stats
-#' @return character
+#' @return tibble or list
 #' @export
 #' @examples
 #' get_versions()
-get_versions <- function(api_version = "v1", server = NULL) {
+get_versions <- function(api_version = "v1", server = NULL, simplify = TRUE) {
   check_internet()
   u <- build_url(server, "versions", api_version)
   res <- httr::GET(u, httr::user_agent(pipr_user_agent))
-  parse_response(res, simplify = FALSE)$content
+  parse_response(res, simplify = simplify)
 }
 
 #' Get PIP info

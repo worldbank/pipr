@@ -2,6 +2,7 @@
 res_ex_json <- readRDS("../testdata/res-ex-json.RDS")
 res_ex_csv <- readRDS("../testdata/res-ex-csv.RDS")
 res_ex_rds <- readRDS("../testdata/res-ex-rds.RDS")
+res_ex_404 <- readRDS("../testdata/res-ex-404.RDS")
 
 # tests
 test_that("check_internet() works", {
@@ -18,13 +19,24 @@ test_that("check_api() works", {
 })
 
 test_that("check_status() works", {
+
+  # 200
   res <- check_api("v1")
   parsed <- parse_response(res, simplify = FALSE)$content
   expect_true(check_status(res, parsed))
-  parsed <- "Invalid query parameters have been submitted"
+
+  # 404
+  res <- res_ex_404
+  parsed <- parse_response(res, simplify = FALSE)$content
   expect_error(check_status(res, parsed))
-  res$status_code <- 400
+
+  # 500
+  res <- res_ex_404
+  parsed <- parse_response(res, simplify = FALSE)$content
+  res$status_code <- 500
+  parsed$error <- NULL ; parsed$details <- NULL
   expect_error(check_status(res, parsed))
+
 })
 
 test_that("build_url() works", {

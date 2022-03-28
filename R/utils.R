@@ -25,15 +25,24 @@ check_api <- function(api_version, server = NULL) {
 #' @noRd
 check_status <- function(res, parsed) {
   if (res$status_code != 200) {
-    msg1 <- httr::http_status(res$status_code)$message
+    if ("error" %in% names(parsed)) {
+      msg1 <- paste(
+        httr::http_status(res$status_code)$message,
+        parsed$error,
+        "Use simplify = FALSE to see the full error response.",
+        sep = "\n*\t")
+    } else {
+      msg1 <- paste(
+        httr::http_status(res$status_code)$message,
+        "Use simplify = FALSE to see the full error response.",
+        sep = "\n*\t")
+    }
     attempt::stop_if_not(
       .x = httr::status_code(res),
       .p = ~ .x == 200,
       msg = msg1
     )
   }
-  msg2 <- "Invalid query parameters have been submitted"
-  attempt::stop_if(parsed == msg2, msg = msg2)
   invisible(TRUE)
 }
 

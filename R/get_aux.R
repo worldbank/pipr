@@ -5,7 +5,7 @@
 #'
 #' @param table Aux table
 #' @inheritParams get_stats
-#' @return tibble or character vector
+#' @return tibble or list
 #' @export
 #' @examples
 #' # Get list of tables
@@ -31,23 +31,10 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
   # Build query string
   u <- build_url(server, "aux", api_version = api_version)
 
-  # Get available tables
-  res <- httr::GET(u, httr::user_agent(pipr_user_agent))
-  tables <- parse_response(res, simplify = FALSE)$content
-
-  # Check table input
-  if (!is.null(table)) {
-    attempt::stop_if_not(
-      table %in% tables,
-      msg = sprintf("'%s' is not an available table", table)
-    )
-  }
-
   # Return response
   if (is.null(table)) {
-    # res <- httr::GET(u)
-    # parse_response(res, simplify = FALSE)$content
-    return(tables)
+    res <- httr::GET(u)
+    parse_response(res, simplify = simplify)
   } else {
     args <- build_args(table = table, version = version, format = format)
     res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
