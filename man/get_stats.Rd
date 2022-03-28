@@ -58,8 +58,8 @@ sub-groups. Either 'wb_regions' or 'none'.}
 
 \item{format}{character: Response format}
 
-\item{simplify}{logical: If TRUE (default) the response is converted to a
-data frame}
+\item{simplify}{logical: If TRUE (the default) the response is returned as a
+\code{tibble}}
 
 \item{server}{character: Server. For WB internal use only}
 }

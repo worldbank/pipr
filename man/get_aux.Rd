@@ -38,13 +38,13 @@ get_regions(
 
 \item{format}{character: Response format}
 
-\item{simplify}{logical: If TRUE (default) the response is converted to a
-data frame}
+\item{simplify}{logical: If TRUE (the default) the response is returned as a
+\code{tibble}}
 
 \item{server}{character: Server. For WB internal use only}
 }
 \value{
-tibble or character vector
+tibble or list
 }
 \description{
 Get an auxiliary dataset. If no table is specified a vector with possible

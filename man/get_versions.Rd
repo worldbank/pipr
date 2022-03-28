@@ -11,8 +11,8 @@ get_versions(api_version = "v1", server = NULL, simplify = TRUE)
 
 \item{server}{character: Server. For WB internal use only}
 
-\item{simplify}{logical: If TRUE (default) the response is converted to a
-data frame}
+\item{simplify}{logical: If TRUE (the default) the response is returned as a
+\code{tibble}}
 }
 \value{
 tibble or list
