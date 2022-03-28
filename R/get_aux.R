@@ -5,7 +5,7 @@
 #'
 #' @param table Aux table
 #' @inheritParams get_stats
-#' @return tibble or character vector
+#' @return tibble or list
 #' @export
 #' @examples
 #' # Get list of tables
@@ -24,23 +24,10 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
   api_version <- match.arg(api_version)
   format <- match.arg(format)
 
-  # Get available tables
-  res <- send_query(server, endpoint = "aux", api_version = api_version)
-  tables <- parse_response(res, simplify = FALSE)$content
-
-  # Check table input
-  if (!is.null(table)) {
-    attempt::stop_if_not(
-      table %in% tables,
-      msg = sprintf("'%s' is not an available table", table)
-    )
-  }
-
   # Return response
   if (is.null(table)) {
-    # res <- httr::GET(u)
-    # parse_response(res, simplify = FALSE)$content
-    return(tables)
+    res <- send_query(server, endpoint = "aux", api_version = api_version)
+    parse_response(res, simplify = simplify)
   } else {
     args <- build_args(table = table, version = version, format = format)
     res <-  send_query(server, endpoint = "aux",
@@ -49,8 +36,6 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
     parse_response(res, simplify = simplify)
   }
 }
-
-
 
 #' @rdname get_aux
 #' @export
@@ -66,7 +51,6 @@ get_countries <- function(version = NULL, api_version = "v1",
     format = format, server = server
   )
 }
-
 
 #' @rdname get_aux
 #' @export

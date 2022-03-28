@@ -31,7 +31,8 @@ Suggests:
     knitr,
     rmarkdown,
     markdown,
-    bench
+    bench,
+    callr
 Language: en-US
 Imports: 
     attempt,
@@ -42,7 +43,8 @@ Imports:
     purrr,
     readr,
     memoise,
-    cachem
+    cachem,
+    data.table
 Depends: 
     R (>= 3.5.0)
 VignetteBuilder: knitr

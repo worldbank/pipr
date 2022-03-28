@@ -103,10 +103,10 @@ test_that("get_stats() works w/ simplify = FALSE", {
 
 test_that("get_wb() works", {
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
-          message = "pip-grp not implement on PROD yet"
+    message = "pip-grp not implement on PROD yet"
   )
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
-          message = "Could not connect to QA host"
+    message = "Could not connect to QA host"
   )
   df <- get_wb(year = 2011, server = "qa")
   expect_equal(nrow(df), 8)
@@ -121,10 +121,10 @@ test_that("get_wb() works", {
 
 test_that("get_wb() works w/ all response formats", {
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
-          message = "pip-grp not implement on PROD yet"
+    message = "pip-grp not implement on PROD yet"
   )
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
-          message = "Could not connect to QA host"
+    message = "Could not connect to QA host"
   )
   df <- get_wb(year = "all", format = "json", server = "qa")
   expect_true(tibble::is_tibble(df))
@@ -139,10 +139,10 @@ test_that("get_wb() works w/ all response formats", {
 
 test_that("get_wb() works w/ simplify = FALSE", {
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
-          message = "pip-grp not implement on PROD yet"
+    message = "pip-grp not implement on PROD yet"
   )
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
-          message = "Could not connect to QA host"
+    message = "Could not connect to QA host"
   )
   res <- get_wb(year = "all", simplify = FALSE, server = "qa")
   expect_true(is.list(res))
@@ -152,3 +152,13 @@ test_that("get_wb() works w/ simplify = FALSE", {
   expect_gte(nrow(res$content), 3)
 })
 
+
+test_that("User agent works", {
+  res <- get_stats("AGO", 2000, simplify = FALSE)
+  tmp <- res$response$request$options$useragent
+  expect_identical(tmp, pipr_user_agent)
+
+  res <- get_wb(2000, simplify = FALSE)
+  tmp <- res$response$request$options$useragent
+  expect_identical(tmp, pipr_user_agent)
+})

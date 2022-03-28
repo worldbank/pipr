@@ -13,15 +13,18 @@ test_that("health_check() works", {
 })
 
 test_that("get_versions() works", {
-  res <- get_versions()
-  expect_true(is.character(res))
+
+  # res <- get_versions() # TO DO: Use prod server for this test when API has been released
+  # expect_true(tibble::is_tibble(res))
+
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
-  skip_if(is.null(curl::nslookup(dev_host, error = FALSE)), message = "Could not connect to DEV host")
+  res <- get_versions(server = "qa")
+  expect_true(tibble::is_tibble(res))
   res <- get_versions(server = "dev")
-  expect_true(is.character(res))
+  expect_true(tibble::is_tibble(res))
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)), message = "Could not connect to QA host")
   res <- get_versions(server = "qa")
-  expect_true(is.character(res))
+  expect_true(tibble::is_tibble(res))
 })
 
 test_that("get_pip_info() works", {

@@ -15,8 +15,8 @@
 #' @param version character: Data version. See `get_versions()`
 #' @param api_version character: API version
 #' @param format character: Response format
-#' @param simplify logical: If TRUE (default) the response is converted to a
-#'   data frame
+#' @param simplify logical: If TRUE (the default) the response is returned as a
+#'   `tibble`
 #' @param server character: Server. For WB internal use only
 #'
 #' @return tibble or list

@@ -13,13 +13,13 @@ health_check <- function(api_version = "v1", server = NULL) {
 #'
 #' Get available data versions.
 #' @inheritParams get_stats
-#' @return character
+#' @return tibble or list
 #' @export
 #' @examples
 #' get_versions()
-get_versions <- function(api_version = "v1", server = NULL) {
+get_versions <- function(api_version = "v1", server = NULL, simplify = TRUE) {
   res <- send_query(server, endpoint = "versions", api_version = api_version)
-  parse_response(res, simplify = FALSE)$content
+  parse_response(res, simplify = simplify)
 }
 
 #' Get PIP info

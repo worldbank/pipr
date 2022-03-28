@@ -2,6 +2,7 @@
 res_ex_json <- readRDS("../testdata/res-ex-json.RDS")
 res_ex_csv <- readRDS("../testdata/res-ex-csv.RDS")
 res_ex_rds <- readRDS("../testdata/res-ex-rds.RDS")
+res_ex_404 <- readRDS("../testdata/res-ex-404.RDS")
 
 library(bench)
 
@@ -20,13 +21,24 @@ test_that("check_api() works", {
 })
 
 test_that("check_status() works", {
+
+  # 200
   res <- check_api("v1")
   parsed <- parse_response(res, simplify = FALSE)$content
   expect_true(check_status(res, parsed))
-  parsed <- "Invalid query parameters have been submitted"
+
+  # 404
+  res <- res_ex_404
+  parsed <- parse_response(res, simplify = FALSE)$content
   expect_error(check_status(res, parsed))
-  res$status_code <- 400
+
+  # 500
+  res <- res_ex_404
+  parsed <- parse_response(res, simplify = FALSE)$content
+  res$status_code <- 500
+  parsed$error <- NULL ; parsed$details <- NULL
   expect_error(check_status(res, parsed))
+
 })
 
 test_that("retry_host() works", {
@@ -259,4 +271,21 @@ test_that("parse_response() works for different formats", {
   expect_true(all(class(res$content) %in% c("data.table", "data.frame")))
 })
 
+
+test_that("Temporay renaming of response columns work", {
+
+  # Rename when simplify = TRUE
+  res <- parse_response(res_ex_json, simplify = TRUE)
+  expect_true(all(c("welfare_time", "year", "pop", "gdp", "hfce") %in% names(res)))
+  expect_false(all(c("survey_year", "reporting_year",
+                     "reporting_pop", "reporting_gdp",
+                     "reporting_pce") %in% names(res)))
+
+  # Don't rename when simplify = FALSE
+  res <- parse_response(res_ex_json, simplify = FALSE)$content
+  expect_false(all(c("welfare_time", "year", "pop", "gdp", "hfce") %in% names(res)))
+  expect_true(all(c("survey_year", "reporting_year",
+                     "reporting_pop", "reporting_gdp",
+                     "reporting_pce") %in% names(res)))
+})
 
