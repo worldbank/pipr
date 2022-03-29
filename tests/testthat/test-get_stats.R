@@ -92,6 +92,28 @@ test_that("get_stats() works w/ all response formats", {
   expect_gte(nrow(df), 3)
 })
 
+test_that("get_stats() returns a tibble with named columns for empty response (for rds and csv) ", {
+
+  # rds
+  res <- get_stats("AGO", 2000, format = "rds")
+  res2 <- get_stats("AGO", 2005, format = "rds") # empty response
+  expect_equal(dim(res)[2], dim(res2)[2] )
+  expect_identical(names(res), names(res2))
+
+  # csv
+  res <- get_stats("AGO", 2000, format = "csv")
+  res2 <- get_stats("AGO", 2005, format = "csv") # empty response
+  expect_equal(dim(res)[2], dim(res2)[2] )
+  expect_identical(names(res), names(res2))
+
+  # json (does not return an empty response data frame)
+  # res <- get_stats("AGO", 2000, format = "json")
+  res2 <- get_stats("AGO", 2005, format = "json") # empty response
+  expect_equal(dim(res2)[2], 0)
+  expect_equal(length(names(res2)), 0)
+
+})
+
 test_that("get_stats() works w/ simplify = FALSE", {
   res <- get_stats("AGO", year = "all", simplify = FALSE)
   expect_true(is.list(res))
