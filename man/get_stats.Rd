@@ -8,7 +8,7 @@
 get_stats(
   country = "all",
   year = "all",
-  povline = 1.9,
+  povline = NULL,
   popshare = NULL,
   fill_gaps = FALSE,
   subgroup = NULL,
