@@ -8,15 +8,15 @@
 #'   poverty line
 #' @param fill_gaps logical: If TRUE, will interpolate / extrapolate values for
 #'   missing years
-#' @param group_by character: If used result will be aggregated for predefined
-#'   sub-groups
+#' @param subgroup character: If used result will be aggregated for predefined
+#'   sub-groups. Either 'wb_regions' or 'none'.
 #' @param welfare_type character: Welfare type
 #' @param reporting_level character: Geographical reporting level
 #' @param version character: Data version. See `get_versions()`
 #' @param api_version character: API version
 #' @param format character: Response format
-#' @param simplify logical: If TRUE (default) the response is converted to a
-#'   data frame
+#' @param simplify logical: If TRUE (the default) the response is returned as a
+#'   `tibble`
 #' @param server character: Server. For WB internal use only
 #'
 #' @return tibble or list
@@ -43,25 +43,28 @@
 #' res <- get_stats(country = "all", year = "all", popshare = .4)
 #'
 #' # World Bank global and regional aggregates
-#' get_stats("all", year = "all", group_by = "wb")
+#' res <- get_stats("all", year = "all", subgroup = "wb")
+#'
+#' # Short hand to get WB global/regional stats
+#' res <- get_wb()
 #'
 #' # Custom aggregates
-#' get_stats(c("ARG", "BRA"), year = "all", group_by = "none")
+#' res <- get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
 #' }
 get_stats <- function(country = "all",
                       year = "all",
-                      povline = 1.9,
+                      povline = NULL,
                       popshare = NULL,
                       fill_gaps = FALSE,
-                      group_by = NULL,
+                      subgroup = NULL,
                       welfare_type = c("all", "income", "consumption"),
                       reporting_level = c("all", "national", "urban", "rural"),
                       version = NULL,
                       api_version = "v1",
-                      format = c("json", "csv", "rds"),
+                      format = c("rds", "json", "csv"),
                       simplify = TRUE,
                       server = NULL) {
-
+  # browser()
   # Match args
   welfare_type <- match.arg(welfare_type)
   reporting_level <- match.arg(reporting_level)
@@ -71,12 +74,18 @@ get_stats <- function(country = "all",
   # popshare can't be used together with povline
   if (!is.null(popshare)) povline <- NULL
 
-  if (!is.null(group_by)) {
-    fill_gaps <- NULL # group_by can't be used together with fill_gaps
+  if (!is.null(subgroup)) {
+    fill_gaps <- NULL # subgroup can't be used together with fill_gaps
     endpoint <- "pip-grp"
-    group_by <- match.arg(group_by, c("none", "wb"))
+    subgroup <- match.arg(subgroup, c("none", "wb_regions"))
+    if (subgroup == "wb_regions") {
+      group_by <- "wb"
+    } else {
+      group_by <- subgroup
+    }
   } else {
     endpoint <- "pip"
+    group_by <- NULL
   }
 
   # Check connection
@@ -94,7 +103,41 @@ get_stats <- function(country = "all",
   u <- build_url(server, endpoint, api_version)
 
   # Send query
-  res <- httr::GET(u, query = args)
+  res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
+
+  # Parse result
+  out <- parse_response(res, simplify)
+
+  return(out)
+}
+
+#' @rdname get_stats
+#' @export
+get_wb <- function(year = "all",
+                   povline = 1.9,
+                   version = NULL,
+                   api_version = "v1",
+                   format = c("rds", "json", "csv"),
+                   simplify = TRUE,
+                   server = NULL) {
+
+  # Match args
+  api_version <- match.arg(api_version)
+  format <- match.arg(format)
+
+  # Check connection
+  check_internet()
+  check_api(api_version, server)
+
+  # Build query string
+  args <- build_args(
+    country = "all", year = year, povline = povline,
+    group_by = "wb", version = version, format = format
+  )
+  u <- build_url(server, "pip-grp", api_version)
+
+  # Send query
+  res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
 
   # Parse result
   out <- parse_response(res, simplify)

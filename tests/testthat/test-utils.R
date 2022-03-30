@@ -2,6 +2,7 @@
 res_ex_json <- readRDS("../testdata/res-ex-json.RDS")
 res_ex_csv <- readRDS("../testdata/res-ex-csv.RDS")
 res_ex_rds <- readRDS("../testdata/res-ex-rds.RDS")
+res_ex_404 <- readRDS("../testdata/res-ex-404.RDS")
 
 # tests
 test_that("check_internet() works", {
@@ -18,24 +19,35 @@ test_that("check_api() works", {
 })
 
 test_that("check_status() works", {
+
+  # 200
   res <- check_api("v1")
   parsed <- parse_response(res, simplify = FALSE)$content
   expect_true(check_status(res, parsed))
-  parsed <- "Invalid query parameters have been submitted"
+
+  # 404
+  res <- res_ex_404
+  parsed <- parse_response(res, simplify = FALSE)$content
   expect_error(check_status(res, parsed))
-  res$status_code <- 400
+
+  # 500
+  res <- res_ex_404
+  parsed <- parse_response(res, simplify = FALSE)$content
+  res$status_code <- 500
+  parsed$error <- NULL ; parsed$details <- NULL
   expect_error(check_status(res, parsed))
+
 })
 
 test_that("build_url() works", {
 
   # Check that url is correctly pasted together
   x <- build_url(server = NULL, endpoint = "pip", api_version = "v1")
-  expect_identical(x, paste0(base_url, "/v1/pip"))
+  expect_identical(x, paste0(prod_url, "/v1/pip"))
   x <- build_url("prod", "pip", api_version = "v1")
-  expect_identical(x, paste0(base_url, "/v1/pip"))
+  expect_identical(x, paste0(prod_url, "/v1/pip"))
   x <- build_url("prod", "pip-grp", api_version = "v2")
-  expect_identical(x, paste0(base_url, "/v2/pip-grp"))
+  expect_identical(x, paste0(prod_url, "/v2/pip-grp"))
 
   # Expect error if server arg is incorrect
   expect_error(build_url("tmp", "pip", "v1"))
@@ -207,4 +219,22 @@ test_that("parse_response() works for different formats", {
   expect_identical(class(res), "pip_api")
   expect_identical(class(res$response), "response")
   expect_true(all(class(res$content) %in% c("data.table", "data.frame")))
+})
+
+
+test_that("Temporay renaming of response columns work", {
+
+  # Rename when simplify = TRUE
+  res <- parse_response(res_ex_json, simplify = TRUE)
+  expect_true(all(c("welfare_time", "year", "pop", "gdp", "hfce") %in% names(res)))
+  expect_false(all(c("survey_year", "reporting_year",
+                     "reporting_pop", "reporting_gdp",
+                     "reporting_pce") %in% names(res)))
+
+  # Don't rename when simplify = FALSE
+  res <- parse_response(res_ex_json, simplify = FALSE)$content
+  expect_false(all(c("welfare_time", "year", "pop", "gdp", "hfce") %in% names(res)))
+  expect_true(all(c("survey_year", "reporting_year",
+                     "reporting_pop", "reporting_gdp",
+                     "reporting_pce") %in% names(res)))
 })

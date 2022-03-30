@@ -1,7 +1,7 @@
 # constants
 countries <- get_aux("countries")
 dev_host <- gsub("/api|http://", "", Sys.getenv("PIP_DEV_URL"))
-qa_host <- gsub("/api|http://", "", Sys.getenv("PIP_QA_URL"))
+qa_host <- gsub("/pip|/api|http(s)://", "", Sys.getenv("PIP_QA_URL"))
 
 # tests
 test_that("get_stats() returns the correct format", {
@@ -44,14 +44,15 @@ test_that("get_stats() works w/ popshare option", {
   expect_gte(nrow(df), 3)
 })
 
-test_that("get_stats() works w/ group_by = 'wb'", {
+test_that("get_stats() works w/ subgroup = 'wb_regions'", {
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
-          message = "Could not connect to QA host")
-  #  df <- get_stats("all", year = 2018, group_by = "wb")
-  df <- get_stats("all", year = 2011, group_by = "wb", server = "qa")
+    message = "Could not connect to QA host"
+  )
+  #  df <- get_stats("all", year = 2018, subgroup = "wb")
+  df <- get_stats("all", year = 2011, subgroup = "wb_regions", server = "qa")
   expect_equal(nrow(df), 8)
   expect_identical(
     df$region_code,
@@ -62,18 +63,19 @@ test_that("get_stats() works w/ group_by = 'wb'", {
   )
 })
 
-test_that("get_stats() works w/ group_by = 'none'", {
+test_that("get_stats() works w/ subgroup = 'none'", {
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
-          message = "Could not connect to QA host")
-  # df <- get_stats("all", year = 2018, group_by = "none")
-  df <- get_stats("all", year = 2011, group_by = "none", server = "qa")
+    message = "Could not connect to QA host"
+  )
+  # df <- get_stats("all", year = 2018, subgroup = "none")
+  df <- get_stats("all", year = 2011, subgroup = "none", server = "qa")
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
-  # df <- get_stats(c("ARG", "BRA"), year = 2011, group_by = "none")
-  df <- get_stats(c("ARG", "BRA"), year = 2011, group_by = "none", server = "qa")
+  # df <- get_stats(c("ARG", "BRA"), year = 2011, subgroup = "none")
+  df <- get_stats(c("ARG", "BRA"), year = 2011, subgroup = "none", server = "qa")
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
 })
@@ -90,6 +92,28 @@ test_that("get_stats() works w/ all response formats", {
   expect_gte(nrow(df), 3)
 })
 
+test_that("get_stats() returns a tibble with named columns for empty response (for rds and csv) ", {
+
+  # rds
+  res <- get_stats("AGO", 2000, format = "rds")
+  res2 <- get_stats("AGO", 2005, format = "rds") # empty response
+  expect_equal(dim(res)[2], dim(res2)[2] )
+  expect_identical(names(res), names(res2))
+
+  # csv
+  res <- get_stats("AGO", 2000, format = "csv")
+  res2 <- get_stats("AGO", 2005, format = "csv") # empty response
+  expect_equal(dim(res)[2], dim(res2)[2] )
+  expect_identical(names(res), names(res2))
+
+  # json (does not return an empty response data frame)
+  # res <- get_stats("AGO", 2000, format = "json")
+  res2 <- get_stats("AGO", 2005, format = "json") # empty response
+  expect_equal(dim(res2)[2], 0)
+  expect_equal(length(names(res2)), 0)
+
+})
+
 test_that("get_stats() works w/ simplify = FALSE", {
   res <- get_stats("AGO", year = "all", simplify = FALSE)
   expect_true(is.list(res))
@@ -97,4 +121,66 @@ test_that("get_stats() works w/ simplify = FALSE", {
   expect_identical(class(res), "pip_api")
   expect_true(is.data.frame(res$content))
   expect_gte(nrow(res$content), 3)
+})
+
+test_that("get_wb() works", {
+  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
+    message = "pip-grp not implement on PROD yet"
+  )
+  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
+    message = "Could not connect to QA host"
+  )
+  df <- get_wb(year = 2011, server = "qa")
+  expect_equal(nrow(df), 8)
+  expect_identical(
+    df$region_code,
+    c(
+      "EAP", "ECA", "LAC", "MNA",
+      "OHI", "SAS", "SSA", "WLD"
+    )
+  )
+})
+
+test_that("get_wb() works w/ all response formats", {
+  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
+    message = "pip-grp not implement on PROD yet"
+  )
+  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
+    message = "Could not connect to QA host"
+  )
+  df <- get_wb(year = "all", format = "json", server = "qa")
+  expect_true(tibble::is_tibble(df))
+  expect_gte(nrow(df), 3)
+  df <- get_wb(year = "all", format = "csv", server = "qa")
+  expect_true(tibble::is_tibble(df))
+  expect_gte(nrow(df), 3)
+  df <- get_wb(year = "all", format = "rds", server = "qa")
+  expect_true(tibble::is_tibble(df))
+  expect_gte(nrow(df), 3)
+})
+
+test_that("get_wb() works w/ simplify = FALSE", {
+  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
+    message = "pip-grp not implement on PROD yet"
+  )
+  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
+    message = "Could not connect to QA host"
+  )
+  res <- get_wb(year = "all", simplify = FALSE, server = "qa")
+  expect_true(is.list(res))
+  expect_identical(names(res), c("url", "status", "type", "content", "response"))
+  expect_identical(class(res), "pip_api")
+  expect_true(is.data.frame(res$content))
+  expect_gte(nrow(res$content), 3)
+})
+
+
+test_that("User agent works", {
+  res <- get_stats("AGO", 2000, simplify = FALSE)
+  tmp <- res$response$request$options$useragent
+  expect_identical(tmp, pipr_user_agent)
+
+  res <- get_wb(2000, simplify = FALSE)
+  tmp <- res$response$request$options$useragent
+  expect_identical(tmp, pipr_user_agent)
 })

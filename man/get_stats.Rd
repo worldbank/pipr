@@ -2,20 +2,31 @@
 % Please edit documentation in R/get_stats.R
 \name{get_stats}
 \alias{get_stats}
+\alias{get_wb}
 \title{Get poverty and inequality statistics}
 \usage{
 get_stats(
   country = "all",
   year = "all",
-  povline = 1.9,
+  povline = NULL,
   popshare = NULL,
   fill_gaps = FALSE,
-  group_by = NULL,
+  subgroup = NULL,
   welfare_type = c("all", "income", "consumption"),
   reporting_level = c("all", "national", "urban", "rural"),
   version = NULL,
   api_version = "v1",
-  format = c("json", "csv", "rds"),
+  format = c("rds", "json", "csv"),
+  simplify = TRUE,
+  server = NULL
+)
+
+get_wb(
+  year = "all",
+  povline = 1.9,
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
   simplify = TRUE,
   server = NULL
 )
@@ -34,8 +45,8 @@ poverty line}
 \item{fill_gaps}{logical: If TRUE, will interpolate / extrapolate values for
 missing years}
 
-\item{group_by}{character: If used result will be aggregated for predefined
-sub-groups}
+\item{subgroup}{character: If used result will be aggregated for predefined
+sub-groups. Either 'wb_regions' or 'none'.}
 
 \item{welfare_type}{character: Welfare type}
 
@@ -47,8 +58,8 @@ sub-groups}
 
 \item{format}{character: Response format}
 
-\item{simplify}{logical: If TRUE (default) the response is converted to a
-data frame}
+\item{simplify}{logical: If TRUE (the default) the response is returned as a
+\code{tibble}}
 
 \item{server}{character: Server. For WB internal use only}
 }
@@ -79,9 +90,12 @@ res <- get_stats(country = "all", year = "all", fill_gaps = TRUE)
 res <- get_stats(country = "all", year = "all", popshare = .4)
 
 # World Bank global and regional aggregates
-get_stats("all", year = "all", group_by = "wb")
+res <- get_stats("all", year = "all", subgroup = "wb")
+
+# Short hand to get WB global/regional stats
+res <- get_wb()
 
 # Custom aggregates
-get_stats(c("ARG", "BRA"), year = "all", group_by = "none")
+res <- get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
 }
 }

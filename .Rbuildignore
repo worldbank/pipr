@@ -7,3 +7,5 @@
 ^docs$
 ^pkgdown$
 TEMP/
+^data-raw$
+CONTRIBUTING.md

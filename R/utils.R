@@ -1,5 +1,3 @@
-base_url <- "https://api.worldbank.org/pip"
-
 #' check_internet
 #' @noRd
 check_internet <- function() {
@@ -27,34 +25,35 @@ check_api <- function(api_version, server = NULL) {
 #' @noRd
 check_status <- function(res, parsed) {
   if (res$status_code != 200) {
-    msg1 <- httr::http_status(res$status_code)$message
+    if ("error" %in% names(parsed)) {
+      msg1 <- paste(
+        httr::http_status(res$status_code)$message,
+        parsed$error,
+        "Use simplify = FALSE to see the full error response.",
+        sep = "\n*\t")
+    } else {
+      msg1 <- paste(
+        httr::http_status(res$status_code)$message,
+        "Use simplify = FALSE to see the full error response.",
+        sep = "\n*\t")
+    }
     attempt::stop_if_not(
       .x = httr::status_code(res),
       .p = ~ .x == 200,
       msg = msg1
     )
   }
-  msg2 <- "Invalid query parameters have been submitted"
-  attempt::stop_if(parsed == msg2, msg = msg2)
   invisible(TRUE)
 }
 
 #' build_url
-#' @param server Server
-#' @param endpoint Endpoint
+#' @param server character: Server
+#' @param endpoint character: Endpoint
+#' @param api_version character: API version
 #' @inheritParams get_stats
 #' @noRd
 build_url <- function(server, endpoint, api_version) {
-  if (!is.null(server)) {
-    match.arg(server, c("prod", "qa", "dev"))
-    if (server == "qa") base_url <- Sys.getenv("PIP_QA_URL")
-    if (server == "dev") base_url <- Sys.getenv("PIP_DEV_URL")
-    attempt::stop_if(
-      base_url == "",
-      msg = sprintf("'%s' url not found. Check your .Renviron file.", server)
-    )
-  }
-  if (is.null(server) || server == "prod") base_url <- base_url
+  base_url <- select_base_url(server = server)
   sprintf("%s/%s/%s", base_url, api_version, endpoint)
 }
 
@@ -117,6 +116,11 @@ parse_response <- function(res, simplify) {
   if (simplify) {
     check_status(res, parsed)
     parsed <- tibble::as_tibble(parsed)
+    # TEMP fix for renaming of columns
+    # To be removed when pipapi#207
+    # has been implemented
+    parsed <- tmp_rename_cols(parsed)
+    # TEMP fix END
     return(parsed)
   } else {
     structure(
@@ -130,4 +134,45 @@ parse_response <- function(res, simplify) {
       class = "pip_api"
     )
   }
+}
+
+#' Select base URL
+#'
+#' Helper function to switch base URLs depending on PIP server being used
+#'
+#' @param server character: c("prod", "qa", "dev"). Defaults to NULL (ie. prod).
+#' @return character
+#' @noRd
+select_base_url <- function(server) {
+  if (!is.null(server)) {
+    match.arg(server, c("prod", "qa", "dev"))
+    if (server %in% c("qa", "dev")) {
+      if (server == "qa") base_url <- Sys.getenv("PIP_QA_URL")
+      if (server == "dev") base_url <- Sys.getenv("PIP_DEV_URL")
+      attempt::stop_if(
+        base_url == "",
+        msg = sprintf("'%s' url not found. Check your .Renviron file.", server)
+      )
+    }
+  }
+
+  if (is.null(server) || server == "prod") {
+    base_url <- prod_url
+  }
+
+  return(base_url)
+}
+
+#' Rename columns
+#' TEMP function to rename response cols
+#' @param df A data.frame
+#' @noRd
+tmp_rename_cols <- function(df) {
+  df <- data.table::setnames(
+    df,
+    old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
+    new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level"),
+    skip_absent = TRUE
+  )
+  return(df)
 }

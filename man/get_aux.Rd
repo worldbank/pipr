@@ -10,7 +10,7 @@ get_aux(
   table = NULL,
   version = NULL,
   api_version = "v1",
-  format = c("json", "csv", "rds"),
+  format = c("rds", "json", "csv"),
   simplify = TRUE,
   server = NULL
 )
@@ -18,14 +18,14 @@ get_aux(
 get_countries(
   version = NULL,
   api_version = "v1",
-  format = c("json", "csv", "rds"),
+  format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_regions(
   version = NULL,
   api_version = "v1",
-  format = c("json", "csv", "rds"),
+  format = c("rds", "json", "csv"),
   server = NULL
 )
 }
@@ -38,13 +38,13 @@ get_regions(
 
 \item{format}{character: Response format}
 
-\item{simplify}{logical: If TRUE (default) the response is converted to a
-data frame}
+\item{simplify}{logical: If TRUE (the default) the response is returned as a
+\code{tibble}}
 
 \item{server}{character: Server. For WB internal use only}
 }
 \value{
-tibble or character vector
+tibble or list
 }
 \description{
 Get an auxiliary dataset. If no table is specified a vector with possible

@@ -4,15 +4,18 @@
 \alias{get_versions}
 \title{Get versions}
 \usage{
-get_versions(api_version = "v1", server = NULL)
+get_versions(api_version = "v1", server = NULL, simplify = TRUE)
 }
 \arguments{
 \item{api_version}{character: API version}
 
 \item{server}{character: Server. For WB internal use only}
+
+\item{simplify}{logical: If TRUE (the default) the response is returned as a
+\code{tibble}}
 }
 \value{
-character
+tibble or list
 }
 \description{
 Get available data versions.
