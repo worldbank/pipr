@@ -59,15 +59,25 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_stats</span><span class="op">(</span>
   country <span class="op">=</span> <span class="st">"all"</span>,
   year <span class="op">=</span> <span class="st">"all"</span>,
-  povline <span class="op">=</span> <span class="fl">1.9</span>,
+  povline <span class="op">=</span> <span class="cn">NULL</span>,
   popshare <span class="op">=</span> <span class="cn">NULL</span>,
   fill_gaps <span class="op">=</span> <span class="cn">FALSE</span>,
-  group_by <span class="op">=</span> <span class="cn">NULL</span>,
+  subgroup <span class="op">=</span> <span class="cn">NULL</span>,
   welfare_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"income"</span>, <span class="st">"consumption"</span><span class="op">)</span>,
   reporting_level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"national"</span>, <span class="st">"urban"</span>, <span class="st">"rural"</span><span class="op">)</span>,
   version <span class="op">=</span> <span class="cn">NULL</span>,
   api_version <span class="op">=</span> <span class="st">"v1"</span>,
-  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"json"</span>, <span class="st">"csv"</span>, <span class="st">"rds"</span><span class="op">)</span>,
+  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span>, <span class="st">"csv"</span><span class="op">)</span>,
+  simplify <span class="op">=</span> <span class="cn">TRUE</span>,
+  server <span class="op">=</span> <span class="cn">NULL</span>
+<span class="op">)</span>
+
+<span class="fu">get_wb</span><span class="op">(</span>
+  year <span class="op">=</span> <span class="st">"all"</span>,
+  povline <span class="op">=</span> <span class="fl">1.9</span>,
+  version <span class="op">=</span> <span class="cn">NULL</span>,
+  api_version <span class="op">=</span> <span class="st">"v1"</span>,
+  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span>, <span class="st">"csv"</span><span class="op">)</span>,
   simplify <span class="op">=</span> <span class="cn">TRUE</span>,
   server <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
@@ -88,9 +98,9 @@ poverty line</p></dd>
 <dt>fill_gaps</dt>
 <dd><p>logical: If TRUE, will interpolate / extrapolate values for
 missing years</p></dd>
-<dt>group_by</dt>
+<dt>subgroup</dt>
 <dd><p>character: If used result will be aggregated for predefined
-sub-groups</p></dd>
+sub-groups. Either 'wb_regions' or 'none'.</p></dd>
 <dt>welfare_type</dt>
 <dd><p>character: Welfare type</p></dd>
 <dt>reporting_level</dt>
@@ -102,8 +112,8 @@ sub-groups</p></dd>
 <dt>format</dt>
 <dd><p>character: Response format</p></dd>
 <dt>simplify</dt>
-<dd><p>logical: If TRUE (default) the response is converted to a
-data frame</p></dd>
+<dd><p>logical: If TRUE (the default) the response is returned as a
+<code>tibble</code></p></dd>
 <dt>server</dt>
 <dd><p>character: Server. For WB internal use only</p></dd>
 </dl></div>
@@ -134,10 +144,13 @@ data frame</p></dd>
 <span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_stats</span><span class="op">(</span>country <span class="op">=</span> <span class="st">"all"</span>, year <span class="op">=</span> <span class="st">"all"</span>, popshare <span class="op">=</span> <span class="fl">.4</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># World Bank global and regional aggregates</span></span>
-<span class="r-in"><span class="fu">get_stats</span><span class="op">(</span><span class="st">"all"</span>, year <span class="op">=</span> <span class="st">"all"</span>, group_by <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_stats</span><span class="op">(</span><span class="st">"all"</span>, year <span class="op">=</span> <span class="st">"all"</span>, subgroup <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Short hand to get WB global/regional stats</span></span>
+<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_wb</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Custom aggregates</span></span>
-<span class="r-in"><span class="fu">get_stats</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ARG"</span>, <span class="st">"BRA"</span><span class="op">)</span>, year <span class="op">=</span> <span class="st">"all"</span>, group_by <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_stats</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ARG"</span>, <span class="st">"BRA"</span><span class="op">)</span>, year <span class="op">=</span> <span class="st">"all"</span>, subgroup <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>

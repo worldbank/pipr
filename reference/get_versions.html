@@ -56,7 +56,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_versions</span><span class="op">(</span>api_version <span class="op">=</span> <span class="st">"v1"</span>, server <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_versions</span><span class="op">(</span>api_version <span class="op">=</span> <span class="st">"v1"</span>, server <span class="op">=</span> <span class="cn">NULL</span>, simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -65,16 +65,22 @@
 <dd><p>character: API version</p></dd>
 <dt>server</dt>
 <dd><p>character: Server. For WB internal use only</p></dd>
+<dt>simplify</dt>
+<dd><p>logical: If TRUE (the default) the response is returned as a
+<code>tibble</code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>character</p>
+    <p>tibble or list</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">get_versions</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "latest_release"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   value         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> latest_release</span>
 </code></pre></div>
     </div>
   </div>
