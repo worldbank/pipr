@@ -3,6 +3,7 @@ res_ex_json <- readRDS("../testdata/res-ex-json.RDS")
 res_ex_csv <- readRDS("../testdata/res-ex-csv.RDS")
 res_ex_rds <- readRDS("../testdata/res-ex-rds.RDS")
 res_ex_404 <- readRDS("../testdata/res-ex-404.RDS")
+dictionary <- readRDS("../testdata/dictionary.RDS")
 
 # tests
 test_that("check_internet() works", {
@@ -238,3 +239,21 @@ test_that("Temporay renaming of response columns work", {
                      "reporting_pop", "reporting_gdp",
                      "reporting_pce") %in% names(res)))
 })
+
+
+test_that("Temporay renaming of response works for row-based datasets (dictionary)", {
+
+  res <- tmp_rename_cols(dictionary,
+                  url = "https://api.worldbank.org/pip/v1/aux?table=dictionary&format=rds")
+
+  expect_true(all(c("welfare_time", "year", "pop", "gdp",
+                    "hfce", "hfce_data_level") %in%
+                    res$variable))
+  expect_false(all(c("survey_year", "reporting_year",
+                     "reporting_pop", "reporting_gdp",
+                     "reporting_pce", "pce_data_level")
+                   %in% res$variable))
+
+})
+
+
