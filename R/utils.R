@@ -119,7 +119,7 @@ parse_response <- function(res, simplify) {
     # TEMP fix for renaming of columns
     # To be removed when pipapi#207
     # has been implemented
-    parsed <- tmp_rename_cols(parsed)
+    parsed <- tmp_rename_cols(parsed, res$url)
     # TEMP fix END
     return(parsed)
   } else {
@@ -166,13 +166,31 @@ select_base_url <- function(server) {
 #' Rename columns
 #' TEMP function to rename response cols
 #' @param df A data.frame
+#' @param url response url
 #' @noRd
-tmp_rename_cols <- function(df) {
-  df <- data.table::setnames(
-    df,
-    old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
-    new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level"),
-    skip_absent = TRUE
-  )
+tmp_rename_cols <- function(df, url = "") {
+
+  # Special handling of dictionary table since it
+  # is a row-based table
+  if (grepl("aux[?]table=dictionary", url)) {
+    rownames(df) <- df$variable
+    df <- data.frame(t(df))
+    data.table::setnames(
+      df,
+      old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
+      new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level")
+    )
+    df <- data.frame(t(df))
+    df$variable <- row.names(df)
+    row.names(df) <- NULL
+  } else {
+    df <- data.table::setnames(
+      df,
+      old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
+      new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level"),
+      skip_absent = TRUE
+    )
+  }
+
   return(df)
 }
