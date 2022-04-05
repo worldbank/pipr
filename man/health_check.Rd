@@ -18,5 +18,7 @@ character
 Check API status
 }
 \examples{
+\dontrun{
 health_check()
+}
 }
