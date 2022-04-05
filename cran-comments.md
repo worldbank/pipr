@@ -10,3 +10,4 @@ Online check seems fine as well
 
 - rhub::check_on_windows()
 - rhub::check_on_linux()
+- rhub::check(platform = "windows-x86_64-release")
