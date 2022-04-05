@@ -18,5 +18,7 @@ list
 Get information about the API.
 }
 \examples{
+\dontrun{
 get_pip_info()
+}
 }

@@ -5,11 +5,15 @@ Authors@R:
     c(person(given = "Tony",
             family = "Fujs",
             role = c("aut", "cre"),
-            email = "tfujs@worldbank.org"),
+            email = "tonyfujs@gmail.com"),
      person(given = "Aleksander",
             family = "Eilertsen",
             role = "aut",
             email = "aeilertsen@worldbank.org"),
+      person(given = "Ronak",
+            family = "Shah",
+            role =  "aut",
+            email = "shahronak47@yahoo.in"),
      person(given = "World Bank",
             role = "cph")
      )
@@ -22,7 +26,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 URL: https://github.com/PIP-Technical-Team/pipr,
-    https://pip-technical-team.github.io/pipr
+    https://pip-technical-team.github.io/pipr/
 BugReports: https://github.com/PIP-Technical-Team/pipr/issues
 Suggests: 
     covr,
@@ -40,7 +44,6 @@ Imports:
     jsonlite,
     tibble,
     purrr,
-    readr,
     memoise,
     cachem,
     data.table

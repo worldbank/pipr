@@ -3,7 +3,9 @@
 #' @return character
 #' @export
 #' @examples
+#' \dontrun{
 #' health_check()
+#' }
 health_check <- function(api_version = "v1", server = NULL) {
   check_internet()
   res <- check_api(api_version, server = server)
@@ -17,7 +19,9 @@ health_check <- function(api_version = "v1", server = NULL) {
 #' @return tibble or list
 #' @export
 #' @examples
+#' \dontrun{
 #' get_versions()
+#' }
 get_versions <- function(api_version = "v1", server = NULL, simplify = TRUE) {
   check_internet()
   u <- build_url(server, "versions", api_version)
@@ -32,7 +36,9 @@ get_versions <- function(api_version = "v1", server = NULL, simplify = TRUE) {
 #' @return list
 #' @export
 #' @examples
+#' \dontrun{
 #' get_pip_info()
+#' }
 get_pip_info <- function(api_version = "v1", server = NULL) {
   check_internet()
   u <- build_url(server, "pip-info", api_version)
