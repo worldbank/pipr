@@ -51,6 +51,7 @@ Get an auxiliary dataset. If no table is specified a vector with possible
 inputs will be returned.
 }
 \examples{
+\dontrun{
 # Get list of tables
 x <- get_aux()
 
@@ -59,6 +60,7 @@ df <- get_aux("gdp")
 
 # Get countries
 df <- get_aux("countries")
+}
 
 # Short hand to get countries
 get_countries()

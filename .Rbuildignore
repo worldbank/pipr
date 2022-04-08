@@ -9,3 +9,4 @@
 TEMP/
 ^data-raw$
 CONTRIBUTING.md
+^cran-comments\.md$
