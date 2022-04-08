@@ -1,13 +1,15 @@
-# Checks
+## Initial release
 
-Local check seems fine
+## R CMD check results
 
-devtools::check() result:
+0 errors ✓ | 0 warnings ✓ | 1 note x
 
-0 errors ✓ | 0 warnings ✓ | 0 notes ✓
+* There was one Note:
+checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Tony Fujs <tonyfujs@gmail.com>'
 
-Online check seems fine as well
+## Test environments
 
-- rhub::check_on_windows()
-- rhub::check_on_linux()
-- rhub::check(platform = "windows-x86_64-release")
+- R-hub windows-x86_64-devel (r-devel)
+- R-hub ubuntu-gcc-release (r-release)
+- R-hub fedora-clang-devel (r-devel)
