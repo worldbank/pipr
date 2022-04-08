@@ -5,9 +5,9 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/PIP-Technical-Team/pipr/workflows/R-CMD-check/badge.svg)](https://github.com/PIP-Technical-Team/pipr/actions?workflow=R-CMD-check)
-[![test-coverage](https://github.com/PIP-Technical-Team/pipr/workflows/test-coverage/badge.svg)](https://github.com/PIP-Technical-Team/pipr/actions)
-[![pkgdown](https://github.com/PIP-Technical-Team/pipr/workflows/pkgdown/badge.svg)](https://github.com/PIP-Technical-Team/pipr/actions)
+[![R-CMD-check](https://github.com/worldbank/pipr/workflows/R-CMD-check/badge.svg)](https://github.com/worldbank/pipr/actions?workflow=R-CMD-check)
+[![test-coverage](https://github.com/worldbank/pipr/workflows/test-coverage/badge.svg)](https://github.com/worldbank/pipr/actions)
+[![pkgdown](https://github.com/worldbank/pipr/workflows/pkgdown/badge.svg)](https://github.com/worldbank/pipr/actions)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
@@ -23,7 +23,7 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("PIP-Technical-Team/pipr")
+devtools::install_github("worldbank/pipr")
 ```
 
 ## Example
