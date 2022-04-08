@@ -21,5 +21,7 @@ tibble or list
 Get available data versions.
 }
 \examples{
+\dontrun{
 get_versions()
+}
 }

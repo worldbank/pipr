@@ -8,6 +8,7 @@
 #' @return tibble or list
 #' @export
 #' @examples
+#' \dontrun{
 #' # Get list of tables
 #' x <- get_aux()
 #'
@@ -16,6 +17,7 @@
 #'
 #' # Get countries
 #' df <- get_aux("countries")
+#' }
 get_aux <- function(table = NULL, version = NULL, api_version = "v1",
                     format = c("rds", "json", "csv"),
                     simplify = TRUE, server = NULL) {
@@ -45,9 +47,10 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
 #' @rdname get_aux
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' # Short hand to get countries
 #' get_countries()
+#' }
 get_countries <- function(version = NULL, api_version = "v1",
                           format = c("rds", "json", "csv"),
                           server = NULL) {
@@ -61,9 +64,10 @@ get_countries <- function(version = NULL, api_version = "v1",
 #' @rdname get_aux
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' # Short hand to get regions
 #' get_regions()
+#' }
 get_regions <- function(version = NULL, api_version = "v1",
                         format = c("rds", "json", "csv"),
                         server = NULL) {
