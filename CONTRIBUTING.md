@@ -5,7 +5,7 @@ Development is a community effort, and we welcome participation.
 ## Issues
 
 * Before posting a new issue or discussion topic, please take a moment to search for existing similar threads in order to avoid duplication.
-* For bug reports: if you can, please install the latest GitHub version of `pipr` (i.e. `remotes::install_github("PIP-Technical-Team/pipr")`) and verify that the issue still persists.
+* For bug reports: if you can, please install the latest GitHub version of `pipr` (i.e. `remotes::install_github("worldbank/pipr")`) and verify that the issue still persists.
 * Describe your issue in prose as clearly and concisely as possible.
 * For any problem you identify, post a [minimal reproducible example](https://www.tidyverse.org/help/) so the maintainer can troubleshoot. A reproducible example is:
     * **Runnable**: post enough R code and data so any onlooker can create the error on their own computer.

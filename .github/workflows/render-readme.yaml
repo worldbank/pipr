@@ -3,7 +3,7 @@
 on:
   push:
     branches: [main]
-    
+
 name: render-readme
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
 
       - uses: r-lib/actions/setup-renv@v1
-      
+
       - name: Install rmarkdown
         run: Rscript -e 'install.packages("rmarkdown")'
 
@@ -30,14 +30,14 @@ jobs:
         run: Rscript -e 'install.packages("remotes")'
 
       - name: Install pipr
-        run: Rscript -e 'remotes::install_github("PIP-Technical-Team/pipr")'
-        
+        run: Rscript -e 'remotes::install_github("worldbank/pipr")'
+
       - name: Install dplyr
         run: Rscript -e 'install.packages("dplyr")'
 
       - name: Render README
         run: Rscript -e 'rmarkdown::render("README.Rmd", output_format = "md_document")'
-        
+
       - name: Commit results
         run: |
           git commit README.md -m 'Re-build README.Rmd' || echo "No changes to commit"

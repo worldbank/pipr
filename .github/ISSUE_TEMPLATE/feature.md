@@ -9,7 +9,7 @@ assignees: ''
 
 ## Prework
 
-* [ ] If there is [already a relevant issue](https://github.com/PIP-Technical-Team/pipr/issues), whether open or closed, comment on the existing thread instead of posting a new issue.
+* [ ] If there is [already a relevant issue](https://github.com/worldbank/pipr/issues), whether open or closed, comment on the existing thread instead of posting a new issue.
 * [ ] New features take time and effort to create, and they take even more effort to maintain. So if the purpose of the feature is to resolve a struggle you are encountering personally, please consider first posting a "question" or "other" issue so we can discuss your use case and search for existing solutions first.
 * [ ] Format your code according to the [tidyverse style guide](https://style.tidyverse.org/).
 

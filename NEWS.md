@@ -1,6 +1,6 @@
 # pipr 0.0.1
 
-* [CRAN release](https://github.com/PIP-Technical-Team/pipr/issues/18)
+* [CRAN release](https://github.com/worldbank/pipr/issues/18)
 
 # pipr 0.0.0.9000
 
