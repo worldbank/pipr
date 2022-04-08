@@ -3,7 +3,7 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   pipr: pipr.html
-last_built: 2022-04-04T08:51Z
+last_built: 2022-04-08T14:36Z
 urls:
   reference: https://pip-technical-team.github.io/pipr/reference
   article: https://pip-technical-team.github.io/pipr/articles
