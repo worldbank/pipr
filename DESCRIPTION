@@ -14,6 +14,10 @@ Authors@R:
             family = "Shah",
             role =  "aut",
             email = "shahronak47@yahoo.in"),
+      person(given = "R. Andrés",
+            family = "Castañeda",
+            role = "aut",
+            email = "acastanedaa@worldbank.org"),
      person(given = "World Bank",
             role = "cph")
      )
