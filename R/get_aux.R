@@ -47,9 +47,10 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
 #' @rdname get_aux
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' # Short hand to get countries
 #' get_countries()
+#' }
 get_countries <- function(version = NULL, api_version = "v1",
                           format = c("rds", "json", "csv"),
                           server = NULL) {
@@ -63,9 +64,10 @@ get_countries <- function(version = NULL, api_version = "v1",
 #' @rdname get_aux
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' # Short hand to get regions
 #' get_regions()
+#' }
 get_regions <- function(version = NULL, api_version = "v1",
                         format = c("rds", "json", "csv"),
                         server = NULL) {
