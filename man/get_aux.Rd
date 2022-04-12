@@ -4,6 +4,22 @@
 \alias{get_aux}
 \alias{get_countries}
 \alias{get_regions}
+\alias{get_country_coverage}
+\alias{get_cpi}
+\alias{get_decomposition}
+\alias{get_dictionary}
+\alias{get_framework}
+\alias{get_gdp}
+\alias{get_incgrp_coverage}
+\alias{get_indicators}
+\alias{get_interpolated_means}
+\alias{get_pce}
+\alias{get_pop}
+\alias{get_pop_region}
+\alias{get_poverty_lines}
+\alias{get_ppp}
+\alias{get_region_coverage}
+\alias{get_survey_means}
 \title{Get auxiliary data}
 \usage{
 get_aux(
@@ -23,6 +39,118 @@ get_countries(
 )
 
 get_regions(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_country_coverage(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_cpi(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_decomposition(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_dictionary(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_framework(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_gdp(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_incgrp_coverage(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_indicators(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_interpolated_means(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_pce(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_pop(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_pop_region(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_poverty_lines(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_ppp(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_region_coverage(
+  version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_survey_means(
   version = NULL,
   api_version = "v1",
   format = c("rds", "json", "csv"),
@@ -61,10 +189,76 @@ df <- get_aux("gdp")
 # Get countries
 df <- get_aux("countries")
 }
-
+\dontrun{
 # Short hand to get countries
 get_countries()
-
+}
+\dontrun{
 # Short hand to get regions
 get_regions()
+}
+\dontrun{
+# Short hand to get country coverage
+get_country_coverage()
+}
+\dontrun{
+# Short hand to get cpi
+get_cpi()
+}
+\dontrun{
+# Short hand to get decomposition
+get_decomposition()
+}
+\dontrun{
+# Short hand to get dictionary
+get_dictionary()
+}
+\dontrun{
+# Short hand to get framework
+get_framework()
+}
+\dontrun{
+# Short hand to get gdp
+get_gdp()
+}
+\dontrun{
+# Short hand to get incgrp_coverage
+get_incgrp_coverage()
+}
+\dontrun{
+# Short hand to get indicators
+get_indicators()
+}
+\dontrun{
+# Short hand to get interpolated_means
+get_interpolated_means()
+}
+\dontrun{
+# Short hand to get pce
+get_pce()
+}
+\dontrun{
+# Short hand to get pop
+get_pop()
+}
+\dontrun{
+# Short hand to get pop_region
+get_pop_region()
+}
+\dontrun{
+# Short hand to get poverty_lines
+get_poverty_lines()
+}
+\dontrun{
+# Short hand to get ppp
+get_ppp()
+}
+\dontrun{
+# Short hand to get region_coverage
+get_region_coverage()
+}
+\dontrun{
+# Short hand to get survey_means
+get_survey_means()
+}
 }

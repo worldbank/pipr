@@ -76,3 +76,267 @@ get_regions <- function(version = NULL, api_version = "v1",
     format = format, server = server
   )
 }
+
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get country coverage
+#' get_country_coverage()
+#' }
+get_country_coverage <- function(version = NULL, api_version = "v1",
+                        format = c("rds", "json", "csv"),
+                        server = NULL) {
+  get_aux("country_coverage",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get cpi
+#' get_cpi()
+#' }
+get_cpi <- function(version = NULL, api_version = "v1",
+                                 format = c("rds", "json", "csv"),
+                                 server = NULL) {
+  get_aux("cpi",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get decomposition
+#' get_decomposition()
+#' }
+get_decomposition <- function(version = NULL, api_version = "v1",
+                    format = c("rds", "json", "csv"),
+                    server = NULL) {
+  get_aux("decomposition",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get dictionary
+#' get_dictionary()
+#' }
+get_dictionary <- function(version = NULL, api_version = "v1",
+                              format = c("rds", "json", "csv"),
+                              server = NULL) {
+  get_aux("dictionary",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get framework
+#' get_framework()
+#' }
+get_framework <- function(version = NULL, api_version = "v1",
+                           format = c("rds", "json", "csv"),
+                           server = NULL) {
+  get_aux("framework",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get gdp
+#' get_gdp()
+#' }
+get_gdp <- function(version = NULL, api_version = "v1",
+                          format = c("rds", "json", "csv"),
+                          server = NULL) {
+  get_aux("gdp",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get incgrp_coverage
+#' get_incgrp_coverage()
+#' }
+get_incgrp_coverage <- function(version = NULL, api_version = "v1",
+                    format = c("rds", "json", "csv"),
+                    server = NULL) {
+  get_aux("incgrp_coverage",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get indicators
+#' get_indicators()
+#' }
+get_indicators <- function(version = NULL, api_version = "v1",
+                                format = c("rds", "json", "csv"),
+                                server = NULL) {
+  get_aux("indicators",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get interpolated_means
+#' get_interpolated_means()
+#' }
+get_interpolated_means <- function(version = NULL, api_version = "v1",
+                           format = c("rds", "json", "csv"),
+                           server = NULL) {
+  get_aux("interpolated_means",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get pce
+#' get_pce()
+#' }
+get_pce <- function(version = NULL, api_version = "v1",
+                                   format = c("rds", "json", "csv"),
+                                   server = NULL) {
+  get_aux("pce",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get pop
+#' get_pop()
+#' }
+get_pop <- function(version = NULL, api_version = "v1",
+                                   format = c("rds", "json", "csv"),
+                                   server = NULL) {
+  get_aux("pop",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get pop_region
+#' get_pop_region()
+#' }
+get_pop_region <- function(version = NULL, api_version = "v1",
+                    format = c("rds", "json", "csv"),
+                    server = NULL) {
+  get_aux("pop_region",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get poverty_lines
+#' get_poverty_lines()
+#' }
+get_poverty_lines <- function(version = NULL, api_version = "v1",
+                           format = c("rds", "json", "csv"),
+                           server = NULL) {
+  get_aux("poverty_lines",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get ppp
+#' get_ppp()
+#' }
+get_ppp <- function(version = NULL, api_version = "v1",
+                              format = c("rds", "json", "csv"),
+                              server = NULL) {
+  get_aux("ppp",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get region_coverage
+#' get_region_coverage()
+#' }
+get_region_coverage <- function(version = NULL, api_version = "v1",
+                    format = c("rds", "json", "csv"),
+                    server = NULL) {
+  get_aux("region_coverage",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
+
+
+#' @rdname get_aux
+#' @export
+#' @examples
+#' \dontrun{
+#' # Short hand to get survey_means
+#' get_survey_means()
+#' }
+get_survey_means <- function(version = NULL, api_version = "v1",
+                                format = c("rds", "json", "csv"),
+                                server = NULL) {
+  get_aux("survey_means",
+          version = version, api_version = api_version,
+          format = format, server = server
+  )
+}
