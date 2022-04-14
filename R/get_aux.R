@@ -228,14 +228,17 @@ get_interpolated_means <- function(version = NULL, api_version = "v1",
   )
 }
 
-#' @rdname get_aux
+#' get_hfce
+#'
+#' @description Returns a table of Household Final Consumption Expenditure (HFCE) values
+#' used for poverty and inequality computations
 #' @export
 #' @examples
 #' \dontrun{
-#' # Short hand to get pce
-#' get_pce()
+#' # Short hand to get hfce
+#' get_hfce()
 #' }
-get_pce <- function(version = NULL, api_version = "v1",
+get_hfce <- function(version = NULL, api_version = "v1",
                                    format = c("rds", "json", "csv"),
                                    server = NULL) {
   get_aux("pce",

@@ -13,7 +13,6 @@
 \alias{get_incgrp_coverage}
 \alias{get_indicators}
 \alias{get_interpolated_means}
-\alias{get_pce}
 \alias{get_pop}
 \alias{get_pop_region}
 \alias{get_poverty_lines}
@@ -102,13 +101,6 @@ get_indicators(
 )
 
 get_interpolated_means(
-  version = NULL,
-  api_version = "v1",
-  format = c("rds", "json", "csv"),
-  server = NULL
-)
-
-get_pce(
   version = NULL,
   api_version = "v1",
   format = c("rds", "json", "csv"),
@@ -232,10 +224,6 @@ get_indicators()
 \dontrun{
 # Short hand to get interpolated_means
 get_interpolated_means()
-}
-\dontrun{
-# Short hand to get pce
-get_pce()
 }
 \dontrun{
 # Short hand to get pop
