@@ -44,7 +44,9 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
   }
 }
 
-#' @rdname get_aux
+#' get_countries
+#' @description Returns a table countries with their full names, ISO codes, and
+#' associated region code
 #' @export
 #' @examples
 #' \dontrun{
@@ -61,7 +63,9 @@ get_countries <- function(version = NULL, api_version = "v1",
 }
 
 
-#' @rdname get_aux
+#' get_regions
+#' @description Returns a table regional grouping used for computing aggregate
+#' poverty statistics.
 #' @export
 #' @examples
 #' \dontrun{
@@ -78,24 +82,10 @@ get_regions <- function(version = NULL, api_version = "v1",
 }
 
 
-#' @rdname get_aux
-#' @export
-#' @examples
-#' \dontrun{
-#' # Short hand to get country coverage
-#' get_country_coverage()
-#' }
-get_country_coverage <- function(version = NULL, api_version = "v1",
-                        format = c("rds", "json", "csv"),
-                        server = NULL) {
-  get_aux("country_coverage",
-          version = version, api_version = api_version,
-          format = format, server = server
-  )
-}
-
-
-#' @rdname get_aux
+#' get_cpi()
+#' @description Returns a table of Consumer Price Index (CPI) values used for
+#' poverty and inequality computations.
+#' statistics
 #' @export
 #' @examples
 #' \dontrun{
@@ -112,24 +102,9 @@ get_cpi <- function(version = NULL, api_version = "v1",
 }
 
 
-#' @rdname get_aux
-#' @export
-#' @examples
-#' \dontrun{
-#' # Short hand to get decomposition
-#' get_decomposition()
-#' }
-get_decomposition <- function(version = NULL, api_version = "v1",
-                    format = c("rds", "json", "csv"),
-                    server = NULL) {
-  get_aux("decomposition",
-          version = version, api_version = api_version,
-          format = format, server = server
-  )
-}
-
-
-#' @rdname get_aux
+#' get_dictionary
+#' @description Returns a data dictionary with a description of all variables
+#' available through the PIP API.
 #' @export
 #' @examples
 #' \dontrun{
@@ -146,24 +121,10 @@ get_dictionary <- function(version = NULL, api_version = "v1",
 }
 
 
-#' @rdname get_aux
-#' @export
-#' @examples
-#' \dontrun{
-#' # Short hand to get framework
-#' get_framework()
-#' }
-get_framework <- function(version = NULL, api_version = "v1",
-                           format = c("rds", "json", "csv"),
-                           server = NULL) {
-  get_aux("framework",
-          version = version, api_version = api_version,
-          format = format, server = server
-  )
-}
-
-
-#' @rdname get_aux
+#' get_gdp()
+#' @description Returns a table of Growth Domestic Product (GDP) values used for
+#' poverty and inequality
+#' statistics
 #' @export
 #' @examples
 #' \dontrun{
@@ -180,7 +141,10 @@ get_gdp <- function(version = NULL, api_version = "v1",
 }
 
 
-#' @rdname get_aux
+#' get_incgrp_coverage
+#' @description Returns a table of survey coverage for low and lower-middle
+#' income countries. If this coverage is less than 50%, World level aggregate
+#' statistics will not be computed.
 #' @export
 #' @examples
 #' \dontrun{
@@ -196,23 +160,13 @@ get_incgrp_coverage <- function(version = NULL, api_version = "v1",
   )
 }
 
-#' @rdname get_aux
-#' @export
-#' @examples
-#' \dontrun{
-#' # Short hand to get indicators
-#' get_indicators()
-#' }
-get_indicators <- function(version = NULL, api_version = "v1",
-                                format = c("rds", "json", "csv"),
-                                server = NULL) {
-  get_aux("indicators",
-          version = version, api_version = api_version,
-          format = format, server = server
-  )
-}
 
-#' @rdname get_aux
+#' get_interpolated_means
+#' @description Returns a table of key information and statistics for all years
+#' for which poverty and inequality statistics are either available (household
+#' survey exists) or extra- / interpolated.
+#' Please see \code{\link{get_dictionary}} for more information about
+#' each variable available in this table.
 #' @export
 #' @examples
 #' \dontrun{
@@ -247,7 +201,9 @@ get_hfce <- function(version = NULL, api_version = "v1",
   )
 }
 
-#' @rdname get_aux
+#' get_pop
+#' @description Returns a table of population values used for poverty and
+#' inequality computations.
 #' @export
 #' @examples
 #' \dontrun{
@@ -263,7 +219,9 @@ get_pop <- function(version = NULL, api_version = "v1",
   )
 }
 
-#' @rdname get_aux
+#' get_pop_region
+#' @description Returns a table of total population by region-year. These values
+#' are used for the computation of regional aggregate poverty statistics.
 #' @export
 #' @examples
 #' \dontrun{
@@ -280,7 +238,9 @@ get_pop_region <- function(version = NULL, api_version = "v1",
 }
 
 
-#' @rdname get_aux
+#' get_ppp
+#' @description Returns a table of Purchasing Power Parity (PPP) values
+#' used for poverty and inequality computations.
 #' @export
 #' @examples
 #' \dontrun{
@@ -296,7 +256,9 @@ get_ppp <- function(version = NULL, api_version = "v1",
   )
 }
 
-#' @rdname get_aux
+#' get_region_coverage
+#' @description Return a table of regional survey coverage: Percentage of
+#' available surveys for a specific region-year.
 #' @export
 #' @examples
 #' \dontrun{
@@ -313,7 +275,10 @@ get_region_coverage <- function(version = NULL, api_version = "v1",
 }
 
 
-#' @rdname get_aux
+#' get_survey_means
+#' @description Returns a table of all available surveys and associated key
+#' statistics. Please see \code{\link{get_dictionary}} for more information about
+#' each variable available in this table.
 #' @export
 #' @examples
 #' \dontrun{
