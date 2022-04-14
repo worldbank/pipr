@@ -279,21 +279,6 @@ get_pop_region <- function(version = NULL, api_version = "v1",
   )
 }
 
-#' @rdname get_aux
-#' @export
-#' @examples
-#' \dontrun{
-#' # Short hand to get poverty_lines
-#' get_poverty_lines()
-#' }
-get_poverty_lines <- function(version = NULL, api_version = "v1",
-                           format = c("rds", "json", "csv"),
-                           server = NULL) {
-  get_aux("poverty_lines",
-          version = version, api_version = api_version,
-          format = format, server = server
-  )
-}
 
 #' @rdname get_aux
 #' @export

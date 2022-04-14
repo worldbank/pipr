@@ -15,7 +15,6 @@
 \alias{get_interpolated_means}
 \alias{get_pop}
 \alias{get_pop_region}
-\alias{get_poverty_lines}
 \alias{get_ppp}
 \alias{get_region_coverage}
 \alias{get_survey_means}
@@ -115,13 +114,6 @@ get_pop(
 )
 
 get_pop_region(
-  version = NULL,
-  api_version = "v1",
-  format = c("rds", "json", "csv"),
-  server = NULL
-)
-
-get_poverty_lines(
   version = NULL,
   api_version = "v1",
   format = c("rds", "json", "csv"),
@@ -232,10 +224,6 @@ get_pop()
 \dontrun{
 # Short hand to get pop_region
 get_pop_region()
-}
-\dontrun{
-# Short hand to get poverty_lines
-get_poverty_lines()
 }
 \dontrun{
 # Short hand to get ppp
