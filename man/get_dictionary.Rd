@@ -11,6 +11,15 @@ get_dictionary(
   server = NULL
 )
 }
+\arguments{
+\item{version}{character: Data version. See \code{get_versions()}}
+
+\item{api_version}{character: API version}
+
+\item{format}{character: Response format}
+
+\item{server}{character: Server. For WB internal use only}
+}
 \description{
 Returns a data dictionary with a description of all variables
 available through the PIP API.

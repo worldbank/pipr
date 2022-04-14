@@ -47,6 +47,7 @@ get_aux <- function(table = NULL, version = NULL, api_version = "v1",
 #' get_countries
 #' @description Returns a table countries with their full names, ISO codes, and
 #' associated region code
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -66,6 +67,7 @@ get_countries <- function(version = NULL, api_version = "v1",
 #' get_regions
 #' @description Returns a table regional grouping used for computing aggregate
 #' poverty statistics.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -86,6 +88,7 @@ get_regions <- function(version = NULL, api_version = "v1",
 #' @description Returns a table of Consumer Price Index (CPI) values used for
 #' poverty and inequality computations.
 #' statistics
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -105,6 +108,7 @@ get_cpi <- function(version = NULL, api_version = "v1",
 #' get_dictionary
 #' @description Returns a data dictionary with a description of all variables
 #' available through the PIP API.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -123,8 +127,8 @@ get_dictionary <- function(version = NULL, api_version = "v1",
 
 #' get_gdp()
 #' @description Returns a table of Growth Domestic Product (GDP) values used for
-#' poverty and inequality
-#' statistics
+#' poverty and inequality statistics.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -145,6 +149,7 @@ get_gdp <- function(version = NULL, api_version = "v1",
 #' @description Returns a table of survey coverage for low and lower-middle
 #' income countries. If this coverage is less than 50%, World level aggregate
 #' statistics will not be computed.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -167,6 +172,7 @@ get_incgrp_coverage <- function(version = NULL, api_version = "v1",
 #' survey exists) or extra- / interpolated.
 #' Please see \code{\link{get_dictionary}} for more information about
 #' each variable available in this table.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -185,7 +191,8 @@ get_interpolated_means <- function(version = NULL, api_version = "v1",
 #' get_hfce
 #'
 #' @description Returns a table of Household Final Consumption Expenditure (HFCE) values
-#' used for poverty and inequality computations
+#' used for poverty and inequality computations.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -204,6 +211,7 @@ get_hfce <- function(version = NULL, api_version = "v1",
 #' get_pop
 #' @description Returns a table of population values used for poverty and
 #' inequality computations.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -222,6 +230,7 @@ get_pop <- function(version = NULL, api_version = "v1",
 #' get_pop_region
 #' @description Returns a table of total population by region-year. These values
 #' are used for the computation of regional aggregate poverty statistics.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -241,6 +250,7 @@ get_pop_region <- function(version = NULL, api_version = "v1",
 #' get_ppp
 #' @description Returns a table of Purchasing Power Parity (PPP) values
 #' used for poverty and inequality computations.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -259,6 +269,7 @@ get_ppp <- function(version = NULL, api_version = "v1",
 #' get_region_coverage
 #' @description Return a table of regional survey coverage: Percentage of
 #' available surveys for a specific region-year.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{
@@ -279,6 +290,7 @@ get_region_coverage <- function(version = NULL, api_version = "v1",
 #' @description Returns a table of all available surveys and associated key
 #' statistics. Please see \code{\link{get_dictionary}} for more information about
 #' each variable available in this table.
+#' @inheritParams get_aux
 #' @export
 #' @examples
 #' \dontrun{

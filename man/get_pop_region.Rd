@@ -11,6 +11,15 @@ get_pop_region(
   server = NULL
 )
 }
+\arguments{
+\item{version}{character: Data version. See \code{get_versions()}}
+
+\item{api_version}{character: API version}
+
+\item{format}{character: Response format}
+
+\item{server}{character: Server. For WB internal use only}
+}
 \description{
 Returns a table of total population by region-year. These values
 are used for the computation of regional aggregate poverty statistics.

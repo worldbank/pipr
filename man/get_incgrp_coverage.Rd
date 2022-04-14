@@ -11,6 +11,15 @@ get_incgrp_coverage(
   server = NULL
 )
 }
+\arguments{
+\item{version}{character: Data version. See \code{get_versions()}}
+
+\item{api_version}{character: API version}
+
+\item{format}{character: Response format}
+
+\item{server}{character: Server. For WB internal use only}
+}
 \description{
 Returns a table of survey coverage for low and lower-middle
 income countries. If this coverage is less than 50\%, World level aggregate

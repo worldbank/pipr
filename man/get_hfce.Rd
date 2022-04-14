@@ -11,9 +11,18 @@ get_hfce(
   server = NULL
 )
 }
+\arguments{
+\item{version}{character: Data version. See \code{get_versions()}}
+
+\item{api_version}{character: API version}
+
+\item{format}{character: Response format}
+
+\item{server}{character: Server. For WB internal use only}
+}
 \description{
 Returns a table of Household Final Consumption Expenditure (HFCE) values
-used for poverty and inequality computations
+used for poverty and inequality computations.
 }
 \examples{
 \dontrun{

@@ -11,6 +11,15 @@ get_countries(
   server = NULL
 )
 }
+\arguments{
+\item{version}{character: Data version. See \code{get_versions()}}
+
+\item{api_version}{character: API version}
+
+\item{format}{character: Response format}
+
+\item{server}{character: Server. For WB internal use only}
+}
 \description{
 Returns a table countries with their full names, ISO codes, and
 associated region code

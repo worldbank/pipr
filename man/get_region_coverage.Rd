@@ -11,6 +11,15 @@ get_region_coverage(
   server = NULL
 )
 }
+\arguments{
+\item{version}{character: Data version. See \code{get_versions()}}
+
+\item{api_version}{character: API version}
+
+\item{format}{character: Response format}
+
+\item{server}{character: Server. For WB internal use only}
+}
 \description{
 Return a table of regional survey coverage: Percentage of
 available surveys for a specific region-year.
