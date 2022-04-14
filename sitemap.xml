@@ -34,10 +34,49 @@
     <loc>https://worldbank.github.io/pipr/reference/get_aux.html</loc>
   </url>
   <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_countries.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_cpi.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_dictionary.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_gdp.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_hfce.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_incgrp_coverage.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_interpolated_means.html</loc>
+  </url>
+  <url>
     <loc>https://worldbank.github.io/pipr/reference/get_pip_info.html</loc>
   </url>
   <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_pop.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_pop_region.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_ppp.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_region_coverage.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_regions.html</loc>
+  </url>
+  <url>
     <loc>https://worldbank.github.io/pipr/reference/get_stats.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/get_survey_means.html</loc>
   </url>
   <url>
     <loc>https://worldbank.github.io/pipr/reference/get_versions.html</loc>

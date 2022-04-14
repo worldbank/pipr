@@ -65,20 +65,6 @@ inputs will be returned.</p>
   format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span>, <span class="st">"csv"</span><span class="op">)</span>,
   simplify <span class="op">=</span> <span class="cn">TRUE</span>,
   server <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span>
-
-<span class="fu">get_countries</span><span class="op">(</span>
-  version <span class="op">=</span> <span class="cn">NULL</span>,
-  api_version <span class="op">=</span> <span class="st">"v1"</span>,
-  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span>, <span class="st">"csv"</span><span class="op">)</span>,
-  server <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span>
-
-<span class="fu">get_regions</span><span class="op">(</span>
-  version <span class="op">=</span> <span class="cn">NULL</span>,
-  api_version <span class="op">=</span> <span class="st">"v1"</span>,
-  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span>, <span class="st">"csv"</span><span class="op">)</span>,
-  server <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -115,37 +101,6 @@ inputs will be returned.</p>
 <span class="r-in"><span class="co"># Get countries</span></span>
 <span class="r-in"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">get_aux</span><span class="op">(</span><span class="st">"countries"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Short hand to get countries</span></span>
-<span class="r-in"><span class="fu">get_countries</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 169 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    region_code country_code country_name         income_group        iso2_code</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> SSA         AGO          Angola               Lower middle income AO       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ECA         ALB          Albania              Upper middle income AL       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> OHI         ARE          United Arab Emirates High income         AE       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> LAC         ARG          Argentina            Upper middle income AR       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> ECA         ARM          Armenia              Upper middle income AM       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> OHI         AUS          Australia            High income         AU       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> OHI         AUT          Austria              High income         AT       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> ECA         AZE          Azerbaijan           Upper middle income AZ       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> SSA         BDI          Burundi              Low income          BI       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> OHI         BEL          Belgium              High income         BE       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 159 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Short hand to get regions</span></span>
-<span class="r-in"><span class="fu">get_regions</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   region_code region                          grouping_type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> OHI         Other high Income               WB           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> SAS         South Asia                      WB           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> SSA         Sub-Saharan Africa              WB           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> ECA         Europe and Central Asia         WB           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> LAC         Latin America and the Caribbean WB           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> EAP         East Asia and Pacific           WB           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> MNA         Middle East and North Africa    WB           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> WLD         World                           WB           </span>
 </code></pre></div>
     </div>
   </div>
