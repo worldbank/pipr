@@ -32,7 +32,7 @@ get_wb(
 )
 }
 \arguments{
-\item{country}{character: A vector with one or more country ISO 3 codes or
+\item{country}{character: A vector with one or more \href{https://wits.worldbank.org/wits/wits/witshelp/content/codes/country_codes.htm}{country ISO 3 codes} or
 'all'}
 
 \item{year}{integer: A vector with one or more years or 'all'}
@@ -48,15 +48,15 @@ missing years}
 \item{subgroup}{character: If used result will be aggregated for predefined
 sub-groups. Either 'wb_regions' or 'none'.}
 
-\item{welfare_type}{character: Welfare type}
+\item{welfare_type}{character: Welfare type either of c("all", "income", "consumption")}
 
-\item{reporting_level}{character: Geographical reporting level}
+\item{reporting_level}{character: Geographical reporting level either of c("all", "national", "urban", "rural")}
 
 \item{version}{character: Data version. See \code{get_versions()}}
 
 \item{api_version}{character: API version}
 
-\item{format}{character: Response format}
+\item{format}{character: Response format either of c("rds", "json", "csv")}
 
 \item{simplify}{logical: If TRUE (the default) the response is returned as a
 \code{tibble}}

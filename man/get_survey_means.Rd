@@ -16,7 +16,7 @@ get_survey_means(
 
 \item{api_version}{character: API version}
 
-\item{format}{character: Response format}
+\item{format}{character: Response format either of c("rds", "json", "csv")}
 
 \item{server}{character: Server. For WB internal use only}
 }
