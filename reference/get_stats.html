@@ -86,7 +86,7 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>country</dt>
-<dd><p>character: A vector with one or more country ISO 3 codes or
+<dd><p>character: A vector with one or more <a href="https://wits.worldbank.org/wits/wits/witshelp/content/codes/country_codes.htm" class="external-link">country ISO 3 codes</a> or
 'all'</p></dd>
 <dt>year</dt>
 <dd><p>integer: A vector with one or more years or 'all'</p></dd>
@@ -102,15 +102,15 @@ missing years</p></dd>
 <dd><p>character: If used result will be aggregated for predefined
 sub-groups. Either 'wb_regions' or 'none'.</p></dd>
 <dt>welfare_type</dt>
-<dd><p>character: Welfare type</p></dd>
+<dd><p>character: Welfare type either of c("all", "income", "consumption")</p></dd>
 <dt>reporting_level</dt>
-<dd><p>character: Geographical reporting level</p></dd>
+<dd><p>character: Geographical reporting level either of c("all", "national", "urban", "rural")</p></dd>
 <dt>version</dt>
 <dd><p>character: Data version. See <code><a href="get_versions.html">get_versions()</a></code></p></dd>
 <dt>api_version</dt>
 <dd><p>character: API version</p></dd>
 <dt>format</dt>
-<dd><p>character: Response format</p></dd>
+<dd><p>character: Response format either of c("rds", "json", "csv")</p></dd>
 <dt>simplify</dt>
 <dd><p>logical: If TRUE (the default) the response is returned as a
 <code>tibble</code></p></dd>
@@ -166,7 +166,7 @@ sub-groups. Either 'wb_regions' or 'none'.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
