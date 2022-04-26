@@ -1,6 +1,6 @@
 #' Get poverty and inequality statistics
 #'
-#' @param country character: A vector with one or more country ISO 3 codes or
+#' @param country character: A vector with one or more \href{https://wits.worldbank.org/wits/wits/witshelp/content/codes/country_codes.htm}{country ISO 3 codes} or
 #'   'all'
 #' @param year integer: A vector with one or more years or 'all'
 #' @param povline numeric: Poverty line
@@ -10,11 +10,11 @@
 #'   missing years
 #' @param subgroup character: If used result will be aggregated for predefined
 #'   sub-groups. Either 'wb_regions' or 'none'.
-#' @param welfare_type character: Welfare type
-#' @param reporting_level character: Geographical reporting level
+#' @param welfare_type character: Welfare type either of c("all", "income", "consumption")
+#' @param reporting_level character: Geographical reporting level either of c("all", "national", "urban", "rural")
 #' @param version character: Data version. See `get_versions()`
 #' @param api_version character: API version
-#' @param format character: Response format
+#' @param format character: Response format either of c("rds", "json", "csv")
 #' @param simplify logical: If TRUE (the default) the response is returned as a
 #'   `tibble`
 #' @param server character: Server. For WB internal use only
@@ -64,7 +64,6 @@ get_stats <- function(country = "all",
                       format = c("rds", "json", "csv"),
                       simplify = TRUE,
                       server = NULL) {
-  # browser()
   # Match args
   welfare_type <- match.arg(welfare_type)
   reporting_level <- match.arg(reporting_level)
