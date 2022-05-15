@@ -13,7 +13,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# pipr
+<a href = "https://worldbank.github.io/pipr"><img src = 'man/figures/World-Bank-logo.jpeg' style="height:200px;"/></a>
+
+# pipr <a href='https://worldbank.github.io/pipr/index.html'><img src='man/figures/baseplot.png' align="right" style="float:right; height:200px;"/></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/worldbank/pipr/workflows/R-CMD-check/badge.svg)](https://github.com/worldbank/pipr/actions?workflow=R-CMD-check)

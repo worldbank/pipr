@@ -1,1 +1,5 @@
 url: https://worldbank.github.io/pipr
+
+template:
+  bootstrap: 5
+  bootswatch: pulse
