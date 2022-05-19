@@ -3,7 +3,7 @@ pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   pipr: pipr.html
-last_built: 2022-04-26T08:46Z
+last_built: 2022-05-19T06:38Z
 urls:
   reference: https://worldbank.github.io/pipr/reference
   article: https://worldbank.github.io/pipr/articles
