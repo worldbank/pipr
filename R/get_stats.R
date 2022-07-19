@@ -93,11 +93,16 @@ get_stats <- function(country = "all",
 
   # Build query string
   args <- build_args(
-    country = country, year = year, povline = povline,
-    fill_gaps = fill_gaps, group_by = group_by,
+    country = country,
+    year = year,
+    povline = povline,
+    popshare = popshare,
+    fill_gaps = fill_gaps,
+    group_by = group_by,
     welfare_type = welfare_type,
     reporting_level = reporting_level,
-    version = version, format = format
+    version = version,
+    format = format
   )
   u <- build_url(server, endpoint, api_version)
 
