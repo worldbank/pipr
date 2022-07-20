@@ -42,6 +42,9 @@ test_that("get_stats() works w/ fill_gaps = TRUE", {
 test_that("get_stats() works w/ popshare option", {
   df <- get_stats("AGO", year = "all", popshare = .5)
   expect_gte(nrow(df), 3)
+  #Ensure there are different values for headcount generated
+  #to confirm popshare is being passed to get_stats() function.
+  expect_gte(length(unique(df$headcount)), 1)
 })
 
 test_that("get_stats() works w/ subgroup = 'wb_regions'", {
