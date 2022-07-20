@@ -18,7 +18,7 @@ used for poverty and inequality computations."><!-- mathjax --><script src="http
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
       </span>
     </div>
 
@@ -58,32 +58,39 @@ used for poverty and inequality computations.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_ppp</span><span class="op">(</span>
-  version <span class="op">=</span> <span class="cn">NULL</span>,
-  api_version <span class="op">=</span> <span class="st">"v1"</span>,
-  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span>, <span class="st">"csv"</span><span class="op">)</span>,
-  server <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_ppp</span><span class="op">(</span></span>
+<span>  version <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  api_version <span class="op">=</span> <span class="st">"v1"</span>,</span>
+<span>  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span>, <span class="st">"csv"</span><span class="op">)</span>,</span>
+<span>  server <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>version</dt>
 <dd><p>character: Data version. See <code><a href="get_versions.html">get_versions()</a></code></p></dd>
+
+
 <dt>api_version</dt>
 <dd><p>character: API version</p></dd>
+
+
 <dt>format</dt>
 <dd><p>character: Response format either of c("rds", "json", "csv")</p></dd>
+
+
 <dt>server</dt>
 <dd><p>character: Server. For WB internal use only</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Short hand to get ppp</span></span>
-<span class="r-in"><span class="fu">get_ppp</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Short hand to get ppp</span></span></span>
+<span class="r-in"><span><span class="fu">get_ppp</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -98,7 +105,7 @@ used for poverty and inequality computations.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

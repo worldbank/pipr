@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
       </span>
     </div>
 
@@ -80,61 +80,61 @@
 </h2>
 <p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"worldbank/pipr"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"worldbank/pipr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>This is a basic example that shows how to retrieve some key poverty and inequity statistics.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/worldbank/pipr" class="external-link">pipr</a></span><span class="op">)</span>
-
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span><span class="op">)</span>
-<span class="fu">glimpse</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 14</span>
-<span class="co">#&gt; Columns: 40</span>
-<span class="co">#&gt; $ region_name          &lt;chr&gt; "Europe and Central Asia", "Europe and Central As…</span>
-<span class="co">#&gt; $ region_code          &lt;chr&gt; "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", …</span>
-<span class="co">#&gt; $ country_name         &lt;chr&gt; "Albania", "Albania", "Albania", "Albania", "Alba…</span>
-<span class="co">#&gt; $ country_code         &lt;chr&gt; "ALB", "ALB", "ALB", "ALB", "ALB", "ALB", "ALB", …</span>
-<span class="co">#&gt; $ year                 &lt;dbl&gt; 1996, 2002, 2005, 2008, 2012, 2014, 2015, 2016, 2…</span>
-<span class="co">#&gt; $ reporting_level      &lt;chr&gt; "national", "national", "national", "national", "…</span>
-<span class="co">#&gt; $ survey_acronym       &lt;chr&gt; "EWS", "LSMS", "LSMS", "LSMS", "LSMS", "HBS", "HB…</span>
-<span class="co">#&gt; $ survey_coverage      &lt;chr&gt; "national", "national", "national", "national", "…</span>
-<span class="co">#&gt; $ welfare_time         &lt;dbl&gt; 1996, 2002, 2005, 2008, 2012, 2014, 2015, 2016, 2…</span>
-<span class="co">#&gt; $ welfare_type         &lt;chr&gt; "consumption", "consumption", "consumption", "con…</span>
-<span class="co">#&gt; $ survey_comparability &lt;dbl&gt; 0, 1, 1, 1, 1, 2, 2, 2, 4, 2, 4, 3, 4, 3</span>
-<span class="co">#&gt; $ comparable_spell     &lt;chr&gt; "1996", "2002 - 2012", "2002 - 2012", "2002 - 201…</span>
-<span class="co">#&gt; $ poverty_line         &lt;dbl&gt; 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9,…</span>
-<span class="co">#&gt; $ headcount            &lt;dbl&gt; 0.009206690, 0.015708434, 0.008605271, 0.00313649…</span>
-<span class="co">#&gt; $ poverty_gap          &lt;dbl&gt; 1.400507e-03, 2.617611e-03, 1.313255e-03, 5.12411…</span>
-<span class="co">#&gt; $ poverty_severity     &lt;dbl&gt; 4.111228e-04, 7.940742e-04, 3.348323e-04, 1.31118…</span>
-<span class="co">#&gt; $ watts                &lt;dbl&gt; 0.0016976386, 0.0032506353, 0.0015296081, 0.00059…</span>
-<span class="co">#&gt; $ mean                 &lt;dbl&gt; 6.570821, 6.715828, 7.591930, 8.314345, 7.882867,…</span>
-<span class="co">#&gt; $ median               &lt;dbl&gt; 5.774805, 5.539607, 6.460357, 6.957659, 6.825289,…</span>
-<span class="co">#&gt; $ mld                  &lt;dbl&gt; 0.1191043, 0.1648116, 0.1544128, 0.1488934, 0.138…</span>
-<span class="co">#&gt; $ gini                 &lt;dbl&gt; 0.2701034, 0.3173898, 0.3059566, 0.2998467, 0.289…</span>
-<span class="co">#&gt; $ polarization         &lt;dbl&gt; 0.2412933, 0.2689816, 0.2545287, 0.2473111, 0.249…</span>
-<span class="co">#&gt; $ decile1              &lt;dbl&gt; 0.03863286, 0.03494002, 0.03482536, 0.03733625, 0…</span>
-<span class="co">#&gt; $ decile2              &lt;dbl&gt; 0.05289347, 0.04859444, 0.04920109, 0.05136781, 0…</span>
-<span class="co">#&gt; $ decile3              &lt;dbl&gt; 0.06378683, 0.05842059, 0.05977283, 0.06088472, 0…</span>
-<span class="co">#&gt; $ decile4              &lt;dbl&gt; 0.07322042, 0.06738204, 0.06921183, 0.06983584, 0…</span>
-<span class="co">#&gt; $ decile5              &lt;dbl&gt; 0.08379662, 0.07653102, 0.07988158, 0.07912079, 0…</span>
-<span class="co">#&gt; $ decile6              &lt;dbl&gt; 0.09354903, 0.08839459, 0.09037069, 0.08924133, 0…</span>
-<span class="co">#&gt; $ decile7              &lt;dbl&gt; 0.1082309, 0.1022859, 0.1037214, 0.1029873, 0.105…</span>
-<span class="co">#&gt; $ decile8              &lt;dbl&gt; 0.1247387, 0.1198443, 0.1212641, 0.1192908, 0.122…</span>
-<span class="co">#&gt; $ decile9              &lt;dbl&gt; 0.1489955, 0.1492508, 0.1483394, 0.1453520, 0.148…</span>
-<span class="co">#&gt; $ decile10             &lt;dbl&gt; 0.2121557, 0.2543564, 0.2434117, 0.2445831, 0.229…</span>
-<span class="co">#&gt; $ cpi                  &lt;dbl&gt; 0.4445725, 0.7805330, 0.8387371, 0.9123323, 1.020…</span>
-<span class="co">#&gt; $ ppp                  &lt;dbl&gt; 54.65258, 54.65258, 54.65258, 54.65258, 54.65258,…</span>
-<span class="co">#&gt; $ pop                  &lt;dbl&gt; 3168033, 3051010, 3011487, 2947314, 2900401, 2889…</span>
-<span class="co">#&gt; $ gdp                  &lt;dbl&gt; 1633.552, 2247.497, 2675.508, 3298.478, 3736.339,…</span>
-<span class="co">#&gt; $ hfce                 &lt;dbl&gt; 1714.813, 1685.368, 2079.244, 2819.736, 2989.866,…</span>
-<span class="co">#&gt; $ is_interpolated      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …</span>
-<span class="co">#&gt; $ distribution_type    &lt;chr&gt; "micro", "micro", "micro", "micro", "micro", "mic…</span>
-<span class="co">#&gt; $ estimation_type      &lt;chr&gt; "survey", "survey", "survey", "survey", "survey",…</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/worldbank/pipr" class="external-link">pipr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span><span class="op">)</span></span>
+<span><span class="fu">glimpse</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 14</span></span>
+<span><span class="co">#&gt; Columns: 40</span></span>
+<span><span class="co">#&gt; $ region_name          &lt;chr&gt; "Europe and Central Asia", "Europe and Central As…</span></span>
+<span><span class="co">#&gt; $ region_code          &lt;chr&gt; "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", …</span></span>
+<span><span class="co">#&gt; $ country_name         &lt;chr&gt; "Albania", "Albania", "Albania", "Albania", "Alba…</span></span>
+<span><span class="co">#&gt; $ country_code         &lt;chr&gt; "ALB", "ALB", "ALB", "ALB", "ALB", "ALB", "ALB", …</span></span>
+<span><span class="co">#&gt; $ year                 &lt;dbl&gt; 1996, 2002, 2005, 2008, 2012, 2014, 2015, 2016, 2…</span></span>
+<span><span class="co">#&gt; $ reporting_level      &lt;chr&gt; "national", "national", "national", "national", "…</span></span>
+<span><span class="co">#&gt; $ survey_acronym       &lt;chr&gt; "EWS", "LSMS", "LSMS", "LSMS", "LSMS", "HBS", "HB…</span></span>
+<span><span class="co">#&gt; $ survey_coverage      &lt;chr&gt; "national", "national", "national", "national", "…</span></span>
+<span><span class="co">#&gt; $ welfare_time         &lt;dbl&gt; 1996, 2002, 2005, 2008, 2012, 2014, 2015, 2016, 2…</span></span>
+<span><span class="co">#&gt; $ welfare_type         &lt;chr&gt; "consumption", "consumption", "consumption", "con…</span></span>
+<span><span class="co">#&gt; $ survey_comparability &lt;dbl&gt; 0, 1, 1, 1, 1, 2, 2, 2, 4, 2, 4, 3, 4, 3</span></span>
+<span><span class="co">#&gt; $ comparable_spell     &lt;chr&gt; "1996", "2002 - 2012", "2002 - 2012", "2002 - 201…</span></span>
+<span><span class="co">#&gt; $ poverty_line         &lt;dbl&gt; 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9,…</span></span>
+<span><span class="co">#&gt; $ headcount            &lt;dbl&gt; 0.009206690, 0.015708434, 0.008605271, 0.00313649…</span></span>
+<span><span class="co">#&gt; $ poverty_gap          &lt;dbl&gt; 1.400507e-03, 2.617611e-03, 1.313255e-03, 5.12411…</span></span>
+<span><span class="co">#&gt; $ poverty_severity     &lt;dbl&gt; 4.111228e-04, 7.940742e-04, 3.348323e-04, 1.31118…</span></span>
+<span><span class="co">#&gt; $ watts                &lt;dbl&gt; 0.0016976386, 0.0032506353, 0.0015296081, 0.00059…</span></span>
+<span><span class="co">#&gt; $ mean                 &lt;dbl&gt; 6.570821, 6.715828, 7.591930, 8.314345, 7.882867,…</span></span>
+<span><span class="co">#&gt; $ median               &lt;dbl&gt; 5.774805, 5.539607, 6.460357, 6.957659, 6.825289,…</span></span>
+<span><span class="co">#&gt; $ mld                  &lt;dbl&gt; 0.1191043, 0.1648116, 0.1544128, 0.1488934, 0.138…</span></span>
+<span><span class="co">#&gt; $ gini                 &lt;dbl&gt; 0.2701034, 0.3173898, 0.3059566, 0.2998467, 0.289…</span></span>
+<span><span class="co">#&gt; $ polarization         &lt;dbl&gt; 0.2412933, 0.2689816, 0.2545287, 0.2473111, 0.249…</span></span>
+<span><span class="co">#&gt; $ decile1              &lt;dbl&gt; 0.03863286, 0.03494002, 0.03482536, 0.03733625, 0…</span></span>
+<span><span class="co">#&gt; $ decile2              &lt;dbl&gt; 0.05289347, 0.04859444, 0.04920109, 0.05136781, 0…</span></span>
+<span><span class="co">#&gt; $ decile3              &lt;dbl&gt; 0.06378683, 0.05842059, 0.05977283, 0.06088472, 0…</span></span>
+<span><span class="co">#&gt; $ decile4              &lt;dbl&gt; 0.07322042, 0.06738204, 0.06921183, 0.06983584, 0…</span></span>
+<span><span class="co">#&gt; $ decile5              &lt;dbl&gt; 0.08379662, 0.07653102, 0.07988158, 0.07912079, 0…</span></span>
+<span><span class="co">#&gt; $ decile6              &lt;dbl&gt; 0.09354903, 0.08839459, 0.09037069, 0.08924133, 0…</span></span>
+<span><span class="co">#&gt; $ decile7              &lt;dbl&gt; 0.1082309, 0.1022859, 0.1037214, 0.1029873, 0.105…</span></span>
+<span><span class="co">#&gt; $ decile8              &lt;dbl&gt; 0.1247387, 0.1198443, 0.1212641, 0.1192908, 0.122…</span></span>
+<span><span class="co">#&gt; $ decile9              &lt;dbl&gt; 0.1489955, 0.1492508, 0.1483394, 0.1453520, 0.148…</span></span>
+<span><span class="co">#&gt; $ decile10             &lt;dbl&gt; 0.2121557, 0.2543564, 0.2434117, 0.2445831, 0.229…</span></span>
+<span><span class="co">#&gt; $ cpi                  &lt;dbl&gt; 0.4445725, 0.7805330, 0.8387371, 0.9123323, 1.020…</span></span>
+<span><span class="co">#&gt; $ ppp                  &lt;dbl&gt; 54.65258, 54.65258, 54.65258, 54.65258, 54.65258,…</span></span>
+<span><span class="co">#&gt; $ pop                  &lt;dbl&gt; 3168033, 3051010, 3011487, 2947314, 2900401, 2889…</span></span>
+<span><span class="co">#&gt; $ gdp                  &lt;dbl&gt; 1633.552, 2247.497, 2675.508, 3298.478, 3736.339,…</span></span>
+<span><span class="co">#&gt; $ hfce                 &lt;dbl&gt; 1714.813, 1685.368, 2079.244, 2819.736, 2989.866,…</span></span>
+<span><span class="co">#&gt; $ is_interpolated      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …</span></span>
+<span><span class="co">#&gt; $ distribution_type    &lt;chr&gt; "micro", "micro", "micro", "micro", "micro", "mic…</span></span>
+<span><span class="co">#&gt; $ estimation_type      &lt;chr&gt; "survey", "survey", "survey", "survey", "survey",…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -216,7 +216,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
