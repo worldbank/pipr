@@ -1,3 +1,8 @@
+# pipr 0.0.2
+
+## Bug fixes
+* Fix `popshare` argument not being passed to `get_stats()`
+
 # pipr 0.0.1
 
 * [CRAN release](https://github.com/worldbank/pipr/issues/18)

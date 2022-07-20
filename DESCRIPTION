@@ -1,6 +1,6 @@
 Package: pipr
 Title: Client for the PIP API
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     c(person(given = "Tony",
             family = "Fujs",
@@ -56,4 +56,3 @@ Depends:
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Date: 2022-04-08
-
