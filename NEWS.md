@@ -1,4 +1,4 @@
-# pipr (development version)
+# pipr 0.0.2
 
 ## Bug fixes
 * Fix `popshare` argument not being passed to `get_stats()`
