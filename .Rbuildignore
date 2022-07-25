@@ -10,3 +10,4 @@ TEMP/
 ^data-raw$
 CONTRIBUTING.md
 ^cran-comments\.md$
+^codecov\.yml$
