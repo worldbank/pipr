@@ -1,6 +1,6 @@
 # pipr (development version)
 
-* [Add new ppp_version and release_version parameters](https://github.com/worldbank/pipr/issues/37)
+* [Add new ppp_version and release_version parameters](https://github.com/worldbank/pipr/pull/38)
 
 # pipr 0.0.2
 
