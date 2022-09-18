@@ -13,6 +13,8 @@
 #' @param welfare_type character: Welfare type either of c("all", "income", "consumption")
 #' @param reporting_level character: Geographical reporting level either of c("all", "national", "urban", "rural")
 #' @param version character: Data version. See `get_versions()`
+#' @param ppp_version ppp year to be used
+#' @param release_version date when the data was published in YYYYMMDD format
 #' @param api_version character: API version
 #' @param format character: Response format either of c("rds", "json", "csv")
 #' @param simplify logical: If TRUE (the default) the response is returned as a
@@ -60,6 +62,8 @@ get_stats <- function(country = "all",
                       welfare_type = c("all", "income", "consumption"),
                       reporting_level = c("all", "national", "urban", "rural"),
                       version = NULL,
+                      ppp_version = NULL,
+                      release_version = NULL,
                       api_version = "v1",
                       format = c("rds", "json", "csv"),
                       simplify = TRUE,
@@ -69,7 +73,6 @@ get_stats <- function(country = "all",
   reporting_level <- match.arg(reporting_level)
   api_version <- match.arg(api_version)
   format <- match.arg(format)
-
   # popshare can't be used together with povline
   if (!is.null(popshare)) povline <- NULL
 
@@ -102,10 +105,11 @@ get_stats <- function(country = "all",
     welfare_type = welfare_type,
     reporting_level = reporting_level,
     version = version,
+    ppp_version = ppp_version,
+    release_version = release_version,
     format = format
   )
   u <- build_url(server, endpoint, api_version)
-
   # Send query
   res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
 
