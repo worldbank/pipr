@@ -15,6 +15,8 @@ get_stats(
   welfare_type = c("all", "income", "consumption"),
   reporting_level = c("all", "national", "urban", "rural"),
   version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
   api_version = "v1",
   format = c("rds", "json", "csv"),
   simplify = TRUE,
@@ -53,6 +55,10 @@ sub-groups. Either 'wb_regions' or 'none'.}
 \item{reporting_level}{character: Geographical reporting level either of c("all", "national", "urban", "rural")}
 
 \item{version}{character: Data version. See \code{get_versions()}}
+
+\item{ppp_version}{ppp year to be used}
+
+\item{release_version}{date when the data was published in YYYYMMDD format}
 
 \item{api_version}{character: API version}
 
