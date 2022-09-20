@@ -92,7 +92,6 @@ get_stats <- function(country = "all",
 
   # Check connection
   check_internet()
-  check_api(api_version, server)
 
   # Build query string
   args <- build_args(
