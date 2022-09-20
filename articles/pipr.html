@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3</span>
       </span>
     </div>
 
@@ -99,7 +99,7 @@
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,194 × 40</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,028 × 40</span></span></span>
 <span><span class="co">#&gt;    regio…¹ regio…² count…³ count…⁴  year repor…⁵ surve…⁶ surve…⁷ welfa…⁸ welfa…⁹</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Sub-Sa… SSA     Angola  AGO      <span style="text-decoration: underline;">2</span>000 nation… HBS     nation…   <span style="text-decoration: underline;">2</span>000. consum…</span></span>
@@ -112,14 +112,13 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Europe… ECA     Albania ALB      <span style="text-decoration: underline;">2</span>012 nation… LSMS    nation…   <span style="text-decoration: underline;">2</span>012  consum…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Europe… ECA     Albania ALB      <span style="text-decoration: underline;">2</span>014 nation… HBS     nation…   <span style="text-decoration: underline;">2</span>014  consum…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Europe… ECA     Albania ALB      <span style="text-decoration: underline;">2</span>015 nation… HBS     nation…   <span style="text-decoration: underline;">2</span>015  consum…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2,184 more rows, 30 more variables: survey_comparability &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2,018 more rows, 30 more variables: survey_comparability &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ppp &lt;dbl&gt;, pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ppp &lt;dbl&gt;, pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="basic-options">Basic options<a class="anchor" aria-label="anchor" href="#basic-options"></a>
@@ -154,7 +153,6 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;, decile7 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, ppp &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span></span>
 <span><span class="co"># Specify MULTIPLE countries</span></span>
 <span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ALB"</span>, <span class="st">"CHN"</span><span class="op">)</span><span class="op">)</span></span>
@@ -177,8 +175,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ppp &lt;dbl&gt;, pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ppp &lt;dbl&gt;, pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="filter-by-year">Filter by year<a class="anchor" aria-label="anchor" href="#filter-by-year"></a>
@@ -198,7 +195,6 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;, decile7 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, ppp &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span></span>
 <span><span class="co"># Survey year NOT available - Empty response</span></span>
 <span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span>, year <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
@@ -209,8 +205,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;, comparable_spell &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;, poverty_gap &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;, median &lt;dbl&gt;, mld &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;, decile2 &lt;dbl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;, decile2 &lt;dbl&gt;, …</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="modify-the-poverty-line">Modify the poverty line<a class="anchor" aria-label="anchor" href="#modify-the-poverty-line"></a>
@@ -240,8 +235,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;, decile2 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;, decile7 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, ppp &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -267,7 +261,6 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;, decile7 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, ppp &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span><span class="co"># fill_gaps = TRUE</span></span>
 <span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"HTI"</span>, fill_gaps <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 39 × 40</span></span></span>
@@ -289,8 +282,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ppp &lt;dbl&gt;, pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ppp &lt;dbl&gt;, pop &lt;dbl&gt;, gdp &lt;dbl&gt;, hfce &lt;dbl&gt;, is_interpolated &lt;lgl&gt;, …</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="compute-custom-aggregates">Compute custom aggregates<a class="anchor" aria-label="anchor" href="#compute-custom-aggregates"></a>

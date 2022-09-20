@@ -31,6 +31,9 @@
     <loc>https://worldbank.github.io/pipr/news/index.html</loc>
   </url>
   <url>
+    <loc>https://worldbank.github.io/pipr/reference/check_api.html</loc>
+  </url>
+  <url>
     <loc>https://worldbank.github.io/pipr/reference/get_aux.html</loc>
   </url>
   <url>
@@ -80,9 +83,6 @@
   </url>
   <url>
     <loc>https://worldbank.github.io/pipr/reference/get_versions.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/health_check.html</loc>
   </url>
   <url>
     <loc>https://worldbank.github.io/pipr/reference/index.html</loc>
