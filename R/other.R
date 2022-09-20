@@ -1,14 +1,14 @@
-#' Check API status
+#' Check internet connection and API status
 #' @inheritParams get_stats
 #' @return character
 #' @export
 #' @examples
 #' \dontrun{
-#' health_check()
+#' check_api()
 #' }
-health_check <- function(api_version = "v1", server = NULL) {
+check_api <- function(api_version = "v1", server = NULL) {
   check_internet()
-  res <- check_api(api_version, server = server)
+  res <- health_check(api_version, server = server)
   parse_response(res, simplify = FALSE)$content
 }
 
