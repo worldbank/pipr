@@ -5,10 +5,10 @@ check_internet <- function() {
   invisible(TRUE)
 }
 
-#' check_api
-#' @inheritParams get_stats
+#' health_check
+#' @inheritParams check_api
 #' @noRd
-check_api <- function(api_version, server = NULL) {
+health_check <- function(api_version, server = NULL) {
   u <- build_url(server, "health-check", api_version)
   res <- httr::GET(u)
   attempt::stop_if_not(

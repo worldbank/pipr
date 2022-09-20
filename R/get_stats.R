@@ -90,9 +90,6 @@ get_stats <- function(country = "all",
     group_by <- NULL
   }
 
-  # Check connection
-  check_internet()
-
   # Build query string
   args <- build_args(
     country = country,
