@@ -21,7 +21,7 @@ each variable available in this table."><!-- mathjax --><script src="https://cdn
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4</span>
       </span>
     </div>
 
@@ -66,6 +66,8 @@ each variable available in this table.</p>
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_interpolated_means</span><span class="op">(</span></span>
 <span>  version <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ppp_version <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  release_version <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  api_version <span class="op">=</span> <span class="st">"v1"</span>,</span>
 <span>  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span>, <span class="st">"csv"</span><span class="op">)</span>,</span>
 <span>  server <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -76,6 +78,14 @@ each variable available in this table.</p>
     <h2>Arguments</h2>
     <dl><dt>version</dt>
 <dd><p>character: Data version. See <code><a href="get_versions.html">get_versions()</a></code></p></dd>
+
+
+<dt>ppp_version</dt>
+<dd><p>ppp year to be used</p></dd>
+
+
+<dt>release_version</dt>
+<dd><p>date when the data was published in YYYYMMDD format</p></dd>
 
 
 <dt>api_version</dt>
