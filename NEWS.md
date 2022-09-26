@@ -1,3 +1,7 @@
+# pipr 0.0.4
+
+* [Hot fix](https://github.com/worldbank/pipr/pull/40)
+
 # pipr 0.0.3
 
 * [Add new ppp_version and release_version parameters](https://github.com/worldbank/pipr/pull/38)

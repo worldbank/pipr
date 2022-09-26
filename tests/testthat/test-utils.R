@@ -14,15 +14,13 @@ test_that("check_internet() works", {
 
 test_that("check_api() works", {
   res <- check_api("v1", server = NULL)
-  expect_equal(res$status_code, 200)
-  expect_invisible(check_api("v1"))
-  expect_error(check_api("xx"))
+  expect_equal(res, "PIP API is running")
 })
 
 test_that("check_status() works", {
 
   # 200
-  res <- check_api("v1")
+  res <- health_check("v1")
   parsed <- parse_response(res, simplify = FALSE)$content
   expect_true(check_status(res, parsed))
 
@@ -89,81 +87,81 @@ test_that("build_url() throws error for internal URLs if ENV vars are not found"
 test_that("build_args() works for all individual parameters", {
 
   # country
-  x <- build_args(country = "AGO")
+  x <- build_args(.country = "AGO")
   expect_equal(length(x), 1)
   expect_identical(names(x), "country")
   expect_identical(x$country, "AGO")
-  x <- build_args(country = c("ARG", "BRA"))
+  x <- build_args(.country = c("ARG", "BRA"))
   expect_equal(length(x), 1)
   expect_identical(names(x), "country")
   expect_identical(x$country, "ARG,BRA")
 
   # year
-  x <- build_args(year = "all")
+  x <- build_args(.year = "all")
   expect_equal(length(x), 1)
   expect_identical(names(x), "year")
   expect_identical(x$year, "all")
-  x <- build_args(year = c(2008, 2009))
+  x <- build_args(.year = c(2008, 2009))
   expect_equal(length(x), 1)
   expect_identical(names(x), "year")
   expect_identical(x$year, "2008,2009")
 
   # povline
-  x <- build_args(povline = 1.9)
+  x <- build_args(.povline = 1.9)
   expect_equal(length(x), 1)
   expect_identical(names(x), "povline")
   expect_identical(x$povline, 1.9)
 
   # popshare
-  x <- build_args(popshare = .5)
+  x <- build_args(.popshare = .5)
   expect_equal(length(x), 1)
   expect_identical(names(x), "popshare")
   expect_identical(x$popshare, .5)
 
   # fill_gaps
-  x <- build_args(fill_gaps = TRUE)
+  x <- build_args(.fill_gaps = TRUE)
   expect_equal(length(x), 1)
   expect_identical(names(x), "fill_gaps")
   expect_identical(x$fill_gaps, TRUE)
 
   # group_by
-  x <- build_args(group_by = "wb")
+  x <- build_args(.group_by = "wb")
   expect_equal(length(x), 1)
   expect_identical(names(x), "group_by")
   expect_identical(x$group_by, "wb")
 
   # welfare_type
-  x <- build_args(welfare_type = "all")
+  x <- build_args(.welfare_type = "all")
   expect_equal(length(x), 1)
   expect_identical(names(x), "welfare_type")
   expect_identical(x$welfare_type, "all")
 
   # reporting_level
-  x <- build_args(reporting_level = "all")
+  x <- build_args(.reporting_level = "all")
   expect_equal(length(x), 1)
   expect_identical(names(x), "reporting_level")
   expect_identical(x$reporting_level, "all")
 
   # reporting_level
-  x <- build_args(reporting_level = "all")
+  x <- build_args(.reporting_level = "all")
   expect_equal(length(x), 1)
   expect_identical(names(x), "reporting_level")
   expect_identical(x$reporting_level, "all")
 
   # version
-  x <- build_args(version = "test")
+  x <- build_args(.version = "test")
   expect_equal(length(x), 1)
   expect_identical(names(x), "version")
   expect_identical(x$version, "test")
 
   # format
-  x <- build_args(format = "json")
+  x <- build_args(.format = "json")
   expect_equal(length(x), 1)
   expect_identical(names(x), "format")
   expect_identical(x$format, "json")
 
   # table
-  x <- build_args(table = "regions")
+  x <- build_args(.table = "regions")
   expect_equal(length(x), 1)
   expect_identical(names(x), "table")
   expect_identical(x$table, "regions")
@@ -172,7 +170,7 @@ test_that("build_args() works for all individual parameters", {
 test_that("build_args() works for mulitiple parameters", {
 
   # Multiple parameters
-  x <- build_args(country = "AGO", year = 2008, povline = 1.9)
+  x <- build_args(.country = "AGO", .year = 2008, .povline = 1.9)
   expect_equal(length(x), 3)
   expect_identical(names(x), c("country", "year", "povline"))
   expect_identical(x$country, "AGO")
@@ -180,7 +178,7 @@ test_that("build_args() works for mulitiple parameters", {
   expect_equal(x$povline, 1.9)
 
   # Check that NULL arguments are removed
-  x <- build_args(country = "AGO", year = 2008, povline = 1.9, group_by = NULL)
+  x <- build_args(.country = "AGO", .year = 2008, .povline = 1.9, .group_by = NULL)
   expect_equal(length(x), 3)
   expect_identical(names(x), c("country", "year", "povline"))
   expect_identical(x$country, "AGO")
@@ -189,7 +187,7 @@ test_that("build_args() works for mulitiple parameters", {
 })
 
 test_that("build_args() fails when all parameters are NULL", {
-  expect_error(build_args(country = NULL))
+  expect_error(build_args(.country = NULL))
 })
 
 test_that("parse_response() works for different formats", {

@@ -60,33 +60,40 @@ build_url <- function(server, endpoint, api_version) {
 #' build_args
 #' @inheritParams get_stats
 #' @noRd
-build_args <- function(country = NULL,
-                       year = NULL,
-                       povline = NULL,
-                       popshare = NULL,
-                       fill_gaps = NULL,
-                       group_by = NULL,
-                       welfare_type = NULL,
-                       reporting_level = NULL,
-                       table = NULL,
-                       version = NULL,
-                       ppp_version = ppp_version,
-                       release_version = release_version,
-                       format = NULL) {
+build_args <- function(.country = NULL,
+                       .year = NULL,
+                       .povline = NULL,
+                       .popshare = NULL,
+                       .fill_gaps = NULL,
+                       .group_by = NULL,
+                       .welfare_type = NULL,
+                       .reporting_level = NULL,
+                       .table = NULL,
+                       .version = NULL,
+                       .ppp_version = NULL,
+                       .release_version = NULL,
+                       .format = NULL) {
 
   # Collapse to a single string
-  if (length(country) > 1) country <- paste0(country, collapse = ",")
-  if (length(year) > 1) year <- paste0(year, collapse = ",")
+  if (length(.country) > 1) .country <- paste0(.country, collapse = ",")
+  if (length(.year) > 1) .year <- paste0(.year, collapse = ",")
 
   args <- list(
-    country = country, year = year, povline = povline,
-    popshare = popshare, fill_gaps = fill_gaps,
-    welfare_type = welfare_type,
-    reporting_level = reporting_level,
-    group_by = group_by, table = table,
-    version = version, ppp_version = ppp_version,
-    release_version = release_version,format = format
+    country = .country,
+    year = .year,
+    povline = .povline,
+    popshare = .popshare,
+    fill_gaps = .fill_gaps,
+    welfare_type = .welfare_type,
+    reporting_level = .reporting_level,
+    group_by = .group_by,
+    table = .table,
+    version = .version,
+    ppp_version = .ppp_version,
+    release_version = .release_version,
+    format = .format
   )
+
   attempt::stop_if_all(args, is.null, "You need to specify at least one argument")
 
   args <- purrr::compact(args)

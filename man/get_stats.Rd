@@ -27,6 +27,8 @@ get_wb(
   year = "all",
   povline = 1.9,
   version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
   api_version = "v1",
   format = c("rds", "json", "csv"),
   simplify = TRUE,

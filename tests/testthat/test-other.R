@@ -2,13 +2,16 @@ dev_host <- gsub("/api|http://", "", Sys.getenv("PIP_DEV_URL"))
 qa_host <- gsub("/pip|/api|http(s)?://", "", Sys.getenv("PIP_QA_URL"))
 
 test_that("health_check() works", {
-  expect_identical(health_check(), "PIP API is running")
+  res <- health_check(api_version = "v1")
+  expect_identical(httr::content(res)[[1]], "PIP API is running")
+  expect_equal(res$status_code, 200)
+  expect_invisible(health_check(api_version = "v1"))
   expect_error(health_check("xx"))
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
   skip_if(is.null(curl::nslookup(dev_host, error = FALSE)), message = "Could not connect to DEV host")
-  expect_identical(health_check(server = "dev"), "PIP API is running")
+  expect_identical(httr::content(health_check(api_version = "v1", server = "dev"))[[1]], "PIP API is running")
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)), message = "Could not connect to QA host")
-  expect_identical(health_check(server = "qa"), "PIP API is running")
+  expect_identical(httr::content(health_check(api_version = "v1", server = "qa"))[[1]], "PIP API is running")
 })
 
 test_that("get_versions() works", {
