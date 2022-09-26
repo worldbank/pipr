@@ -19,6 +19,8 @@ test_that("get_aux() works", {
   expect_true(tibble::is_tibble(res))
   res <- get_aux("gdp")
   expect_true(tibble::is_tibble(res))
+  res <- get_aux("countries", version = NULL, api_version = "v1", format = "rds", server = NULL)
+  expect_true(tibble::is_tibble(res))
 
   # Return custom response list if simplify FALSE
   res <- get_aux("gdp", simplify = FALSE)
@@ -58,3 +60,4 @@ test_that("User agent works", {
   tmp <- res$response$request$options$useragent
   expect_identical(tmp, pipr_user_agent)
 })
+

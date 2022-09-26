@@ -92,18 +92,18 @@ get_stats <- function(country = "all",
 
   # Build query string
   args <- build_args(
-    country = country,
-    year = year,
-    povline = povline,
-    popshare = popshare,
-    fill_gaps = fill_gaps,
-    group_by = group_by,
-    welfare_type = welfare_type,
-    reporting_level = reporting_level,
-    version = version,
-    ppp_version = ppp_version,
-    release_version = release_version,
-    format = format
+    .country = country,
+    .year = year,
+    .povline = povline,
+    .popshare = popshare,
+    .fill_gaps = fill_gaps,
+    .group_by = group_by,
+    .welfare_type = welfare_type,
+    .reporting_level = reporting_level,
+    .version = version,
+    .ppp_version = ppp_version,
+    .release_version = release_version,
+    .format = format
   )
   u <- build_url(server, endpoint, api_version)
   # Send query
@@ -120,6 +120,8 @@ get_stats <- function(country = "all",
 get_wb <- function(year = "all",
                    povline = 1.9,
                    version = NULL,
+                   ppp_version = NULL,
+                   release_version = NULL,
                    api_version = "v1",
                    format = c("rds", "json", "csv"),
                    simplify = TRUE,
@@ -129,14 +131,16 @@ get_wb <- function(year = "all",
   api_version <- match.arg(api_version)
   format <- match.arg(format)
 
-  # Check connection
-  check_internet()
-  check_api(api_version, server)
-
   # Build query string
   args <- build_args(
-    country = "all", year = year, povline = povline,
-    group_by = "wb", version = version, format = format
+    .country = "all",
+    .year = year,
+    .povline = povline,
+    .group_by = "wb",
+    .version = version,
+    .ppp_version = ppp_version,
+    .release_version = release_version,
+    .format = format
   )
   u <- build_url(server, "pip-grp", api_version)
 

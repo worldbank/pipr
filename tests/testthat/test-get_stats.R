@@ -23,7 +23,7 @@ test_that("get_stats() works for a single country-year", {
 test_that("get_stats() works for multiple countries and years", {
   df <- get_stats(c("AGO", "ALB"), year = 2000)
   expect_equal(nrow(df), 1)
-  df <- get_stats(c("AGO", "ALB"), year = c(2000, 2018))
+  df <- get_stats(c("AGO"), year = c(2000, 2018))
   expect_equal(nrow(df), 2)
 })
 
