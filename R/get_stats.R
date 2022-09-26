@@ -120,6 +120,8 @@ get_stats <- function(country = "all",
 get_wb <- function(year = "all",
                    povline = 1.9,
                    version = NULL,
+                   ppp_version = NULL,
+                   release_version = NULL,
                    api_version = "v1",
                    format = c("rds", "json", "csv"),
                    simplify = TRUE,
@@ -136,6 +138,8 @@ get_wb <- function(year = "all",
     .povline = povline,
     .group_by = "wb",
     .version = version,
+    .ppp_version = ppp_version,
+    .release_version = release_version,
     .format = format
   )
   u <- build_url(server, "pip-grp", api_version)

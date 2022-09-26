@@ -6,6 +6,8 @@
 \usage{
 get_countries(
   version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
@@ -13,6 +15,10 @@ get_countries(
 }
 \arguments{
 \item{version}{character: Data version. See \code{get_versions()}}
+
+\item{ppp_version}{ppp year to be used}
+
+\item{release_version}{date when the data was published in YYYYMMDD format}
 
 \item{api_version}{character: API version}
 
