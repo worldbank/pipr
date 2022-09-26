@@ -1,4 +1,4 @@
-# pipr (development version)
+# pipr 0.0.4
 
 * [Hot fix](https://github.com/worldbank/pipr/pull/40)
 
