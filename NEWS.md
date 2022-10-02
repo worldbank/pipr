@@ -1,5 +1,7 @@
 # pipr (development version)
 
+* [fix for dictionary table](https://github.com/worldbank/pipr/pull/43)
+
 # pipr 0.0.4
 
 * [Hot fix](https://github.com/worldbank/pipr/pull/40)
