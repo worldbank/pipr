@@ -1,7 +1,7 @@
 #' check_internet
 #' @noRd
 check_internet <- function() {
-  attempt::stop_if_not(.x = curl::has_internet(), msg = "Please check your internet connexion")
+  attempt::stop_if_not(.x = curl::has_internet(), msg = "Please check your internet connection")
   invisible(TRUE)
 }
 
@@ -179,7 +179,6 @@ select_base_url <- function(server) {
 #' @param url response url
 #' @noRd
 tmp_rename_cols <- function(df, url = "") {
-
   # Special handling of dictionary table since it
   # is a row-based table
   if (grepl("aux[?]table=dictionary", url)) {
