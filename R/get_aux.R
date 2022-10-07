@@ -4,6 +4,10 @@
 #' inputs will be returned.
 #'
 #' @param table Aux table
+#' @param assign_tb assigns table to specified name in global environmnet. If
+#'   `FALSE` no asignment will performed. If `TRUE`, the table will be assigned
+#'   to a name exactly the same to the name of the table. If charater, the table
+#'   will be asigned to that name.
 #' @inheritParams get_stats
 #' @return tibble or list
 #' @export
@@ -18,13 +22,15 @@
 #' # Get countries
 #' df <- get_aux("countries")
 #' }
-get_aux <- function(table = NULL,
-                    version = NULL,
-                    ppp_version = NULL,
+get_aux <- function(table           = NULL,
+                    version         = NULL,
+                    ppp_version     = NULL,
                     release_version = NULL,
-                    api_version = "v1",
-                    format = c("rds", "json", "csv"),
-                    simplify = TRUE, server = NULL) {
+                    api_version     = "v1",
+                    format          = c("rds", "json", "csv"),
+                    simplify        = TRUE,
+                    server          = NULL,
+                    assign_tb       = FALSE) {
 
   # Match args
   api_version <- match.arg(api_version)
@@ -34,9 +40,17 @@ get_aux <- function(table = NULL,
   u <- build_url(server, "aux", api_version = api_version)
 
   # Return response
+
   if (is.null(table)) {
-    res <- httr::GET(u)
-    parse_response(res, simplify = simplify)
+    dst <- display_aux(version         = version,
+                       ppp_version     = ppp_version,
+                       release_version = release_version,
+                       api_version     = api_version,
+                       format          = format,
+                       server          = server,
+                       assign_tb       = assign_tb)
+    return(invisible(dst))
+
   } else {
     args <- build_args(.table = table,
                        .version = version,
@@ -44,8 +58,19 @@ get_aux <- function(table = NULL,
                        .release_version = release_version,
                        .format = format)
     res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
-    parse_response(res, simplify = simplify)
+    rt  <- parse_response(res, simplify = simplify)
   }
+
+  if (isFALSE(assign_tb)) {
+    return(rt)
+  } else if (isTRUE(assign_tb)) {
+    assign(table, rt, envir = globalenv())
+  } else if (is.character(assign_tb)) {
+    assign(assign_tb, rt, envir = globalenv())
+  } else {
+    cli::cli_abort("parameter {.code assign_tb} must be either logical or character")
+  }
+
 }
 
 #' get_countries

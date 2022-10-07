@@ -50,7 +50,8 @@ Imports:
     purrr,
     memoise,
     cachem,
-    data.table
+    data.table,
+    cli
 Depends: 
     R (>= 3.5.0)
 VignetteBuilder: knitr
