@@ -4,10 +4,10 @@
 #' inputs will be returned.
 #'
 #' @param table Aux table
-#' @param assign_tb assigns table to specified name in global environmnet. If
-#'   `FALSE` no asignment will performed. If `TRUE`, the table will be assigned
-#'   to a name exactly the same to the name of the table. If charater, the table
-#'   will be asigned to that name.
+#' @param assign_tb assigns table to specified name in global environment. If
+#'   `FALSE` no assignment will performed. If `TRUE`, the table will be assigned
+#'   to a name exactly the same to the name of the table. If character, the table
+#'   will be assigned to that name.
 #' @inheritParams get_stats
 #' @return tibble or list
 #' @export
@@ -21,6 +21,13 @@
 #'
 #' # Get countries
 #' df <- get_aux("countries")
+#'
+#' # Display auxiliary tables
+#' get_aux()
+#'
+#' # Display and assign to global env auxiliary tables
+#' get_aux(assign_tb = TRUE)
+#'
 #' }
 get_aux <- function(table           = NULL,
                     version         = NULL,
