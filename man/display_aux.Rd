@@ -31,9 +31,9 @@ display_aux(
 
 \item{server}{character: Server. For WB internal use only}
 
-\item{assign_tb}{assigns table to specified name in global environment. If
+\item{assign_tb}{assigns table to specified name to the \code{.pip} environment. If
 \code{FALSE} no assignment will performed. If \code{TRUE}, the table will be assigned
-to a name exactly the same to the name of the table. If character, the table
+to  exactly the same name as the one of the desired table. If character, the table
 will be assigned to that name.}
 }
 \value{

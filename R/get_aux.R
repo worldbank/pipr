@@ -4,9 +4,9 @@
 #' inputs will be returned.
 #'
 #' @param table Aux table
-#' @param assign_tb assigns table to specified name in global environment. If
+#' @param assign_tb assigns table to specified name to the `.pip` environment. If
 #'   `FALSE` no assignment will performed. If `TRUE`, the table will be assigned
-#'   to a name exactly the same to the name of the table. If character, the table
+#'   to  exactly the same name as the one of the desired table. If character, the table
 #'   will be assigned to that name.
 #' @inheritParams get_stats
 #' @return tibble or list
@@ -25,8 +25,14 @@
 #' # Display auxiliary tables
 #' get_aux()
 #'
-#' # Display and assign to global env auxiliary tables
+#' # Display and assign to .pip env the selected auxiliary table
 #' get_aux(assign_tb = TRUE)
+#'
+#' # Bind gdp table to "gdp" in .pip env
+#' get_aux("gdp", assign_tb = TRUE)
+#'
+#' # Bind gdp table to "new_name" in .pip env
+#' get_aux("gdp", assign_tb = "new_name")
 #'
 #' }
 get_aux <- function(table           = NULL,
@@ -68,16 +74,16 @@ get_aux <- function(table           = NULL,
     rt  <- parse_response(res, simplify = simplify)
   }
 
-  if (isFALSE(assign_tb)) {
-    return(rt)
-  } else if (isTRUE(assign_tb)) {
-    assign(table, rt, envir = globalenv())
-  } else if (is.character(assign_tb)) {
-    assign(assign_tb, rt, envir = globalenv())
-  } else {
-    cli::cli_abort("parameter {.code assign_tb} must be either logical or character")
-  }
+   if (isTRUE(assign_tb)) {
 
+      .pip[[table]] <- rt
+
+    } else if (is.character(assign_tb)) {
+      .pip[[assign_tb]] <- rt
+      # assign(assign_tb, rt, envir = .pip)
+    }
+
+  return(rt)
 }
 
 #' get_countries
