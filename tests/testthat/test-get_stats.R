@@ -1,3 +1,4 @@
+skip("Skipping online version of the tests")
 # constants
 countries <- get_aux("countries")
 dev_host <- gsub("/api|http://", "", Sys.getenv("PIP_DEV_URL"))

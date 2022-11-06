@@ -134,6 +134,8 @@ test_that("get_cpi() with mocking works", {
 })
 
 test_that("get_dictionary() with mocking works", {
+  #Waiting for this PR to be merged https://github.com/worldbank/pipr/pull/43
+  #so that get_dictionary() works
   mockery::stub(get_aux, "httr::GET", function(...) {
     readRDS('../testdata/response-dictionary.RDS')
   })
