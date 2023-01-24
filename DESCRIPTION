@@ -28,7 +28,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 URL: https://github.com/worldbank/pipr,
     https://worldbank.github.io/pipr/
 BugReports: https://github.com/worldbank/pipr/issues
@@ -51,7 +51,9 @@ Imports:
     memoise,
     cachem,
     data.table,
-    cli
+    cli,
+    rlang,
+    utils
 Depends: 
     R (>= 3.5.0)
 VignetteBuilder: knitr

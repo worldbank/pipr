@@ -12,7 +12,7 @@ display_aux(
   format = c("rds", "json", "csv"),
   simplify = TRUE,
   server = NULL,
-  assign_tb = FALSE
+  assign_tb = TRUE
 )
 }
 \arguments{
@@ -31,10 +31,8 @@ display_aux(
 
 \item{server}{character: Server. For WB internal use only}
 
-\item{assign_tb}{assigns table to specified name to the \code{.pip} environment. If
-\code{FALSE} no assignment will performed. If \code{TRUE}, the table will be assigned
-to  exactly the same name as the one of the desired table. If character, the table
-will be assigned to that name.}
+\item{assign_tb}{logical: Whether to assign table to .pip env. Default is
+TRUE}
 }
 \value{
 invisible tibble with names of auxiliary tables

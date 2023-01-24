@@ -2,6 +2,8 @@
 #'
 #' @inheritParams get_stats
 #' @inheritParams get_aux
+#' @param assign_tb logical: Whether to assign table to .pip env. Default is
+#'   TRUE
 #'
 #' @return invisible tibble with names of auxiliary tables
 #' @export
@@ -17,7 +19,7 @@ display_aux <- function(version         = NULL,
                         format          = c("rds", "json", "csv"),
                         simplify        = TRUE,
                         server          = NULL,
-                        assign_tb       = FALSE) {
+                        assign_tb       = TRUE) {
 
   # Match args
   api_version <- match.arg(api_version)

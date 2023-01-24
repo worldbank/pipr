@@ -13,7 +13,8 @@ get_aux(
   format = c("rds", "json", "csv"),
   simplify = TRUE,
   server = NULL,
-  assign_tb = FALSE
+  assign_tb = FALSE,
+  force = FALSE
 )
 }
 \arguments{
@@ -34,13 +35,16 @@ get_aux(
 
 \item{server}{character: Server. For WB internal use only}
 
-\item{assign_tb}{assigns table to specified name to the \code{.pip} environment. If
-\code{FALSE} no assignment will performed. If \code{TRUE}, the table will be assigned
-to  exactly the same name as the one of the desired table. If character, the table
-will be assigned to that name.}
+\item{assign_tb}{assigns table to specified name to the \code{.pip} environment.
+If \code{FALSE} no assignment will performed. If \code{TRUE}, the table will be
+assigned to  exactly the same name as the one of the desired table. If
+character, the table will be assigned to that name.}
+
+\item{force}{logical: force replacement. Default is FALSE}
 }
 \value{
-tibble or list
+tibble or list. If \code{assign_tb} is TRUE or character, it will return
+TRUE if data was assign properly to .pip env
 }
 \description{
 Get an auxiliary dataset. If no table is specified a vector with possible

@@ -4,12 +4,15 @@
 #' inputs will be returned.
 #'
 #' @param table Aux table
-#' @param assign_tb assigns table to specified name to the `.pip` environment. If
-#'   `FALSE` no assignment will performed. If `TRUE`, the table will be assigned
-#'   to  exactly the same name as the one of the desired table. If character, the table
-#'   will be assigned to that name.
+#' @param assign_tb assigns table to specified name to the `.pip` environment.
+#'   If `FALSE` no assignment will performed. If `TRUE`, the table will be
+#'   assigned to  exactly the same name as the one of the desired table. If
+#'   character, the table will be assigned to that name.
 #' @inheritParams get_stats
-#' @return tibble or list
+#' @param force logical: force replacement. Default is FALSE
+#'
+#' @return tibble or list. If `assign_tb` is TRUE or character, it will return
+#'   TRUE if data was assign properly to .pip env
 #' @export
 #' @examples
 #' \dontrun{
@@ -43,7 +46,8 @@ get_aux <- function(table           = NULL,
                     format          = c("rds", "json", "csv"),
                     simplify        = TRUE,
                     server          = NULL,
-                    assign_tb       = FALSE) {
+                    assign_tb       = FALSE,
+                    force           = FALSE) {
 
   # Match args
   api_version <- match.arg(api_version)
@@ -75,15 +79,22 @@ get_aux <- function(table           = NULL,
   }
 
    if (isTRUE(assign_tb)) {
+     srt <- set_aux(table = table,
+             value = rt,
+             force = force)
 
-      .pip[[table]] <- rt
+    return(invisible(srt))
 
     } else if (is.character(assign_tb)) {
-      .pip[[assign_tb]] <- rt
-      # assign(assign_tb, rt, envir = .pip)
+      srt <- set_aux(table = assign_tb,
+              value = rt,
+              force = force)
+      return(invisible(srt))
+
+    } else {
+      return(rt)
     }
 
-  return(rt)
 }
 
 #' get_countries
