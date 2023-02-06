@@ -95,11 +95,24 @@ call_aux <- function(table = NULL) {
     nms <- rlang::env_names(.pip)
 
     if (length(nms) == 0) {
-      cli::cli_alert_info("no stamps in {.env .pip} environment")
+      cli::cli_alert_info("no tables available in {.env .pip} environment")
       return(invisible(nms))
     }
 
-    return(nms)
+    run_cli     <- run_cli()
+    txt_to_ex <- paste0("{.",
+                        ifelse(run_cli, "run", "code"),
+                        " [{.x}]({torun})}")
+
+    cli::cli_h2("tables available in env {.env pip}")
+    purrr::walk(.x = nms,
+                .f = ~{
+                  torun <- paste0("pipr::call_aux(table = ", shQuote(.x),")")
+
+                  cli::cli_text(txt_to_ex)
+                })
+
+    return(invisible(nms))
 
   } else {
 
@@ -117,3 +130,19 @@ call_aux <- function(table = NULL) {
   }
 
 }
+
+
+
+#' whether or not to run cli or just to show code
+#'
+#' @return logical
+#' @keywords internal
+run_cli <- function() {
+  cli_types   <-
+    cli::ansi_hyperlink_types() |>
+    names()
+
+  run_cli <- "run" %in% cli_types
+  return(invisible(run_cli))
+}
+

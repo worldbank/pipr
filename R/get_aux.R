@@ -78,22 +78,46 @@ get_aux <- function(table           = NULL,
     rt  <- parse_response(res, simplify = simplify)
   }
 
-   if (isTRUE(assign_tb)) {
-     srt <- set_aux(table = table,
-             value = rt,
-             force = force)
+  if (!isFALSE(assign_tb)) {
 
-    return(invisible(srt))
+    if (isTRUE(assign_tb)) {
+      tb_name <- table
 
     } else if (is.character(assign_tb)) {
-      srt <- set_aux(table = assign_tb,
-              value = rt,
-              force = force)
+      tb_name <- assign_tb
+
+    } else {
+      msg <- c("Invalid sintax in {.field assign_tb}",
+               "*" = "{.field assign_tb} must be logical or character.")
+        cli::cli_abort(msg,class = "pipr_error",wrap = TRUE)
+    }
+
+    srt <- set_aux(table = tb_name,
+                   value = rt,
+                   force = force)
+
+    if (isTRUE(srt)) {
+
+      run_cli     <- run_cli()
+
+      cltxt <- paste0("You can call auxiliary table {.strong {table}} by typing {.",
+                      ifelse(run_cli, "run", "code"),
+                      " pipr::call_aux(", shQuote(tb_name),")}")
+
+      cli::cli_alert_info(cltxt, wrap = TRUE)
+
       return(invisible(srt))
 
     } else {
-      return(rt)
+
+      msg <- c("table {.strong {table}} could not be saved in env {.env .pip}")
+      cli::cli_abort(msg,class = "pipr_error",wrap = TRUE)
+
     }
+
+  } else {
+    return(rt)
+  }
 
 }
 

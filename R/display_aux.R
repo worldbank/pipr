@@ -26,10 +26,7 @@ display_aux <- function(version         = NULL,
   format      <- match.arg(format)
   il          <- as.list(environment())
   fun_args    <- args_to_string(il)
-  cli_types   <-
-    cli::ansi_hyperlink_types() |>
-    names()
-  run_cli <- "run" %in% cli_types
+  run_cli     <- run_cli()
 
 
 #   ____________________________________________________________________________
