@@ -49,8 +49,8 @@ display_aux <- function(version         = NULL,
                   )
                 })
   } else {
-    cat("Available Auxiliary tables:")
-    tbs_tb
+    cli::cli_h2("Available Auxiliary tables:")
+    cli::cli_ul(tbs_tb[["tables"]])
   }
 
 
