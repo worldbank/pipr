@@ -38,7 +38,7 @@ display_aux <- function(version         = NULL,
   tbs    <- tbs_tb[["tables"]]
   if (isTRUE(run_cli)) {
 
-    cli::cli_h2("Click on any of the tables below")
+    cli::cli_h2("Click on any of the tables below to fetch it from the PIP API")
     purrr::walk(.x = tbs,
                 .f = ~{
                   torun <- paste0("pipr::get_aux(table = ", shQuote(.x), ",",

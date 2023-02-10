@@ -57,7 +57,7 @@ get_aux <- function(table           = NULL,
   u <- build_url(server, "aux", api_version = api_version)
 
   # Return response
-
+  # If not table is specified, returns list of available tables
   if (is.null(table)) {
     dst <- display_aux(version         = version,
                        ppp_version     = ppp_version,
@@ -67,7 +67,7 @@ get_aux <- function(table           = NULL,
                        server          = server,
                        assign_tb       = assign_tb)
     return(invisible(dst))
-
+  # If a table is specified, returns that table
   } else {
     args <- build_args(.table = table,
                        .version = version,
@@ -78,8 +78,9 @@ get_aux <- function(table           = NULL,
     rt  <- parse_response(res, simplify = simplify)
   }
 
+  # Should the table be saved in a dedicated environment for later retrieval?
   if (!isFALSE(assign_tb)) {
-
+    # YES: Assign fetched tables to dedicated environment
     if (isTRUE(assign_tb)) {
       tb_name <- table
 
@@ -100,7 +101,7 @@ get_aux <- function(table           = NULL,
 
       run_cli     <- run_cli()
 
-      cltxt <- paste0("You can call auxiliary table {.strong {table}} by typing {.",
+      cltxt <- paste0("Auxiliary table {.strong {table}} successfully fetched. You can now call it by typing {.",
                       ifelse(run_cli, "run", "code"),
                       " pipr::call_aux(", shQuote(tb_name),")}")
 
@@ -116,6 +117,7 @@ get_aux <- function(table           = NULL,
     }
 
   } else {
+    # NO: Just return the table
     return(rt)
   }
 
