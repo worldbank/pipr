@@ -1,0 +1,120 @@
+---
+title: "Auxiliary tables and the `.pip` environment"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pip-env-aux-tables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(pipr)
+```
+
+The Poverty and Inequality Portal (PIP) not only provides the estimates to monitor global poverty and country-level inequality, but it also makes available all the underlying data necessary for such estimations. These data are called auxiliary tables and you can access them with the {pipr} package via the function `get_aux()`. You need to know the name of the auxiliary table you need to retrieve. For that you can use the function `display_aux()`
+
+## Display list of auxiliary tables
+
+The main objective of `display_aux()` is to show the user all the auxiliary tables available in pip and give them the ability to download them by just clicking on their names. [^1] The idea of this feature is to simulate the behavior of the complementary PIP Stata wrapper {[pip](https://github.com/worldbank/pip)}.
+
+[^1]: The availability of this feature depends on the IDE you use, which explained [here](https://cli.r-lib.org/reference/links.html). If you're IDE does not support links, {pipr} will only display the list of available auxiliary tables.
+
+```{r display, eval=FALSE}
+display_aux()
+#> 
+#> -- Click on any of the tables below --
+#> 
+#> `aux versions`
+#> `countries`
+#> `country coverage`
+#> `country list`
+#> `cpi`
+#> `decomposition`
+#> `dictionary`
+#> `framework`
+#> `gdp`
+#> `incgrp coverage`
+#> `indicators`
+#> `interpolated means`
+#> `missing data`
+#> `pce`
+#> `pop`
+#> `pop region`
+#> `poverty lines`
+#> `ppp`
+#> `region coverage`
+#> `regions`
+#> `survey means`
+```
+
+When you click on any of the tables names in the console of your R IDE, {pipr} will store the desired table into the `.pip` environment, which is created at build time. That is, each time {pipr} is loaded or attached. To store the tables in the `.pip` environment, `display_aux()` makes use of the argument `assign_tb` in the `get_aux()` function. If `TRUE`, `get_aux()` assigns the requested auxiliary table to the `.pip` environment and returns and invisible `TRUE` instead of the table. If `FALSE` (the default), it behaves as usual. So, `display_aux()` is just a wrapper around `get_aux()` with `assign_tb = TRUE`.
+
+## Calling the tables in `.pip` env.
+
+Since the `.pip` environment is created at build time inside {pipr} it is quite tricky to get its contents "by hand." This why you need to use function `call_aux` to call any auxiliary table available in `.pip` env. In this way, you have the best of both words:
+
+1.  You can download aux tables by only clicking on their names (ala Stata).
+2.  You don't mess up with the global env
+3.  you can call the tables you downloaded with `call_aux()`
+4.  The `assign_tb` option and `call_aux` are a powerful idea for developers who need to keep their environments clean.
+
+```{r call}
+# this simulates a `display_aux() call`
+get_aux("gdp", assign_tb = TRUE)
+
+
+# now you can call it
+call_aux("gdp")
+
+```
+
+## Using `.pip` in development
+
+You can use the `.pip` environment in development when you need to interact with PIP auxiliary data in several instances during your project and need to make sure the data is not affected by the work in your global environment. `.pip` environment makes sure that all its tables remain unchanged and available when needed as long as {pipr} is not reloaded or a new R session is started
+
+```{r developrs, eval=FALSE}
+# for developers who may need several tables
+tb <- c("cpi", "ppp", "pop")
+l <- lapply(tb, get_aux, assign_tb = TRUE)
+#> i You can call auxiliary table cpi by typing `pipr::call_aux("cpi")`
+#> i You can call auxiliary table ppp by typing `pipr::call_aux("ppp")`
+#> i You can call auxiliary table pop by typing `pipr::call_aux("pop")
+#> 
+#> `
+call_aux()
+#> -- tables available in env pip --
+#> 
+#> `gdp`
+#> `ppp`
+#> `cpi`
+#> `pop`
+
+call_aux("pop")
+#> # A tibble: 650 x 46
+#>    country_code data_l~1 `1977` `1978` `1979` `1980` `1981` `1982` `1983` `1984`
+#>    <chr>        <chr>     <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+#>  1 ABW          national 6.04e4 6.01e4 6.00e4 6.01e4 6.06e4 6.13e4 6.22e4 6.28e4
+#>  2 ABW          rural    2.99e4 2.97e4 2.97e4 2.98e4 3.00e4 3.04e4 3.08e4 3.12e4
+#>  3 ABW          urban    3.05e4 3.04e4 3.03e4 3.03e4 3.06e4 3.09e4 3.14e4 3.17e4
+#>  4 AFG          national 1.32e7 1.33e7 1.34e7 1.34e7 1.32e7 1.29e7 1.25e7 1.22e7
+#>  5 AFG          rural    1.13e7 1.13e7 1.13e7 1.12e7 1.10e7 1.07e7 1.03e7 9.96e6
+#>  6 AFG          urban    1.91e6 2.00e6 2.07e6 2.14e6 2.18e6 2.21e6 2.23e6 2.24e6
+#>  7 AGO          national 7.53e6 7.79e6 8.06e6 8.34e6 8.64e6 8.95e6 9.28e6 9.61e6
+#>  8 AGO          rural    5.95e6 6.07e6 6.19e6 6.31e6 6.44e6 6.57e6 6.70e6 6.82e6
+#>  9 AGO          urban    1.59e6 1.72e6 1.87e6 2.03e6 2.20e6 2.38e6 2.58e6 2.79e6
+#> 10 ALB          national 2.51e6 2.57e6 2.62e6 2.67e6 2.73e6 2.78e6 2.84e6 2.90e6
+#> # ... with 640 more rows, 36 more variables: `1985` <dbl>, `1986` <dbl>,
+#> #   `1987` <dbl>, `1988` <dbl>, `1989` <dbl>, `1990` <dbl>, `1991` <dbl>,
+#> #   `1992` <dbl>, `1993` <dbl>, `1994` <dbl>, `1995` <dbl>, `1996` <dbl>,
+#> #   `1997` <dbl>, `1998` <dbl>, `1999` <dbl>, `2000` <dbl>, `2001` <dbl>,
+#> #   `2002` <dbl>, `2003` <dbl>, `2004` <dbl>, `2005` <dbl>, `2006` <dbl>,
+#> #   `2007` <dbl>, `2008` <dbl>, `2009` <dbl>, `2010` <dbl>, `2011` <dbl>,
+#> #   `2012` <dbl>, `2013` <dbl>, `2014` <dbl>, `2015` <dbl>, `2016` <dbl>, ...
+```

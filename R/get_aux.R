@@ -4,8 +4,15 @@
 #' inputs will be returned.
 #'
 #' @param table Aux table
+#' @param assign_tb assigns table to specified name to the `.pip` environment.
+#'   If `FALSE` no assignment will performed. If `TRUE`, the table will be
+#'   assigned to  exactly the same name as the one of the desired table. If
+#'   character, the table will be assigned to that name.
 #' @inheritParams get_stats
-#' @return tibble or list
+#' @param force logical: force replacement. Default is FALSE
+#'
+#' @return tibble or list. If `assign_tb` is TRUE or character, it will return
+#'   TRUE if data was assign properly to .pip env
 #' @export
 #' @examples
 #' \dontrun{
@@ -17,14 +24,30 @@
 #'
 #' # Get countries
 #' df <- get_aux("countries")
+#'
+#' # Display auxiliary tables
+#' get_aux()
+#'
+#' # Display and assign to .pip env the selected auxiliary table
+#' get_aux(assign_tb = TRUE)
+#'
+#' # Bind gdp table to "gdp" in .pip env
+#' get_aux("gdp", assign_tb = TRUE)
+#'
+#' # Bind gdp table to "new_name" in .pip env
+#' get_aux("gdp", assign_tb = "new_name")
+#'
 #' }
-get_aux <- function(table = NULL,
-                    version = NULL,
-                    ppp_version = NULL,
+get_aux <- function(table           = NULL,
+                    version         = NULL,
+                    ppp_version     = NULL,
                     release_version = NULL,
-                    api_version = "v1",
-                    format = c("rds", "json", "csv"),
-                    simplify = TRUE, server = NULL) {
+                    api_version     = "v1",
+                    format          = c("rds", "json", "csv"),
+                    simplify        = TRUE,
+                    server          = NULL,
+                    assign_tb       = FALSE,
+                    force           = FALSE) {
 
   # Match args
   api_version <- match.arg(api_version)
@@ -34,9 +57,17 @@ get_aux <- function(table = NULL,
   u <- build_url(server, "aux", api_version = api_version)
 
   # Return response
+  # If not table is specified, returns list of available tables
   if (is.null(table)) {
-    res <- httr::GET(u)
-    parse_response(res, simplify = simplify)
+    dst <- display_aux(version         = version,
+                       ppp_version     = ppp_version,
+                       release_version = release_version,
+                       api_version     = api_version,
+                       format          = format,
+                       server          = server,
+                       assign_tb       = assign_tb)
+    return(invisible(dst))
+  # If a table is specified, returns that table
   } else {
     args <- build_args(.table = table,
                        .version = version,
@@ -44,8 +75,52 @@ get_aux <- function(table = NULL,
                        .release_version = release_version,
                        .format = format)
     res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
-    parse_response(res, simplify = simplify)
+    rt  <- parse_response(res, simplify = simplify)
   }
+
+  # Should the table be saved in a dedicated environment for later retrieval?
+  if (!isFALSE(assign_tb)) {
+    # YES: Assign fetched tables to dedicated environment
+    if (isTRUE(assign_tb)) {
+      tb_name <- table
+
+    } else if (is.character(assign_tb)) {
+      tb_name <- assign_tb
+
+    } else {
+      msg <- c("Invalid sintax in {.field assign_tb}",
+               "*" = "{.field assign_tb} must be logical or character.")
+        cli::cli_abort(msg,class = "pipr_error",wrap = TRUE)
+    }
+
+    srt <- set_aux(table = tb_name,
+                   value = rt,
+                   force = force)
+
+    if (isTRUE(srt)) {
+
+      run_cli     <- run_cli()
+
+      cltxt <- paste0("Auxiliary table {.strong {table}} successfully fetched. You can now call it by typing {.",
+                      ifelse(run_cli, "run", "code"),
+                      " pipr::call_aux(", shQuote(tb_name),")}")
+
+      cli::cli_alert_info(cltxt, wrap = TRUE)
+
+      return(invisible(srt))
+
+    } else {
+
+      msg <- c("table {.strong {table}} could not be saved in env {.env .pip}")
+      cli::cli_abort(msg,class = "pipr_error",wrap = TRUE)
+
+    }
+
+  } else {
+    # NO: Just return the table
+    return(rt)
+  }
+
 }
 
 #' get_countries
