@@ -12,7 +12,9 @@ get_aux(
   api_version = "v1",
   format = c("rds", "json", "csv"),
   simplify = TRUE,
-  server = NULL
+  server = NULL,
+  assign_tb = FALSE,
+  force = FALSE
 )
 }
 \arguments{
@@ -32,9 +34,17 @@ get_aux(
 \code{tibble}}
 
 \item{server}{character: Server. For WB internal use only}
+
+\item{assign_tb}{assigns table to specified name to the \code{.pip} environment.
+If \code{FALSE} no assignment will performed. If \code{TRUE}, the table will be
+assigned to  exactly the same name as the one of the desired table. If
+character, the table will be assigned to that name.}
+
+\item{force}{logical: force replacement. Default is FALSE}
 }
 \value{
-tibble or list
+tibble or list. If \code{assign_tb} is TRUE or character, it will return
+TRUE if data was assign properly to .pip env
 }
 \description{
 Get an auxiliary dataset. If no table is specified a vector with possible
@@ -50,5 +60,18 @@ df <- get_aux("gdp")
 
 # Get countries
 df <- get_aux("countries")
+
+# Display auxiliary tables
+get_aux()
+
+# Display and assign to .pip env the selected auxiliary table
+get_aux(assign_tb = TRUE)
+
+# Bind gdp table to "gdp" in .pip env
+get_aux("gdp", assign_tb = TRUE)
+
+# Bind gdp table to "new_name" in .pip env
+get_aux("gdp", assign_tb = "new_name")
+
 }
 }
