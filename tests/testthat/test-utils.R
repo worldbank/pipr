@@ -7,18 +7,23 @@ dictionary <- readRDS("../testdata/dictionary.RDS")
 
 # tests
 test_that("check_internet() works", {
+  skip_if_offline()
+  skip_on_cran()
   expect_true(check_internet())
   expect_identical(check_internet(), curl::has_internet())
   expect_invisible(check_internet())
 })
 
 test_that("check_api() works", {
+  skip_if_offline()
+  skip_on_cran()
   res <- check_api("v1", server = NULL)
   expect_equal(res, "PIP API is running")
 })
 
 test_that("check_status() works", {
-
+  skip_if_offline()
+  skip_on_cran()
   # 200
   res <- health_check("v1")
   parsed <- parse_response(res, simplify = FALSE)$content
@@ -66,7 +71,8 @@ test_that("build_url() works", {
 })
 
 test_that("build_url() works for internal URLS", {
-
+  skip_if_offline()
+  skip_on_cran()
   # Check internal URLs
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
   x <- build_url("qa", "pip", "v1")
@@ -241,6 +247,8 @@ test_that("Temporay renaming of response columns work", {
 
 test_that("Temporay renaming of response works for row-based datasets (dictionary)", {
 
+  skip_on_cran()
+  skip_if_offline()
   res <- tmp_rename_cols(dictionary,
                   url = "https://api.worldbank.org/pip/v1/aux?table=dictionary&format=rds")
 

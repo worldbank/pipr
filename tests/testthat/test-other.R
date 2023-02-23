@@ -1,3 +1,5 @@
+skip("Skipping online version of the tests")
+
 dev_host <- gsub("/api|http://", "", Sys.getenv("PIP_DEV_URL"))
 qa_host <- gsub("/pip|/api|http(s)?://", "", Sys.getenv("PIP_QA_URL"))
 
