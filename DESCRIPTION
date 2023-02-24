@@ -39,7 +39,8 @@ Suggests:
     knitr,
     rmarkdown,
     markdown,
-    callr
+    callr, 
+    mockery
 Language: en-US
 Imports: 
     attempt,
