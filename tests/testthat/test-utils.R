@@ -1,9 +1,9 @@
 # constants
-res_ex_json <- readRDS("../testdata/res-ex-json.RDS")
-res_ex_csv <- readRDS("../testdata/res-ex-csv.RDS")
-res_ex_rds <- readRDS("../testdata/res-ex-rds.RDS")
-res_ex_404 <- readRDS("../testdata/res-ex-404.RDS")
-dictionary <- readRDS("../testdata/dictionary.RDS")
+res_ex_json <- readRDS(test_path("testdata", "res-ex-json.RDS"))
+res_ex_csv <- readRDS(test_path("testdata", "res-ex-csv.RDS"))
+res_ex_rds <- readRDS(test_path("testdata", "res-ex-rds.RDS"))
+res_ex_404 <- readRDS(test_path("testdata", "res-ex-404.RDS"))
+dictionary <- readRDS(test_path("testdata", "dictionary.RDS"))
 
 # tests
 test_that("check_internet() works", {
@@ -244,7 +244,7 @@ test_that("Temporay renaming of response columns work", {
                      "reporting_pce") %in% names(res)))
 })
 
-
+skip("No longer necessary. To be fully deprecated soon.")
 test_that("Temporay renaming of response works for row-based datasets (dictionary)", {
 
   skip_on_cran()

@@ -25,7 +25,7 @@ test_that("get_aux() works", {
   skip_if_offline()
   skip_on_cran()
   # Return tibble as default
-  res <- get_aux()
+  res <- suppressMessages(get_aux())
   expect_true(tibble::is_tibble(res))
   res <- get_aux("gdp")
   expect_true(tibble::is_tibble(res))
@@ -76,11 +76,11 @@ test_that("User agent works", {
 
 test_that("get_countries() with mocking works", {
   mockery::stub(get_aux, "httr::GET", function(...) {
-    readRDS('../testdata/response-country.RDS')
+    readRDS(test_path("testdata", 'response-country.RDS'))
   })
 
   mockery::stub(get_countries, "get_aux", function(...) {
-    readRDS('../testdata/response-country.RDS')
+    readRDS(test_path("testdata", 'response-country.RDS'))
   })
 
   res1 <- get_aux('countries')
@@ -96,11 +96,11 @@ test_that("get_countries() with mocking works", {
 
 test_that("get_regions() with mocking works", {
   mockery::stub(get_aux, "httr::GET", function(...) {
-    readRDS('../testdata/response-regions.RDS')
+    readRDS(test_path("testdata", 'response-regions.RDS'))
   })
 
   mockery::stub(get_regions, "get_aux", function(...) {
-    readRDS('../testdata/response-regions.RDS')
+    readRDS(test_path("testdata", 'response-regions.RDS'))
   })
 
   res1 <- get_aux('regions')
@@ -116,11 +116,11 @@ test_that("get_regions() with mocking works", {
 
 test_that("get_cpi() with mocking works", {
   mockery::stub(get_aux, "httr::GET", function(...) {
-    readRDS('../testdata/response-cpi.RDS')
+    readRDS(test_path("testdata", 'response-cpi.RDS'))
   })
 
   mockery::stub(get_cpi, "get_aux", function(...) {
-    readRDS('../testdata/response-cpi.RDS')
+    readRDS(test_path("testdata", 'response-cpi.RDS'))
   })
 
   res1 <- get_aux('cpi')
@@ -137,11 +137,11 @@ test_that("get_dictionary() with mocking works", {
   #Waiting for this PR to be merged https://github.com/worldbank/pipr/pull/43
   #so that get_dictionary() works
   mockery::stub(get_aux, "httr::GET", function(...) {
-    readRDS('../testdata/response-dictionary.RDS')
+    readRDS(test_path("testdata", 'response-dictionary.RDS'))
   })
 
   mockery::stub(get_dictionary, "get_aux", function(...) {
-    readRDS('../testdata/response-dictionary.RDS')
+    readRDS(test_path("testdata", 'response-dictionary.RDS'))
   })
 
   res1 <- get_aux('dictionary')

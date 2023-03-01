@@ -6,7 +6,7 @@ test_that("returns proper table", {
   res         <- httr::GET(u)
   tbs_tb      <- parse_response(res, simplify = simplify)
 
-  tt <- display_aux(server = server, simplify = simplify, api_version = api_version)
+  tt <- suppressMessages(display_aux(server = server, simplify = simplify, api_version = api_version))
 
   expect_equal(tbs_tb, tt)
 

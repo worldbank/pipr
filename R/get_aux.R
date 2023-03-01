@@ -57,8 +57,10 @@ get_aux <- function(table           = NULL,
   u <- build_url(server, "aux", api_version = api_version)
 
   # Return response
-  # If not table is specified, returns list of available tables
+  # If no table is specified, returns list of available tables
   if (is.null(table)) {
+    # res <- httr::GET(u)
+    # parse_response(res, simplify = simplify)
     dst <- display_aux(version         = version,
                        ppp_version     = ppp_version,
                        release_version = release_version,
