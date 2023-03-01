@@ -1,7 +1,7 @@
 #' check_internet
 #' @noRd
 check_internet <- function() {
-  attempt::stop_if_not(.x = curl::has_internet(), msg = "Please check your internet connexion")
+  attempt::stop_if_not(.x = curl::has_internet(), msg = "Please check your internet connection")
   invisible(TRUE)
 }
 
@@ -179,28 +179,27 @@ select_base_url <- function(server) {
 #' @param url response url
 #' @noRd
 tmp_rename_cols <- function(df, url = "") {
-
   # Special handling of dictionary table since it
   # is a row-based table
-  if (grepl("aux[?]table=dictionary", url)) {
-    rownames(df) <- df$variable
-    df <- data.frame(t(df))
-    data.table::setnames(
-      df,
-      old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
-      new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level")
-    )
-    df <- data.frame(t(df))
-    df$variable <- row.names(df)
-    row.names(df) <- NULL
-  } else {
+  # if (grepl("aux[?]table=dictionary", url)) {
+  #   rownames(df) <- df$variable
+  #   df <- data.frame(t(df))
+  #   data.table::setnames(
+  #     df,
+  #     old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
+  #     new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level")
+  #   )
+  #   df <- data.frame(t(df))
+  #   df$variable <- row.names(df)
+  #   row.names(df) <- NULL
+  # } else {
     df <- data.table::setnames(
       df,
       old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
       new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level"),
       skip_absent = TRUE
     )
-  }
+  #}
 
   return(df)
 }
