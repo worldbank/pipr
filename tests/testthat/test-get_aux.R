@@ -1,4 +1,11 @@
+#Disable caching
+Sys.setenv("PIPR_DISABLE_CACHING" = "TRUE")
+#To enable running tests which uses real API uncomment the below line
+#Sys.setenv('NOT_CRAN' = 'true')
+
 test_that("get_countries() works", {
+  skip_if_offline()
+  skip_on_cran()
   res <- get_countries()
   res2 <- get_aux("countries")
   expect_true(tibble::is_tibble(res))
@@ -6,6 +13,8 @@ test_that("get_countries() works", {
 })
 
 test_that("get_regions() works", {
+  skip_if_offline()
+  skip_on_cran()
   res <- get_regions()
   res2 <- get_aux("regions")
   expect_true(tibble::is_tibble(res))
@@ -13,7 +22,8 @@ test_that("get_regions() works", {
 })
 
 test_that("get_aux() works", {
-
+  skip_if_offline()
+  skip_on_cran()
   # Return tibble as default
   res <- get_aux()
   expect_true(tibble::is_tibble(res))
@@ -53,11 +63,94 @@ test_that("get_aux() works", {
 })
 
 test_that("User agent works", {
+  skip_if_offline()
+  skip_on_cran()
   # res <- get_aux(simplify = FALSE)
   # tmp <- res$response$request$options$useragent
   # expect_identical(tmp, pipr_user_agent)
   res <- get_aux("gdp", simplify = FALSE)
   tmp <- res$response$request$options$useragent
   expect_identical(tmp, pipr_user_agent)
+})
+
+
+test_that("get_countries() with mocking works", {
+  mockery::stub(get_aux, "httr::GET", function(...) {
+    readRDS('../testdata/response-country.RDS')
+  })
+
+  mockery::stub(get_countries, "get_aux", function(...) {
+    readRDS('../testdata/response-country.RDS')
+  })
+
+  res1 <- get_aux('countries')
+  res2 <- parse_response(get_countries(), TRUE)
+
+  expect_true(tibble::is_tibble(res1))
+  expect_true(tibble::is_tibble(res2))
+
+  expect_equal(dim(res1), dim(res2))
+  expect_identical(res1, res2)
+})
+
+
+test_that("get_regions() with mocking works", {
+  mockery::stub(get_aux, "httr::GET", function(...) {
+    readRDS('../testdata/response-regions.RDS')
+  })
+
+  mockery::stub(get_regions, "get_aux", function(...) {
+    readRDS('../testdata/response-regions.RDS')
+  })
+
+  res1 <- get_aux('regions')
+  res2 <- parse_response(get_regions(), TRUE)
+
+  expect_true(tibble::is_tibble(res1))
+  expect_true(tibble::is_tibble(res2))
+
+  expect_equal(dim(res1), dim(res2))
+  expect_identical(res1, res2)
+})
+
+
+test_that("get_cpi() with mocking works", {
+  mockery::stub(get_aux, "httr::GET", function(...) {
+    readRDS('../testdata/response-cpi.RDS')
+  })
+
+  mockery::stub(get_cpi, "get_aux", function(...) {
+    readRDS('../testdata/response-cpi.RDS')
+  })
+
+  res1 <- get_aux('cpi')
+  res2 <- parse_response(get_cpi(), TRUE)
+
+  expect_true(tibble::is_tibble(res1))
+  expect_true(tibble::is_tibble(res2))
+
+  expect_equal(dim(res1), dim(res2))
+  expect_identical(res1, res2)
+})
+
+test_that("get_dictionary() with mocking works", {
+  #Waiting for this PR to be merged https://github.com/worldbank/pipr/pull/43
+  #so that get_dictionary() works
+  mockery::stub(get_aux, "httr::GET", function(...) {
+    readRDS('../testdata/response-dictionary.RDS')
+  })
+
+  mockery::stub(get_dictionary, "get_aux", function(...) {
+    readRDS('../testdata/response-dictionary.RDS')
+  })
+
+  res1 <- get_aux('dictionary')
+  res2 <- parse_response(get_dictionary(), TRUE)
+
+  expect_true(tibble::is_tibble(res1))
+  expect_true(tibble::is_tibble(res2))
+
+  expect_equal(dim(res1), dim(res2))
+  expect_identical(res1, res2)
 })
 
