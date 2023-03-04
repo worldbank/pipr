@@ -42,7 +42,7 @@ display_aux <- function(version         = NULL,
     purrr::walk(.x = tbs,
                 .f = ~{
                   torun <- paste0("pipr::get_aux(table = ", shQuote(.x), ",",
-                                  fun_args,")")
+                                  fun_args, ")")
                   y <- gsub("_", " ", .x)
                   cli::cli_text(
                     "{.run [{y}]({torun})}"
@@ -72,7 +72,7 @@ args_to_string <- function(il) {
 
 #   ____________________________________________________________________________
 #   Defenses                                                                ####
-  stopifnot( exprs = {
+  stopifnot(exprs = {
     is.list(il)
     !is.null(names(il))
     }

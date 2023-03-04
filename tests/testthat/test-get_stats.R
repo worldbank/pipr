@@ -55,7 +55,6 @@ test_that("get_stats() works w/ subgroup = 'wb_regions'", {
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
     message = "Could not connect to QA host"
   )
-  #  df <- get_stats("all", year = 2018, subgroup = "wb")
   df <- get_stats("all", year = 2011, subgroup = "wb_regions", server = "qa")
   expect_equal(nrow(df), 8)
   expect_identical(
@@ -74,11 +73,9 @@ test_that("get_stats() works w/ subgroup = 'none'", {
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
     message = "Could not connect to QA host"
   )
-  # df <- get_stats("all", year = 2018, subgroup = "none")
   df <- get_stats("all", year = 2011, subgroup = "none", server = "qa")
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
-  # df <- get_stats(c("ARG", "BRA"), year = 2011, subgroup = "none")
   df <- get_stats(c("ARG", "BRA"), year = 2011, subgroup = "none", server = "qa")
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
@@ -101,17 +98,16 @@ test_that("get_stats() returns a tibble with named columns for empty response (f
   # rds
   res <- get_stats("AGO", 2000, format = "rds")
   res2 <- get_stats("AGO", 2005, format = "rds") # empty response
-  expect_equal(dim(res)[2], dim(res2)[2] )
+  expect_equal(dim(res)[2], dim(res2)[2])
   expect_identical(names(res), names(res2))
 
   # csv
   res <- get_stats("AGO", 2000, format = "csv")
   res2 <- get_stats("AGO", 2005, format = "csv") # empty response
-  expect_equal(dim(res)[2], dim(res2)[2] )
+  expect_equal(dim(res)[2], dim(res2)[2])
   expect_identical(names(res), names(res2))
 
   # json (does not return an empty response data frame)
-  # res <- get_stats("AGO", 2000, format = "json")
   res2 <- get_stats("AGO", 2005, format = "json") # empty response
   expect_equal(dim(res2)[2], 0)
   expect_equal(length(names(res2)), 0)

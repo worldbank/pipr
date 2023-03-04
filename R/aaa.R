@@ -16,7 +16,7 @@ set_aux <- function(table,
   ## Evaluate if exists --------
 
   to_set <-  1
-  if (rlang::env_has(.pip, table) ) {
+  if (rlang::env_has(.pip, table)) {
     if (force == FALSE) {
       cli::cli_alert("Table {.field {table}} already exists.")
       to_set <- utils::menu(c("Replace with new table", "Abort"))
@@ -107,7 +107,7 @@ call_aux <- function(table = NULL) {
     cli::cli_h2("tables available in env {.env pip}")
     purrr::walk(.x = nms,
                 .f = ~{
-                  torun <- paste0("pipr::call_aux(table = ", shQuote(.x),")")
+                  torun <- paste0("pipr::call_aux(table = ", shQuote(.x), ")")
 
                   cli::cli_text(txt_to_ex)
                 })
@@ -145,4 +145,3 @@ run_cli <- function() {
   run_cli <- "run" %in% cli_types
   return(invisible(run_cli))
 }
-

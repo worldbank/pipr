@@ -52,15 +52,12 @@ get_aux <- function(table           = NULL,
   # Match args
   api_version <- match.arg(api_version)
   format <- match.arg(format)
-
   # Build query string
   u <- build_url(server, "aux", api_version = api_version)
 
   # Return response
   # If no table is specified, returns list of available tables
   if (is.null(table)) {
-    # res <- httr::GET(u)
-    # parse_response(res, simplify = simplify)
     dst <- display_aux(version         = version,
                        ppp_version     = ppp_version,
                        release_version = release_version,
@@ -92,7 +89,7 @@ get_aux <- function(table           = NULL,
     } else {
       msg <- c("Invalid sintax in {.field assign_tb}",
                "*" = "{.field assign_tb} must be logical or character.")
-        cli::cli_abort(msg,class = "pipr_error",wrap = TRUE)
+        cli::cli_abort(msg, class = "pipr_error", wrap = TRUE)
     }
 
     srt <- set_aux(table = tb_name,
@@ -103,9 +100,10 @@ get_aux <- function(table           = NULL,
 
       run_cli     <- run_cli()
 
-      cltxt <- paste0("Auxiliary table {.strong {table}} successfully fetched. You can now call it by typing {.",
+      cltxt <- paste0("Auxiliary table {.strong {table}} successfully fetched.
+                      You can now call it by typing {.",
                       ifelse(run_cli, "run", "code"),
-                      " pipr::call_aux(", shQuote(tb_name),")}")
+                      " pipr::call_aux(", shQuote(tb_name), ")}")
 
       cli::cli_alert_info(cltxt, wrap = TRUE)
 
@@ -114,7 +112,7 @@ get_aux <- function(table           = NULL,
     } else {
 
       msg <- c("table {.strong {table}} could not be saved in env {.env .pip}")
-      cli::cli_abort(msg,class = "pipr_error",wrap = TRUE)
+      cli::cli_abort(msg, class = "pipr_error", wrap = TRUE)
 
     }
 

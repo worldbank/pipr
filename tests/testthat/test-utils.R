@@ -38,7 +38,8 @@ test_that("check_status() works", {
   res <- res_ex_404
   parsed <- parse_response(res, simplify = FALSE)$content
   res$status_code <- 500
-  parsed$error <- NULL ; parsed$details <- NULL
+  parsed$error <- NULL
+  parsed$details <- NULL
   expect_error(check_status(res, parsed))
 
 })
@@ -261,5 +262,4 @@ test_that("Temporay renaming of response works for row-based datasets (dictionar
                    %in% res$variable))
 
 })
-
 
