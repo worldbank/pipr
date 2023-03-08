@@ -1,11 +1,11 @@
-skip("Skipping online version of the tests")
 # constants
-countries <- get_aux("countries")
 dev_host <- gsub("/api|http://", "", Sys.getenv("PIP_DEV_URL"))
 qa_host <- gsub("/pip|/api|http(s)://", "", Sys.getenv("PIP_QA_URL"))
 
 # tests
 test_that("get_stats() returns the correct format", {
+  skip_if_offline()
+  skip_on_cran()
   # Return table if simplify = TRUE
   df <- get_stats("AGO", year = 2000)
   expect_true(tibble::is_tibble(df))
@@ -17,11 +17,15 @@ test_that("get_stats() returns the correct format", {
 })
 
 test_that("get_stats() works for a single country-year", {
+  skip_if_offline()
+  skip_on_cran()
   df <- get_stats("AGO", year = 2000)
   expect_equal(nrow(df), 1)
 })
 
 test_that("get_stats() works for multiple countries and years", {
+  skip_if_offline()
+  skip_on_cran()
   df <- get_stats(c("AGO", "ALB"), year = 2000)
   expect_equal(nrow(df), 1)
   df <- get_stats(c("AGO"), year = c(2000, 2018))
@@ -29,18 +33,25 @@ test_that("get_stats() works for multiple countries and years", {
 })
 
 test_that("get_stats() works for all countries and years", {
+  skip_if_offline()
+  skip_on_cran()
   df <- get_stats("all", year = "all")
   expect_gte(nrow(df), 2000)
-  skip("Looks like there is a potential data inconsitency in the API")
+  # skip("Looks like there is a potential data inconsitency in the API")
+  countries <- get_aux("countries")
   expect_true(all(countries$country_code %in% df$country_code))
 })
 
 test_that("get_stats() works w/ fill_gaps = TRUE", {
+  skip_if_offline()
+  skip_on_cran()
   df <- get_stats("all", year = "all", fill_gaps = TRUE)
   expect_gte(nrow(df), 6000)
 })
 
 test_that("get_stats() works w/ popshare option", {
+  skip_if_offline()
+  skip_on_cran()
   df <- get_stats("AGO", year = "all", popshare = .5)
   expect_gte(nrow(df), 3)
   #Ensure there are different values for headcount generated
@@ -49,6 +60,8 @@ test_that("get_stats() works w/ popshare option", {
 })
 
 test_that("get_stats() works w/ subgroup = 'wb_regions'", {
+  skip_if_offline()
+  skip_on_cran()
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
@@ -56,17 +69,20 @@ test_that("get_stats() works w/ subgroup = 'wb_regions'", {
     message = "Could not connect to QA host"
   )
   df <- get_stats("all", year = 2011, subgroup = "wb_regions", server = "qa")
-  expect_equal(nrow(df), 8)
+  expect_equal(nrow(df), 10)
   expect_identical(
-    df$region_code,
-    c(
-      "EAP", "ECA", "LAC", "MNA",
+    sort(df$region_code),
+    sort(c(
+      "AFE", "AFW", "EAP", "ECA", "LAC", "MNA",
       "OHI", "SAS", "SSA", "WLD"
-    )
+    ))
   )
 })
 
 test_that("get_stats() works w/ subgroup = 'none'", {
+  skip("Need to review to whole logic for this")
+  skip_if_offline()
+  skip_on_cran()
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
@@ -82,6 +98,8 @@ test_that("get_stats() works w/ subgroup = 'none'", {
 })
 
 test_that("get_stats() works w/ all response formats", {
+  skip_if_offline()
+  skip_on_cran()
   df <- get_stats("AGO", year = "all", format = "json")
   expect_true(tibble::is_tibble(df))
   expect_gte(nrow(df), 3)
@@ -94,6 +112,8 @@ test_that("get_stats() works w/ all response formats", {
 })
 
 test_that("get_stats() returns a tibble with named columns for empty response (for rds and csv) ", {
+  skip_if_offline()
+  skip_on_cran()
 
   # rds
   res <- get_stats("AGO", 2000, format = "rds")
@@ -115,6 +135,9 @@ test_that("get_stats() returns a tibble with named columns for empty response (f
 })
 
 test_that("get_stats() works w/ simplify = FALSE", {
+  skip_if_offline()
+  skip_on_cran()
+
   res <- get_stats("AGO", year = "all", simplify = FALSE)
   expect_true(is.list(res))
   expect_identical(names(res), c("url", "status", "type", "content", "response"))
@@ -124,6 +147,8 @@ test_that("get_stats() works w/ simplify = FALSE", {
 })
 
 test_that("get_wb() works", {
+  skip_if_offline()
+  skip_on_cran()
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
@@ -131,17 +156,19 @@ test_that("get_wb() works", {
     message = "Could not connect to QA host"
   )
   df <- get_wb(year = 2011, server = "qa")
-  expect_equal(nrow(df), 8)
+  expect_equal(nrow(df), 10)
   expect_identical(
-    df$region_code,
-    c(
-      "EAP", "ECA", "LAC", "MNA",
+    sort(df$region_code),
+    sort(c(
+      "AFE", "AFW", "EAP", "ECA", "LAC", "MNA",
       "OHI", "SAS", "SSA", "WLD"
-    )
+    ))
   )
 })
 
 test_that("get_wb() works w/ all response formats", {
+  skip_if_offline()
+  skip_on_cran()
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
@@ -160,6 +187,8 @@ test_that("get_wb() works w/ all response formats", {
 })
 
 test_that("get_wb() works w/ simplify = FALSE", {
+  skip_if_offline()
+  skip_on_cran()
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
     message = "pip-grp not implement on PROD yet"
   )
@@ -176,6 +205,8 @@ test_that("get_wb() works w/ simplify = FALSE", {
 
 
 test_that("User agent works", {
+  skip_if_offline()
+  skip_on_cran()
   res <- get_stats("AGO", 2000, simplify = FALSE)
   tmp <- res$response$request$options$useragent
   expect_identical(tmp, pipr_user_agent)

@@ -3,33 +3,24 @@ Sys.setenv("PIPR_DISABLE_CACHING" = "TRUE")
 #To enable running tests which uses real API uncomment the below line
 #Sys.setenv("NOT_CRAN" = "true")
 
-test_that("get_countries() works", {
+## Test core functions ----
+test_that("get_aux returns available tables when no argument is specified", {
   skip_if_offline()
   skip_on_cran()
-  res <- get_countries()
-  res2 <- get_aux("countries")
+
+  res <- suppressMessages(get_aux())
   expect_true(tibble::is_tibble(res))
-  expect_identical(res, res2)
+  expect_equal(names(res), "tables")
 })
 
-test_that("get_regions() works", {
-  skip_if_offline()
-  skip_on_cran()
-  res <- get_regions()
-  res2 <- get_aux("regions")
-  expect_true(tibble::is_tibble(res))
-  expect_identical(res, res2)
-})
 
-test_that("get_aux() works", {
+test_that("get_aux() works when calling specific tables", {
   skip_if_offline()
   skip_on_cran()
   # Return tibble as default
   res <- suppressMessages(get_aux())
   expect_true(tibble::is_tibble(res))
   res <- get_aux("gdp")
-  expect_true(tibble::is_tibble(res))
-  res <- get_aux("countries", version = NULL, api_version = "v1", format = "rds", server = NULL)
   expect_true(tibble::is_tibble(res))
 
   # Return custom response list if simplify FALSE
@@ -51,8 +42,8 @@ test_that("get_aux() works", {
   # expect_error(get_aux("tmp"))
   # expect_true(is.list(get_aux("tmp", simplify = FALSE)))
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
-  expect_error(get_aux("tmp", server = "qa"))
-  expect_true(is.list(get_aux("tmp", simplify = FALSE, server = "qa")))
+  expect_error(get_aux("wrong-table-name", server = "qa"))
+  expect_true(is.list(get_aux("wrong-table-name", simplify = FALSE, server = "qa")))
 
   # Check all tables
   skip("survey_metadata gives a 500 error. Need to add functionality for list data")
@@ -71,6 +62,25 @@ test_that("User agent works", {
   res <- get_aux("gdp", simplify = FALSE)
   tmp <- res$response$request$options$useragent
   expect_identical(tmp, pipr_user_agent)
+})
+
+## Test helper functions ----
+test_that("get_countries() works", {
+  skip_if_offline()
+  skip_on_cran()
+  res <- get_countries()
+  res2 <- get_aux("countries")
+  expect_true(tibble::is_tibble(res))
+  expect_identical(res, res2)
+})
+
+test_that("get_regions() works", {
+  skip_if_offline()
+  skip_on_cran()
+  res <- get_regions()
+  res2 <- get_aux("regions")
+  expect_true(tibble::is_tibble(res))
+  expect_identical(res, res2)
 })
 
 

@@ -1,4 +1,6 @@
 test_that("returns proper table", {
+  skip_if_offline()
+  skip_on_cran()
   api_version <-  "v1"
   simplify    <-  TRUE
   server      <-  NULL

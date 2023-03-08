@@ -72,8 +72,7 @@ test_that("build_url() works", {
 })
 
 test_that("build_url() works for internal URLS", {
-  skip_if_offline()
-  skip_on_cran()
+
   # Check internal URLs
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
   x <- build_url("qa", "pip", "v1")
@@ -246,7 +245,7 @@ test_that("Temporay renaming of response columns work", {
 })
 
 skip("No longer necessary. To be fully deprecated soon.")
-test_that("Temporay renaming of response works for row-based datasets (dictionary)", {
+test_that("Temporary renaming of response works for row-based datasets (dictionary)", {
 
   skip_on_cran()
   skip_if_offline()
