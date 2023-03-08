@@ -54,7 +54,8 @@ Imports:
     data.table,
     cli,
     rlang,
-    utils
+    utils,
+    readr
 Depends: 
     R (>= 3.5.0)
 VignetteBuilder: knitr

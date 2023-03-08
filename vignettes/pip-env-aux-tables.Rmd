@@ -28,7 +28,6 @@ The main objective of `display_aux()` is to show the user all the auxiliary tabl
 
 ```{r display, eval=FALSE}
 display_aux()
-#> 
 #> -- Click on any of the tables below --
 #> 
 #> `aux versions`

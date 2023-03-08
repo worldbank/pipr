@@ -38,7 +38,8 @@ test_that("check_status() works", {
   res <- res_ex_404
   parsed <- parse_response(res, simplify = FALSE)$content
   res$status_code <- 500
-  parsed$error <- NULL ; parsed$details <- NULL
+  parsed$error <- NULL
+  parsed$details <- NULL
   expect_error(check_status(res, parsed))
 
 })
@@ -71,8 +72,7 @@ test_that("build_url() works", {
 })
 
 test_that("build_url() works for internal URLS", {
-  skip_if_offline()
-  skip_on_cran()
+
   # Check internal URLs
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
   x <- build_url("qa", "pip", "v1")
@@ -245,7 +245,7 @@ test_that("Temporay renaming of response columns work", {
 })
 
 skip("No longer necessary. To be fully deprecated soon.")
-test_that("Temporay renaming of response works for row-based datasets (dictionary)", {
+test_that("Temporary renaming of response works for row-based datasets (dictionary)", {
 
   skip_on_cran()
   skip_if_offline()
@@ -261,5 +261,4 @@ test_that("Temporay renaming of response works for row-based datasets (dictionar
                    %in% res$variable))
 
 })
-
 
