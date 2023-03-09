@@ -51,21 +51,26 @@ get_aux <- function(table           = NULL,
 
   # Match args
   api_version <- match.arg(api_version)
-  format <- match.arg(format)
+  format      <- match.arg(format)
+  run_cli     <- run_cli()
   # Build query string
   u <- build_url(server, "aux", api_version = api_version)
 
   # Return response
   # If no table is specified, returns list of available tables
   if (is.null(table)) {
-    dst <- display_aux(version         = version,
-                       ppp_version     = ppp_version,
-                       release_version = release_version,
-                       api_version     = api_version,
-                       format          = format,
-                       server          = server,
-                       assign_tb       = assign_tb)
-    return(invisible(dst))
+    res <- httr::GET(u)
+    tables <- parse_response(res, simplify = simplify)
+    cli::cli_text("Auxiliary tables available are")
+    cli::cli_ul(tables$tables)
+    if (run_cli) {
+      cltxt <- paste0("You can type {.run pipr::display_aux()} to display a
+                      clickable list of available
+                      auxiliary tables")
+
+      cli::cli_alert_info(cltxt, wrap = TRUE)
+    }
+    return(invisible(tables))
   # If a table is specified, returns that table
   } else {
     args <- build_args(.table = table,
@@ -79,6 +84,7 @@ get_aux <- function(table           = NULL,
 
   # Should the table be saved in a dedicated environment for later retrieval?
   if (!isFALSE(assign_tb)) {
+    # If not FALSE. It could be TRUE or character
     # YES: Assign fetched tables to dedicated environment
     if (isTRUE(assign_tb)) {
       tb_name <- table
@@ -98,10 +104,8 @@ get_aux <- function(table           = NULL,
 
     if (isTRUE(srt)) {
 
-      run_cli     <- run_cli()
-
-      cltxt <- paste0("Auxiliary table {.strong {table}} successfully fetched.
-                      You can now call it by typing {.",
+      cltxt <- paste0("Auxiliary table {.strong {table}} successfully fetched. ",
+                      "You can now call it by typing {.",
                       ifelse(run_cli, "run", "code"),
                       " pipr::call_aux(", shQuote(tb_name), ")}")
 
