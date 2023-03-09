@@ -12,7 +12,8 @@
 #' @param force logical: force replacement. Default is FALSE
 #'
 #' @return tibble or list. If `assign_tb` is TRUE or character, it will return
-#'   TRUE if data was assign properly to .pip env
+#'   TRUE if data was assign properly to .pip env. If `table` is `NULL` it returns
+#'   a tible with a list of auxiliary tables available.
 #' @export
 #' @examples
 #' \dontrun{
@@ -51,7 +52,8 @@ get_aux <- function(table           = NULL,
 
   # Match args
   api_version <- match.arg(api_version)
-  format <- match.arg(format)
+  format      <- match.arg(format)
+  run_cli     <- run_cli()
 
   # Build query string
   u <- build_url(server, "aux", api_version = api_version)
@@ -59,15 +61,18 @@ get_aux <- function(table           = NULL,
   # Return response
 
   if (is.null(table)) {
-    dst <- display_aux(version         = version,
-                       ppp_version     = ppp_version,
-                       release_version = release_version,
-                       api_version     = api_version,
-                       format          = format,
-                       server          = server,
-                       assign_tb       = assign_tb)
-    return(invisible(dst))
+    res <- httr::GET(u)
+    tables <- parse_response(res, simplify = simplify)
+    cli::cli_text("Auxiliary tables available are")
+    cli::cli_ul(tables$tables)
+    if (run_cli) {
+      cltxt <- paste0("You can type {.run pipr::display_aux()} to display a
+                      clickable list of available
+                      auxiliary tables")
 
+      cli::cli_alert_info(cltxt, wrap = TRUE)
+    }
+    return(invisible(tables))
   } else {
     args <- build_args(.table = table,
                        .version = version,
@@ -79,6 +84,7 @@ get_aux <- function(table           = NULL,
   }
 
   if (!isFALSE(assign_tb)) {
+    # If not FALSE. It could be TRUE or character
 
     if (isTRUE(assign_tb)) {
       tb_name <- table
@@ -97,9 +103,6 @@ get_aux <- function(table           = NULL,
                    force = force)
 
     if (isTRUE(srt)) {
-
-      run_cli     <- run_cli()
-
       cltxt <- paste0("You can call auxiliary table {.strong {table}} by typing {.",
                       ifelse(run_cli, "run", "code"),
                       " pipr::call_aux(", shQuote(tb_name),")}")
