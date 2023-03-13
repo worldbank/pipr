@@ -39,8 +39,14 @@ Suggests:
     knitr,
     rmarkdown,
     markdown,
-    callr, 
-    mockery
+    callr,
+    mockery,
+    ggplot2,
+    tidyr,
+    ggthemes,
+    forcats,
+    scales,
+    dplyr
 Language: en-US
 Imports: 
     attempt,
