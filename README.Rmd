@@ -19,11 +19,16 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/worldbank/pipr/workflows/R-CMD-check/badge.svg)](https://github.com/worldbank/pipr/actions?workflow=R-CMD-check)
 [![test-coverage](https://github.com/worldbank/pipr/workflows/test-coverage/badge.svg)](https://github.com/worldbank/pipr/actions)
 [![pkgdown](https://github.com/worldbank/pipr/workflows/pkgdown/badge.svg)](https://github.com/worldbank/pipr/actions)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test coverage](https://codecov.io/gh/worldbank/pipr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/worldbank/pipr?branch=main)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
-The `pipr` package allows R users to compute poverty and inequality indicators for more than 160 countries and regions from the World Bank’s database of household surveys.
+The `pipr` package allows R users to compute poverty and inequality indicators 
+for more than 160 countries and regions from the World Bank’s database of 
+household surveys. It does so by accessing the Poverty and Inequality Platform 
+(PIP) API. PIP is a computational tool that allows users to estimate poverty 
+rates for regions, sets of countries or individual countries, over time and at 
+any poverty line.
 
 ## Installation
 
@@ -38,6 +43,8 @@ devtools::install_github("worldbank/pipr")
 
 This is a basic example that shows how to retrieve some key poverty and inequity statistics. 
 
+### Retrieve statistics
+
 ```{r example, warning=FALSE, message=FALSE}
 library(dplyr)
 library(pipr)
@@ -45,6 +52,12 @@ library(pipr)
 df <- get_stats(country = "ALB")
 glimpse(df)
 ```
+
+### Access data dictionary
+```{r}
+get_dictionary()
+```
+
 
 ## Citation
 

@@ -1,5 +1,4 @@
 library(testthat)
 library(pipr)
 
-var <- FALSE
-if(var) test_check("pipr")
+test_check("pipr")

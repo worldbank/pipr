@@ -1,0 +1,87 @@
+---
+title: "Auxiliary tables and the `.pip` environment"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pip-env-aux-tables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(pipr)
+```
+
+The Poverty and Inequality Portal (PIP) not only provides the estimates to monitor global poverty and country-level inequality, but it also makes available all the underlying data necessary for such estimations. These data are called auxiliary tables and you can access them with the {pipr} package via the function `get_aux()`. You need to know the name of the auxiliary table you need to retrieve. For that you can use the function `display_aux()`
+
+## Display list of auxiliary tables
+
+The main objective of `display_aux()` is to show the user all the auxiliary tables available in pip and give them the ability to download them by just clicking on their names. [^1] The idea of this feature is to simulate the behavior of the complementary PIP Stata wrapper {[pip](https://github.com/worldbank/pip)}.
+
+[^1]: The availability of this feature depends on the IDE you use, which explained [here](https://cli.r-lib.org/reference/links.html). If you're IDE does not support links, {pipr} will only display the list of available auxiliary tables.
+
+```{r display, eval=FALSE}
+display_aux()
+#> -- Click on any of the tables below --
+#> 
+#> `aux versions`
+#> `countries`
+#> `country coverage`
+#> `country list`
+#> `cpi`
+#> `decomposition`
+#> `dictionary`
+#> `framework`
+#> `gdp`
+#> `incgrp coverage`
+#> `indicators`
+#> `interpolated means`
+#> `missing data`
+#> `pce`
+#> `pop`
+#> `pop region`
+#> `poverty lines`
+#> `ppp`
+#> `region coverage`
+#> `regions`
+#> `survey means`
+```
+
+When you click on any of the tables names in the console of your R IDE, {pipr} will store the desired table into the `.pip` environment, which is created at build time. That is, each time {pipr} is loaded or attached. To store the tables in the `.pip` environment, `display_aux()` makes use of the argument `assign_tb` in the `get_aux()` function. If `TRUE`, `get_aux()` assigns the requested auxiliary table to the `.pip` environment and returns and invisible `TRUE` instead of the table. If `FALSE` (the default), it behaves as usual. So, `display_aux()` is just a wrapper around `get_aux()` with `assign_tb = TRUE`.
+
+## Calling the tables in `.pip` env.
+
+Since the `.pip` environment is created at build time inside {pipr} it is quite tricky to get its contents "by hand." This why you need to use function `call_aux` to call any auxiliary table available in `.pip` env. In this way, you have the best of both words:
+
+1.  You can download aux tables by only clicking on their names (ala Stata).
+2.  You don't mess up with the global env
+3.  you can call the tables you downloaded with `call_aux()`
+4.  The `assign_tb` option and `call_aux` are a powerful idea for developers who need to keep their environments clean.
+
+```{r call}
+# this simulates a `display_aux() call`
+get_aux("gdp", assign_tb = TRUE)
+
+# now you can call it
+call_aux("gdp")
+
+```
+
+## Using `.pip` in development
+
+You can use the `.pip` environment in development when you need to interact with PIP auxiliary data in several instances during your project and need to make sure the data is not affected by the work in your global environment. `.pip` environment makes sure that all its tables remain unchanged and available when needed as long as {pipr} is not reloaded or a new R session is started
+
+```{r developrs}
+# for developers who may need several tables
+tb <- c("cpi", "ppp", "pop")
+l <- lapply(tb, get_aux, assign_tb = TRUE)
+call_aux()
+
+call_aux("pop")
+```

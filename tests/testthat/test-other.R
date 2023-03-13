@@ -2,6 +2,8 @@ dev_host <- gsub("/api|http://", "", Sys.getenv("PIP_DEV_URL"))
 qa_host <- gsub("/pip|/api|http(s)?://", "", Sys.getenv("PIP_QA_URL"))
 
 test_that("health_check() works", {
+  skip_if_offline()
+  skip_on_cran()
   res <- health_check(api_version = "v1")
   expect_identical(httr::content(res)[[1]], "PIP API is running")
   expect_equal(res$status_code, 200)
@@ -15,6 +17,8 @@ test_that("health_check() works", {
 })
 
 test_that("get_versions() works", {
+  skip_if_offline()
+  skip_on_cran()
 
   # res <- get_versions() # TO DO: Use prod server for this test when API has been released
   # expect_true(tibble::is_tibble(res))
@@ -30,6 +34,9 @@ test_that("get_versions() works", {
 })
 
 test_that("get_pip_info() works", {
+  skip_if_offline()
+  skip_on_cran()
+
   res <- get_pip_info()
   expect_true(is.list(res))
   expect_identical(names(res), c(

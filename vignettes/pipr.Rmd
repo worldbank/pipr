@@ -31,7 +31,9 @@ By default, `get_stats()` returns all available
 - countries  
 - reporting levels (national, urban, rural)  
 - for all available survey years  
-- at the 1.9 USD poverty line  
+- at the 2.15 USD a day poverty line (in 2017 PPP)  
+
+For the most recent data available.
 
 ```{r message=FALSE, warning=FALSE, eval=NOT_CRAN}
 get_stats()
@@ -55,10 +57,15 @@ By default, `get_stats` will only return data if a survey is available for the r
 
 ```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
 # Survey year available
-get_stats(country = "ALB", year = 2012)
+get_stats(country = "ALB", year = 2012)         # single year
+get_stats(country = "ALB", year = c(1996,2012)) # multiple years
 
 # Survey year NOT available - Empty response
 get_stats(country = "ALB", year = 2000)
+
+# Most Recent Value available
+get_stats(country = "ALB", year = "MRV")
+
 ```
 
 ### Modify the poverty line
@@ -70,7 +77,8 @@ get_stats(country = "ALB", povline = 3.2)
 
 ### Get estimates when survey year is not available
 
-The `fill_gaps` argument will trigger the interpolation / extrapolation of poverty estimates when survey year is not available.
+The `fill_gaps` argument triggers the interpolation / extrapolation of poverty 
+estimates when surveys are not available for a given year.
 
 ```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
 # fill_gaps = FALSE (default)
@@ -79,14 +87,15 @@ get_stats(country = "HTI")
 get_stats(country = "HTI", fill_gaps = TRUE)
 ```
 
-### Compute custom aggregates
+### Compute aggregates
 
-`get_stats()` can also be used to compute aggregate welfare statistics of custom group of countries.
+`get_stats()` can also be used to compute aggregate welfare statistics for sub-regions.
+Only World Bank regions are currently available, but more sub-regional groupings
+will become available in the future.
 
 ```{r, warning=FALSE, message=FALSE, eval=FALSE}
 # World Bank aggregate
 get_stats(country = "all", subgroup = "wb_regions")
-
-# Custom aggregate
-get_stats(country = c("CHL", "ARG", "BOL"), subgroup = "none")
+# List of World Bank regions
+get_regions()
 ```

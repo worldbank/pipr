@@ -1,3 +1,10 @@
+# pipr 1.0.0
+
+* [Mock live API calls or skip them on CRAN](https://github.com/worldbank/pipr/pull/45)
+* [fix for dictionary table](https://github.com/worldbank/pipr/pull/43)
+* Add new `display_aux` function to get a list of clickable auxiliary tables
+* Improved documentation
+
 # pipr 0.0.4
 
 * [Hot fix](https://github.com/worldbank/pipr/pull/40)

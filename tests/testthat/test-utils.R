@@ -1,24 +1,29 @@
 # constants
-res_ex_json <- readRDS("../testdata/res-ex-json.RDS")
-res_ex_csv <- readRDS("../testdata/res-ex-csv.RDS")
-res_ex_rds <- readRDS("../testdata/res-ex-rds.RDS")
-res_ex_404 <- readRDS("../testdata/res-ex-404.RDS")
-dictionary <- readRDS("../testdata/dictionary.RDS")
+res_ex_json <- readRDS(test_path("testdata", "res-ex-json.RDS"))
+res_ex_csv <- readRDS(test_path("testdata", "res-ex-csv.RDS"))
+res_ex_rds <- readRDS(test_path("testdata", "res-ex-rds.RDS"))
+res_ex_404 <- readRDS(test_path("testdata", "res-ex-404.RDS"))
+dictionary <- readRDS(test_path("testdata", "dictionary.RDS"))
 
 # tests
 test_that("check_internet() works", {
+  skip_if_offline()
+  skip_on_cran()
   expect_true(check_internet())
   expect_identical(check_internet(), curl::has_internet())
   expect_invisible(check_internet())
 })
 
 test_that("check_api() works", {
+  skip_if_offline()
+  skip_on_cran()
   res <- check_api("v1", server = NULL)
   expect_equal(res, "PIP API is running")
 })
 
 test_that("check_status() works", {
-
+  skip_if_offline()
+  skip_on_cran()
   # 200
   res <- health_check("v1")
   parsed <- parse_response(res, simplify = FALSE)$content
@@ -33,7 +38,8 @@ test_that("check_status() works", {
   res <- res_ex_404
   parsed <- parse_response(res, simplify = FALSE)$content
   res$status_code <- 500
-  parsed$error <- NULL ; parsed$details <- NULL
+  parsed$error <- NULL
+  parsed$details <- NULL
   expect_error(check_status(res, parsed))
 
 })
@@ -238,9 +244,11 @@ test_that("Temporay renaming of response columns work", {
                      "reporting_pce") %in% names(res)))
 })
 
+skip("No longer necessary. To be fully deprecated soon.")
+test_that("Temporary renaming of response works for row-based datasets (dictionary)", {
 
-test_that("Temporay renaming of response works for row-based datasets (dictionary)", {
-
+  skip_on_cran()
+  skip_if_offline()
   res <- tmp_rename_cols(dictionary,
                   url = "https://api.worldbank.org/pip/v1/aux?table=dictionary&format=rds")
 
@@ -253,5 +261,4 @@ test_that("Temporay renaming of response works for row-based datasets (dictionar
                    %in% res$variable))
 
 })
-
 
