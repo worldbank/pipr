@@ -18,7 +18,7 @@ inputs will be returned."><!-- mathjax --><script src="https://cdnjs.cloudflare.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -29,6 +29,19 @@ inputs will be returned."><!-- mathjax --><script src="https://cdnjs.cloudflare.
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/pip-env-aux-tables.html">Auxiliary tables and the `.pip` environment</a>
+    </li>
+    <li>
+      <a href="../articles/visualization-examples.html">Visualization examples</a>
+    </li>
+  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -66,7 +79,9 @@ inputs will be returned.</p>
 <span>  api_version <span class="op">=</span> <span class="st">"v1"</span>,</span>
 <span>  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rds"</span>, <span class="st">"json"</span>, <span class="st">"csv"</span><span class="op">)</span>,</span>
 <span>  simplify <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  server <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  server <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  assign_tb <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  force <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -104,12 +119,24 @@ inputs will be returned.</p>
 <dt>server</dt>
 <dd><p>character: Server. For WB internal use only</p></dd>
 
+
+<dt>assign_tb</dt>
+<dd><p>assigns table to specified name to the <code>.pip</code> environment.
+If <code>FALSE</code> no assignment will performed. If <code>TRUE</code>, the table will be
+assigned to  exactly the same name as the one of the desired table. If
+character, the table will be assigned to that name.</p></dd>
+
+
+<dt>force</dt>
+<dd><p>logical: force replacement. Default is FALSE</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>tibble or list</p>
+<p>tibble or list. If <code>assign_tb</code> is TRUE or character, it will return
+TRUE if data was assign properly to .pip env</p>
     </div>
 
     <div id="ref-examples">
@@ -123,6 +150,19 @@ inputs will be returned.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get countries</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">get_aux</span><span class="op">(</span><span class="st">"countries"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Display auxiliary tables</span></span></span>
+<span class="r-in"><span><span class="fu">get_aux</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Display and assign to .pip env the selected auxiliary table</span></span></span>
+<span class="r-in"><span><span class="fu">get_aux</span><span class="op">(</span>assign_tb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Bind gdp table to "gdp" in .pip env</span></span></span>
+<span class="r-in"><span><span class="fu">get_aux</span><span class="op">(</span><span class="st">"gdp"</span>, assign_tb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Bind gdp table to "new_name" in .pip env</span></span></span>
+<span class="r-in"><span><span class="fu">get_aux</span><span class="op">(</span><span class="st">"gdp"</span>, assign_tb <span class="op">=</span> <span class="st">"new_name"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
@@ -138,7 +178,7 @@ inputs will be returned.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

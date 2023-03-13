@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -46,6 +46,21 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/pip-env-aux-tables.html">Auxiliary tables and the `.pip` environment</a>
+    </li>
+    <li>
+      <a href="articles/visualization-examples.html">Visualization examples</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -74,7 +89,8 @@
 <div class="page-header"><h1 id="pipr">pipr<a class="anchor" aria-label="anchor" href="#pipr"></a>
 </h1></div>
 <!-- badges: start -->
-<p>The <code>pipr</code> package allows R users to compute poverty and inequality indicators for more than 160 countries and regions from the World Bank’s database of household surveys.</p>
+
+<p>The <code>pipr</code> package allows R users to compute poverty and inequality indicators for more than 160 countries and regions from the World Bank’s database of household surveys. It does so by accessing the Poverty and Inequality Platform (PIP) API. PIP is a computational tool that allows users to estimate poverty rates for regions, sets of countries or individual countries, over time and at any poverty line.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -87,68 +103,92 @@
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>This is a basic example that shows how to retrieve some key poverty and inequity statistics.</p>
+<div class="section level3">
+<h3 id="retrieve-statistics">Retrieve statistics<a class="anchor" aria-label="anchor" href="#retrieve-statistics"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/worldbank/pipr" class="external-link">pipr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span><span class="op">)</span></span>
-<span><span class="fu">glimpse</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 14</span></span>
 <span><span class="co">#&gt; Columns: 40</span></span>
-<span><span class="co">#&gt; $ region_name          &lt;chr&gt; "Europe and Central Asia", "Europe and Central As…</span></span>
-<span><span class="co">#&gt; $ region_code          &lt;chr&gt; "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", …</span></span>
-<span><span class="co">#&gt; $ country_name         &lt;chr&gt; "Albania", "Albania", "Albania", "Albania", "Alba…</span></span>
-<span><span class="co">#&gt; $ country_code         &lt;chr&gt; "ALB", "ALB", "ALB", "ALB", "ALB", "ALB", "ALB", …</span></span>
-<span><span class="co">#&gt; $ year                 &lt;dbl&gt; 1996, 2002, 2005, 2008, 2012, 2014, 2015, 2016, 2…</span></span>
-<span><span class="co">#&gt; $ reporting_level      &lt;chr&gt; "national", "national", "national", "national", "…</span></span>
-<span><span class="co">#&gt; $ survey_acronym       &lt;chr&gt; "EWS", "LSMS", "LSMS", "LSMS", "LSMS", "HBS", "HB…</span></span>
-<span><span class="co">#&gt; $ survey_coverage      &lt;chr&gt; "national", "national", "national", "national", "…</span></span>
-<span><span class="co">#&gt; $ welfare_time         &lt;dbl&gt; 1996, 2002, 2005, 2008, 2012, 2014, 2015, 2016, 2…</span></span>
-<span><span class="co">#&gt; $ welfare_type         &lt;chr&gt; "consumption", "consumption", "consumption", "con…</span></span>
+<span><span class="co">#&gt; $ region_name          &lt;chr&gt; "Europe &amp; Central Asia", "Europe &amp; Central Asia",~</span></span>
+<span><span class="co">#&gt; $ region_code          &lt;chr&gt; "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", ~</span></span>
+<span><span class="co">#&gt; $ country_name         &lt;chr&gt; "Albania", "Albania", "Albania", "Albania", "Alba~</span></span>
+<span><span class="co">#&gt; $ country_code         &lt;chr&gt; "ALB", "ALB", "ALB", "ALB", "ALB", "ALB", "ALB", ~</span></span>
+<span><span class="co">#&gt; $ year                 &lt;dbl&gt; 1996, 2002, 2005, 2008, 2012, 2014, 2015, 2016, 2~</span></span>
+<span><span class="co">#&gt; $ reporting_level      &lt;chr&gt; "national", "national", "national", "national", "~</span></span>
+<span><span class="co">#&gt; $ survey_acronym       &lt;chr&gt; "EWS", "LSMS", "LSMS", "LSMS", "LSMS", "HBS", "HB~</span></span>
+<span><span class="co">#&gt; $ survey_coverage      &lt;chr&gt; "national", "national", "national", "national", "~</span></span>
+<span><span class="co">#&gt; $ welfare_time         &lt;dbl&gt; 1996, 2002, 2005, 2008, 2012, 2014, 2015, 2016, 2~</span></span>
+<span><span class="co">#&gt; $ welfare_type         &lt;chr&gt; "consumption", "consumption", "consumption", "con~</span></span>
 <span><span class="co">#&gt; $ survey_comparability &lt;dbl&gt; 0, 1, 1, 1, 1, 2, 2, 2, 4, 2, 4, 3, 4, 3</span></span>
-<span><span class="co">#&gt; $ comparable_spell     &lt;chr&gt; "1996", "2002 - 2012", "2002 - 2012", "2002 - 201…</span></span>
-<span><span class="co">#&gt; $ poverty_line         &lt;dbl&gt; 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9, 1.9,…</span></span>
-<span><span class="co">#&gt; $ headcount            &lt;dbl&gt; 0.009206690, 0.015708434, 0.008605271, 0.00313649…</span></span>
-<span><span class="co">#&gt; $ poverty_gap          &lt;dbl&gt; 1.400507e-03, 2.617611e-03, 1.313255e-03, 5.12411…</span></span>
-<span><span class="co">#&gt; $ poverty_severity     &lt;dbl&gt; 4.111228e-04, 7.940742e-04, 3.348323e-04, 1.31118…</span></span>
-<span><span class="co">#&gt; $ watts                &lt;dbl&gt; 0.0016976386, 0.0032506353, 0.0015296081, 0.00059…</span></span>
-<span><span class="co">#&gt; $ mean                 &lt;dbl&gt; 6.570821, 6.715828, 7.591930, 8.314345, 7.882867,…</span></span>
-<span><span class="co">#&gt; $ median               &lt;dbl&gt; 5.774805, 5.539607, 6.460357, 6.957659, 6.825289,…</span></span>
-<span><span class="co">#&gt; $ mld                  &lt;dbl&gt; 0.1191043, 0.1648116, 0.1544128, 0.1488934, 0.138…</span></span>
-<span><span class="co">#&gt; $ gini                 &lt;dbl&gt; 0.2701034, 0.3173898, 0.3059566, 0.2998467, 0.289…</span></span>
-<span><span class="co">#&gt; $ polarization         &lt;dbl&gt; 0.2412933, 0.2689816, 0.2545287, 0.2473111, 0.249…</span></span>
-<span><span class="co">#&gt; $ decile1              &lt;dbl&gt; 0.03863286, 0.03494002, 0.03482536, 0.03733625, 0…</span></span>
-<span><span class="co">#&gt; $ decile2              &lt;dbl&gt; 0.05289347, 0.04859444, 0.04920109, 0.05136781, 0…</span></span>
-<span><span class="co">#&gt; $ decile3              &lt;dbl&gt; 0.06378683, 0.05842059, 0.05977283, 0.06088472, 0…</span></span>
-<span><span class="co">#&gt; $ decile4              &lt;dbl&gt; 0.07322042, 0.06738204, 0.06921183, 0.06983584, 0…</span></span>
-<span><span class="co">#&gt; $ decile5              &lt;dbl&gt; 0.08379662, 0.07653102, 0.07988158, 0.07912079, 0…</span></span>
-<span><span class="co">#&gt; $ decile6              &lt;dbl&gt; 0.09354903, 0.08839459, 0.09037069, 0.08924133, 0…</span></span>
-<span><span class="co">#&gt; $ decile7              &lt;dbl&gt; 0.1082309, 0.1022859, 0.1037214, 0.1029873, 0.105…</span></span>
-<span><span class="co">#&gt; $ decile8              &lt;dbl&gt; 0.1247387, 0.1198443, 0.1212641, 0.1192908, 0.122…</span></span>
-<span><span class="co">#&gt; $ decile9              &lt;dbl&gt; 0.1489955, 0.1492508, 0.1483394, 0.1453520, 0.148…</span></span>
-<span><span class="co">#&gt; $ decile10             &lt;dbl&gt; 0.2121557, 0.2543564, 0.2434117, 0.2445831, 0.229…</span></span>
-<span><span class="co">#&gt; $ cpi                  &lt;dbl&gt; 0.4445725, 0.7805330, 0.8387371, 0.9123323, 1.020…</span></span>
-<span><span class="co">#&gt; $ ppp                  &lt;dbl&gt; 54.65258, 54.65258, 54.65258, 54.65258, 54.65258,…</span></span>
-<span><span class="co">#&gt; $ pop                  &lt;dbl&gt; 3168033, 3051010, 3011487, 2947314, 2900401, 2889…</span></span>
-<span><span class="co">#&gt; $ gdp                  &lt;dbl&gt; 1633.552, 2247.497, 2675.508, 3298.478, 3736.339,…</span></span>
-<span><span class="co">#&gt; $ hfce                 &lt;dbl&gt; 1714.813, 1685.368, 2079.244, 2819.736, 2989.866,…</span></span>
-<span><span class="co">#&gt; $ is_interpolated      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …</span></span>
-<span><span class="co">#&gt; $ distribution_type    &lt;chr&gt; "micro", "micro", "micro", "micro", "micro", "mic…</span></span>
-<span><span class="co">#&gt; $ estimation_type      &lt;chr&gt; "survey", "survey", "survey", "survey", "survey",…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ comparable_spell     &lt;chr&gt; "1996", "2002 - 2012", "2002 - 2012", "2002 - 201~</span></span>
+<span><span class="co">#&gt; $ poverty_line         &lt;dbl&gt; 2.15, 2.15, 2.15, 2.15, 2.15, 2.15, 2.15, 2.15, 2~</span></span>
+<span><span class="co">#&gt; $ headcount            &lt;dbl&gt; 0.0053484604, 0.0109264739, 0.0059108568, 0.00199~</span></span>
+<span><span class="co">#&gt; $ poverty_gap          &lt;dbl&gt; 9.821458e-04, 1.894350e-03, 8.972340e-04, 3.96411~</span></span>
+<span><span class="co">#&gt; $ poverty_severity     &lt;dbl&gt; 3.047592e-04, 5.942301e-04, 2.285120e-04, 8.69032~</span></span>
+<span><span class="co">#&gt; $ watts                &lt;dbl&gt; 1.203124e-03, 2.382840e-03, 1.042396e-03, 4.48972~</span></span>
+<span><span class="co">#&gt; $ mean                 &lt;dbl&gt; 7.933157, 8.108228, 9.165974, 10.038168, 9.517231~</span></span>
+<span><span class="co">#&gt; $ median               &lt;dbl&gt; 6.972102, 6.688141, 7.799790, 8.400199, 8.240384,~</span></span>
+<span><span class="co">#&gt; $ mld                  &lt;dbl&gt; 0.1191043, 0.1648116, 0.1544128, 0.1488934, 0.138~</span></span>
+<span><span class="co">#&gt; $ gini                 &lt;dbl&gt; 0.2701034, 0.3173898, 0.3059566, 0.2998467, 0.289~</span></span>
+<span><span class="co">#&gt; $ polarization         &lt;dbl&gt; 0.2412933, 0.2689816, 0.2545287, 0.2473111, 0.249~</span></span>
+<span><span class="co">#&gt; $ decile1              &lt;dbl&gt; 0.03863286, 0.03494002, 0.03482536, 0.03733625, 0~</span></span>
+<span><span class="co">#&gt; $ decile2              &lt;dbl&gt; 0.05289347, 0.04859444, 0.04920109, 0.05136781, 0~</span></span>
+<span><span class="co">#&gt; $ decile3              &lt;dbl&gt; 0.06378683, 0.05842059, 0.05977283, 0.06088472, 0~</span></span>
+<span><span class="co">#&gt; $ decile4              &lt;dbl&gt; 0.07322042, 0.06738204, 0.06921183, 0.06983584, 0~</span></span>
+<span><span class="co">#&gt; $ decile5              &lt;dbl&gt; 0.08379662, 0.07653102, 0.07988158, 0.07912079, 0~</span></span>
+<span><span class="co">#&gt; $ decile6              &lt;dbl&gt; 0.09354903, 0.08839459, 0.09037069, 0.08924133, 0~</span></span>
+<span><span class="co">#&gt; $ decile7              &lt;dbl&gt; 0.1082309, 0.1022859, 0.1037214, 0.1029873, 0.105~</span></span>
+<span><span class="co">#&gt; $ decile8              &lt;dbl&gt; 0.1247387, 0.1198443, 0.1212641, 0.1192908, 0.122~</span></span>
+<span><span class="co">#&gt; $ decile9              &lt;dbl&gt; 0.1489955, 0.1492508, 0.1483394, 0.1453520, 0.148~</span></span>
+<span><span class="co">#&gt; $ decile10             &lt;dbl&gt; 0.2121557, 0.2543564, 0.2434117, 0.2445831, 0.229~</span></span>
+<span><span class="co">#&gt; $ cpi                  &lt;dbl&gt; 0.3996353, 0.7016371, 0.7539579, 0.8201141, 0.917~</span></span>
+<span><span class="co">#&gt; $ ppp                  &lt;dbl&gt; 50.35737, 50.35737, 50.35737, 50.35737, 50.35737,~</span></span>
+<span><span class="co">#&gt; $ pop                  &lt;dbl&gt; 3168033, 3051010, 3011487, 2947314, 2900401, 2889~</span></span>
+<span><span class="co">#&gt; $ gdp                  &lt;dbl&gt; 1633.552, 2247.497, 2675.508, 3298.478, 3736.339,~</span></span>
+<span><span class="co">#&gt; $ hfce                 &lt;dbl&gt; 1714.813, 1685.368, 2079.244, 2819.736, 2989.866,~</span></span>
+<span><span class="co">#&gt; $ is_interpolated      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ~</span></span>
+<span><span class="co">#&gt; $ distribution_type    &lt;chr&gt; "micro", "micro", "micro", "micro", "micro", "mic~</span></span>
+<span><span class="co">#&gt; $ estimation_type      &lt;chr&gt; "survey", "survey", "survey", "survey", "survey",~</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="access-data-dictionary">Access data dictionary<a class="anchor" aria-label="anchor" href="#access-data-dictionary"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/get_dictionary.html">get_dictionary</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 41 x 2</span></span>
+<span><span class="co">#&gt;    variable        definition                                                   </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;                                                        </span></span>
+<span><span class="co">#&gt;  1 region_name     World Bank region name                                       </span></span>
+<span><span class="co">#&gt;  2 region_code     Three-letter World Bank abbreviation of world regions        </span></span>
+<span><span class="co">#&gt;  3 year            Year                                                         </span></span>
+<span><span class="co">#&gt;  4 country_name    World Bank country name                                      </span></span>
+<span><span class="co">#&gt;  5 country_code    Three-letter ISO (alpha-3) country code system for internati~</span></span>
+<span><span class="co">#&gt;  6 reporting_level Reporting level                                              </span></span>
+<span><span class="co">#&gt;  7 survey_acronym  Country survey acronym                                       </span></span>
+<span><span class="co">#&gt;  8 survey_coverage Geographic coverage of the country survey (i.e. national, ur~</span></span>
+<span><span class="co">#&gt;  9 welfare_time    Welfare time                                                 </span></span>
+<span><span class="co">#&gt; 10 welfare_type    Type of welfare vector used for estimates (income or consump~</span></span>
+<span><span class="co">#&gt; # ... with 31 more rows</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>To cite package <code>pipr</code> in publications use:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>  Tony Fujs, Aleksander Eilertsen, Ronak Shah and R. Andrés Castañ<span class="kw">eda</span> (<span class="dv">2022</span>). pipr<span class="op">:</span><span class="st"> </span>Client <span class="cf">for</span> the PIP</span>
-<span id="cb3-2"><a href="#cb3-2"></a>  API. https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>worldbank<span class="op">/</span>pipr, https<span class="op">:</span><span class="er">//</span>worldbank.github.io<span class="op">/</span>pipr<span class="op">/</span>.</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  Tony Fujs, Aleksander Eilertsen, Ronak Shah and R. Andrés Castañeda (<span class="dv">2022</span>). pipr<span class="sc">:</span> Client <span class="cf">for</span> the PIP</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  API. https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>worldbank<span class="sc">/</span>pipr, https<span class="sc">:</span><span class="er">//</span>worldbank.github.io<span class="sc">/</span>pipr<span class="sc">/</span>.</span></code></pre></div>
 <p>A BibTeX entry for LaTeX users is</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="op">@</span>Manual{,</span>
-<span id="cb4-2"><a href="#cb4-2"></a>    title =<span class="st"> </span>{pipr<span class="op">:</span><span class="st"> </span>Client <span class="cf">for</span> the PIP API},</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    author =<span class="st"> </span>{Tony Fujs and Aleksander Eilertsen and Ronak Shah and R. Andrés Castañeda},</span>
-<span id="cb4-4"><a href="#cb4-4"></a>    year =<span class="st"> </span>{<span class="dv">2022</span>},</span>
-<span id="cb4-5"><a href="#cb4-5"></a>    note =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>worldbank<span class="op">/</span>pipr,https<span class="op">:</span><span class="er">//</span>worldbank.github.io<span class="op">/</span>pipr<span class="op">/</span>},</span>
-<span id="cb4-6"><a href="#cb4-6"></a>  }</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {pipr<span class="sc">:</span> Client <span class="cf">for</span> the PIP API},</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {Tony Fujs and Aleksander Eilertsen and Ronak Shah and R. Andrés Castañeda},</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2022</span>},</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>worldbank<span class="sc">/</span>pipr,https<span class="sc">:</span><span class="er">//</span>worldbank.github.io<span class="sc">/</span>pipr<span class="sc">/</span>},</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -201,7 +241,8 @@
 <li><a href="https://github.com/worldbank/pipr/actions?workflow=R-CMD-check" class="external-link"><img src="https://github.com/worldbank/pipr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://github.com/worldbank/pipr/actions" class="external-link"><img src="https://github.com/worldbank/pipr/workflows/test-coverage/badge.svg" alt="test-coverage"></a></li>
 <li><a href="https://github.com/worldbank/pipr/actions" class="external-link"><img src="https://github.com/worldbank/pipr/workflows/pkgdown/badge.svg" alt="pkgdown"></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://app.codecov.io/gh/worldbank/pipr?branch=main" class="external-link"><img src="https://codecov.io/gh/worldbank/pipr/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 </ul>
 </div>
 
@@ -216,7 +257,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

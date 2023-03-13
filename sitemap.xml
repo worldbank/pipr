@@ -19,7 +19,13 @@
     <loc>https://worldbank.github.io/pipr/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://worldbank.github.io/pipr/articles/pip-env-aux-tables.html</loc>
+  </url>
+  <url>
     <loc>https://worldbank.github.io/pipr/articles/pipr.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/articles/visualization-examples.html</loc>
   </url>
   <url>
     <loc>https://worldbank.github.io/pipr/authors.html</loc>
@@ -31,7 +37,16 @@
     <loc>https://worldbank.github.io/pipr/news/index.html</loc>
   </url>
   <url>
+    <loc>https://worldbank.github.io/pipr/reference/args_to_string.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/call_aux.html</loc>
+  </url>
+  <url>
     <loc>https://worldbank.github.io/pipr/reference/check_api.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/display_aux.html</loc>
   </url>
   <url>
     <loc>https://worldbank.github.io/pipr/reference/get_aux.html</loc>
@@ -86,5 +101,11 @@
   </url>
   <url>
     <loc>https://worldbank.github.io/pipr/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/run_cli.html</loc>
+  </url>
+  <url>
+    <loc>https://worldbank.github.io/pipr/reference/set_aux.html</loc>
   </url>
 </urlset>

@@ -1,9 +1,11 @@
-pandoc: 2.7.3
-pkgdown: 2.0.6
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  pip-env-aux-tables: pip-env-aux-tables.html
   pipr: pipr.html
-last_built: 2022-09-26T09:59Z
+  visualization-examples: visualization-examples.html
+last_built: 2023-03-13T19:52Z
 urls:
   reference: https://worldbank.github.io/pipr/reference
   article: https://worldbank.github.io/pipr/articles
