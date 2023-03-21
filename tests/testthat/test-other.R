@@ -39,21 +39,30 @@ test_that("get_pip_info() works", {
 
   res <- get_pip_info()
   expect_true(is.list(res))
-  expect_identical(names(res), c(
-    "available_data_versions", "package_versions",
-    "r_version", "server_os", "server_time"
+  expect_identical(names(res), c("available_data_versions",
+                                 "pip_packages",
+                                 "other_packages",
+                                 "r_version",
+                                 "server_os",
+                                 "server_time"
   ))
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
   skip_if(is.null(curl::nslookup(dev_host, error = FALSE)), message = "Could not connect to DEV host")
   res <- get_pip_info(server = "dev")
-  expect_identical(names(res), c(
-    "available_data_versions", "package_versions",
-    "r_version", "server_os", "server_time"
+  expect_identical(names(res), c("available_data_versions",
+                                 "pip_packages",
+                                 "other_packages",
+                                 "r_version",
+                                 "server_os",
+                                 "server_time"
   ))
   skip_if(is.null(curl::nslookup(qa_host, error = FALSE)), message = "Could not connect to QA host")
   res <- get_pip_info(server = "qa")
-  expect_identical(names(res), c(
-    "available_data_versions", "package_versions",
-    "r_version", "server_os", "server_time"
+  expect_identical(names(res), c("available_data_versions",
+                                 "pip_packages",
+                                 "other_packages",
+                                 "r_version",
+                                 "server_os",
+                                 "server_time"
   ))
 })

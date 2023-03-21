@@ -61,7 +61,8 @@ Imports:
     cli,
     rlang,
     utils,
-    readr
+    readr,
+    rappdirs
 Depends: 
     R (>= 3.5.0)
 VignetteBuilder: knitr
