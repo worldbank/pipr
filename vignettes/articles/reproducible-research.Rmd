@@ -1,0 +1,64 @@
+---
+title: "Reproducible research with PIP"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{reproducible-research}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(pipr)
+```
+
+Reproducible research was an important consideration in the design of the 
+[Poverty and Inequality Platform (PIP)](https://pip.worldbank.org/home). 
+
+In order to facilitate the reproducible research process, the [PIP API](https://pip.worldbank.org/api) allows you to retrieve important information about:  
+- The versions of the datasets used in PIP
+- The version of the `R` code powering all of PIP computations
+
+# Data versioning in PIP  
+By default, the PIP API will always return the most recent data available, using the most recent PPPs available. It is possible to query specific data versions however. 
+
+## Listing all data versions available in PIP
+```{r}
+data_versions <- get_versions()
+data_versions
+```
+
+## Querying a specific data version
+Select a version:
+```{r}
+my_version <- data_versions$version[1]
+my_version
+```
+
+Pass it to the `version` argument of `get_stats` or other functions:
+```{r}
+get_stats(country = "AGO", version = my_version)
+```
+
+## Retrieve information about PIP code
+Even if the data is the same, methodological changes may be implemented that may break reproducibility. This is why it is also possible to retrieve information about the version of PIP that runs at a particular moment in time.
+
+PIP is powered primarily by two R packages:  
+
+- [pipapi](https://github.com/PIP-Technical-Team/pipapi)  
+- [wbpip](https://github.com/PIP-Technical-Team/wbpip)  
+
+The `get_pip_info()` function allows you to retrieve information about the
+versions of these packages
+```{r}
+pip_info <- get_pip_info()
+pip_info$pip_packages
+```
+
+These are the two packages which changes are are most likely to impact reproducibility, but the `get_pip_info()` function also provides additional information about the `R` version being used by PIP, the Operating System, etc.
