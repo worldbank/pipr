@@ -4,8 +4,9 @@ pkgdown_sha: ~
 articles:
   pip-env-aux-tables: pip-env-aux-tables.html
   pipr: pipr.html
+  reproducible-research: reproducible-research.html
   visualization-examples: visualization-examples.html
-last_built: 2023-03-13T19:52Z
+last_built: 2023-03-21T15:00Z
 urls:
   reference: https://worldbank.github.io/pipr/reference
   article: https://worldbank.github.io/pipr/articles
