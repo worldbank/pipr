@@ -46,7 +46,8 @@ Suggests:
     ggthemes,
     forcats,
     scales,
-    dplyr
+    dplyr,
+    readr
 Language: en-US
 Imports: 
     attempt,
