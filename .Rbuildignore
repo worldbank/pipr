@@ -12,3 +12,4 @@ CONTRIBUTING.md
 ^cran-comments\.md$
 ^codecov\.yml$
 ^vignettes/articles$
+^CRAN-SUBMISSION$

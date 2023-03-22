@@ -60,9 +60,7 @@ Imports:
     data.table,
     cli,
     rlang,
-    utils,
-    readr,
-    rappdirs
+    utils
 Depends: 
     R (>= 3.5.0)
 VignetteBuilder: knitr
