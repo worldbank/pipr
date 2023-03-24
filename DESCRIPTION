@@ -64,6 +64,5 @@ Imports:
     utils
 Depends: 
     R (>= 3.5.0)
-VignetteBuilder: knitr
 Config/testthat/edition: 3
-Date: 2022-04-08
+Date: 2023-03-24
