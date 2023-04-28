@@ -63,6 +63,6 @@ Imports:
     rlang,
     utils
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.6.0)
 Config/testthat/edition: 3
-Date: 2023-03-24
+Date: 2024-04-28
