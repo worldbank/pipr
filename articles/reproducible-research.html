@@ -119,11 +119,13 @@ specific data versions however.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_versions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_versions.html">get_versions</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">data_versions</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
 <span><span class="co">#&gt;   version                  release_version ppp_version identity</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20220909_2017_01_02_PROD 20220909        2017        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20220909_2011_02_02_PROD 20220909        2011        PROD</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 20230328_2017_01_02_PROD 20230328        2017        PROD    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 20230328_2011_02_02_PROD 20230328        2011        PROD    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 20220909_2017_01_02_PROD 20220909        2017        PROD    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 20220909_2011_02_02_PROD 20220909        2011        PROD</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="querying-a-specific-data-version">Querying a specific data version<a class="anchor" aria-label="anchor" href="#querying-a-specific-data-version"></a>
@@ -132,7 +134,7 @@ specific data versions however.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_version</span> <span class="op">&lt;-</span> <span class="va">data_versions</span><span class="op">$</span><span class="va">version</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="va">my_version</span></span>
-<span><span class="co">#&gt; [1] "20220909_2017_01_02_PROD"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "20230328_2017_01_02_PROD"</span></span></code></pre></div>
 <p>Pass it to the <code>version</code> argument of
 <code>get_stats</code> or other functions:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -170,7 +172,20 @@ information about the versions of these packages</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pip_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_pip_info.html">get_pip_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">pip_info</span><span class="op">$</span><span class="va">pip_packages</span></span>
-<span><span class="co">#&gt; NULL</span></span></code></pre></div>
+<span><span class="co">#&gt; $pipapi</span></span>
+<span><span class="co">#&gt; $pipapi$pkg_version</span></span>
+<span><span class="co">#&gt; [1] "1.2.0.9001"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $pipapi$pkg_hash</span></span>
+<span><span class="co">#&gt; [1] "e124d5145b0e70cb136183657bfb2eb41260f728"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $wbpip</span></span>
+<span><span class="co">#&gt; $wbpip$pkg_version</span></span>
+<span><span class="co">#&gt; [1] "0.1.0"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $wbpip$pkg_hash</span></span>
+<span><span class="co">#&gt; [1] "ddb5dcf0f642695c950e6459f0c2f2032b42632f"</span></span></code></pre></div>
 <p>These are the two packages which changes are are most likely to
 impact reproducibility, but the <code><a href="../reference/get_pip_info.html">get_pip_info()</a></code> function
 also provides additional information about the <code>R</code> version
