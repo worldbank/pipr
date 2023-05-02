@@ -72,7 +72,11 @@ sub-groups. Either 'wb_regions' or 'none'.}
 \item{server}{character: Server. For WB internal use only}
 }
 \value{
-tibble or list
+If \code{simplify = FALSE}, it returns a list of class "pip_api". If
+\code{simplify = TRUE}, it returns a tibble with the requested data. This is the
+default. Only for \code{get_aux()}, If \code{assign_tb = TRUE} or character, it
+returns TRUE when data was assign properly to .pip env. FALSE, if it was
+not assigned.
 }
 \description{
 Get poverty and inequality statistics
