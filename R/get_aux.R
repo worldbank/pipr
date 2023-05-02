@@ -95,7 +95,7 @@ get_aux <- function(table           = NULL,
     } else {
       msg <- c("Invalid sintax in {.field assign_tb}",
                "*" = "{.field assign_tb} must be logical or character.")
-        cli::cli_abort(msg, class = "pipr_error", wrap = TRUE)
+        cli::cli_abort(msg, wrap = TRUE)
     }
 
     srt <- set_aux(table = tb_name,
@@ -116,7 +116,7 @@ get_aux <- function(table           = NULL,
     } else {
 
       msg <- c("table {.strong {table}} could not be saved in env {.env .pip}")
-      cli::cli_abort(msg, class = "pipr_error", wrap = TRUE)
+      cli::cli_abort(msg, wrap = TRUE)
 
     }
 
