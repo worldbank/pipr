@@ -193,3 +193,30 @@ tmp_rename_cols <- function(df, url = "") {
 
   return(df)
 }
+
+
+
+
+#' Get parent function hash for caching
+#'
+#' @return function hash
+#' @keywords internal
+get_fun_hash <- function() {
+  # name of parent function
+  fname <- match.call(definition = sys.function(-1),
+                      call       = sys.call(-1))[[1]] |>
+    as.character()
+
+  # get environment of parent function. this MUST placer right after all
+  # match.arg() calls
+  fargs <-
+    parent.frame() |>
+    as.list()
+
+  # get function body in case it changes (this should not be necessary)
+  fbody <- body(fname) |>
+    as.character()
+
+  list(fbody, fargs) |>
+    rlang::hash()
+}

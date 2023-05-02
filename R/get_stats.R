@@ -73,10 +73,19 @@ get_stats <- function(country = "all",
                       simplify = TRUE,
                       server = NULL) {
   # Match args
-  welfare_type <- match.arg(welfare_type)
+  welfare_type    <- match.arg(welfare_type)
   reporting_level <- match.arg(reporting_level)
-  api_version <- match.arg(api_version)
-  format <- match.arg(format)
+  api_version     <- match.arg(api_version)
+  format          <- match.arg(format)
+
+  # get function function hash
+  fhash <- get_fun_hash()
+  if (rlang::env_has(.pip, fhash)) {
+    cli::cli_alert("loading from cache")
+    return(rlang::env_get(.pip, fhash))
+  }
+
+
   # popshare can't be used together with povline
   if (!is.null(popshare)) povline <- NULL
 
@@ -116,6 +125,12 @@ get_stats <- function(country = "all",
   # Parse result
   out <- parse_response(res, simplify)
 
+  if (!rlang::env_has(.pip, fhash)) { # this should always be TRUE
+    cli::cli_alert("creating cache")
+    rlang::env_poke(env = .pip,
+                    nm = fhash,
+                    value = out)
+  }
   return(out)
 }
 
@@ -133,7 +148,15 @@ get_wb <- function(year = "all",
 
   # Match args
   api_version <- match.arg(api_version)
-  format <- match.arg(format)
+  format      <- match.arg(format)
+
+  # get function function hash
+  fhash <- get_fun_hash()
+  if (rlang::env_has(.pip, fhash)) {
+    cli::cli_alert("loading from cache")
+    return(rlang::env_get(.pip, fhash))
+  }
+
 
   # Build query string
   args <- build_args(
@@ -153,6 +176,12 @@ get_wb <- function(year = "all",
 
   # Parse result
   out <- parse_response(res, simplify)
+  if (!rlang::env_has(.pip, fhash)) { # this should always be TRUE
+    cli::cli_alert("creating cache")
+    rlang::env_poke(env = .pip,
+                    nm = fhash,
+                    value = out)
+  }
 
   return(out)
 }

@@ -119,7 +119,9 @@ call_aux <- function(table = NULL) {
       return(rlang::env_get(.pip, table))
     } else {
       msg     <- c("*" = "Table {.field {table}} does not exist")
-      cli::cli_abort(msg, wrap = TRUE)
+      cli::cli_abort(msg,
+                     class = "pipr_error",
+                     wrap = TRUE)
     }
 
   }
