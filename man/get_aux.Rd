@@ -2,6 +2,19 @@
 % Please edit documentation in R/get_aux.R
 \name{get_aux}
 \alias{get_aux}
+\alias{get_countries}
+\alias{get_regions}
+\alias{get_cpi}
+\alias{get_dictionary}
+\alias{get_gdp}
+\alias{get_incgrp_coverage}
+\alias{get_interpolated_means}
+\alias{get_hfce}
+\alias{get_pop}
+\alias{get_pop_region}
+\alias{get_ppp}
+\alias{get_region_coverage}
+\alias{get_survey_means}
 \title{Get auxiliary data}
 \usage{
 get_aux(
@@ -15,6 +28,123 @@ get_aux(
   server = NULL,
   assign_tb = FALSE,
   force = FALSE
+)
+
+get_countries(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_regions(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_cpi(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_dictionary(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_gdp(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_incgrp_coverage(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_interpolated_means(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_hfce(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_pop(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_pop_region(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_ppp(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_region_coverage(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
+)
+
+get_survey_means(
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  server = NULL
 )
 }
 \arguments{
@@ -44,12 +174,64 @@ character, the table will be assigned to that name.}
 }
 \value{
 tibble or list. If \code{assign_tb} is TRUE or character, it will return
-TRUE if data was assign properly to .pip env
+TRUE if data was assign properly to .pip env. If \code{simplify = FALSE}, it
+returns a list of class "pip_api"
 }
 \description{
-Get an auxiliary dataset. If no table is specified a vector with possible
-inputs will be returned.
+\code{get_aux()} Get an auxiliary dataset. If no table is specified a
+vector with possible inputs will be returned.
+
+\code{get_countries()} Returns a table countries with their full names, ISO codes,
+and associated region code
 }
+\section{Functions}{
+\itemize{
+\item \code{get_countries()}: Returns a table countries with their full names, ISO
+codes, and associated region code
+
+\item \code{get_regions()}: Returns a table regional grouping used for computing
+aggregate poverty statistics.
+
+\item \code{get_cpi()}: Returns a table of Consumer Price Index (CPI) values used
+for poverty and inequality computations. statistics
+
+\item \code{get_dictionary()}: Returns a data dictionary with a description of all
+variables available through the PIP API.
+
+\item \code{get_gdp()}: Returns a table of Growth Domestic Product (GDP) values
+used for poverty and inequality statistics.
+
+\item \code{get_incgrp_coverage()}: Returns a table of survey coverage for low and
+lower-middle income countries. If this coverage is less than 50\%, World
+level aggregate statistics will not be computed.
+
+\item \code{get_interpolated_means()}: Returns a table of key information and statistics for all
+years for which poverty and inequality statistics are either available
+(household survey exists) or extra- / interpolated. Please see
+\code{\link{get_dictionary}} for more information about each variable
+available in this table.
+
+\item \code{get_hfce()}: Returns a table of Household Final Consumption
+Expenditure (HFCE) values used for poverty and inequality computations.
+
+\item \code{get_pop()}: Returns a table of population values used for poverty and
+inequality computations.
+
+\item \code{get_pop_region()}: Returns a table of total population by region-year. These
+values are used for the computation of regional aggregate poverty
+statistics.
+
+\item \code{get_ppp()}: Returns a table of Purchasing Power Parity (PPP) values
+used for poverty and inequality computations.
+
+\item \code{get_region_coverage()}: Return a table of regional survey coverage: Percentage of
+available surveys for a specific region-year.
+
+\item \code{get_survey_means()}: Returns a table of all available surveys and associated
+key statistics. Please see \code{\link{get_dictionary}} for more
+information about each variable available in this table.
+
+}}
 \examples{
 \dontrun{
 # Get list of tables
@@ -73,5 +255,57 @@ get_aux("gdp", assign_tb = TRUE)
 # Bind gdp table to "new_name" in .pip env
 get_aux("gdp", assign_tb = "new_name")
 
+}
+\dontrun{
+# Short hand to get countries
+get_countries()
+}
+\dontrun{
+# Short hand to get regions
+get_regions()
+}
+\dontrun{
+# Short hand to get cpi
+get_cpi()
+}
+\dontrun{
+# Short hand to get dictionary
+get_dictionary()
+}
+\dontrun{
+# Short hand to get gdp
+get_gdp()
+}
+\dontrun{
+# Short hand to get incgrp_coverage
+get_incgrp_coverage()
+}
+\dontrun{
+# Short hand to get interpolated_means
+get_interpolated_means()
+}
+\dontrun{
+# Short hand to get hfce
+get_hfce()
+}
+\dontrun{
+# Short hand to get pop
+get_pop()
+}
+\dontrun{
+# Short hand to get pop_region
+get_pop_region()
+}
+\dontrun{
+# Short hand to get ppp
+get_ppp()
+}
+\dontrun{
+# Short hand to get region_coverage
+get_region_coverage()
+}
+\dontrun{
+# Short hand to get survey_means
+get_survey_means()
 }
 }
