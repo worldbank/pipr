@@ -1,10 +1,10 @@
 #' Get auxiliary data
 #'
 #' @description `get_aux()` Get an auxiliary dataset. If no table is specified a
-#' vector with possible inputs will be returned.
+#'   vector with possible inputs will be returned.
 #'
-#' `get_countries()` Returns a table countries with their full names, ISO codes,
-#' and associated region code
+#'   `get_countries()` Returns a table countries with their full names, ISO
+#'   codes, and associated region code
 #'
 #'
 #' @param table Aux table
@@ -15,9 +15,11 @@
 #' @inheritParams get_stats
 #' @param force logical: force replacement. Default is FALSE
 #'
-#' @return tibble or list. If `assign_tb` is TRUE or character, it will return
-#'   TRUE if data was assign properly to .pip env. If `simplify = FALSE`, it
-#'   returns a list of class "pip_api"
+#' @return If `simplify = FALSE`, it returns a list of class "pip_api". If
+#'   `simplify = TRUE`, it returns a tibble with the requested data. This is the
+#'   default. Only for `get_aux()`, If `assign_tb = TRUE` or character, it
+#'   returns TRUE when data was assign properly to .pip env. FALSE, if it was
+#'   not assigned.
 #' @export
 #' @examples
 #' \dontrun{

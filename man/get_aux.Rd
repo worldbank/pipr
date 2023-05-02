@@ -173,16 +173,16 @@ character, the table will be assigned to that name.}
 \item{force}{logical: force replacement. Default is FALSE}
 }
 \value{
-tibble or list. If \code{assign_tb} is TRUE or character, it will return
-TRUE if data was assign properly to .pip env. If \code{simplify = FALSE}, it
-returns a list of class "pip_api"
+If \code{assign_tb = TRUE} or character, it  returns TRUE when data was
+assign properly to .pip env. FALSE, if it was not assigned. If \code{simplify = FALSE}, it returns a list of class "pip_api". If \code{simplify = TRUE}, it
+returns a tibble with the requested data. This is the default.
 }
 \description{
 \code{get_aux()} Get an auxiliary dataset. If no table is specified a
 vector with possible inputs will be returned.
 
-\code{get_countries()} Returns a table countries with their full names, ISO codes,
-and associated region code
+\code{get_countries()} Returns a table countries with their full names, ISO
+codes, and associated region code
 }
 \section{Functions}{
 \itemize{
