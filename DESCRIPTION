@@ -1,5 +1,5 @@
 Package: pipr
-Title: Client for the PIP API
+Title: Client for the Poverty and Inequality Platform ('PIP') API
 Version: 1.0.0
 Authors@R: 
     c(person(given = "Tony",
@@ -14,14 +14,14 @@ Authors@R:
             family = "Shah",
             role =  "aut",
             email = "shahronak47@yahoo.in"),
-      person(given = "R. Andrés",
+      person(given = "R.Andrés",
             family = "Castañeda",
             role = "aut",
             email = "acastanedaa@worldbank.org"),
      person(given = "World Bank",
             role = "cph")
      )
-Description: Provides an interface to compute poverty and inequality 
+Description: An interface to compute poverty and inequality 
     indicators for more than 160 countries and regions from the World
     Bank's database of household surveys. 
 License: MIT + file LICENSE
