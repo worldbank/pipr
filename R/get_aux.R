@@ -100,7 +100,7 @@ get_aux <- function(table           = NULL,
       tb_name <- assign_tb
 
     } else {
-      msg <- c("Invalid sintax in {.field assign_tb}",
+      msg <- c("Invalid syntax in {.field assign_tb}",
                "*" = "{.field assign_tb} must be logical or character.")
         cli::cli_abort(msg, wrap = TRUE)
     }
