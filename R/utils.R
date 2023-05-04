@@ -117,7 +117,8 @@ build_args <- function(.country = NULL,
 parse_response <- function(res, simplify) {
 
   # Get response type
-  type <- tryCatch(suppressWarnings(httr::http_type(res)), error = function(e) NULL)
+  type <- tryCatch(suppressWarnings(httr::http_type(res)),
+                   error = function(e) NULL)
 
   # Stop if response type is unknown
   attempt::stop_if(is.null(type), msg = "Invalid response format")
@@ -187,32 +188,72 @@ select_base_url <- function(server) {
 # Formatting functions -------------
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+
+#' rename columns in dataframe
+#'
+#' @param df  data frame
+#' @param oldnames  character: old names
+#' @param newnames  character: new names
+#'
+#' @return data frame with new names
+#' @keywords internal
+renamecols <- function(df, oldnames, newnames) {
+
+  #   __________________________________________________________
+  #   Defenses                                              ####
+  stopifnot( exprs = {
+    is.data.frame(df)
+    length(oldnames) == length(newnames)
+    # all(oldnames %in% names(df))
+  }
+  )
+
+  #   _______________________________________________________________
+  #   Computations                                               ####
+  df_names <- names(df)
+  old_position <- which(oldnames %in% df_names)
+  old_available <- oldnames[old_position]
+  new_available <- newnames[old_position]
+
+  for (i in seq_along(old_available)) {
+    tochange <- which(df_names %in% old_available[i])
+    df_names[tochange] <- new_available[i]
+  }
+
+  names(df) <- df_names
+
+  #   ________________________________________________________________
+  #   Return                                                      ####
+  return(df)
+
+}
+
+
 #' Rename columns
 #' TEMP function to rename response cols
 #' @param df A data.frame
 #' @param url response url
 #' @noRd
 tmp_rename_cols <- function(df, url = "") {
-  data.table::setnames(
-    df,
-    old = c(
-      "survey_year",
-      "reporting_year",
-      "reporting_pop",
-      "reporting_gdp",
-      "reporting_pce",
-      "pce_data_level"
-    ),
-    new = c("welfare_time",
-            "year",
-            "pop",
-            "gdp",
-            "hfce",
-            "hfce_data_level"),
-    skip_absent = TRUE
+
+  oldnames = c(
+    "survey_year",
+    "reporting_year",
+    "reporting_pop",
+    "reporting_gdp",
+    "reporting_pce",
+    "pce_data_level"
   )
 
-  return(df)
+  newnames = c("welfare_time",
+               "year",
+               "pop",
+               "gdp",
+               "hfce",
+               "hfce_data_level")
+
+  renamecols(df,oldnames, newnames = newnames)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
