@@ -71,7 +71,7 @@ test_that("get_countries() works", {
   res <- get_countries()
   res2 <- get_aux("countries")
   expect_true(tibble::is_tibble(res))
-  expect_identical(res, res2)
+  expect_identical(res, res2, ignore_attr = TRUE)
 })
 
 test_that("get_regions() works", {
@@ -80,7 +80,7 @@ test_that("get_regions() works", {
   res <- get_regions()
   res2 <- get_aux("regions")
   expect_true(tibble::is_tibble(res))
-  expect_identical(res, res2)
+  expect_identical(res, res2, ignore_attr = TRUE)
 })
 
 

@@ -193,12 +193,24 @@ select_base_url <- function(server) {
 #' @param url response url
 #' @noRd
 tmp_rename_cols <- function(df, url = "") {
-    df <- data.table::setnames(
-      df,
-      old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
-      new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level"),
-      skip_absent = TRUE
-    )
+  data.table::setnames(
+    df,
+    old = c(
+      "survey_year",
+      "reporting_year",
+      "reporting_pop",
+      "reporting_gdp",
+      "reporting_pce",
+      "pce_data_level"
+    ),
+    new = c("welfare_time",
+            "year",
+            "pop",
+            "gdp",
+            "hfce",
+            "hfce_data_level"),
+    skip_absent = TRUE
+  )
 
   return(df)
 }
@@ -213,8 +225,17 @@ tmp_rename_cols <- function(df, url = "") {
 #' @keywords internal
 get_fun_hash <- function() {
   # name of parent function
+
+  scall  <- sys.call(-1)
+  chcall <- as.character(scall)
+
+  # early return
+  if (!grepl("^get_", chcall[1])) {
+    return(invisible(FALSE))
+  }
+
   fname <- match.call(definition = sys.function(-1),
-                      call       = sys.call(-1))[[1]] |>
+                      call       = scall)[[1]] |>
     as.character()
 
   # get environment of parent function. this MUST placer right after all
@@ -234,17 +255,41 @@ get_fun_hash <- function() {
 
 #' Check if cache is available
 #'
+#' Checks whether hash or dataframe is cached. Only of the two is
+#'
+#' @param df dataframe
 #' @param fhash character: hash of calling function
 #'
-#' @return function hash
+#' @return logical. whether the hash exist of the dataframe is cached.
 #' @keywords internal
-cache_available <- function(fhash) {
-  rlang::env_has(.pipcache, fhash)
+is_cached <- function(df = NULL, fhash = NULL) {
+
+  stopifnot(exprs = {
+    !(is.null(fhash) && is.null(df))   # both null
+    !(!is.null(fhash) && !is.null(df)) # both no null
+  })
+
+  ic <-
+    if (isFALSE(fhash)) {
+      FALSE
+    }
+    else if (!is.null(fhash)) {
+    rlang::env_has(.pipcache, fhash)
+  } else {
+    attr(df, "is_cached")
+  }
+
+  ic
 }
 
 
-#' @describeIn cache_available Load cached data
+#' @describeIn is_cached Load cached data
 load_cache <- function(fhash) {
+
+  # early return
+  if (isFALSE(fhash)) {
+    return(invisible(FALSE))
+  }
 
   cli::cli_alert("loading from cache")
   rlang::env_get(.pipcache, fhash)
@@ -254,22 +299,27 @@ load_cache <- function(fhash) {
 #' @param out  data to be cached
 #' @param force  logical. If TRUE force the creation of cache. Default is FALSE
 #'
-#' @describeIn cache_available Saves cache data
+#' @describeIn is_cached Saves cache data
 save_cache <- function(fhash, out, force = FALSE) {
 
   # early return
-  if (cache_available(fhash) && force == FALSE) {
+  if (isFALSE(fhash)) {
+    return(invisible(FALSE))
+  }
+
+  if (is_cached(fhash = fhash) && force == FALSE) {
     return(invisible(TRUE))
   }
 
   # save cache
   cli::cli_alert("creating cache")
+  attr(out, "is_cached") <- TRUE
   rlang::env_poke(env   = .pipcache,
                   nm    = fhash,
                   value = out)
 
   # Return invisible available of cache
-  cache_available(fhash) |>
+  is_cached(out) |>
     invisible()
 }
 

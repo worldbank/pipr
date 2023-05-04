@@ -82,7 +82,7 @@ get_stats <- function(country         = "all",
 
   # get function function hash and load if available
   fhash <- get_fun_hash()
-  if (cache_available(fhash)) {
+  if (is_cached(fhash = fhash)) {
     return(load_cache(fhash))
   }
 
@@ -129,10 +129,10 @@ get_stats <- function(country         = "all",
   # Parse result
   out <- parse_response(res      = res,
                         simplify = simplify)
-
   save_cache(fhash = fhash,
              out   = out,
              force = force_cache)
+
   return(out)
 }
 
@@ -155,7 +155,7 @@ get_wb <- function(year            = "all",
 
   # get function function hash and load if available
   fhash <- get_fun_hash()
-  if (cache_available(fhash)) {
+  if (is_cached(fhash = fhash)) {
     return(load_cache(fhash))
   }
 

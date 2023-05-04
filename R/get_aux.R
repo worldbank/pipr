@@ -65,7 +65,7 @@ get_aux <- function(table           = NULL,
 
   # get function function hash and load if available
   fhash <- get_fun_hash()
-  if (cache_available(fhash)) {
+  if (is_cached(fhash = fhash)) {
     return(load_cache(fhash))
   }
 

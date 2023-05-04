@@ -57,8 +57,6 @@ Imports:
     jsonlite,
     tibble,
     purrr,
-    memoise,
-    cachem,
     data.table,
     cli,
     rlang,

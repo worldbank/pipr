@@ -24,6 +24,6 @@ call_aux("gdp")
 
 # see the name of several tables in memory
 tb <- c("cpi", "ppp", "pop")
-lapply(tb, get_aux, assign_tb = TRUE, replace = TRUE)
+lr <- lapply(tb, get_aux, assign_tb = TRUE, replace = TRUE)
 call_aux()
 }
