@@ -1,3 +1,7 @@
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Parsing and checking functions  -------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #' check_internet
 #' @noRd
 check_internet <- function() {
@@ -178,6 +182,11 @@ select_base_url <- function(server) {
   return(base_url)
 }
 
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Formatting functions -------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #' Rename columns
 #' TEMP function to rename response cols
 #' @param df A data.frame
@@ -194,8 +203,9 @@ tmp_rename_cols <- function(df, url = "") {
   return(df)
 }
 
-
-
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Caching functions -------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #' Get parent function hash for caching
 #'
@@ -220,3 +230,46 @@ get_fun_hash <- function() {
   list(fbody, fargs) |>
     rlang::hash()
 }
+
+
+#' Check if cache is available
+#'
+#' @param fhash character: hash of calling function
+#'
+#' @return function hash
+#' @keywords internal
+cache_available <- function(fhash) {
+  rlang::env_has(.pipcache, fhash)
+}
+
+
+#' @describeIn cache_available Load cached data
+load_cache <- function(fhash) {
+
+  cli::cli_alert("loading from cache")
+  rlang::env_get(.pipcache, fhash)
+
+}
+
+#' @param out  data to be cached
+#' @param force  logical. If TRUE force the creation of cache. Default is FALSE
+#'
+#' @describeIn cache_available Saves cache data
+save_cache <- function(fhash, out, force = FALSE) {
+
+  # early return
+  if (cache_available(fhash) && force == FALSE) {
+    return(invisible(TRUE))
+  }
+
+  # save cache
+  cli::cli_alert("creating cache")
+  rlang::env_poke(env   = .pipcache,
+                  nm    = fhash,
+                  value = out)
+
+  # Return invisible available of cache
+  cache_available(fhash) |>
+    invisible()
+}
+

@@ -20,7 +20,8 @@ get_stats(
   api_version = "v1",
   format = c("rds", "json", "csv"),
   simplify = TRUE,
-  server = NULL
+  server = NULL,
+  force_cache = FALSE
 )
 
 get_wb(
@@ -32,7 +33,8 @@ get_wb(
   api_version = "v1",
   format = c("rds", "json", "csv"),
   simplify = TRUE,
-  server = NULL
+  server = NULL,
+  force_cache = FALSE
 )
 }
 \arguments{
@@ -70,6 +72,8 @@ sub-groups. Either 'wb_regions' or 'none'.}
 \code{tibble}}
 
 \item{server}{character: Server. For WB internal use only}
+
+\item{force_cache}{Logical: force creation of cache even when available}
 }
 \value{
 If \code{simplify = FALSE}, it returns a list of class "pip_api". If

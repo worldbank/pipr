@@ -20,6 +20,7 @@
 #' @param simplify logical: If TRUE (the default) the response is returned as a
 #'   `tibble`
 #' @param server character: Server. For WB internal use only
+#' @param force_cache Logical: force creation of cache even when available
 #'
 #' @return If `simplify = FALSE`, it returns a list of class "pip_api". If
 #'   `simplify = TRUE`, it returns a tibble with the requested data. This is the
@@ -57,42 +58,41 @@
 #' # Custom aggregates
 #' res <- get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
 #' }
-get_stats <- function(country = "all",
-                      year = "all",
-                      povline = NULL,
-                      popshare = NULL,
-                      fill_gaps = FALSE,
-                      subgroup = NULL,
-                      welfare_type = c("all", "income", "consumption"),
+get_stats <- function(country         = "all",
+                      year            = "all",
+                      povline         = NULL,
+                      popshare        = NULL,
+                      fill_gaps       = FALSE,
+                      subgroup        = NULL,
+                      welfare_type    = c("all", "income", "consumption"),
                       reporting_level = c("all", "national", "urban", "rural"),
-                      version = NULL,
-                      ppp_version = NULL,
+                      version         = NULL,
+                      ppp_version     = NULL,
                       release_version = NULL,
-                      api_version = "v1",
-                      format = c("rds", "json", "csv"),
-                      simplify = TRUE,
-                      server = NULL) {
+                      api_version     = "v1",
+                      format          = c("rds", "json", "csv"),
+                      simplify        = TRUE,
+                      server          = NULL,
+                      force_cache     = FALSE) {
   # Match args
   welfare_type    <- match.arg(welfare_type)
   reporting_level <- match.arg(reporting_level)
   api_version     <- match.arg(api_version)
   format          <- match.arg(format)
 
-  # get function function hash
+  # get function function hash and load if available
   fhash <- get_fun_hash()
-  if (rlang::env_has(.pip, fhash)) {
-    cli::cli_alert("loading from cache")
-    return(rlang::env_get(.pip, fhash))
+  if (cache_available(fhash)) {
+    return(load_cache(fhash))
   }
-
 
   # popshare can't be used together with povline
   if (!is.null(popshare)) povline <- NULL
 
   if (!is.null(subgroup)) {
     fill_gaps <- NULL # subgroup can't be used together with fill_gaps
-    endpoint <- "pip-grp"
-    subgroup <- match.arg(subgroup, c("none", "wb_regions"))
+    endpoint  <- "pip-grp"
+    subgroup  <- match.arg(subgroup, c("none", "wb_regions"))
     if (subgroup == "wb_regions") {
       group_by <- "wb"
     } else {
@@ -105,83 +105,85 @@ get_stats <- function(country = "all",
 
   # Build query string
   args <- build_args(
-    .country = country,
-    .year = year,
-    .povline = povline,
-    .popshare = popshare,
-    .fill_gaps = fill_gaps,
-    .group_by = group_by,
-    .welfare_type = welfare_type,
+    .country         = country,
+    .year            = year,
+    .povline         = povline,
+    .popshare        = popshare,
+    .fill_gaps       = fill_gaps,
+    .group_by        = group_by,
+    .welfare_type    = welfare_type,
     .reporting_level = reporting_level,
-    .version = version,
-    .ppp_version = ppp_version,
+    .version         = version,
+    .ppp_version     = ppp_version,
     .release_version = release_version,
-    .format = format
+    .format          = format
   )
+
   u <- build_url(server, endpoint, api_version)
+
   # Send query
-  res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
+  res <- httr::GET(url    = u,
+                   query  = args,
+                   config = httr::user_agent(pipr_user_agent))
 
   # Parse result
-  out <- parse_response(res, simplify)
+  out <- parse_response(res      = res,
+                        simplify = simplify)
 
-  if (!rlang::env_has(.pip, fhash)) { # this should always be TRUE
-    cli::cli_alert("creating cache")
-    rlang::env_poke(env = .pip,
-                    nm = fhash,
-                    value = out)
-  }
+  save_cache(fhash = fhash,
+             out   = out,
+             force = force_cache)
   return(out)
 }
 
 #' @rdname get_stats
 #' @export
-get_wb <- function(year = "all",
-                   povline = 1.9,
-                   version = NULL,
-                   ppp_version = NULL,
+get_wb <- function(year            = "all",
+                   povline         = 1.9,
+                   version         = NULL,
+                   ppp_version     = NULL,
                    release_version = NULL,
-                   api_version = "v1",
-                   format = c("rds", "json", "csv"),
-                   simplify = TRUE,
-                   server = NULL) {
+                   api_version     = "v1",
+                   format          = c("rds", "json", "csv"),
+                   simplify        = TRUE,
+                   server          = NULL,
+                   force_cache     = FALSE) {
 
   # Match args
   api_version <- match.arg(api_version)
   format      <- match.arg(format)
 
-  # get function function hash
+  # get function function hash and load if available
   fhash <- get_fun_hash()
-  if (rlang::env_has(.pip, fhash)) {
-    cli::cli_alert("loading from cache")
-    return(rlang::env_get(.pip, fhash))
+  if (cache_available(fhash)) {
+    return(load_cache(fhash))
   }
 
 
   # Build query string
   args <- build_args(
-    .country = "all",
-    .year = year,
-    .povline = povline,
-    .group_by = "wb",
-    .version = version,
-    .ppp_version = ppp_version,
+    .country         = "all",
+    .year            = year,
+    .povline         = povline,
+    .group_by        = "wb",
+    .version         = version,
+    .ppp_version     = ppp_version,
     .release_version = release_version,
-    .format = format
+    .format          = format
   )
   u <- build_url(server, "pip-grp", api_version)
 
   # Send query
-  res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
+  res <- httr::GET(url    = u,
+                   query  = args,
+                   config = httr::user_agent(pipr_user_agent))
 
   # Parse result
   out <- parse_response(res, simplify)
-  if (!rlang::env_has(.pip, fhash)) { # this should always be TRUE
-    cli::cli_alert("creating cache")
-    rlang::env_poke(env = .pip,
-                    nm = fhash,
-                    value = out)
-  }
+
+  save_cache(fhash = fhash,
+             out   = out,
+             force = force_cache)
 
   return(out)
 }

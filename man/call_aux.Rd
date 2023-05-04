@@ -19,11 +19,11 @@ call a table from .pip env
 \examples{
 # call one table
 
-get_aux("gdp", assign_tb = TRUE, force = TRUE)
+get_aux("gdp", assign_tb = TRUE, replace = TRUE)
 call_aux("gdp")
 
 # see the name of several tables in memory
 tb <- c("cpi", "ppp", "pop")
-lapply(tb, get_aux, assign_tb = TRUE, force = TRUE)
+lapply(tb, get_aux, assign_tb = TRUE, replace = TRUE)
 call_aux()
 }
