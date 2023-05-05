@@ -18,7 +18,7 @@ set_aux <- function(table,
 
   to_set <-  1
   if (rlang::env_has(.pip, table)) {
-    if (replace == FALSE) {
+    if (isFALSE(replace)) {
       cli::cli_alert("Table {.field {table}} already exists.")
       to_set <- utils::menu(c("Replace with new table", "Abort"))
     }

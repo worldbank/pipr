@@ -198,7 +198,7 @@ select_base_url <- function(server) {
 #'
 #' @return data frame with new names
 #' @keywords internal
-renamecols <- function(df, oldnames, newnames) {
+rename_cols <- function(df, oldnames, newnames) {
 
   #   _______________________________________
   #   Defenses                               ####
@@ -256,7 +256,7 @@ tmp_rename_cols <- function(df, url = "") {
                "hfce",
                "hfce_data_level")
 
-  renamecols(df,oldnames, newnames)
+  rename_cols(df,oldnames, newnames)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -351,7 +351,7 @@ save_cache <- function(fhash, out, force = FALSE) {
     return(invisible(FALSE))
   }
 
-  if (is_cached(fhash = fhash) && force == FALSE) {
+  if (is_cached(fhash = fhash) &&  isFALSE(force)) {
     return(invisible(TRUE))
   }
 
