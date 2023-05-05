@@ -200,8 +200,8 @@ select_base_url <- function(server) {
 #' @keywords internal
 renamecols <- function(df, oldnames, newnames) {
 
-  #   __________________________________________________________
-  #   Defenses                                              ####
+  #   _______________________________________
+  #   Defenses                               ####
   stopifnot( exprs = {
     is.data.frame(df)
     length(oldnames) == length(newnames)
@@ -209,22 +209,25 @@ renamecols <- function(df, oldnames, newnames) {
   }
   )
 
-  #   _______________________________________________________________
-  #   Computations                                               ####
+  #   ___________________________________________
+  #   Computations                              ####
   df_names <- names(df)
+
   old_position <- which(oldnames %in% df_names)
   old_available <- oldnames[old_position]
   new_available <- newnames[old_position]
 
+  tochange <- vector(length = length(old_available))
+
   for (i in seq_along(old_available)) {
-    tochange <- which(df_names %in% old_available[i])
-    df_names[tochange] <- new_available[i]
+    tochange[i] <- which(df_names %in% old_available[i])
   }
 
-  names(df) <- df_names
+  names(df)[tochange] <- new_available
 
-  #   ________________________________________________________________
-  #   Return                                                      ####
+
+  #   ____________________________________________
+  #   Return                                      ####
   return(df)
 
 }
