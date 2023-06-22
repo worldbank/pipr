@@ -1,7 +1,11 @@
 #' Get auxiliary data
 #'
-#' Get an auxiliary dataset. If no table is specified a vector with possible
-#' inputs will be returned.
+#' @description `get_aux()` Get an auxiliary dataset. If no table is specified a
+#'   vector with possible inputs will be returned.
+#'
+#'   `get_countries()` Returns a table countries with their full names, ISO
+#'   codes, and associated region code
+#'
 #'
 #' @param table Aux table
 #' @param assign_tb assigns table to specified name to the `.pip` environment.
@@ -11,8 +15,11 @@
 #' @inheritParams get_stats
 #' @param force logical: force replacement. Default is FALSE
 #'
-#' @return tibble or list. If `assign_tb` is TRUE or character, it will return
-#'   TRUE if data was assign properly to .pip env
+#' @return If `simplify = FALSE`, it returns a list of class "pip_api". If
+#'   `simplify = TRUE`, it returns a tibble with the requested data. This is the
+#'   default. Only for `get_aux()`, If `assign_tb = TRUE` or character, it
+#'   returns TRUE when data was assign properly to .pip env. FALSE, if it was
+#'   not assigned.
 #' @export
 #' @examples
 #' \dontrun{
@@ -93,9 +100,9 @@ get_aux <- function(table           = NULL,
       tb_name <- assign_tb
 
     } else {
-      msg <- c("Invalid sintax in {.field assign_tb}",
+      msg <- c("Invalid syntax in {.field assign_tb}",
                "*" = "{.field assign_tb} must be logical or character.")
-        cli::cli_abort(msg, class = "pipr_error", wrap = TRUE)
+        cli::cli_abort(msg, wrap = TRUE)
     }
 
     srt <- set_aux(table = tb_name,
@@ -116,7 +123,7 @@ get_aux <- function(table           = NULL,
     } else {
 
       msg <- c("table {.strong {table}} could not be saved in env {.env .pip}")
-      cli::cli_abort(msg, class = "pipr_error", wrap = TRUE)
+      cli::cli_abort(msg, wrap = TRUE)
 
     }
 
@@ -127,11 +134,8 @@ get_aux <- function(table           = NULL,
 
 }
 
-#' get_countries
-#' @description Returns a table countries with their full names, ISO codes, and
-#' associated region code
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a table countries with their full names, ISO
+#'   codes, and associated region code
 #' @examples
 #' \dontrun{
 #' # Short hand to get countries
@@ -153,11 +157,8 @@ get_countries <- function(version = NULL,
 }
 
 
-#' get_regions
-#' @description Returns a table regional grouping used for computing aggregate
-#' poverty statistics.
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a table regional grouping used for computing
+#'   aggregate poverty statistics.
 #' @examples
 #' \dontrun{
 #' # Short hand to get regions
@@ -179,12 +180,8 @@ get_regions <- function(version = NULL,
 }
 
 
-#' get_cpi()
-#' @description Returns a table of Consumer Price Index (CPI) values used for
-#' poverty and inequality computations.
-#' statistics
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a table of Consumer Price Index (CPI) values used
+#'   for poverty and inequality computations. statistics
 #' @examples
 #' \dontrun{
 #' # Short hand to get cpi
@@ -206,11 +203,8 @@ get_cpi <- function(version = NULL,
 }
 
 
-#' get_dictionary
-#' @description Returns a data dictionary with a description of all variables
-#' available through the PIP API.
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a data dictionary with a description of all
+#'   variables available through the PIP API.
 #' @examples
 #' \dontrun{
 #' # Short hand to get dictionary
@@ -232,11 +226,8 @@ get_dictionary <- function(version = NULL,
 }
 
 
-#' get_gdp()
-#' @description Returns a table of Growth Domestic Product (GDP) values used for
-#' poverty and inequality statistics.
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a table of Growth Domestic Product (GDP) values
+#'   used for poverty and inequality statistics.
 #' @examples
 #' \dontrun{
 #' # Short hand to get gdp
@@ -258,12 +249,9 @@ get_gdp <- function(version = NULL,
 }
 
 
-#' get_incgrp_coverage
-#' @description Returns a table of survey coverage for low and lower-middle
-#' income countries. If this coverage is less than 50%, World level aggregate
-#' statistics will not be computed.
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a table of survey coverage for low and
+#'   lower-middle income countries. If this coverage is less than 50%, World
+#'   level aggregate statistics will not be computed.
 #' @examples
 #' \dontrun{
 #' # Short hand to get incgrp_coverage
@@ -285,14 +273,11 @@ get_incgrp_coverage <- function(version = NULL,
 }
 
 
-#' get_interpolated_means
-#' @description Returns a table of key information and statistics for all years
-#' for which poverty and inequality statistics are either available (household
-#' survey exists) or extra- / interpolated.
-#' Please see \code{\link{get_dictionary}} for more information about
-#' each variable available in this table.
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a table of key information and statistics for all
+#'   years for which poverty and inequality statistics are either available
+#'   (household survey exists) or extra- / interpolated. Please see
+#'   \code{\link{get_dictionary}} for more information about each variable
+#'   available in this table.
 #' @examples
 #' \dontrun{
 #' # Short hand to get interpolated_means
@@ -313,12 +298,8 @@ get_interpolated_means <- function(version = NULL,
   )
 }
 
-#' get_hfce
-#'
-#' @description Returns a table of Household Final Consumption Expenditure (HFCE) values
-#' used for poverty and inequality computations.
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a table of Household Final Consumption
+#'   Expenditure (HFCE) values used for poverty and inequality computations.
 #' @examples
 #' \dontrun{
 #' # Short hand to get hfce
@@ -339,11 +320,8 @@ get_hfce <- function(version = NULL,
   )
 }
 
-#' get_pop
-#' @description Returns a table of population values used for poverty and
+#' @describeIn get_aux Returns a table of population values used for poverty and
 #' inequality computations.
-#' @inheritParams get_aux
-#' @export
 #' @examples
 #' \dontrun{
 #' # Short hand to get pop
@@ -364,11 +342,9 @@ get_pop <- function(version = NULL,
   )
 }
 
-#' get_pop_region
-#' @description Returns a table of total population by region-year. These values
-#' are used for the computation of regional aggregate poverty statistics.
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a table of total population by region-year. These
+#'   values are used for the computation of regional aggregate poverty
+#'   statistics.
 #' @examples
 #' \dontrun{
 #' # Short hand to get pop_region
@@ -390,11 +366,8 @@ get_pop_region <- function(version = NULL,
 }
 
 
-#' get_ppp
-#' @description Returns a table of Purchasing Power Parity (PPP) values
-#' used for poverty and inequality computations.
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a table of Purchasing Power Parity (PPP) values
+#'   used for poverty and inequality computations.
 #' @examples
 #' \dontrun{
 #' # Short hand to get ppp
@@ -415,11 +388,8 @@ get_ppp <- function(version = NULL,
   )
 }
 
-#' get_region_coverage
-#' @description Return a table of regional survey coverage: Percentage of
-#' available surveys for a specific region-year.
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Return a table of regional survey coverage: Percentage of
+#'   available surveys for a specific region-year.
 #' @examples
 #' \dontrun{
 #' # Short hand to get region_coverage
@@ -441,12 +411,9 @@ get_region_coverage <- function(version = NULL,
 }
 
 
-#' get_survey_means
-#' @description Returns a table of all available surveys and associated key
-#' statistics. Please see \code{\link{get_dictionary}} for more information about
-#' each variable available in this table.
-#' @inheritParams get_aux
-#' @export
+#' @describeIn get_aux Returns a table of all available surveys and associated
+#'   key statistics. Please see \code{\link{get_dictionary}} for more
+#'   information about each variable available in this table.
 #' @examples
 #' \dontrun{
 #' # Short hand to get survey_means
