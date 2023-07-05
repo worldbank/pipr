@@ -122,7 +122,7 @@ get_stats <- function(country = "all",
 #' @rdname get_stats
 #' @export
 get_wb <- function(year = "all",
-                   povline = 1.9,
+                   povline = NULL,
                    version = NULL,
                    ppp_version = NULL,
                    release_version = NULL,
