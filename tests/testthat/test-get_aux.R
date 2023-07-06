@@ -43,7 +43,7 @@ test_that("get_aux() works when calling specific tables", {
   # expect_true(is.list(get_aux("tmp", simplify = FALSE)))
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
   expect_error(get_aux("wrong-table-name", server = "qa"))
-  expect_true(is.list(get_aux("wrong-table-name", simplify = FALSE, server = "qa")))
+  expect_true(is.list(get_aux("wrong-table-name", simplify = FALSE, server = "prod")))
 
   # Check all tables
   skip("survey_metadata gives a 500 error. Need to add functionality for list data")

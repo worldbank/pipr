@@ -101,10 +101,15 @@ build_args <- function(.country = NULL,
   return(args)
 }
 
+
 #' parse_response
 #' @param res A httr response
 #' @inheritParams get_stats
-#' @noRd
+#'
+#' @return If `simplify = TRUE`, it returns a tibble with the requested content.
+#'   If `simplify = FALSE`, it returns a list of class "pip_api" with
+#'   information about the PIP API query
+#' @keywords internal
 parse_response <- function(res, simplify) {
 
   # Get response type

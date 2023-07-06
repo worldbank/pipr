@@ -21,7 +21,11 @@
 #'   `tibble`
 #' @param server character: Server. For WB internal use only
 #'
-#' @return tibble or list
+#' @return If `simplify = FALSE`, it returns a list of class "pip_api". If
+#'   `simplify = TRUE`, it returns a tibble with the requested data. This is the
+#'   default. Only for `get_aux()`, If `assign_tb = TRUE` or character, it
+#'   returns TRUE when data was assign properly to .pip env. FALSE, if it was
+#'   not assigned.
 #' @export
 #'
 #' @examples
@@ -118,7 +122,7 @@ get_stats <- function(country = "all",
 #' @rdname get_stats
 #' @export
 get_wb <- function(year = "all",
-                   povline = 1.9,
+                   povline = NULL,
                    version = NULL,
                    ppp_version = NULL,
                    release_version = NULL,

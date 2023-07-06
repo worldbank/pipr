@@ -62,13 +62,8 @@ test_that("get_stats() works w/ popshare option", {
 test_that("get_stats() works w/ subgroup = 'wb_regions'", {
   skip_if_offline()
   skip_on_cran()
-  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
-    message = "pip-grp not implement on PROD yet"
-  )
-  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
-    message = "Could not connect to QA host"
-  )
-  df <- get_stats("all", year = 2011, subgroup = "wb_regions", server = "qa")
+
+  df <- get_stats("all", year = 2011, subgroup = "wb_regions", server = "prod")
   expect_equal(nrow(df), 10)
   expect_identical(
     sort(df$region_code),
@@ -83,16 +78,14 @@ test_that("get_stats() works w/ subgroup = 'none'", {
   skip("Need to review to whole logic for this")
   skip_if_offline()
   skip_on_cran()
-  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
-    message = "pip-grp not implement on PROD yet"
-  )
-  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
-    message = "Could not connect to QA host"
-  )
-  df <- get_stats("all", year = 2011, subgroup = "none", server = "qa")
+
+  # skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
+  #   message = "Could not connect to QA host"
+  # )
+  df <- get_stats("all", year = 2011, subgroup = "none", server = "prod")
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
-  df <- get_stats(c("ARG", "BRA"), year = 2011, subgroup = "none", server = "qa")
+  df <- get_stats(c("ARG", "BRA"), year = 2011, subgroup = "none", server = "prod")
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
 })
@@ -149,13 +142,8 @@ test_that("get_stats() works w/ simplify = FALSE", {
 test_that("get_wb() works", {
   skip_if_offline()
   skip_on_cran()
-  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
-    message = "pip-grp not implement on PROD yet"
-  )
-  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
-    message = "Could not connect to QA host"
-  )
-  df <- get_wb(year = 2011, server = "qa")
+
+  df <- get_wb(year = 2011, server = "prod")
   expect_equal(nrow(df), 10)
   expect_identical(
     sort(df$region_code),
@@ -169,19 +157,14 @@ test_that("get_wb() works", {
 test_that("get_wb() works w/ all response formats", {
   skip_if_offline()
   skip_on_cran()
-  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
-    message = "pip-grp not implement on PROD yet"
-  )
-  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
-    message = "Could not connect to QA host"
-  )
-  df <- get_wb(year = "all", format = "json", server = "qa")
+
+  df <- get_wb(year = "all", format = "json", server = "prod")
   expect_true(tibble::is_tibble(df))
   expect_gte(nrow(df), 3)
-  df <- get_wb(year = "all", format = "csv", server = "qa")
+  df <- get_wb(year = "all", format = "csv", server = "prod")
   expect_true(tibble::is_tibble(df))
   expect_gte(nrow(df), 3)
-  df <- get_wb(year = "all", format = "rds", server = "qa")
+  df <- get_wb(year = "all", format = "rds", server = "prod")
   expect_true(tibble::is_tibble(df))
   expect_gte(nrow(df), 3)
 })
@@ -189,13 +172,13 @@ test_that("get_wb() works w/ all response formats", {
 test_that("get_wb() works w/ simplify = FALSE", {
   skip_if_offline()
   skip_on_cran()
-  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
-    message = "pip-grp not implement on PROD yet"
-  )
-  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
-    message = "Could not connect to QA host"
-  )
-  res <- get_wb(year = "all", simplify = FALSE, server = "qa")
+  # skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE",
+  #   message = "pip-grp not implement on PROD yet"
+  # )
+  # skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
+  #   message = "Could not connect to QA host"
+  # )
+  res <- get_wb(year = "all", simplify = FALSE, server = "prod")
   expect_true(is.list(res))
   expect_identical(names(res), c("url", "status", "type", "content", "response"))
   expect_identical(class(res), "pip_api")
