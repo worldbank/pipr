@@ -92,7 +92,7 @@
 <span></span>
 <span><span class="fu">get_wb</span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="st">"all"</span>,</span>
-<span>  povline <span class="op">=</span> <span class="fl">1.9</span>,</span>
+<span>  povline <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  version <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ppp_version <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  release_version <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -174,7 +174,11 @@ sub-groups. Either 'wb_regions' or 'none'.</p></dd>
     <h2>Value</h2>
     
 
-<p>tibble or list</p>
+<p>If <code>simplify = FALSE</code>, it returns a list of class "pip_api". If
+<code>simplify = TRUE</code>, it returns a tibble with the requested data. This is the
+default. Only for <code><a href="get_aux.html">get_aux()</a></code>, If <code>assign_tb = TRUE</code> or character, it
+returns TRUE when data was assign properly to .pip env. FALSE, if it was
+not assigned.</p>
     </div>
 
     <div id="ref-examples">
@@ -217,7 +221,7 @@ sub-groups. Either 'wb_regions' or 'none'.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Tony Fujs, Aleksander Eilertsen, Ronak Shah, R. Andrés Castañeda.</p>
+  <p></p><p>Developed by Tony Fujs, Aleksander Eilertsen, Ronak Shah, R.Andrés Castañeda.</p>
 </div>
 
 <div class="pkgdown">
