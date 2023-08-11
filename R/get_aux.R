@@ -45,10 +45,10 @@
 #' get_aux("gdp", assign_tb = "new_name")
 #'
 #' }
-get_aux <- function(table           = NULL,
-                    version         = NULL,
-                    ppp_version     = NULL,
-                    release_version = NULL,
+get_aux <- function(table           = getOption("pipr.table"),
+                    version         = getOption("pipr.version"),
+                    ppp_version     = getOption("pipr.ppp_version"),
+                    release_version = getOption("pipr.release_version"),
                     api_version     = "v1",
                     format          = c("rds", "json", "csv"),
                     simplify        = TRUE,
