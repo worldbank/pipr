@@ -1,3 +1,7 @@
+# pipr 1.0.1
+
+* Introduce setting default values for arguments `table`, `version`, `ppp_version` and `release_version` using `options`
+
 # pipr 1.0.0
 
 * [Mock live API calls or skip them on CRAN](https://github.com/worldbank/pipr/pull/45)
