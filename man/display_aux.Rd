@@ -5,9 +5,9 @@
 \title{Display available auxiliary tables}
 \usage{
 display_aux(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   simplify = TRUE,

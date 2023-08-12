@@ -18,10 +18,10 @@
 \title{Get auxiliary data}
 \usage{
 get_aux(
-  table = NULL,
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  table = getOption("pipr.table"),
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   simplify = TRUE,
@@ -31,117 +31,117 @@ get_aux(
 )
 
 get_countries(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_regions(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_cpi(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_dictionary(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_gdp(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_incgrp_coverage(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_interpolated_means(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_hfce(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_pop(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_pop_region(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_ppp(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_region_coverage(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL
 )
 
 get_survey_means(
-  version = NULL,
-  ppp_version = NULL,
-  release_version = NULL,
+  version = getOption("pipr.version"),
+  ppp_version = getOption("pipr.ppp_version"),
+  release_version = getOption("pipr.release_version"),
   api_version = "v1",
   format = c("rds", "json", "csv"),
   server = NULL

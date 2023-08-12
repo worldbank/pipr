@@ -141,9 +141,9 @@ get_aux <- function(table           = getOption("pipr.table"),
 #' # Short hand to get countries
 #' get_countries()
 #' }
-get_countries <- function(version = NULL,
-                          ppp_version = NULL,
-                          release_version = NULL,
+get_countries <- function(version = getOption("pipr.version"),
+                          ppp_version = getOption("pipr.ppp_version"),
+                          release_version = getOption("pipr.release_version"),
                           api_version = "v1",
                           format = c("rds", "json", "csv"),
                           server = NULL) {
@@ -164,9 +164,9 @@ get_countries <- function(version = NULL,
 #' # Short hand to get regions
 #' get_regions()
 #' }
-get_regions <- function(version = NULL,
-                        ppp_version = NULL,
-                        release_version = NULL,
+get_regions <- function(version = getOption("pipr.version"),
+                        ppp_version = getOption("pipr.ppp_version"),
+                        release_version = getOption("pipr.release_version"),
                         api_version = "v1",
                         format = c("rds", "json", "csv"),
                         server = NULL) {
@@ -187,9 +187,9 @@ get_regions <- function(version = NULL,
 #' # Short hand to get cpi
 #' get_cpi()
 #' }
-get_cpi <- function(version = NULL,
-                    ppp_version = NULL,
-                    release_version = NULL,
+get_cpi <- function(version = getOption("pipr.version"),
+                    ppp_version = getOption("pipr.ppp_version"),
+                    release_version = getOption("pipr.release_version"),
                     api_version = "v1",
                     format = c("rds", "json", "csv"),
                     server = NULL) {
@@ -210,9 +210,9 @@ get_cpi <- function(version = NULL,
 #' # Short hand to get dictionary
 #' get_dictionary()
 #' }
-get_dictionary <- function(version = NULL,
-                           ppp_version = NULL,
-                           release_version = NULL,
+get_dictionary <- function(version = getOption("pipr.version"),
+                           ppp_version = getOption("pipr.ppp_version"),
+                           release_version = getOption("pipr.release_version"),
                            api_version = "v1",
                            format = c("rds", "json", "csv"),
                            server = NULL) {
@@ -233,9 +233,9 @@ get_dictionary <- function(version = NULL,
 #' # Short hand to get gdp
 #' get_gdp()
 #' }
-get_gdp <- function(version = NULL,
-                    ppp_version = NULL,
-                    release_version = NULL,
+get_gdp <- function(version = getOption("pipr.version"),
+                    ppp_version = getOption("pipr.ppp_version"),
+                    release_version = getOption("pipr.release_version"),
                     api_version = "v1",
                     format = c("rds", "json", "csv"),
                     server = NULL) {
@@ -257,9 +257,9 @@ get_gdp <- function(version = NULL,
 #' # Short hand to get incgrp_coverage
 #' get_incgrp_coverage()
 #' }
-get_incgrp_coverage <- function(version = NULL,
-                                ppp_version = NULL,
-                                release_version = NULL,
+get_incgrp_coverage <- function(version = getOption("pipr.version"),
+                                ppp_version = getOption("pipr.ppp_version"),
+                                release_version = getOption("pipr.release_version"),
                                 api_version = "v1",
                                 format = c("rds", "json", "csv"),
                                 server = NULL) {
@@ -283,9 +283,9 @@ get_incgrp_coverage <- function(version = NULL,
 #' # Short hand to get interpolated_means
 #' get_interpolated_means()
 #' }
-get_interpolated_means <- function(version = NULL,
-                                   ppp_version = NULL,
-                                   release_version = NULL,
+get_interpolated_means <- function(version = getOption("pipr.version"),
+                                   ppp_version = getOption("pipr.ppp_version"),
+                                   release_version = getOption("pipr.release_version"),
                                    api_version = "v1",
                                    format = c("rds", "json", "csv"),
                                    server = NULL) {
@@ -305,9 +305,9 @@ get_interpolated_means <- function(version = NULL,
 #' # Short hand to get hfce
 #' get_hfce()
 #' }
-get_hfce <- function(version = NULL,
-                     ppp_version = NULL,
-                     release_version = NULL,
+get_hfce <- function(version = getOption("pipr.version"),
+                     ppp_version = getOption("pipr.ppp_version"),
+                     release_version = getOption("pipr.release_version"),
                      api_version = "v1",
                      format = c("rds", "json", "csv"),
                      server = NULL) {
@@ -327,9 +327,9 @@ get_hfce <- function(version = NULL,
 #' # Short hand to get pop
 #' get_pop()
 #' }
-get_pop <- function(version = NULL,
-                    ppp_version = NULL,
-                    release_version = NULL,
+get_pop <- function(version = getOption("pipr.version"),
+                    ppp_version = getOption("pipr.ppp_version"),
+                    release_version = getOption("pipr.release_version"),
                     api_version = "v1",
                     format = c("rds", "json", "csv"),
                     server = NULL) {
@@ -350,9 +350,9 @@ get_pop <- function(version = NULL,
 #' # Short hand to get pop_region
 #' get_pop_region()
 #' }
-get_pop_region <- function(version = NULL,
-                           ppp_version = NULL,
-                           release_version = NULL,
+get_pop_region <- function(version = getOption("pipr.version"),
+                           ppp_version = getOption("pipr.ppp_version"),
+                           release_version = getOption("pipr.release_version"),
                            api_version = "v1",
                            format = c("rds", "json", "csv"),
                            server = NULL) {
@@ -373,9 +373,9 @@ get_pop_region <- function(version = NULL,
 #' # Short hand to get ppp
 #' get_ppp()
 #' }
-get_ppp <- function(version = NULL,
-                    ppp_version = NULL,
-                    release_version = NULL,
+get_ppp <- function(version = getOption("pipr.version"),
+                    ppp_version = getOption("pipr.ppp_version"),
+                    release_version = getOption("pipr.release_version"),
                     api_version = "v1",
                     format = c("rds", "json", "csv"),
                     server = NULL) {
@@ -395,9 +395,9 @@ get_ppp <- function(version = NULL,
 #' # Short hand to get region_coverage
 #' get_region_coverage()
 #' }
-get_region_coverage <- function(version = NULL,
-                                ppp_version = NULL,
-                                release_version = NULL,
+get_region_coverage <- function(version = getOption("pipr.version"),
+                                ppp_version = getOption("pipr.ppp_version"),
+                                release_version = getOption("pipr.release_version"),
                                 api_version = "v1",
                                 format = c("rds", "json", "csv"),
                                 server = NULL) {
@@ -419,9 +419,9 @@ get_region_coverage <- function(version = NULL,
 #' # Short hand to get survey_means
 #' get_survey_means()
 #' }
-get_survey_means <- function(version = NULL,
-                             ppp_version = NULL,
-                             release_version = NULL,
+get_survey_means <- function(version = getOption("pipr.version"),
+                             ppp_version = getOption("pipr.ppp_version"),
+                             release_version = getOption("pipr.release_version"),
                              api_version = "v1",
                              format = c("rds", "json", "csv"),
                              server = NULL) {
