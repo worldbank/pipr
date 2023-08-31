@@ -61,7 +61,7 @@ get_aux <- function(table           = NULL,
   format      <- match.arg(format)
   run_cli     <- run_cli()
   # Build query string
-  u <- build_url(server, "aux", api_version = api_version)
+  u <- build_base_url(server, "aux", api_version = api_version)
 
   # Return response
   # If no table is specified, returns list of available tables

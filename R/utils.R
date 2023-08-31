@@ -9,7 +9,7 @@ check_internet <- function() {
 #' @inheritParams check_api
 #' @noRd
 health_check <- function(api_version, server = NULL) {
-  u <- build_url(server, "health-check", api_version)
+  u <- build_base_url(server, "health-check", api_version)
   res <- httr::GET(u)
   attempt::stop_if_not(
     .x = httr::status_code(res),
@@ -46,13 +46,13 @@ check_status <- function(res, parsed) {
   invisible(TRUE)
 }
 
-#' build_url
+#' build_base_url
 #' @param server character: Server
 #' @param endpoint character: Endpoint
 #' @param api_version character: API version
 #' @inheritParams get_stats
 #' @noRd
-build_url <- function(server, endpoint, api_version) {
+build_base_url <- function(server, endpoint, api_version) {
   base_url <- select_base_url(server = server)
   sprintf("%s/%s/%s", base_url, api_version, endpoint)
 }
@@ -113,19 +113,19 @@ build_args <- function(.country = NULL,
 parse_response <- function(res, simplify) {
 
   # Get response type
-  type <- tryCatch(suppressWarnings(httr::http_type(res)), error = function(e) NULL)
+  type <- tryCatch(suppressWarnings(httr2::resp_content_type(res)), error = function(e) NULL)
 
   # Stop if response type is unknown
   attempt::stop_if(is.null(type), msg = "Invalid response format")
 
   if (type == "application/json") {
-    parsed <- jsonlite::fromJSON(httr::content(res, "text", encoding = "UTF-8"))
+    parsed <- jsonlite::fromJSON(httr2::resp_body_string(res, encoding = "UTF-8"))
   }
   if (type == "text/csv") {
-    parsed <- suppressMessages(httr::content(res, encoding = "UTF-8"))
+    parsed <- suppressMessages(httr2::resp_body_string(res, encoding = "UTF-8"))
   }
   if (type == "application/rds") {
-    parsed <- unserialize(res$content)
+    parsed <- unserialize(res$body)
   }
 
   if (simplify) {
@@ -192,4 +192,33 @@ tmp_rename_cols <- function(df, url = "") {
     )
 
   return(df)
+}
+
+#' pip_is_transient
+#'
+#' Helper function to determine if an error is due to the number of requests
+#' going over the rate limit
+#'
+#' @param resp
+#'
+#' @return logical
+#'
+pip_is_transient <- function(resp) {
+  if (httr2::resp_is_error(resp)) {
+  httr2::resp_status(resp) == 429 &
+      stringr::str_detect(httr2::resp_body_json(resp, check_type = FALSE)$message,
+                        "Rate limit is exceeded")
+  } else {
+    FALSE
+  }
+}
+
+retry_after <- function(resp) {
+  if (httr2::resp_is_error(resp)) {
+    time <- httr2::resp_body_json(resp, check_type = FALSE)$message
+    time <- stringr::str_remove(time, "Rate limit is exceeded. Try again in ")
+    readr::parse_number(time)
+  } else {
+    0
+  }
 }

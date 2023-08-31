@@ -44,50 +44,50 @@ test_that("check_status() works", {
 
 })
 
-test_that("build_url() works", {
+test_that("build_base_url() works", {
 
   # Check that url is correctly pasted together
-  x <- build_url(server = NULL, endpoint = "pip", api_version = "v1")
+  x <- build_base_url(server = NULL, endpoint = "pip", api_version = "v1")
   expect_identical(x, paste0(prod_url, "/v1/pip"))
-  x <- build_url("prod", "pip", api_version = "v1")
+  x <- build_base_url("prod", "pip", api_version = "v1")
   expect_identical(x, paste0(prod_url, "/v1/pip"))
-  x <- build_url("prod", "pip-grp", api_version = "v2")
+  x <- build_base_url("prod", "pip-grp", api_version = "v2")
   expect_identical(x, paste0(prod_url, "/v2/pip-grp"))
 
   # Expect error if server arg is incorrect
-  expect_error(build_url("tmp", "pip", "v1"))
+  expect_error(build_base_url("tmp", "pip", "v1"))
 
   # Check internal URLs
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
-  x <- build_url("qa", "pip", "v1")
+  x <- build_base_url("qa", "pip", "v1")
   expect_identical(x, paste0(Sys.getenv("PIP_QA_URL"), "/v1/pip"))
-  x <- build_url("dev", "pip", "v1")
+  x <- build_base_url("dev", "pip", "v1")
   expect_identical(x, paste0(Sys.getenv("PIP_DEV_URL"), "/v1/pip"))
 
   # Expect error if ENV vars are not found
   skip_if(Sys.getenv("PIP_QA_URL") != "")
-  expect_error(build_url("qa", "pip", "v1"))
+  expect_error(build_base_url("qa", "pip", "v1"))
   skip_if(Sys.getenv("PIP_DEV_URL") != "")
-  expect_error(build_url("dev", "pip", "v1"))
+  expect_error(build_base_url("dev", "pip", "v1"))
 })
 
-test_that("build_url() works for internal URLS", {
+test_that("build_base_url() works for internal URLS", {
 
   # Check internal URLs
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
-  x <- build_url("qa", "pip", "v1")
+  x <- build_base_url("qa", "pip", "v1")
   expect_identical(x, paste0(Sys.getenv("PIP_QA_URL"), "/v1/pip"))
-  x <- build_url("dev", "pip", "v1")
+  x <- build_base_url("dev", "pip", "v1")
   expect_identical(x, paste0(Sys.getenv("PIP_DEV_URL"), "/v1/pip"))
 })
 
-test_that("build_url() throws error for internal URLs if ENV vars are not found", {
+test_that("build_base_url() throws error for internal URLs if ENV vars are not found", {
 
   # Expect error if ENV vars are not found
   skip_if(Sys.getenv("PIP_QA_URL") != "")
-  expect_error(build_url("qa", "pip", "v1"))
+  expect_error(build_base_url("qa", "pip", "v1"))
   skip_if(Sys.getenv("PIP_DEV_URL") != "")
-  expect_error(build_url("dev", "pip", "v1"))
+  expect_error(build_base_url("dev", "pip", "v1"))
 })
 
 test_that("build_args() works for all individual parameters", {

@@ -95,23 +95,24 @@ get_stats <- function(country = "all",
   }
 
   # Build query string
-  args <- build_args(
-    .country = country,
-    .year = year,
-    .povline = povline,
-    .popshare = popshare,
-    .fill_gaps = fill_gaps,
-    .group_by = group_by,
-    .welfare_type = welfare_type,
-    .reporting_level = reporting_level,
-    .version = version,
-    .ppp_version = ppp_version,
-    .release_version = release_version,
-    .format = format
+  req <- build_request(
+    country         = country,
+    year            = year,
+    povline         = povline,
+    popshare        = popshare,
+    fill_gaps       = fill_gaps,
+    group_by        = group_by,
+    welfare_type    = welfare_type,
+    reporting_level = reporting_level,
+    version         = version,
+    ppp_version     = ppp_version,
+    release_version = release_version,
+    format          = format,
+    server          = server
   )
-  u <- build_url(server, endpoint, api_version)
-  # Send query
-  res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
+  # Perform request
+  res <- req |>
+    req_perform()
 
   # Parse result
   out <- parse_response(res, simplify)
@@ -146,7 +147,7 @@ get_wb <- function(year = "all",
     .release_version = release_version,
     .format = format
   )
-  u <- build_url(server, "pip-grp", api_version)
+  u <- build_base_url(server, "pip-grp", api_version)
 
   # Send query
   res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))

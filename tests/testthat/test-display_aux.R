@@ -4,7 +4,7 @@ test_that("returns proper table", {
   api_version <-  "v1"
   simplify    <-  TRUE
   server      <-  NULL
-  u           <- build_url(server, "aux", api_version = api_version)
+  u           <- build_base_url(server, "aux", api_version = api_version)
   res         <- httr::GET(u)
   tbs_tb      <- parse_response(res, simplify = simplify)
 

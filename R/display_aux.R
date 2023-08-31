@@ -32,7 +32,7 @@ display_aux <- function(version         = NULL,
 #   ____________________________________________________________________________
 #   Build query string                                                  ####
 
-  u      <- build_url(server, "aux", api_version = api_version)
+  u      <- build_base_url(server, "aux", api_version = api_version)
   res    <- httr::GET(u)
   tbs_tb <- parse_response(res, simplify = simplify)
   tbs    <- tbs_tb[["tables"]]

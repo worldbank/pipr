@@ -24,7 +24,7 @@ check_api <- function(api_version = "v1", server = NULL) {
 #' }
 get_versions <- function(api_version = "v1", server = NULL, simplify = TRUE) {
   check_internet()
-  u <- build_url(server, "versions", api_version)
+  u <- build_base_url(server, "versions", api_version)
   res <- httr::GET(u, httr::user_agent(pipr_user_agent))
   parse_response(res, simplify = simplify)
 }
@@ -41,7 +41,7 @@ get_versions <- function(api_version = "v1", server = NULL, simplify = TRUE) {
 #' }
 get_pip_info <- function(api_version = "v1", server = NULL) {
   check_internet()
-  u <- build_url(server, "pip-info", api_version)
+  u <- build_base_url(server, "pip-info", api_version)
   res <- httr::GET(u, httr::user_agent(pipr_user_agent))
   parse_response(res, simplify = FALSE)$content
 }
