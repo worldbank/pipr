@@ -9,10 +9,12 @@ check_internet <- function() {
 #' @inheritParams check_api
 #' @noRd
 health_check <- function(api_version, server = NULL) {
-  u <- build_base_url(server, "health-check", api_version)
-  res <- httr::GET(u)
+  req <- build_request(server      = server,
+                       api_version = api_version,
+                       endpoint    = "health-check")
+  res <- httr2::req_perform(req)
   attempt::stop_if_not(
-    .x = httr::status_code(res),
+    .x = httr2::resp_status(res),
     .p = ~ .x == 200,
     msg = "Could not connect to the API"
   )
@@ -23,22 +25,15 @@ health_check <- function(api_version, server = NULL) {
 #' @param res A httr response
 #' @param parsed A parsed response
 #' @noRd
-check_status <- function(res, parsed) {
-  if (res$status_code != 200) {
-    if ("error" %in% names(parsed)) {
+check_status <- function(res) {
+  if (httr2::resp_is_error(res)) {
       msg1 <- paste(
-        httr::http_status(res$status_code)$message,
-        parsed$error,
+        httr2::resp_status_desc(res),
         "Use simplify = FALSE to see the full error response.",
         sep = "\n*\t")
-    } else {
-      msg1 <- paste(
-        httr::http_status(res$status_code)$message,
-        "Use simplify = FALSE to see the full error response.",
-        sep = "\n*\t")
-    }
+
     attempt::stop_if_not(
-      .x = httr::status_code(res),
+      .x = httr2::resp_status(res),
       .p = ~ .x == 200,
       msg = msg1
     )
@@ -129,7 +124,7 @@ parse_response <- function(res, simplify) {
   }
 
   if (simplify) {
-    check_status(res, parsed)
+    httr2::resp_check_status(res, info = parsed$message)
     parsed <- tibble::as_tibble(parsed)
     # TEMP fix for renaming of columns
     # To be removed when pipapi#207
@@ -141,7 +136,7 @@ parse_response <- function(res, simplify) {
     structure(
       list(
         url = res$url,
-        status = res$status_code,
+        status = res$statusCode,
         type = type,
         content = parsed,
         response = res
@@ -205,9 +200,12 @@ tmp_rename_cols <- function(df, url = "") {
 #'
 pip_is_transient <- function(resp) {
   if (httr2::resp_is_error(resp)) {
-  httr2::resp_status(resp) == 429 &
+    if (httr2::resp_status(resp) == 429) {
       stringr::str_detect(httr2::resp_body_json(resp, check_type = FALSE)$message,
-                        "Rate limit is exceeded")
+                          "Rate limit is exceeded")
+    } else {
+      FALSE
+    }
   } else {
     FALSE
   }
@@ -220,5 +218,15 @@ retry_after <- function(resp) {
     readr::parse_number(time)
   } else {
     0
+  }
+}
+
+parse_error_body <- function(resp) {
+  if (httr2::resp_is_error(resp)) {
+    out <- resp_body_json(resp)
+    message1 <- out$error[[1]]
+    message2 <- out$details[[1]]$msg[[1]]
+    message3 <- paste(unlist(out$details[[names(out$details)]]$valid), collapse = ", ")
+    message <- c(message1, message2, message3)
   }
 }

@@ -61,12 +61,15 @@ get_aux <- function(table           = NULL,
   format      <- match.arg(format)
   run_cli     <- run_cli()
   # Build query string
-  u <- build_base_url(server, "aux", api_version = api_version)
+  req <- build_request(server = server,
+                       api_version = api_version,
+                       endpoint = "aux")
 
   # Return response
   # If no table is specified, returns list of available tables
   if (is.null(table)) {
-    res <- httr::GET(u)
+    res <- req |>
+      httr2::req_perform()
     tables <- parse_response(res, simplify = simplify)
     cli::cli_text("Auxiliary tables available are")
     cli::cli_ul(tables$tables)
@@ -80,12 +83,19 @@ get_aux <- function(table           = NULL,
     return(invisible(tables))
   # If a table is specified, returns that table
   } else {
-    args <- build_args(.table = table,
-                       .version = version,
-                       .ppp_version = ppp_version,
-                       .release_version = release_version,
-                       .format = format)
-    res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
+    req <- build_request(server          = server,
+                         api_version     = api_version,
+                         endpoint        = "aux",
+                         table           = table,
+                         version         = version,
+                         release_version = release_version,
+                         format          = format)
+    # args <- build_args(.table = table,
+    #                    .version = version,
+    #                    .ppp_version = ppp_version,
+    #                    .release_version = release_version,
+    #                    .format = format)
+    res <- httr2::req_perform(req)
     rt  <- parse_response(res, simplify = simplify)
   }
 

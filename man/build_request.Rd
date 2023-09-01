@@ -4,24 +4,10 @@
 \alias{build_request}
 \title{build_request}
 \usage{
-build_request(
-  country,
-  year,
-  povline,
-  popshare,
-  fill_gaps,
-  group_by,
-  welfare_type,
-  reporting_level,
-  version,
-  ppp_version,
-  release_version,
-  format,
-  server
-)
+build_request(server, ...)
 }
 \arguments{
-\item{server}{}
+\item{...}{}
 }
 \value{
 httr2 request
