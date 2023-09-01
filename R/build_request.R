@@ -27,8 +27,10 @@ build_request <- function(server,
       is_transient = pip_is_transient,
       after = retry_after,
       max_seconds = 60
-    ) |>
-    httr2::req_cache(tempdir(), use_on_error = TRUE)
+    ) #|>
+    # httr2::req_cache(rappdirs::user_cache_dir("pipr"),
+    #                  use_on_error = TRUE,
+    #                  debug = TRUE)
 
   return(req)
 
