@@ -22,12 +22,12 @@ build_request <- function(server,
     httr2::req_url_path_append(endpoint) |>
     httr2::req_url_query(!!!params) |>
     httr2::req_user_agent(pipr_user_agent) |>
-    httr2::req_error(body = parse_error_body) #|>
-    # httr2::req_retry(
-    #   is_transient = pip_is_transient,
-    #   after = retry_after,
-    #   max_seconds = 60
-    # )# |>
+    httr2::req_error(body = parse_error_body) |>
+    httr2::req_retry(
+      is_transient = pip_is_transient,
+      after = retry_after,
+      max_seconds = 60
+    )# |>
     #httr2::req_cache(tempdir(), use_on_error = TRUE)
 
   return(req)
