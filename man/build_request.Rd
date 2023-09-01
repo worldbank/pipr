@@ -4,7 +4,7 @@
 \alias{build_request}
 \title{build_request}
 \usage{
-build_request(server, ...)
+build_request(server, api_version, endpoint, ...)
 }
 \arguments{
 \item{...}{}
