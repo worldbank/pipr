@@ -41,7 +41,6 @@ Suggests:
     rmarkdown,
     markdown,
     callr,
-    mockery,
     ggplot2,
     tidyr,
     ggthemes,
@@ -53,17 +52,15 @@ Language: en-US
 Imports: 
     attempt,
     curl,
-    httr,
     jsonlite,
     tibble,
     purrr,
-    memoise,
-    cachem,
     data.table,
     cli,
     rlang,
-    utils
+    utils,
+    httr2
 Depends: 
-    R (>= 3.6.0)
+    R (>= 4.1.0)
 Config/testthat/edition: 3
 Date: 2023-04-28
