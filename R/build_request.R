@@ -1,6 +1,8 @@
 #' build_request
 #'
-#' @param server
+#' @param server character: Server. For WB internal use only
+#' @param api_version character: API version
+#' @param endpoint character: PIP API endpoint
 #' @param ...
 #'
 #' @return httr2 request

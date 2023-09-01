@@ -7,6 +7,12 @@
 build_request(server, api_version, endpoint, ...)
 }
 \arguments{
+\item{server}{character: Server. For WB internal use only}
+
+\item{api_version}{character: API version}
+
+\item{endpoint}{character: PIP API endpoint}
+
 \item{...}{}
 }
 \value{
