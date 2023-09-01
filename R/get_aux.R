@@ -90,11 +90,7 @@ get_aux <- function(table           = NULL,
                          version         = version,
                          release_version = release_version,
                          format          = format)
-    # args <- build_args(.table = table,
-    #                    .version = version,
-    #                    .ppp_version = ppp_version,
-    #                    .release_version = release_version,
-    #                    .format = format)
+
     res <- httr2::req_perform(req)
     rt  <- parse_response(res, simplify = simplify)
   }

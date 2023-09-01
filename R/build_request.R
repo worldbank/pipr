@@ -13,6 +13,7 @@ build_request <- function(server,
   base_url <- select_base_url(server = server)
 
   params <- list(...)
+  params <- lapply(params, fix_params)
 
   req <- httr2::request(base_url) |>
     httr2::req_url_path_append(api_version) |>
@@ -29,4 +30,12 @@ build_request <- function(server,
 
   return(req)
 
+}
+
+fix_params <- function(param) {
+  if (length(param) > 1) {
+    return(paste(param, collapse = ","))
+  } else {
+    return(param)
+  }
 }

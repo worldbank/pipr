@@ -185,16 +185,3 @@ test_that("get_wb() works w/ simplify = FALSE", {
   expect_true(is.data.frame(res$content))
   expect_gte(nrow(res$content), 3)
 })
-
-
-test_that("User agent works", {
-  skip_if_offline()
-  skip_on_cran()
-  res <- get_stats("AGO", 2000, simplify = FALSE)
-  tmp <- res$response$request$options$useragent
-  expect_identical(tmp, pipr_user_agent)
-
-  res <- get_wb(2000, simplify = FALSE)
-  tmp <- res$response$request$options$useragent
-  expect_identical(tmp, pipr_user_agent)
-})

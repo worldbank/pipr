@@ -17,7 +17,7 @@ test_that("check_internet() works", {
 test_that("check_api() works", {
   skip_if_offline()
   skip_on_cran()
-  res <- check_api("v1", server = NULL)
+  res <- check_api("v1", server = "qa")
   expect_equal(res, "PIP API is running")
 })
 
@@ -26,21 +26,16 @@ test_that("check_status() works", {
   skip_on_cran()
   # 200
   res <- health_check("v1")
-  parsed <- parse_response(res, simplify = FALSE)$content
-  expect_true(check_status(res, parsed))
+  expect_true(check_status(res))
 
   # 404
   res <- res_ex_404
-  parsed <- parse_response(res, simplify = FALSE)$content
-  expect_error(check_status(res, parsed))
+  expect_error(check_status(res))
 
   # 500
   res <- res_ex_404
-  parsed <- parse_response(res, simplify = FALSE)$content
   res$status_code <- 500
-  parsed$error <- NULL
-  parsed$details <- NULL
-  expect_error(check_status(res, parsed))
+  expect_error(check_status(res))
 
 })
 
@@ -204,7 +199,7 @@ test_that("parse_response() works for different formats", {
   res <- parse_response(res_ex_json, simplify = FALSE)
   expect_identical(names(res), c("url", "status", "type", "content", "response"))
   expect_identical(class(res), "pip_api")
-  expect_identical(class(res$response), "response")
+  expect_identical(class(res$response), "httr2_response")
   expect_identical(class(res$content), "data.frame")
 
   # csv
@@ -213,7 +208,7 @@ test_that("parse_response() works for different formats", {
   res <- parse_response(res_ex_csv, simplify = FALSE)
   expect_identical(names(res), c("url", "status", "type", "content", "response"))
   expect_identical(class(res), "pip_api")
-  expect_identical(class(res$response), "response")
+  expect_identical(class(res$response), "httr2_response")
   expect_true(all(class(res$content) %in% c("spec_tbl_df", "tbl_df", "tbl", "data.frame")))
 
   # rds
@@ -222,7 +217,7 @@ test_that("parse_response() works for different formats", {
   res <- parse_response(res_ex_rds, simplify = FALSE)
   expect_identical(names(res), c("url", "status", "type", "content", "response"))
   expect_identical(class(res), "pip_api")
-  expect_identical(class(res$response), "response")
+  expect_identical(class(res$response), "httr2_response")
   expect_true(all(class(res$content) %in% c("data.table", "data.frame")))
 })
 

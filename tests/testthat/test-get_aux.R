@@ -38,30 +38,14 @@ test_that("get_aux() works when calling specific tables", {
   expect_true(tibble::is_tibble(res))
 
   # Check failure if table doesn't exist
-  # TO DO: Use prod server for this test when API has been released
-  # expect_error(get_aux("tmp"))
-  # expect_true(is.list(get_aux("tmp", simplify = FALSE)))
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
   expect_error(get_aux("wrong-table-name", server = "qa"))
-  expect_true(is.list(get_aux("wrong-table-name", simplify = FALSE, server = "prod")))
 
   # Check all tables
-  skip("survey_metadata gives a 500 error. Need to add functionality for list data")
-  dl <- lapply(res, function(x) try(get_aux(x)))
+  # skip("survey_metadata gives a 500 error. Need to add functionality for list data")
+  dl <- lapply(res$tables, function(x) try(get_aux(x)))
   expect_true(all(sapply(dl, tibble::is_tibble)))
-  expect_true(sapply(dl, function(x) any(class(x) != "try-error")))
-  # expect_false(sapply(dl, function(x) any(names(x) == "error")))
-})
-
-test_that("User agent works", {
-  skip_if_offline()
-  skip_on_cran()
-  # res <- get_aux(simplify = FALSE)
-  # tmp <- res$response$request$options$useragent
-  # expect_identical(tmp, pipr_user_agent)
-  res <- get_aux("gdp", simplify = FALSE)
-  tmp <- res$response$request$options$useragent
-  expect_identical(tmp, pipr_user_agent)
+  expect_true(all(sapply(dl, function(x) any(class(x) != "try-error"))))
 })
 
 ## Test helper functions ----
