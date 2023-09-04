@@ -55,7 +55,7 @@ glimpse(df)
 
 ### Access data dictionary
 ```{r}
-get_dictionary()
+get_aux("dictionary")
 ```
 
 

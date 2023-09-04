@@ -44,7 +44,7 @@ library(pipr)
 
 df <- get_stats(country = "ALB")
 glimpse(df)
-#> Rows: 14
+#> Rows: 15
 #> Columns: 40
 #> $ region_name          <chr> "Europe & Central Asia", "Europe & Central Asia",~
 #> $ region_code          <chr> "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", ~
@@ -91,7 +91,8 @@ glimpse(df)
 ### Access data dictionary
 
 ``` r
-get_dictionary()
+get_aux("dictionary")
+
 #> # A tibble: 41 x 2
 #>    variable        definition                                                   
 #>    <chr>           <chr>                                                        
