@@ -21,16 +21,16 @@ build_request <- function(server,
     httr2::req_url_path_append(api_version) |>
     httr2::req_url_path_append(endpoint) |>
     httr2::req_url_query(!!!params) |>
+    httr2::req_cache(tools::R_user_dir("pipr", which = "cache"),
+                     use_on_error = TRUE,
+                     debug = TRUE) |>
     httr2::req_user_agent(pipr_user_agent) |>
     httr2::req_error(body = parse_error_body) |>
     httr2::req_retry(
       is_transient = pip_is_transient,
       after = retry_after,
       max_seconds = 60
-    ) #|>
-    # httr2::req_cache(rappdirs::user_cache_dir("pipr"),
-    #                  use_on_error = TRUE,
-    #                  debug = TRUE)
+    )
 
   return(req)
 
