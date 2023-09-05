@@ -1,3 +1,5 @@
+# pipr 1.1.0
+
 # pipr 1.0.0
 
 * [Mock live API calls or skip them on CRAN](https://github.com/worldbank/pipr/pull/45)
