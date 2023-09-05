@@ -2,8 +2,10 @@
 
 export(call_aux)
 export(check_api)
+export(delete_cache)
 export(display_aux)
 export(get_aux)
+export(get_cache_info)
 export(get_pip_info)
 export(get_stats)
 export(get_versions)

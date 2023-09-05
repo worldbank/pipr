@@ -270,7 +270,47 @@ is_bad_gateway <- function(resp) {
     httr2::resp_status_desc(resp) == "Bad Gateway"
 }
 
+#' Deletes content of the cache folder
+#'
+#'
+#' @return Side effect. Deletes files.
+#'
+#' @export
+#'
+#' @examples \dontrun{delete_cache()}
+delete_cache <- function() {
 
-# handle_gateway_timeout <- function(resp) {
-#
-# }
+  cached_files <- list.files(tools::R_user_dir("pipr", which = "cache"),
+                             full.names = TRUE)
+
+  if (length(cached_files) == 0) {
+    message("Cache is empty. Nothing to delete")
+  } else {
+    lapply(cached_files, file.remove)
+    message("All items have been deleted from the cache.")
+  }
+}
+
+#' Provides some information about cached items
+#'
+#'
+#' @return character.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{get_cache_info()}
+get_cache_info <- function() {
+
+  cache_path <- tools::R_user_dir("pipr", which = "cache")
+  n_cached <- length(list.files(cache_path))
+
+  if (n_cached > 1) {
+    message_text <-  " API responses are currently cached in "
+  } else {
+    message_text <-  " API response is currently cached in "
+  }
+
+    message(cli::format_message(c("Cache status:",
+                                "i" = paste0(n_cached, message_text, cache_path))))
+}
