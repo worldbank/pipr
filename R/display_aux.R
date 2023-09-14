@@ -31,9 +31,12 @@ display_aux <- function(version         = NULL,
 
 #   ____________________________________________________________________________
 #   Build query string                                                  ####
+  req <- build_request(server = server,
+                       api_version = api_version,
+                       endpoint = "aux")
+  res <- req |>
+    httr2::req_perform()
 
-  u      <- build_url(server, "aux", api_version = api_version)
-  res    <- httr::GET(u)
   tbs_tb <- parse_response(res, simplify = simplify)
   tbs    <- tbs_tb[["tables"]]
   if (isTRUE(run_cli)) {
