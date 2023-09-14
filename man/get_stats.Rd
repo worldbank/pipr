@@ -18,7 +18,7 @@ get_stats(
   ppp_version = NULL,
   release_version = NULL,
   api_version = "v1",
-  format = c("rds", "json", "csv"),
+  format = c("arrow", "rds", "json", "csv"),
   simplify = TRUE,
   server = NULL
 )

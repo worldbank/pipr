@@ -113,6 +113,10 @@ parse_response <- function(res, simplify) {
   # Stop if response type is unknown
   attempt::stop_if(is.null(type), msg = "Invalid response format")
 
+  if (type == "application/vnd.apache.arrow.file") {
+    parsed <- arrow::read_feather(res$body)
+  }
+
   if (type == "application/json") {
     parsed <- jsonlite::fromJSON(httr2::resp_body_string(res, encoding = "UTF-8"))
   }
