@@ -7,7 +7,7 @@
 parse_error_body(resp)
 }
 \arguments{
-\item{resp}{}
+\item{resp}{A httr response}
 }
 \value{
 character

@@ -43,6 +43,7 @@ test_that("get_aux() works when calling specific tables", {
 
   # Check all tables
   # skip("survey_metadata gives a 500 error. Need to add functionality for list data")
+  res <- get_aux()
   dl <- lapply(res$tables, function(x) try(get_aux(x)))
   expect_true(all(sapply(dl, tibble::is_tibble)))
   expect_true(all(sapply(dl, function(x) any(class(x) != "try-error"))))

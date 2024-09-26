@@ -13,7 +13,7 @@ build_request(server, api_version, endpoint, ...)
 
 \item{endpoint}{character: PIP API endpoint}
 
-\item{...}{}
+\item{...}{other parameters}
 }
 \value{
 httr2 request

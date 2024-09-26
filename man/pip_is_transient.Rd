@@ -7,7 +7,7 @@
 pip_is_transient(resp)
 }
 \arguments{
-\item{resp}{}
+\item{resp}{A httr response}
 }
 \value{
 logical

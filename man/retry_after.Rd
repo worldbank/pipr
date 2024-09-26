@@ -7,7 +7,7 @@
 retry_after(resp)
 }
 \arguments{
-\item{resp}{}
+\item{resp}{A httr response}
 }
 \value{
 numeric
