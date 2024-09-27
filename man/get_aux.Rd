@@ -27,7 +27,7 @@ get_aux(
   simplify = TRUE,
   server = NULL,
   assign_tb = FALSE,
-  force = FALSE
+  replace = FALSE
 )
 
 get_countries(
@@ -170,7 +170,8 @@ If \code{FALSE} no assignment will performed. If \code{TRUE}, the table will be
 assigned to  exactly the same name as the one of the desired table. If
 character, the table will be assigned to that name.}
 
-\item{force}{logical: force replacement. Default is FALSE}
+\item{replace}{logical: force replacement of aux files in \code{.pip} env. Default
+is FALSE.}
 }
 \value{
 If \code{simplify = FALSE}, it returns a list of class "pip_api". If

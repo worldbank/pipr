@@ -13,7 +13,8 @@
 #'   assigned to  exactly the same name as the one of the desired table. If
 #'   character, the table will be assigned to that name.
 #' @inheritParams get_stats
-#' @param force logical: force replacement. Default is FALSE
+#' @param replace logical: force replacement of aux files in `.pip` env. Default
+#'   is FALSE.
 #'
 #' @return If `simplify = FALSE`, it returns a list of class "pip_api". If
 #'   `simplify = TRUE`, it returns a tibble with the requested data. This is the
@@ -54,7 +55,7 @@ get_aux <- function(table           = NULL,
                     simplify        = TRUE,
                     server          = NULL,
                     assign_tb       = FALSE,
-                    force           = FALSE) {
+                    replace         = FALSE) {
 
   # Match args
   api_version <- match.arg(api_version)
@@ -113,7 +114,7 @@ get_aux <- function(table           = NULL,
 
     srt <- set_aux(table = tb_name,
                    value = rt,
-                   force = force)
+                   replace = replace)
 
     if (isTRUE(srt)) {
 

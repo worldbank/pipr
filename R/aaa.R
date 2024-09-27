@@ -1,23 +1,24 @@
-.pip <-  new.env(parent = emptyenv())
+.pip      <-  new.env(parent = emptyenv()) # PR 63
+.pipcache <-  new.env(parent = emptyenv()) # PR 63
 
 
 #' Set auxiliary table in .pip environment for later call
 #'
 #' @param table character: name of the table in .pip env
 #' @param value data to be saved
-#' @inheritParams get_aux
+#' @param replace logical.
 #'
 #' @return Invisible TRUE if set correctly. FALSE otherwise
 #' @keywords internal
 set_aux <- function(table,
                     value,
-                    force = FALSE) {
+                    replace = FALSE) { # PR 63
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ## Evaluate if exists --------
 
   to_set <-  1
   if (rlang::env_has(.pip, table)) {
-    if (force == FALSE) {
+    if (isFALSE(replace)) { # PR 63
       cli::cli_alert("Table {.field {table}} already exists.")
       to_set <- utils::menu(c("Replace with new table", "Abort"))
     }
@@ -65,12 +66,12 @@ set_aux <- function(table,
 #' @examples
 #' # call one table
 #'
-#' get_aux("gdp", assign_tb = TRUE, force = TRUE)
+#' get_aux("gdp", assign_tb = TRUE, replace = TRUE) # PR 63
 #' call_aux("gdp")
 #'
 #' # see the name of several tables in memory
 #' tb <- c("cpi", "ppp", "pop")
-#' lapply(tb, get_aux, assign_tb = TRUE, force = TRUE)
+#' lapply(tb, get_aux, assign_tb = TRUE, replace = TRUE) # PR 63
 #' call_aux()
 call_aux <- function(table = NULL) {
 
@@ -119,7 +120,9 @@ call_aux <- function(table = NULL) {
       return(rlang::env_get(.pip, table))
     } else {
       msg     <- c("*" = "Table {.field {table}} does not exist")
-      cli::cli_abort(msg, wrap = TRUE)
+      cli::cli_abort(msg,
+
+                     wrap = TRUE)
     }
 
   }

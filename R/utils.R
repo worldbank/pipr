@@ -1,3 +1,8 @@
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Parsing and checking functions  -------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# PR 63
+
 #' check_internet
 #' @noRd
 check_internet <- function() {
@@ -179,21 +184,79 @@ select_base_url <- function(server) {
   return(base_url)
 }
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Formatting functions -------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# PR 63
+#' rename columns in dataframe
+#'
+#' @param df  data frame
+#' @param oldnames  character: old names
+#' @param newnames  character: new names
+#'
+#' @return data frame with new names
+#' @keywords internal
+rename_cols <- function(df, oldnames, newnames) {
+
+  #   _______________________________________
+  #   Defenses                               ####
+  stopifnot( exprs = {
+    is.data.frame(df)
+    length(oldnames) == length(newnames)
+    # all(oldnames %in% names(df))
+  }
+  )
+
+  #   ___________________________________________
+  #   Computations                              ####
+  df_names <- names(df)
+
+  old_position <- which(oldnames %in% df_names)
+  old_available <- oldnames[old_position]
+  new_available <- newnames[old_position]
+
+  tochange <- vector(length = length(old_available))
+
+  for (i in seq_along(old_available)) {
+    tochange[i] <- which(df_names %in% old_available[i])
+  }
+
+  names(df)[tochange] <- new_available
+
+
+  #   ____________________________________________
+  #   Return                                      ####
+  return(df)
+
+}
+
 #' Rename columns
 #' TEMP function to rename response cols
 #' @param df A data.frame
 #' @param url response url
 #' @noRd
 tmp_rename_cols <- function(df, url = "") {
-    df <- data.table::setnames(
-      df,
-      old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
-      new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level"),
-      skip_absent = TRUE
-    )
+  # PR 63
+  oldnames = c(
+    "survey_year",
+    "reporting_year",
+    "reporting_pop",
+    "reporting_gdp",
+    "reporting_pce",
+    "pce_data_level"
+  )
 
-  return(df)
+  newnames = c("welfare_time",
+               "year",
+               "pop",
+               "gdp",
+               "hfce",
+               "hfce_data_level")
+
+  rename_cols(df,oldnames, newnames)
 }
+
 
 #' pip_is_transient
 #'
