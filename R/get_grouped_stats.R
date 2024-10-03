@@ -12,13 +12,13 @@
 
 get_grouped_stats <- function(cum_welfare =  NULL,
                               cum_population = NULL,
-                              endpoint = c("grouped-stats", "lorenz-curve", "regression-params"),
+                              endpoint = c("grouped-stats", "lorenz-curve", "regression-params"), # TO-DO: estimate (stats, lorenz, params)
                               requested_mean = NULL, # grouped-stats specific
                               povline = NULL, # grouped-stats specific
                               #lorenz = NULL, # lorenz-curve specific (not working for now)
                               n_bins = NULL, # lorenz-curve specific
                               api_version = "v1",
-                              format = c("rds", "json", "csv"), # arrow does not work.
+                              format = c("rds", "json", "csv"), # TO-DO: arrow does not work. -> use data.table to pivot
                               simplify = TRUE,
                               server = NULL) {
 

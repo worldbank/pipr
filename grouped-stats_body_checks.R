@@ -105,7 +105,8 @@ get_grouped_stats(cum_population = cum_population,
                   cum_welfare = cum_welfare,
                   povline = 1.9,
                   requested_mean = 2.1,
-                  endpoint = "grouped-stats")
+                  endpoint = "grouped-stats",
+                  format = "csv")
 
 ### errors ----
 get_grouped_stats(cum_population = cum_population,
