@@ -12,18 +12,18 @@
 
 get_grouped_stats <- function(cum_welfare =  NULL,
                               cum_population = NULL,
-                              endpoint = c("grouped-stats", "lorenz-curve", "regression-params"), # TO-DO: estimate (stats, lorenz, params)
-                              requested_mean = NULL, # grouped-stats specific
-                              povline = NULL, # grouped-stats specific
+                              estimate = c("stats", "lorenz", "params"), # TO-DO: estimate (stats, lorenz, params)
+                              requested_mean = 1, # grouped-stats specific
+                              povline = 1, # grouped-stats specific
                               #lorenz = NULL, # lorenz-curve specific (not working for now)
                               n_bins = NULL, # lorenz-curve specific
                               api_version = "v1",
-                              format = c("rds", "json", "csv"), # TO-DO: arrow does not work. -> use data.table to pivot
+                              format = c("rds", "json", "csv"), # TO-DO: arrow does not work. -> use data.table to pivot and return in .rds format.
                               simplify = TRUE,
                               server = NULL) {
 
   # 0. Match args -------------------------------------------------------------
-  endpoint <- match.arg(endpoint)
+  estimate <- match.arg(estimate)
   api_version <- match.arg(api_version)
   format <- match.arg(format)
 
@@ -33,7 +33,9 @@ get_grouped_stats <- function(cum_welfare =  NULL,
   }
 
   # 1. endpoint = grouped-stats ------------------------------------------------
-    if (endpoint == "grouped-stats") {
+    if (estimate == "stats") {
+
+      endpoint <- "grouped-stats"
 
       # 1.1 grouped-stats args checks ------
       if (is.null(requested_mean)) {
@@ -63,13 +65,12 @@ get_grouped_stats <- function(cum_welfare =  NULL,
       # 1.4 Parse result ------
       out <- parse_response(res, simplify)
 
-      # 1.5 Return ------
-      return(out)
     }
 
   # 2. endpoint = lorenz-curve ------------------------------------------------
-    if (endpoint == "lorenz-curve") {
+    if (estimate == "lorenz") {
 
+      endpoint <- "lorenz-curve"
 
       # 2.1 Build request for lorenz-curve ------
       req <- build_request_v2(
@@ -90,13 +91,12 @@ get_grouped_stats <- function(cum_welfare =  NULL,
       # 2.3 Parse result ------
       out <- parse_response(res, simplify)
 
-      # 2.4 Return ------
-      return(out)
     }
 
   # 3. endpoint = regress-params -----------------------------------------------
-    if (endpoint == "regression-params") {
+    if (estimate == "params") {
 
+      endpoint <- "regression-params"
 
       # 3.2 Build request for regress-params
       req <- build_request_v2(
@@ -115,7 +115,8 @@ get_grouped_stats <- function(cum_welfare =  NULL,
       # 3.4 Parse result ------
       out <- parse_response(res, simplify)
 
-      # 3.5 Return ------
-      return(out)
     }
+
+    return(out)
+
 }

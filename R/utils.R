@@ -120,10 +120,12 @@ parse_response <- function(res, simplify) {
 
   if (type == "application/vnd.apache.arrow.file") {
     parsed <- arrow::read_feather(res$body)
+    # GC: right now arrow not working with grouped-stats, so I won't pivot.
   }
 
   if (type == "application/json") {
     parsed <- jsonlite::fromJSON(httr2::resp_body_string(res, encoding = "UTF-8"))
+    parsed <- change_grouped_stats_to_csv(parsed) # GC: used to pivot.
   }
   if (type == "text/csv") {
     parsed <- suppressMessages(vroom::vroom(
@@ -132,6 +134,7 @@ parse_response <- function(res, simplify) {
   }
   if (type == "application/rds") {
     parsed <- unserialize(res$body)
+    parsed <- change_grouped_stats_to_csv(parsed) # GC: used to pivot.
   }
 
   if (simplify) {
@@ -380,4 +383,17 @@ get_cache_info <- function() {
 
     message(cli::format_message(c("Cache status:",
                                 "i" = paste0(n_cached, message_text, cache_path))))
+}
+
+
+#' Change the list-output to dataframe (Function from pipapi)
+#'
+#' @param out output from wbpip::gd_compute_pip_stats
+#'
+#' @return dataframe
+#' @export
+change_grouped_stats_to_csv <- function(out) {
+  out[paste0("decile", seq_along(out$deciles))] <- out$deciles
+  out$deciles <- NULL
+  data.frame(out)
 }
