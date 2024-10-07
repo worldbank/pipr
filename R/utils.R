@@ -112,7 +112,7 @@ build_args <- function(.country = NULL,
 #' @keywords internal
 parse_response <- function(res, simplify) {
 
-  # Classify the response type
+  # Classify the response url
   res_health <- FALSE
   if (grepl("health-check", res$url)) {
     res_health <- TRUE

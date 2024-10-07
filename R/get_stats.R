@@ -132,7 +132,6 @@ get_stats <- function(country = "all",
 
   # Parse result
   out <- parse_response(res, simplify)
-  print(out)
 
   # Filter nowcast
   ## (only when simplify == TRUE) because filtering happens after the request is returned.
