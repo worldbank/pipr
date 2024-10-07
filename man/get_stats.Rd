@@ -11,6 +11,7 @@ get_stats(
   povline = NULL,
   popshare = NULL,
   fill_gaps = FALSE,
+  nowcast = FALSE,
   subgroup = NULL,
   welfare_type = c("all", "income", "consumption"),
   reporting_level = c("all", "national", "urban", "rural"),
@@ -48,6 +49,8 @@ poverty line}
 
 \item{fill_gaps}{logical: If TRUE, will interpolate / extrapolate values for
 missing years}
+
+\item{nowcast}{logical: If TRUE, will return nowcast estimates.}
 
 \item{subgroup}{character: If used result will be aggregated for predefined
 sub-groups. Either 'wb_regions' or 'none'.}

@@ -8,6 +8,7 @@
 #'   poverty line
 #' @param fill_gaps logical: If TRUE, will interpolate / extrapolate values for
 #'   missing years
+#' @param nowcast logical: If TRUE, will return nowcast estimates.
 #' @param subgroup character: If used result will be aggregated for predefined
 #'   sub-groups. Either 'wb_regions' or 'none'.
 #' @param welfare_type character: Welfare type either of c("all", "income", "consumption")
@@ -62,6 +63,7 @@ get_stats <- function(country = "all",
                       povline = NULL,
                       popshare = NULL,
                       fill_gaps = FALSE,
+                      nowcast = FALSE,
                       subgroup = NULL,
                       welfare_type = c("all", "income", "consumption"),
                       reporting_level = c("all", "national", "urban", "rural"),
@@ -77,11 +79,20 @@ get_stats <- function(country = "all",
   reporting_level <- match.arg(reporting_level)
   api_version <- match.arg(api_version)
   format <- match.arg(format)
+
   # popshare can't be used together with povline
   if (!is.null(popshare)) povline <- NULL
 
+  # nowcast = TRUE -> fill_gaps = TRUE
+  if (nowcast) fill_gaps <- TRUE
+
+  # otherwise we cannot filter correctly because estimate_type not returned
+  if (isFALSE(fill_gaps)) nowcast <- FALSE
+
+  # subgroup can't be used together with fill_gaps
   if (!is.null(subgroup)) {
     fill_gaps <- NULL # subgroup can't be used together with fill_gaps
+    nowcast <- NULL # assuming this is the same for nowcast
     endpoint <- "pip-grp"
     subgroup <- match.arg(subgroup, c("none", "wb_regions"))
     if (subgroup == "wb_regions") {
@@ -94,6 +105,7 @@ get_stats <- function(country = "all",
     group_by <- NULL
   }
 
+
   # Build query string
   req <- build_request(
     country         = country,
@@ -101,6 +113,7 @@ get_stats <- function(country = "all",
     povline         = povline,
     popshare        = popshare,
     fill_gaps       = fill_gaps,
+    nowcast         = nowcast,
     group_by        = group_by,
     welfare_type    = welfare_type,
     reporting_level = reporting_level,
@@ -112,12 +125,20 @@ get_stats <- function(country = "all",
     api_version     = api_version,
     endpoint        = endpoint
   )
+
   # Perform request
   res <- req |>
     httr2::req_perform()
 
   # Parse result
   out <- parse_response(res, simplify)
+  print(out)
+
+  # Filter nowcast
+  ## (only when simplify == TRUE) because filtering happens after the request is returned.
+  if ( !is.null(nowcast) & isFALSE(nowcast) & simplify == TRUE) {
+    out <- out[!grepl("nowcast", out$estimate_type),]
+  }
 
   return(out)
 }

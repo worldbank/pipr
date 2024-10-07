@@ -5,22 +5,22 @@
 #' @inheritParams get_stats
 #' @param cum_welfare numeric: Cumulative welfare values.
 #' @param cum_population numeric: Cumulative population values.
-#' @param endpoint character: One of "grouped-stats", "lorenz-curve", "regression-params".
+#' @param estimate character: One of "stats", "lorenz", "params".
 #' @param requested_mean numeric: Requested mean.
 #' @param povline numeric: Poverty line. Required for endpoint = "grouped-stats".
 #' @param n_bins numeric: Number of bins. Required for endpoint = "lorenz-curve".
 
-get_grouped_stats <- function(cum_welfare =  NULL,
-                              cum_population = NULL,
-                              estimate = c("stats", "lorenz", "params"), # TO-DO: estimate (stats, lorenz, params)
-                              requested_mean = 1, # grouped-stats specific
-                              povline = 1, # grouped-stats specific
-                              #lorenz = NULL, # lorenz-curve specific (not working for now)
-                              n_bins = NULL, # lorenz-curve specific
-                              api_version = "v1",
-                              format = c("rds", "json", "csv"), # TO-DO: arrow does not work. -> use data.table to pivot and return in .rds format.
-                              simplify = TRUE,
-                              server = NULL) {
+get_gd <- function(cum_welfare =  NULL,
+                   cum_population = NULL,
+                   estimate = c("stats", "lorenz", "params"), # TO-DO: estimate (stats, lorenz, params)
+                   requested_mean = 1, # grouped-stats specific
+                   povline = 1, # grouped-stats specific
+                   #lorenz = NULL, # lorenz-curve specific (not working for now)
+                   n_bins = NULL, # lorenz-curve specific
+                   api_version = "v1",
+                   format = c("rds", "json", "csv"), # TO-DO: arrow does not work. -> use data.table to pivot and return in .rds format.
+                   simplify = TRUE,
+                   server = NULL) {
 
   # 0. Match args -------------------------------------------------------------
   estimate <- match.arg(estimate)
@@ -47,7 +47,7 @@ get_grouped_stats <- function(cum_welfare =  NULL,
 
 
       # 1.2 Build request for grouped-stats ------
-      req <- build_request_v2(
+      req <- build_request(
         cum_welfare     = cum_welfare,
         cum_population  = cum_population,
         requested_mean  = requested_mean,
@@ -73,7 +73,7 @@ get_grouped_stats <- function(cum_welfare =  NULL,
       endpoint <- "lorenz-curve"
 
       # 2.1 Build request for lorenz-curve ------
-      req <- build_request_v2(
+      req <- build_request(
         cum_welfare     = cum_welfare,
         cum_population  = cum_population,
         #lorenz          = lorenz,
@@ -99,7 +99,7 @@ get_grouped_stats <- function(cum_welfare =  NULL,
       endpoint <- "regression-params"
 
       # 3.2 Build request for regress-params
-      req <- build_request_v2(
+      req <- build_request(
         cum_welfare     = cum_welfare,
         cum_population  = cum_population,
         format          = format,

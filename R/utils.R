@@ -112,6 +112,17 @@ build_args <- function(.country = NULL,
 #' @keywords internal
 parse_response <- function(res, simplify) {
 
+  # Classify the response type
+  res_health <- FALSE
+  if (grepl("health-check", res$url)) {
+    res_health <- TRUE
+  }
+
+  pip_info <- FALSE
+  if (grepl("pip-info", res$url)) {
+    pip_info <- TRUE
+  }
+
   # Get response type
   type <- tryCatch(suppressWarnings(httr2::resp_content_type(res)), error = function(e) NULL)
 
@@ -124,9 +135,15 @@ parse_response <- function(res, simplify) {
   }
 
   if (type == "application/json") {
+
+    if (res_health | pip_info) {
+      parsed <- jsonlite::fromJSON(httr2::resp_body_string(res, encoding = "UTF-8"))
+    } else {
     parsed <- jsonlite::fromJSON(httr2::resp_body_string(res, encoding = "UTF-8"))
     parsed <- change_grouped_stats_to_csv(parsed) # GC: used to pivot.
+    }
   }
+
   if (type == "text/csv") {
     parsed <- suppressMessages(vroom::vroom(
       I(httr2::resp_body_string(res, encoding = "UTF-8")))
