@@ -15,6 +15,7 @@ get_gd <- function(cum_welfare =  NULL,
                    estimate = c("stats", "lorenz", "params"), # TO-DO: estimate (stats, lorenz, params)
                    requested_mean = 1, # grouped-stats specific
                    povline = 1, # grouped-stats specific
+                   popshare = NULL,
                    #lorenz = NULL, # lorenz-curve specific (not working for now)
                    n_bins = NULL, # lorenz-curve specific
                    api_version = "v1",
@@ -45,6 +46,8 @@ get_gd <- function(cum_welfare =  NULL,
         cli::cli_abort("For endpoint {endpoint}, {.val povline} must be provided.")
       }
 
+      # popshare can't be used together with povline
+      if (!is.null(popshare)) povline <- NULL
 
       # 1.2 Build request for grouped-stats ------
       req <- build_request(
@@ -52,6 +55,7 @@ get_gd <- function(cum_welfare =  NULL,
         cum_population  = cum_population,
         requested_mean  = requested_mean,
         povline         = povline,
+        popshare        = popshare,
         format          = format,
         server          = server,
         api_version     = api_version,

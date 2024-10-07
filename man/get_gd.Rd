@@ -10,6 +10,7 @@ get_gd(
   estimate = c("stats", "lorenz", "params"),
   requested_mean = 1,
   povline = 1,
+  popshare = NULL,
   n_bins = NULL,
   api_version = "v1",
   format = c("rds", "json", "csv"),
@@ -27,6 +28,9 @@ get_gd(
 \item{requested_mean}{numeric: Requested mean.}
 
 \item{povline}{numeric: Poverty line. Required for endpoint = "grouped-stats".}
+
+\item{popshare}{numeric: Proportion of the population living below the
+poverty line}
 
 \item{n_bins}{numeric: Number of bins. Required for endpoint = "lorenz-curve".}
 
