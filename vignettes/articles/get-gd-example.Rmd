@@ -1,0 +1,66 @@
+---
+title: "get-gd-example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pipr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  purl = NOT_CRAN
+)
+```
+
+```{r setup}
+library(pipr)
+```
+
+The `get_gd()` function allows users to interact with the PIP API to retrieve grouped statistics based on welfare and population data. Depending on the chosen `estimate` parameter, it can retrieve:
+
+- grouped statistics (`estimate = "stats"`).
+- Lorenz curve data (`estimate = "lorenz"`).
+- regression parameters (`estimate = "params"`).
+
+Here are a few examples to get you started:
+
+## Using default options
+
+By default, `get_gd()` returns grouped statistics (`estimate = "stats"`) based on cumulative welfare (`cum_welfare`) and population values (`cum_population`), both expressed as percentages. The default mean (`requested_mean`) and poverty line (`povline`) are set to 1.
+
+```{r}
+cum_welfare <- c(0.1, 0.3, 0.6, 1.0)
+cum_population <- c(0.2, 0.5, 0.8, 1.0)
+get_gd(cum_welfare = cum_welfare, cum_population = cum_population)
+```
+
+## Basic Options
+
+### Retrieve grouped statistics
+
+To retrieve basic grouped statistics, you need to provide cumulative welfare and population values along with the requested mean and poverty line.
+```{r}
+get_gd(
+  cum_welfare = cum_welfare,
+  cum_population = cum_population,
+  estimate = "stats",
+  requested_mean = 3,
+  povline = 2.15
+)
+```
+
+### Retrieve Lorenz curve data
+To retrieve Lorenz curve data, you can specify `estimate = "lorenz"` and provide the number of bins (`n_bins`) (There is no default value for `n_bins`).
+```{r}
+get_gd(
+  cum_welfare = cum_welfare,
+  cum_population = cum_population,
+  estimate = "lorenz",
+  n_bins = 10
+)
+```
+
