@@ -20,47 +20,95 @@ knitr::opts_chunk$set(
 library(pipr)
 ```
 
-The `get_gd()` function allows users to interact with the PIP API to retrieve grouped statistics based on welfare and population data. Depending on the chosen `estimate` parameter, it can retrieve:
+The `get_gd()` function allows users to interact with the PIP API to retrieve grouped data statistics based on cumulative welfare and population data. Depending on the chosen `estimate` parameter, it can retrieve:
 
-- grouped statistics (`estimate = "stats"`).
-- Lorenz curve data (`estimate = "lorenz"`).
-- regression parameters (`estimate = "params"`).
+- poverty and inequality statistics (`estimate = "stats"`).
+- Lorenz curve data points (`estimate = "lorenz"`).
+- regression parameters used of the Lorenz curve estimation (`estimate = "params"`).
 
 Here are a few examples to get you started:
 
-## Using default options
+## Retrieve poverty and inequality statistics for grouped data
 
-By default, `get_gd()` returns grouped statistics (`estimate = "stats"`) based on cumulative welfare (`cum_welfare`) and population values (`cum_population`), both expressed as percentages. The default mean (`requested_mean`) and poverty line (`povline`) are set to 1.
+By default, `get_gd()` returns grouped statistics (`estimate = "stats"`) based on cumulative welfare (`cum_welfare`) and population values (`cum_population`), both expressed as percentages. The default mean (`requested_mean`) and poverty line (`povline`) are set to 1, so the user should specify the known mean of the distribution, and the desired poverty line.
+
+The data used in this example is from Datt (1998). The dataset lists the cumulative welfare and population values for rural India in 1983 expressed in shares (percentages). The mean of the distribution is 109.9 Rs (daily), and the poverty line at the time was 89 Rs. Note that the cumulative welfare and population values should be monotonically increasing and sum to 1 to be valid. Additionally, the cumulative population values should always be greater or equal to the corresponding welfare values.
 
 ```{r}
-cum_welfare <- c(0.1, 0.3, 0.6, 1.0)
-cum_population <- c(0.2, 0.5, 0.8, 1.0)
-get_gd(cum_welfare = cum_welfare, cum_population = cum_population)
+datt_data <- data.frame(p = c(0.0092, 0.0339, 0.0850, 0.160, 0.2609, 0.4133, 0.5497, 0.7196, 0.8196, 0.9174, 0.9570, 0.9751, 1),
+                        L = c(0.00208, 0.001013, 0.03122, 0.07083, 0.12808, 0.23498, 0.34887, 0.51994, 0.64270, 0.79201, 0.86966, 0.91277, 1))
+datt_mean <- 109.9
+
+datt_povline <- 89
 ```
-
-## Basic Options
-
-### Retrieve grouped statistics
 
 To retrieve basic grouped statistics, you need to provide cumulative welfare and population values along with the requested mean and poverty line.
 ```{r}
 get_gd(
-  cum_welfare = cum_welfare,
-  cum_population = cum_population,
+  cum_welfare = datt_data$L,
+  cum_population = datt_data$p,
   estimate = "stats",
-  requested_mean = 3,
-  povline = 2.15
+  requested_mean = datt_mean,
+  povline = datt_povline
+  )
+```
+
+As an alternative, instead of the mean, you can provide the population share (`popshare`), which will be assumed equal to the poverty headcount ratio, and used to calculate the rest of the statistics (and the poverty line itself):
+```{r}
+get_gd(
+  cum_welfare = datt_data$L,
+  cum_population = datt_data$p,
+  estimate = "stats",
+  requested_mean = datt_mean,
+  popshare = 0.3
+  )
+
+```
+
+
+## Retrieve Lorenz curve data
+
+To retrieve Lorenz curve data, you can specify `estimate = "lorenz"` and provide the number of bins (`n_bins`) to return (there is no default value for `n_bins`). The Lorenz curve will be estimated with both the Beta Lorenz and Quadratic Lorenz methodologies, then the best one will be selected by default. 
+
+```{r}
+get_gd(
+  cum_welfare = datt_data$L,
+  cum_population = dat_data$p,
+  estimate = "lorenz",
+  n_bins = 100
 )
 ```
 
-### Retrieve Lorenz curve data
-To retrieve Lorenz curve data, you can specify `estimate = "lorenz"` and provide the number of bins (`n_bins`) (There is no default value for `n_bins`).
+You can also specify the Lorenz curve methodology by setting the `lorenz` parameter to either "lb" (Beta Lorenz) or "lq" (Quadratic Lorenz).
+
 ```{r}
 get_gd(
-  cum_welfare = cum_welfare,
-  cum_population = cum_population,
+  cum_welfare = datt_data$L,
+  cum_population = dat_data$p,
   estimate = "lorenz",
-  n_bins = 10
+  lorenz = "lb",
+  n_bins = 100
 )
 ```
+
+
+## Retrieve regression parameters
+
+Finally you can retrieve the regression parameters used for the Lorenz curve estimation by setting `estimate = "params"`. The methods used, both the Beta Lorenz and the Quadratic Lorenz, are described in detail in Datt (1998).
+
+```{r}
+get_gd(
+  cum_welfare = datt_data$L,
+  cum_population = dat_data$p,
+  estimate = "params"
+)
+```
+
+The variable `selected_for_dist` shows the Lorenz curve methodology selected by default when calculating the Lorenz curve data points and the deciles. The variable `selected_for_pov` shows the Lorenz curve methodology selected by default when calculating the poverty and inequality statistics.
+
+## References
+
+- Datt, Gaurav (1998). "Computational tools for poverty measurement and analysis." FCND Discussion Paper 50. International Food Policy Research Institute (IFPRI). Washington, DC. [Link](https://www.ifpri.org/publication/computational-tools-poverty-measurement-and-analysis)
+
+
 
