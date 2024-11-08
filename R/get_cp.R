@@ -20,7 +20,7 @@
 get_cp <- function(country = "all",
                    povline = NULL,
                    version = NULL,
-                   ppp_version = NULL,
+                   ppp_version = 2017, # we need to give a default value
                    release_version = NULL,
                    api_version = "v1",
                    format = c("arrow", "rds", "json", "csv"),
