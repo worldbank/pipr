@@ -11,16 +11,19 @@
 #'
 #' @examples
 #' \dontrun{
-#' # One country-year
+#' # One country, all years with default ppp_version = 2017
 #' res <- get_cp(country = "AGO")
 #'
-#' # All countries and years
+#' # All countries, povline = 1.9
+#' res <- get_cp(povline = 1.9)
+#'
+#' # All countries and years with default values
 #' res <- get_cp()
 #' }
 get_cp <- function(country = "all",
-                   povline = NULL,
+                   povline = 2.15, # GC: default value like Stata
                    version = NULL,
-                   ppp_version = 2017, # we need to give a default value
+                   ppp_version = 2017, # GC: default value like Stata
                    release_version = NULL,
                    api_version = "v1",
                    format = c("arrow", "rds", "json", "csv"),

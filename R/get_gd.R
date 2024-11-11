@@ -49,7 +49,7 @@
 #' params <- get_gd(cum_welfare = datt_data$L,
 #'                  cum_population = datt_data$p,
 #'                  estimate = "params")
-#'
+#'}
 
 get_gd <- function(cum_welfare =  NULL,
                    cum_population = NULL,
