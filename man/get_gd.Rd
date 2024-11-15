@@ -11,6 +11,7 @@ get_gd(
   requested_mean = 1,
   povline = 1,
   popshare = NULL,
+  lorenz = NULL,
   n_bins = NULL,
   api_version = "v1",
   format = c("rds", "json", "csv"),
@@ -19,20 +20,20 @@ get_gd(
 )
 }
 \arguments{
-\item{cum_welfare}{numeric: Cumulative welfare values.}
+\item{cum_welfare}{numeric: Cumulative welfare values, expressed in shares. Any length. They should be monotonically increasing, and sum to 1.}
 
-\item{cum_population}{numeric: Cumulative population values.}
+\item{cum_population}{numeric: Cumulative population values, expressed in shares. Any length. They should be monotonically increasing, and sum to 1.}
 
 \item{estimate}{character: One of "stats", "lorenz", "params".}
 
 \item{requested_mean}{numeric: Requested mean.}
 
-\item{povline}{numeric: Poverty line. Required for endpoint = "grouped-stats".}
+\item{povline}{numeric: Poverty line. Required for estimate = "stats".}
 
 \item{popshare}{numeric: Proportion of the population living below the
 poverty line}
 
-\item{n_bins}{numeric: Number of bins. Required for endpoint = "lorenz-curve".}
+\item{n_bins}{numeric: Number of bins. Required for estimate = "lorenz".}
 
 \item{api_version}{character: API version}
 
@@ -45,4 +46,45 @@ poverty line}
 }
 \description{
 Get grouped stats from the PIP API.
+}
+\examples{
+\dontrun{
+
+datt_data <- data.frame(p = c(0.0092, 0.0339, 0.0850, 0.160, 0.2609, 0.4133, 0.5497, 0.7196, 0.8196, 0.9174, 0.9570, 0.9751, 1),
+                       L = c(0.00208, 0.001013, 0.03122, 0.07083, 0.12808, 0.23498, 0.34887, 051994, 0.64270, 0.79201, 0.86966, 0.91277, 1)
+
+# estimate = 'stats': retrieve poverty statistics.
+stats <- get_gd(cum_welfare = datt_data$L, cum_population = datt_data$p,
+                estimate = "stats",
+                requested_mean = 19, # default is 1.
+                povline = 2.15)  # default is 1.
+
+# estimate = 'lorenz': retrieve Lorenz curve data points for a specified number of bins.
+
+## Best lorenz curve methodolody selected by default:
+lorenz <- get_gd(cum_welfare = datt_data$L,
+                 cum_population = datt_data$p,
+                 estimate = "lorenz",
+                 n_bins = 100)  # must be specified, default is NULL.
+
+## Specify lorenz curve methodology:
+### Beta Lorenz ("lb")
+lorenz_lb <- get_gd(cum_welfare = datt_data$L,
+                 cum_population = datt_data$p,
+                 estimate = "lorenz",
+                 lorenz = "lb",
+                 n_bins = 100)
+
+### Quadratic Lorenz ("lq")
+lorenz_lq <- get_gd(cum_welfare = datt_data$L,
+                 cum_population = datt_data$p,
+                 estimate = "lorenz",
+                 lorenz = "lq",
+                 n_bins = 100)
+
+# estimate = 'params': retrieve regression parameters used for the lorenz curve estimation.
+params <- get_gd(cum_welfare = datt_data$L,
+                 cum_population = datt_data$p,
+                 estimate = "params")
+}
 }
