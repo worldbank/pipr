@@ -33,21 +33,21 @@ Here are a few examples to get you started:
 
 By default, `get_gd()` returns grouped statistics (`estimate = "stats"`) based on cumulative welfare (`cum_welfare`) and population values (`cum_population`), both expressed as percentages. The default mean (`requested_mean`) and poverty line (`povline`) are set to 1, so the user should specify the known mean of the distribution, and the desired poverty line.
 
-The data used in this example is from Datt (1998). The dataset lists the cumulative welfare and population values for rural India in 1983 expressed in shares (percentages). The mean of the distribution is 109.9 Rs (daily), and the poverty line at the time was 89 Rs. Note that the cumulative welfare and population values should be monotonically increasing and sum to 1 to be valid. Additionally, the cumulative population values should always be greater or equal to the corresponding welfare values.
+The data used in this example is from Datt (1998). Among other consumption survey variables, The dataset lists the cumulative welfare(`L`, for Lorenz) and population values(`p`) for rural India in 1983, expressed in shares (percentages). The mean of the distribution is 109.9 Rs (daily), and the poverty line at the time was 89 Rs. Note that the cumulative welfare and population values should be monotonically increasing and sum to 1 to be valid. Additionally, the cumulative population values should always be greater or equal to the corresponding welfare values.
 
 ```{r}
-datt_data <- data.frame(p = c(0.0092, 0.0339, 0.0850, 0.160, 0.2609, 0.4133, 0.5497, 0.7196, 0.8196, 0.9174, 0.9570, 0.9751, 1),
-                        L = c(0.00208, 0.001013, 0.03122, 0.07083, 0.12808, 0.23498, 0.34887, 0.51994, 0.64270, 0.79201, 0.86966, 0.91277, 1))
 datt_mean <- 109.9
 
 datt_povline <- 89
+
+str(datt_rural)
 ```
 
 To retrieve basic grouped statistics, you need to provide cumulative welfare and population values along with the requested mean and poverty line.
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
+```{r, warning=FALSE, message=FALSE}
 get_gd(
-  cum_welfare = datt_data$L,
-  cum_population = datt_data$p,
+  cum_welfare = datt_rural$L,
+  cum_population = datt_rural$p,
   estimate = "stats",
   requested_mean = datt_mean,
   povline = datt_povline
@@ -55,10 +55,10 @@ get_gd(
 ```
 
 As an alternative, instead of the mean, you can provide the population share (`popshare`), which will be assumed equal to the poverty headcount ratio, and used to calculate the rest of the statistics (and the poverty line itself):
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
+```{r, warning=FALSE, message=FALSE}
 get_gd(
-  cum_welfare = datt_data$L,
-  cum_population = datt_data$p,
+  cum_welfare = datt_rural$L,
+  cum_population = datt_rural$p,
   estimate = "stats",
   requested_mean = datt_mean,
   popshare = 0.3
@@ -71,24 +71,28 @@ get_gd(
 
 To retrieve Lorenz curve data, you can specify `estimate = "lorenz"` and provide the number of bins (`n_bins`) to return (there is no default value for `n_bins`). The Lorenz curve will be estimated with both the Beta Lorenz and Quadratic Lorenz methodologies, then the best one will be selected by default. 
 
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
-get_gd(
-  cum_welfare = datt_data$L,
-  cum_population = dat_data$p,
+```{r, warning=FALSE, message=FALSE}
+lorenz_100 <- get_gd(
+  cum_welfare = datt_rural$L,
+  cum_population = datt_rural$p,
   estimate = "lorenz",
-  n_bins = 100
+  n_bins = 100,
+  server = "dev"
 )
+
+str(lorenz_100)
 ```
 
 You can also specify the Lorenz curve methodology by setting the `lorenz` parameter to either `"lb"` (Beta Lorenz) or `"lq"` (Quadratic Lorenz).
 
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
+```{r, warning=FALSE, message=FALSE}
 get_gd(
-  cum_welfare = datt_data$L,
-  cum_population = dat_data$p,
+  cum_welfare = datt_rural$L,
+  cum_population = datt_rural$p,
   estimate = "lorenz",
   lorenz = "lb",
-  n_bins = 100
+  n_bins = 100,
+  server = "dev"
 )
 ```
 
@@ -97,10 +101,10 @@ get_gd(
 
 Finally, you can retrieve the regression parameters used for the Lorenz curve estimation by setting `estimate = "params"`. The methods used, both the Beta Lorenz and the Quadratic Lorenz, are described in detail in Datt (1998).
 
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
+```{r, warning=FALSE, message=FALSE}
 get_gd(
-  cum_welfare = datt_data$L,
-  cum_population = dat_data$p,
+  cum_welfare = datt_rural$L,
+  cum_population = datt_rural$p,
   estimate = "params"
 )
 ```
@@ -109,8 +113,10 @@ The variable `selected_for_dist` shows the Lorenz curve methodology selected by 
 
 ## Use cases
 
-### Poverty and Inequality Statistics
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
+We now show three examples of how the `get_gd()` function could be integrated in a workflow to analyze and visualize group data.
+
+### Poverty Line vs Poverty Measures
+```{r, warning=FALSE, message=FALSE}
 datt_mean <- 109.9
 
 datt_povline <- 89
@@ -124,8 +130,8 @@ poverty_stats <- data.frame()
 # Loop over poverty lines to compute poverty measures
 for (pl in poverty_lines) {
   stats <- get_gd(
-    cum_welfare = datt_data$L,
-    cum_population = datt_data$p,
+    cum_welfare = datt_rural$L,
+    cum_population = datt_rural$p,
     estimate = "stats",
     requested_mean = 109.9,
     povline = pl
@@ -149,25 +155,18 @@ ggplot(poverty_stats, aes(x = poverty_line)) +
     color = "Poverty Measure"
   ) +
   theme_minimal()
-
 ```
 
 ### Lorenz Curve Data
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
-lorenz_points_lq <- pipgd_lorenz_curve(datt_data$L, datt_data$p, lorenz = "lq")
-lorenz_points_lq_10 <- pipgd_lorenz_curve(datt_data$L, datt_data$p, lorenz = "lq", n_bins = 10)
-
-lorenz_df_lq_100 <- data.frame(cum_welfare = lorenz_points_lq$lorenz_curve$output, 
-                               cum_population = lorenz_points_lq$lorenz_curve$points)
-
-lorenz_df_lq_10  <- data.frame(cum_welfare = lorenz_points_lq_10$lorenz_curve$output, 
-                               cum_population = lorenz_points_lq_10$lorenz_curve$points)
+```{r, warning=FALSE, message=FALSE}
+lorenz_points_lq <- get_gd(datt_data$L, datt_data$p, estimate = "lorenz", lorenz = "lq", server = "dev")
+lorenz_points_lq_10 <- get_gd(datt_data$L, datt_data$p, estimate = "lorenz", lorenz = "lq", n_bins = 10, server = "dev")
 
 ggplot() +
-  geom_bar(data = lorenz_df_lq_10, aes(x = cum_population, y = cum_welfare), stat = "identity", fill = "blue", alpha = 0.3) +
-  geom_bar(data = datt_data, aes(x = p, y = L), stat = "identity", fill = "blue") +
-  geom_point(data = lorenz_df_lq_100, aes(x = cum_population, y = cum_welfare), color = "blue", size = 0.5) +
-  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+  geom_bar(data = lorenz_points_lq_10, aes(x = weight, y = welfare), stat = "identity", fill = "darkorange", alpha = 0.3) +
+  geom_point(data = datt_data, aes(x = p, y = L), color = "darkorange", size = 2) +
+  geom_point(data = lorenz_points_lq, aes(x = weight, y = welfare), color = "darkorange", size = 0.5) +
+  geom_abline(intercept = 0, slope = 1, color = "black") +
   labs(
     title = "Lorenz Curve for Rural India, 1983",
     x = "Cumulative Share of Population",
@@ -175,11 +174,28 @@ ggplot() +
   ) +
   theme_minimal()
 ```
+### Rural vs Urban
+```{r, warning=FALSE, message=FALSE}
+lorenz_rural <- get_gd(datt_rural$L, datt_rural$p, estimate = "lorenz", lorenz = "lq", server = "dev", n_bins = 1000)
+lorenz_urban <- get_gd(datt_urban$L, datt_urban$p, estimate = "lorenz", lorenz = "lq", server = "dev", n_bins = 1000)
 
+ggplot() +
+  geom_point(data = lorenz_rural, aes(x = weight, y = welfare), color = "darkorange", size = 0.5) +
+  geom_point(data = lorenz_urban, aes(x = weight, y = welfare), color = "steelblue", size = 0.5) +
+  geom_abline(intercept = 0, slope = 1, color = "black") +
+  labs(
+    title = "Lorenz Curve for India, 1983",
+    x = "Cumulative Share of Population",
+    y = "Cumulative Share of Welfare"
+  ) +
+  theme_minimal()
+```
 
 ## References
 
 - Datt, Gaurav (1998). "Computational tools for poverty measurement and analysis." FCND Discussion Paper 50. International Food Policy Research Institute (IFPRI). Washington, DC. [Link](https://www.ifpri.org/publication/computational-tools-poverty-measurement-and-analysis)
+
+- Sarveskhana, Vol IX n 4 (April 1986). [Link](https://mospi.gov.in/sites/default/files/publication_reports/Sarvekshana_issue%20no.%2027_%20Vol%20%209%20No%204.PDF)
 
 
 
