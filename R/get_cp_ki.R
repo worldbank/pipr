@@ -38,8 +38,6 @@ get_cp_ki <- function(country = NULL,
   if (is.null(povline)) {
     if (ppp_version == "2011") {
       povline <- 1.9
-    } else {
-      povline <- 2.15
     }
   }
 
@@ -72,7 +70,7 @@ get_cp_ki <- function(country = NULL,
     httr2::req_perform()
 
   # 4. Parse result and return (if simplify == FALSE)
-  if (!simplify) {
+  if (isFALSE(simplify)) {
     out <- parse_response(res, simplify)
   } else {
     out <- parse_response(res, simplify)

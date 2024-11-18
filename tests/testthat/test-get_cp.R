@@ -1,6 +1,3 @@
-library(testthat)
-library(pipr)
-
 # 1. General Argument Matching Tests ----
 test_that("Argument matching works correctly for get_cp()", {
   skip_if_offline()
