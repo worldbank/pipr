@@ -40,8 +40,6 @@ get_cp <- function(country = "all",
   if (is.null(povline)) {
     if (ppp_version == "2011") {
       povline <- 1.9
-    } else {
-      povline <- 2.15
     }
   }
 
