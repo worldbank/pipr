@@ -85,9 +85,9 @@ get_cp_ki <- function(country = NULL,
 }
 
 
-# Unnest ki (no collapse/tidyverse) ----
+# Unnest key indicators  ----
 #' Unnest the key indicators
-#' @describeIn unnest_ki() takes the simplified output from cp-key-indicators endpoint and unnests it.
+#' @describeIn unnest_ki takes the simplified output from cp-key-indicators endpoint and unnests it.
 #'
 #' @param out parsed and simplified output from cp-key-indicators endpoint
 #'

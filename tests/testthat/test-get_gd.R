@@ -1,5 +1,7 @@
 # Section 1: General Argument Checks ----
 test_that("General Argument Checks", {
+  skip_if_offline()
+  skip_on_cran()
 
   # Check if cum_welfare and cum_population have different lengths
   cum_welfare <- c(0.1, 0.2, 0.3)
@@ -13,10 +15,11 @@ test_that("General Argument Checks", {
 
 ## Section 2: Testing 'stats' Endpoint -----
 test_that("'stats' Endpoint Tests", {
-
+  skip_if_offline()
+  skip_on_cran()
   # Error when requested_mean or povline is missing
-  cum_welfare <- datt_data$L
-  cum_population <- datt_data$p
+  cum_welfare <- datt_rural$L
+  cum_population <- datt_rural$p
 
   # Missing requested_mean
   expect_error(
@@ -49,6 +52,8 @@ test_that("'stats' Endpoint Tests", {
 
 ### Section 3: Testing 'lorenz' Endpoint ----
 test_that("'lorenz' Endpoint Tests", {
+  skip_if_offline()
+  skip_on_cran()
 
   cum_welfare <- datt_rural$L
   cum_population <- datt_rural$p
@@ -77,9 +82,11 @@ test_that("'lorenz' Endpoint Tests", {
 
 ### Section 4: Testing 'params' Endpoint -----
 test_that("'params' Endpoint Tests", {
+  skip_if_offline()
+  skip_on_cran()
 
-  cum_welfare <- datt_data$L
-  cum_population <- datt_data$p
+  cum_welfare <- datt_rural$L
+  cum_population <- datt_rural$p
 
   # Proper retrieval of regression parameters
   params <- get_gd(cum_welfare = cum_welfare, cum_population = cum_population, estimate = "params")
@@ -90,6 +97,8 @@ test_that("'params' Endpoint Tests", {
 
 ### Section 5: Additional  -----
 test_that("Edge Cases and Error Handling", {
+  skip_if_offline()
+  skip_on_cran()
 
   # Both cum_welfare and cum_population missing
   expect_error(
@@ -98,7 +107,7 @@ test_that("Edge Cases and Error Handling", {
 
   # Invalid lorenz method
   expect_error(
-    get_gd(cum_welfare = datt_data$L, cum_population = datt_data$p,
+    get_gd(cum_welfare = datt_rural$L, cum_population = datt_rural$p,
            estimate = "lorenz", lorenz = "invalid_method", n_bins = 10, server = "dev"),
     "You supplied an invalid value for lorenz"
   )

@@ -50,12 +50,10 @@ Get Country Profiles Key Indicators
 \examples{
 \dontrun{
 # One country, all years with default ppp_version = 2017
-res <- get_cp(country = "AGO")
+res <- get_cp(country = "IDN")
 
 # All countries, povline = 1.9
-res <- get_cp(povline = 1.9)
+res <- get_cp(country = "IDN", povline = 1.9)
 
-# All countries and years with default values
-res <- get_cp()
 }
 }
