@@ -123,9 +123,9 @@ test_that("get_stats() returns a tibble with named columns for empty response (f
   # json (does not return an empty response data frame)
   # GC: this test returns a warning now because json returns a completely
   # empty tibble (no variables), is this correct?
-  #res2 <- get_stats("AGO", 2005, format = "json") # empty response
-  #expect_equal(dim(res2)[2], 0)
-  #expect_equal(length(names(res2)), 0)
+  # res2 <- get_stats("AGO", 2005, format = "json") # empty response
+  # expect_equal(dim(res2)[2], 0)
+  # expect_equal(length(names(res2)), 0)
 
 })
 
