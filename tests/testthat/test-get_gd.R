@@ -60,7 +60,7 @@ test_that("'lorenz' Endpoint Tests", {
 
   # Correct retrieval of Lorenz curve data points
   lorenz <- get_gd(cum_welfare = cum_welfare, cum_population = cum_population,
-                   estimate = "lorenz", n_bins = 10, server = "dev")
+                   estimate = "lorenz", n_bins = 10)
 
   expect_s3_class(lorenz, "data.frame")
   expect_true(all(c("weight", "welfare") %in% names(lorenz)))
@@ -68,13 +68,13 @@ test_that("'lorenz' Endpoint Tests", {
 
   # Handling of lorenz methodology
   lorenz_lb <- get_gd(cum_welfare = cum_welfare, cum_population = cum_population,
-                      estimate = "lorenz", lorenz = "lb", n_bins = 100, server = "dev")
+                      estimate = "lorenz", lorenz = "lb", n_bins = 100)
 
   expect_s3_class(lorenz_lb, "data.frame")
   expect_true(all(c("weight", "welfare") %in% names(lorenz_lb)))
 
   lorenz_lq <- get_gd(cum_welfare = cum_welfare, cum_population = cum_population,
-                      estimate = "lorenz", lorenz = "lq", n_bins = 100, server = "dev")
+                      estimate = "lorenz", lorenz = "lq", n_bins = 100)
 
   expect_s3_class(lorenz_lq, "data.frame")
   expect_true(all(c("weight", "welfare") %in% names(lorenz_lq)))
@@ -108,7 +108,7 @@ test_that("Edge Cases and Error Handling", {
   # Invalid lorenz method
   expect_error(
     get_gd(cum_welfare = datt_rural$L, cum_population = datt_rural$p,
-           estimate = "lorenz", lorenz = "invalid_method", n_bins = 10, server = "dev"),
+           estimate = "lorenz", lorenz = "invalid_method", n_bins = 10),
     "You supplied an invalid value for lorenz"
   )
 })
