@@ -11,6 +11,8 @@
 #' @param lorenz character: Lorenz curve methodology. Either "lb" or "lq".
 #' @param n_bins numeric: Number of bins. Required for estimate = "lorenz".
 #'
+#' @export
+#'
 #' @examples
 #' \dontrun{
 #'
