@@ -17,7 +17,7 @@ test_that("check_internet() works", {
 test_that("check_api() works", {
   skip_if_offline()
   skip_on_cran()
-  res <- check_api("v1", server = "qa")
+  res <- check_api("v1")
   expect_equal(res, "PIP API is running")
 })
 
