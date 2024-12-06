@@ -90,8 +90,8 @@ get_gd <- function(cum_welfare =  NULL,
       if (is.null(requested_mean)) {
         cli::cli_abort("For endpoint {endpoint}, {.val requested_mean} must be provided.")
       }
-      if (is.null(povline)) {
-        cli::cli_abort("For endpoint {endpoint}, {.val povline} must be provided.")
+      if (is.null(povline) && is.null(popshare)) {
+        cli::cli_abort("For endpoint {.field endpoint}, you must provide either {.arg povline} or {.arg popshare} argument")
       }
 
       # popshare can't be used together with povline
