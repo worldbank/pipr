@@ -32,7 +32,7 @@ test_that("'stats' Endpoint Tests", {
   expect_error(
     get_gd(cum_welfare = cum_welfare, cum_population = cum_population,
            estimate = "stats", requested_mean = 109.9),
-    "must be provided"
+    "you must provide"
   )
 
   # Correct retrieval of statistics
