@@ -1,8 +1,8 @@
 ---
-title: "get-gd-example"
+title: "Get Grouped Data Parameters"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{pipr}
+  %\VignetteIndexEntry{get-gd-example}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -159,12 +159,12 @@ ggplot(poverty_stats, aes(x = poverty_line)) +
 
 ### Lorenz Curve Data
 ```{r, warning=FALSE, message=FALSE}
-lorenz_points_lq <- get_gd(datt_data$L, datt_data$p, estimate = "lorenz", lorenz = "lq", server = "dev")
-lorenz_points_lq_10 <- get_gd(datt_data$L, datt_data$p, estimate = "lorenz", lorenz = "lq", n_bins = 10, server = "dev")
+lorenz_points_lq <- get_gd(datt_rural$L, datt_rural$p, estimate = "lorenz", lorenz = "lq")
+lorenz_points_lq_10 <- get_gd(datt_rural$L, datt_rural$p, estimate = "lorenz", lorenz = "lq", n_bins = 10)
 
 ggplot() +
   geom_bar(data = lorenz_points_lq_10, aes(x = weight, y = welfare), stat = "identity", fill = "darkorange", alpha = 0.3) +
-  geom_point(data = datt_data, aes(x = p, y = L), color = "darkorange", size = 2) +
+  geom_point(data = datt_rural, aes(x = p, y = L), color = "darkorange", size = 2) +
   geom_point(data = lorenz_points_lq, aes(x = weight, y = welfare), color = "darkorange", size = 0.5) +
   geom_abline(intercept = 0, slope = 1, color = "black") +
   labs(
@@ -174,10 +174,12 @@ ggplot() +
   ) +
   theme_minimal()
 ```
+
+
 ### Rural vs Urban
 ```{r, warning=FALSE, message=FALSE}
-lorenz_rural <- get_gd(datt_rural$L, datt_rural$p, estimate = "lorenz", lorenz = "lq", server = "dev", n_bins = 1000)
-lorenz_urban <- get_gd(datt_urban$L, datt_urban$p, estimate = "lorenz", lorenz = "lq", server = "dev", n_bins = 1000)
+lorenz_rural <- get_gd(datt_rural$L, datt_rural$p, estimate = "lorenz", lorenz = "lq", n_bins = 1000)
+lorenz_urban <- get_gd(datt_urban$L, datt_urban$p, estimate = "lorenz", lorenz = "lq", n_bins = 1000)
 
 ggplot() +
   geom_point(data = lorenz_rural, aes(x = weight, y = welfare), color = "darkorange", size = 0.5) +
