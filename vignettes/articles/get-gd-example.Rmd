@@ -95,7 +95,7 @@ get_gd(
   cum_population = datt_rural$p,
   estimate = "lorenz",
   lorenz = "lb",
-  n_bins = 100,
+  n_bins = 10,
   server = "dev"
 )
 ```
@@ -155,10 +155,12 @@ ggplot(poverty_stats, aes(x = poverty_line)) +
   labs(
     title = "Poverty Measures vs. Poverty Line, Rural India 1983",
     x = "Poverty Line",
-    y = "Measure Value",
+    y = "Poverty Measure (FGT indices)",
     color = "Poverty Measure"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(legend.position = "bottom", 
+        legend.title = element_blank())
 ```
 
 ### Lorenz Curve Data
