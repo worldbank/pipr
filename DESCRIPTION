@@ -18,6 +18,10 @@ Authors@R:
             family = "Castañeda",
             role = "aut",
             email = "acastanedaa@worldbank.org"),
+      person(given = "Giorgia",
+            family = "Cecchinato",
+            role = "aut",
+            email = "gcecchinato@worldbank.org"),
      person(given = "World Bank",
             role = "cph")
      )
