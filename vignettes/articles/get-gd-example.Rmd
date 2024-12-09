@@ -33,7 +33,7 @@ Here are a few examples to get you started:
 
 By default, `get_gd()` returns grouped statistics (`estimate = "stats"`) based on cumulative welfare (`cum_welfare`) and population values (`cum_population`), both expressed as percentages. The default mean (`requested_mean`) and poverty line (`povline`) are set to 1, so the user should specify the known mean of the distribution, and the desired poverty line.
 
-The data used in this example is from Datt (1998). Among other consumption survey variables, The dataset lists the cumulative welfare(`L`, for Lorenz) and population values(`p`) for rural India in 1983, expressed in shares (percentages). The mean of the distribution is 109.9 Rs (daily), and the poverty line at the time was 89 Rs. Note that the cumulative welfare and population values should be monotonically increasing and sum to 1 to be valid. Additionally, the cumulative population values should always be greater or equal to the corresponding welfare values.
+The data used in this example is from [(Datt (1998))](https://ageconsearch.umn.edu/record/94862/?v=pdf). Among other consumption survey variables, The dataset lists the cumulative welfare(`L`, for Lorenz) and population values(`p`) for rural India in 1983, expressed in shares (percentages). The mean of the distribution is 109.9 Rs (daily), and the poverty line at the time was 89 Rs. Note that the cumulative welfare and population values should be monotonically increasing and sum to 1 to be valid. Additionally, the cumulative population values should always be greater or equal to the corresponding welfare values.
 
 ```{r}
 datt_mean <- 109.9
@@ -42,6 +42,8 @@ datt_povline <- 89
 
 str(datt_rural)
 ```
+
+### Get headcount from poverty line 
 
 To retrieve basic grouped statistics, you need to provide cumulative welfare and population values along with the requested mean and poverty line.
 ```{r, warning=FALSE, message=FALSE}
@@ -53,6 +55,8 @@ get_gd(
   povline = datt_povline
   )
 ```
+
+### Get poverty line from headcount (`popshare`)
 
 As an alternative, instead of the mean, you can provide the population share (`popshare`), which will be assumed equal to the poverty headcount ratio, and used to calculate the rest of the statistics (and the poverty line itself):
 ```{r, warning=FALSE, message=FALSE}
@@ -76,7 +80,7 @@ lorenz_100 <- get_gd(
   cum_welfare = datt_rural$L,
   cum_population = datt_rural$p,
   estimate = "lorenz",
-  n_bins = 100,
+  n_bins = 10,
   server = "dev"
 )
 
