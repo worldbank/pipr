@@ -17,7 +17,7 @@ test_that("check_internet() works", {
 test_that("check_api() works", {
   skip_if_offline()
   skip_on_cran()
-  res <- check_api("v1", server = NULL)
+  res <- check_api("v1")
   expect_equal(res, "PIP API is running")
 })
 
@@ -26,68 +26,63 @@ test_that("check_status() works", {
   skip_on_cran()
   # 200
   res <- health_check("v1")
-  parsed <- parse_response(res, simplify = FALSE)$content
-  expect_true(check_status(res, parsed))
+  expect_true(check_status(res))
 
   # 404
   res <- res_ex_404
-  parsed <- parse_response(res, simplify = FALSE)$content
-  expect_error(check_status(res, parsed))
+  expect_error(check_status(res))
 
   # 500
   res <- res_ex_404
-  parsed <- parse_response(res, simplify = FALSE)$content
   res$status_code <- 500
-  parsed$error <- NULL
-  parsed$details <- NULL
-  expect_error(check_status(res, parsed))
+  expect_error(check_status(res))
 
 })
 
-test_that("build_url() works", {
+test_that("build_base_url() works", {
 
   # Check that url is correctly pasted together
-  x <- build_url(server = NULL, endpoint = "pip", api_version = "v1")
+  x <- build_base_url(server = NULL, endpoint = "pip", api_version = "v1")
   expect_identical(x, paste0(prod_url, "/v1/pip"))
-  x <- build_url("prod", "pip", api_version = "v1")
+  x <- build_base_url("prod", "pip", api_version = "v1")
   expect_identical(x, paste0(prod_url, "/v1/pip"))
-  x <- build_url("prod", "pip-grp", api_version = "v2")
+  x <- build_base_url("prod", "pip-grp", api_version = "v2")
   expect_identical(x, paste0(prod_url, "/v2/pip-grp"))
 
   # Expect error if server arg is incorrect
-  expect_error(build_url("tmp", "pip", "v1"))
+  expect_error(build_base_url("tmp", "pip", "v1"))
 
   # Check internal URLs
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
-  x <- build_url("qa", "pip", "v1")
+  x <- build_base_url("qa", "pip", "v1")
   expect_identical(x, paste0(Sys.getenv("PIP_QA_URL"), "/v1/pip"))
-  x <- build_url("dev", "pip", "v1")
+  x <- build_base_url("dev", "pip", "v1")
   expect_identical(x, paste0(Sys.getenv("PIP_DEV_URL"), "/v1/pip"))
 
   # Expect error if ENV vars are not found
   skip_if(Sys.getenv("PIP_QA_URL") != "")
-  expect_error(build_url("qa", "pip", "v1"))
+  expect_error(build_base_url("qa", "pip", "v1"))
   skip_if(Sys.getenv("PIP_DEV_URL") != "")
-  expect_error(build_url("dev", "pip", "v1"))
+  expect_error(build_base_url("dev", "pip", "v1"))
 })
 
-test_that("build_url() works for internal URLS", {
+test_that("build_base_url() works for internal URLS", {
 
   # Check internal URLs
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
-  x <- build_url("qa", "pip", "v1")
+  x <- build_base_url("qa", "pip", "v1")
   expect_identical(x, paste0(Sys.getenv("PIP_QA_URL"), "/v1/pip"))
-  x <- build_url("dev", "pip", "v1")
+  x <- build_base_url("dev", "pip", "v1")
   expect_identical(x, paste0(Sys.getenv("PIP_DEV_URL"), "/v1/pip"))
 })
 
-test_that("build_url() throws error for internal URLs if ENV vars are not found", {
+test_that("build_base_url() throws error for internal URLs if ENV vars are not found", {
 
   # Expect error if ENV vars are not found
   skip_if(Sys.getenv("PIP_QA_URL") != "")
-  expect_error(build_url("qa", "pip", "v1"))
+  expect_error(build_base_url("qa", "pip", "v1"))
   skip_if(Sys.getenv("PIP_DEV_URL") != "")
-  expect_error(build_url("dev", "pip", "v1"))
+  expect_error(build_base_url("dev", "pip", "v1"))
 })
 
 test_that("build_args() works for all individual parameters", {
@@ -204,7 +199,7 @@ test_that("parse_response() works for different formats", {
   res <- parse_response(res_ex_json, simplify = FALSE)
   expect_identical(names(res), c("url", "status", "type", "content", "response"))
   expect_identical(class(res), "pip_api")
-  expect_identical(class(res$response), "response")
+  expect_identical(class(res$response), "httr2_response")
   expect_identical(class(res$content), "data.frame")
 
   # csv
@@ -213,7 +208,7 @@ test_that("parse_response() works for different formats", {
   res <- parse_response(res_ex_csv, simplify = FALSE)
   expect_identical(names(res), c("url", "status", "type", "content", "response"))
   expect_identical(class(res), "pip_api")
-  expect_identical(class(res$response), "response")
+  expect_identical(class(res$response), "httr2_response")
   expect_true(all(class(res$content) %in% c("spec_tbl_df", "tbl_df", "tbl", "data.frame")))
 
   # rds
@@ -222,7 +217,7 @@ test_that("parse_response() works for different formats", {
   res <- parse_response(res_ex_rds, simplify = FALSE)
   expect_identical(names(res), c("url", "status", "type", "content", "response"))
   expect_identical(class(res), "pip_api")
-  expect_identical(class(res$response), "response")
+  expect_identical(class(res$response), "httr2_response")
   expect_true(all(class(res$content) %in% c("data.table", "data.frame")))
 })
 

@@ -1,0 +1,86 @@
+---
+title: "Get Country Profiles"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{get-cp-example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE, message=FALSE, warning=FALSE}
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  purl = NOT_CRAN
+)
+```
+
+```{r}
+library(pipr)
+```
+
+## Overview
+
+The `get_cp()` and `get_cp_ki()` functions provide **country profile data**, also available in [PIP's Country Profile page](https://pip.worldbank.org/country-profiles/IDN). This dataset comes from the [Global Monitoring Indicators (GMI)](https://datacatalog.worldbank.org/int/search/dataset/0065517/global-monitoring-indicators--gmi-), a set of harmonized indicators produced from the Global Monitoring Database (GMD) [^1]
+
+[^1]: The Global Monitoring Database (GMD) is the World Bank’s repository of multi-topic income and expenditure household surveys used to monitor global poverty and shared prosperity. The data comes from household surveys collected by the national statistical office in each country. It is then compiled, processed, and harmonized, so that levels and trends in poverty and other key socio-demographic attributes can be compared across and within countries over time.
+
+The country profile variables shown by the country profile page (and returned by default by `get_cp_ki` and `get_cp()`) are for the latest available year or comparable spell of years, including a **default poverty line** (\$2.15), and a **default PPP version** (2017).
+
+## Country Profile Key Indicators
+
+### Overview
+
+`get_cp_ki()` returns the key indicators listed at the beginning of the country profile page. These indicators are:
+
+-   `headcount`: Poverty rate at the default international poverty line (% population).
+-   `headcount_national`: Poverty rate at the national poverty line (% population).
+-   `mpm_headcount`: Multidimensional poverty headcount ratio (% population).
+-   `share_below_40`: Annualized growth in per capita mean consumption or income (%) for the bottom 40%.
+-   `share_total`: Annualized growth in per capita mean consumption or income (%) (total).
+-   `pop`: Population, total (millions).
+-   `gni_pc`: GNI per capita, Atlas method (current US\$).
+-   `gdp_growth`GDP growth (annual %).
+
+### Usage
+
+`get_cp_ki` works for single countries only, and returns a data frame with the requested data.
+
+```{r}
+get_cp_ki(country = "IDN")
+# Note: get_cp_ki(country = c("IDN", "ITA")) # this won't work!
+```
+
+As a default, the function returns the latest available year or comparable spell of years, with poverty metrics calculated at the latest international poverty line of \$2.15 and the default PPP version of 2017. The user can change these by passing the respective arguments to the function.
+
+```{r}
+get_cp_ki(country = "IDN", povline = 1.9)
+
+```
+
+## Country Profile Poverty Indicators
+
+### Overview
+
+`get_cp()` returns a data frame with the data used to produce the country profile page poverty and inequality metrics visualizations. There are 47 variables included within the following categories:
+
+-   **poverty headcounts**: poverty headcounts at different poverty lines, calculated for all years available.
+-   **inequality metrics**: Gini and Thiel Indexes, calculated for all years available.
+-   **shares of given demographic in bottom 40%/top 60%**: calculated for the latest available year.
+-   **multidimensional poverty indexes**: calculated for all years available.
+
+### Usage
+
+`get_cp()` default returns all data available (`country = all`) for the default poverty line (\$2.15) and PPP version (2017). If the user specifies `ppp_version = 2011`, the default poverty line will be \$1.9.
+
+```{r eval=FALSE}
+get_cp() # all countries, default poverty line (2.15) and PPP version (2017)
+get_cp(ppp_version = 2011) # all countries, poverty line 1.9.
+```
+
+The user can also specify a single country or a list of countries. The returned object will be a data frame with the requested data.
+
+```{r}
+get_cp(country = "IDN") # single country
+```

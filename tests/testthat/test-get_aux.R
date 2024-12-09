@@ -38,30 +38,15 @@ test_that("get_aux() works when calling specific tables", {
   expect_true(tibble::is_tibble(res))
 
   # Check failure if table doesn't exist
-  # TO DO: Use prod server for this test when API has been released
-  # expect_error(get_aux("tmp"))
-  # expect_true(is.list(get_aux("tmp", simplify = FALSE)))
   skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
   expect_error(get_aux("wrong-table-name", server = "qa"))
-  expect_true(is.list(get_aux("wrong-table-name", simplify = FALSE, server = "prod")))
 
   # Check all tables
-  skip("survey_metadata gives a 500 error. Need to add functionality for list data")
-  dl <- lapply(res, function(x) try(get_aux(x)))
+  # skip("survey_metadata gives a 500 error. Need to add functionality for list data")
+  res <- get_aux()
+  dl <- lapply(res$tables, function(x) try(get_aux(x)))
   expect_true(all(sapply(dl, tibble::is_tibble)))
-  expect_true(sapply(dl, function(x) any(class(x) != "try-error")))
-  # expect_false(sapply(dl, function(x) any(names(x) == "error")))
-})
-
-test_that("User agent works", {
-  skip_if_offline()
-  skip_on_cran()
-  # res <- get_aux(simplify = FALSE)
-  # tmp <- res$response$request$options$useragent
-  # expect_identical(tmp, pipr_user_agent)
-  res <- get_aux("gdp", simplify = FALSE)
-  tmp <- res$response$request$options$useragent
-  expect_identical(tmp, pipr_user_agent)
+  expect_true(all(sapply(dl, function(x) any(class(x) != "try-error"))))
 })
 
 ## Test helper functions ----
@@ -82,84 +67,3 @@ test_that("get_regions() works", {
   expect_true(tibble::is_tibble(res))
   expect_identical(res, res2)
 })
-
-
-# test_that("get_countries() with mocking works", {
-#   mockery::stub(get_aux, "httr::GET", function(...) {
-#     readRDS(test_path("testdata", "response-country.RDS"))
-#   })
-#
-#   mockery::stub(get_countries, "get_aux", function(...) {
-#     readRDS(test_path("testdata", "response-country.RDS"))
-#   })
-#
-#   res1 <- get_aux("countries")
-#   res2 <- parse_response(get_countries(), TRUE)
-#
-#   expect_true(tibble::is_tibble(res1))
-#   expect_true(tibble::is_tibble(res2))
-#
-#   expect_equal(dim(res1), dim(res2))
-#   expect_identical(res1, res2)
-# })
-#
-#
-# test_that("get_regions() with mocking works", {
-#   mockery::stub(get_aux, "httr::GET", function(...) {
-#     readRDS(test_path("testdata", "response-regions.RDS"))
-#   })
-#
-#   mockery::stub(get_regions, "get_aux", function(...) {
-#     readRDS(test_path("testdata", "response-regions.RDS"))
-#   })
-#
-#   res1 <- get_aux("regions")
-#   res2 <- parse_response(get_regions(), TRUE)
-#
-#   expect_true(tibble::is_tibble(res1))
-#   expect_true(tibble::is_tibble(res2))
-#
-#   expect_equal(dim(res1), dim(res2))
-#   expect_identical(res1, res2)
-# })
-#
-#
-# test_that("get_cpi() with mocking works", {
-#   mockery::stub(get_aux, "httr::GET", function(...) {
-#     readRDS(test_path("testdata", "response-cpi.RDS"))
-#   })
-#
-#   mockery::stub(get_cpi, "get_aux", function(...) {
-#     readRDS(test_path("testdata", "response-cpi.RDS"))
-#   })
-#
-#   res1 <- get_aux("cpi")
-#   res2 <- parse_response(get_cpi(), TRUE)
-#
-#   expect_true(tibble::is_tibble(res1))
-#   expect_true(tibble::is_tibble(res2))
-#
-#   expect_equal(dim(res1), dim(res2))
-#   expect_identical(res1, res2)
-# })
-#
-# test_that("get_dictionary() with mocking works", {
-#   #Waiting for this PR to be merged https://github.com/worldbank/pipr/pull/43
-#   #so that get_dictionary() works
-#   mockery::stub(get_aux, "httr::GET", function(...) {
-#     readRDS(test_path("testdata", "response-dictionary.RDS"))
-#   })
-#
-#   mockery::stub(get_dictionary, "get_aux", function(...) {
-#     readRDS(test_path("testdata", "response-dictionary.RDS"))
-#   })
-#
-#   res1 <- get_aux("dictionary")
-#   res2 <- parse_response(get_dictionary(), TRUE)
-#
-#   expect_true(tibble::is_tibble(res1))
-#   expect_true(tibble::is_tibble(res2))
-#
-#   expect_equal(dim(res1), dim(res2))
-#   expect_identical(res1, res2)
-# })

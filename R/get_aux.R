@@ -13,7 +13,8 @@
 #'   assigned to  exactly the same name as the one of the desired table. If
 #'   character, the table will be assigned to that name.
 #' @inheritParams get_stats
-#' @param force logical: force replacement. Default is FALSE
+#' @param replace logical: force replacement of aux files in `.pip` env. Default
+#'   is FALSE.
 #'
 #' @return If `simplify = FALSE`, it returns a list of class "pip_api". If
 #'   `simplify = TRUE`, it returns a tibble with the requested data. This is the
@@ -54,19 +55,22 @@ get_aux <- function(table           = NULL,
                     simplify        = TRUE,
                     server          = NULL,
                     assign_tb       = FALSE,
-                    force           = FALSE) {
+                    replace         = FALSE) {
 
   # Match args
   api_version <- match.arg(api_version)
   format      <- match.arg(format)
   run_cli     <- run_cli()
   # Build query string
-  u <- build_url(server, "aux", api_version = api_version)
+  req <- build_request(server = server,
+                       api_version = api_version,
+                       endpoint = "aux")
 
   # Return response
   # If no table is specified, returns list of available tables
   if (is.null(table)) {
-    res <- httr::GET(u)
+    res <- req |>
+      httr2::req_perform()
     tables <- parse_response(res, simplify = simplify)
     cli::cli_text("Auxiliary tables available are")
     cli::cli_ul(tables$tables)
@@ -80,12 +84,15 @@ get_aux <- function(table           = NULL,
     return(invisible(tables))
   # If a table is specified, returns that table
   } else {
-    args <- build_args(.table = table,
-                       .version = version,
-                       .ppp_version = ppp_version,
-                       .release_version = release_version,
-                       .format = format)
-    res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
+    req <- build_request(server          = server,
+                         api_version     = api_version,
+                         endpoint        = "aux",
+                         table           = table,
+                         version         = version,
+                         release_version = release_version,
+                         format          = format)
+
+    res <- httr2::req_perform(req)
     rt  <- parse_response(res, simplify = simplify)
   }
 
@@ -107,7 +114,7 @@ get_aux <- function(table           = NULL,
 
     srt <- set_aux(table = tb_name,
                    value = rt,
-                   force = force)
+                   replace = replace)
 
     if (isTRUE(srt)) {
 

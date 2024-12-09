@@ -1,3 +1,8 @@
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Parsing and checking functions  -------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# PR 63
+
 #' check_internet
 #' @noRd
 check_internet <- function() {
@@ -8,11 +13,13 @@ check_internet <- function() {
 #' health_check
 #' @inheritParams check_api
 #' @noRd
-health_check <- function(api_version, server = NULL) {
-  u <- build_url(server, "health-check", api_version)
-  res <- httr::GET(u)
+health_check <- function(api_version = "v1", server = NULL) {
+  req <- build_request(server      = server,
+                       api_version = api_version,
+                       endpoint    = "health-check")
+  res <- httr2::req_perform(req)
   attempt::stop_if_not(
-    .x = httr::status_code(res),
+    .x = httr2::resp_status(res),
     .p = ~ .x == 200,
     msg = "Could not connect to the API"
   )
@@ -23,22 +30,15 @@ health_check <- function(api_version, server = NULL) {
 #' @param res A httr response
 #' @param parsed A parsed response
 #' @noRd
-check_status <- function(res, parsed) {
-  if (res$status_code != 200) {
-    if ("error" %in% names(parsed)) {
+check_status <- function(res) {
+  if (httr2::resp_is_error(res)) {
       msg1 <- paste(
-        httr::http_status(res$status_code)$message,
-        parsed$error,
+        httr2::resp_status_desc(res),
         "Use simplify = FALSE to see the full error response.",
         sep = "\n*\t")
-    } else {
-      msg1 <- paste(
-        httr::http_status(res$status_code)$message,
-        "Use simplify = FALSE to see the full error response.",
-        sep = "\n*\t")
-    }
+
     attempt::stop_if_not(
-      .x = httr::status_code(res),
+      .x = httr2::resp_status(res),
       .p = ~ .x == 200,
       msg = msg1
     )
@@ -46,13 +46,13 @@ check_status <- function(res, parsed) {
   invisible(TRUE)
 }
 
-#' build_url
+#' build_base_url
 #' @param server character: Server
 #' @param endpoint character: Endpoint
 #' @param api_version character: API version
 #' @inheritParams get_stats
 #' @noRd
-build_url <- function(server, endpoint, api_version) {
+build_base_url <- function(server, endpoint, api_version) {
   base_url <- select_base_url(server = server)
   sprintf("%s/%s/%s", base_url, api_version, endpoint)
 }
@@ -112,24 +112,50 @@ build_args <- function(.country = NULL,
 #' @keywords internal
 parse_response <- function(res, simplify) {
 
+  # Classify the response url
+  res_health <- FALSE
+  if (grepl("health-check", res$url)) {
+    res_health <- TRUE
+  }
+
+  pip_info <- FALSE
+  if (grepl("pip-info", res$url)) {
+    pip_info <- TRUE
+  }
+
   # Get response type
-  type <- tryCatch(suppressWarnings(httr::http_type(res)), error = function(e) NULL)
+  type <- tryCatch(suppressWarnings(httr2::resp_content_type(res)), error = function(e) NULL)
 
   # Stop if response type is unknown
   attempt::stop_if(is.null(type), msg = "Invalid response format")
 
-  if (type == "application/json") {
-    parsed <- jsonlite::fromJSON(httr::content(res, "text", encoding = "UTF-8"))
+  if (type == "application/vnd.apache.arrow.file") {
+    parsed <- arrow::read_feather(res$body)
+    # GC: right now arrow not working with grouped-stats, so I won't pivot.
   }
+
+  if (type == "application/json") {
+
+    if (res_health | pip_info) {
+      parsed <- jsonlite::fromJSON(httr2::resp_body_string(res, encoding = "UTF-8"))
+    } else {
+    parsed <- jsonlite::fromJSON(httr2::resp_body_string(res, encoding = "UTF-8"))
+    parsed <- change_grouped_stats_to_csv(parsed) # GC: used to pivot.
+    }
+  }
+
   if (type == "text/csv") {
-    parsed <- suppressMessages(httr::content(res, encoding = "UTF-8"))
+    parsed <- suppressMessages(vroom::vroom(
+      I(httr2::resp_body_string(res, encoding = "UTF-8")))
+    )
   }
   if (type == "application/rds") {
-    parsed <- unserialize(res$content)
+    parsed <- unserialize(res$body)
+    parsed <- change_grouped_stats_to_csv(parsed) # GC: used to pivot.
   }
 
   if (simplify) {
-    check_status(res, parsed)
+    httr2::resp_check_status(res, info = parsed$message)
     parsed <- tibble::as_tibble(parsed)
     # TEMP fix for renaming of columns
     # To be removed when pipapi#207
@@ -178,18 +204,213 @@ select_base_url <- function(server) {
   return(base_url)
 }
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Formatting functions -------------
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# PR 63
+#' rename columns in dataframe
+#'
+#' @param df  data frame
+#' @param oldnames  character: old names
+#' @param newnames  character: new names
+#'
+#' @return data frame with new names
+#' @keywords internal
+rename_cols <- function(df, oldnames, newnames) {
+
+  #   _______________________________________
+  #   Defenses                               ####
+  stopifnot( exprs = {
+    is.data.frame(df)
+    length(oldnames) == length(newnames)
+    # all(oldnames %in% names(df))
+  }
+  )
+
+  #   ___________________________________________
+  #   Computations                              ####
+  df_names <- names(df)
+
+  old_position <- which(oldnames %in% df_names)
+  old_available <- oldnames[old_position]
+  new_available <- newnames[old_position]
+
+  tochange <- vector(length = length(old_available))
+
+  for (i in seq_along(old_available)) {
+    tochange[i] <- which(df_names %in% old_available[i])
+  }
+
+  names(df)[tochange] <- new_available
+
+
+  #   ____________________________________________
+  #   Return                                      ####
+  return(df)
+
+}
+
 #' Rename columns
 #' TEMP function to rename response cols
 #' @param df A data.frame
 #' @param url response url
 #' @noRd
 tmp_rename_cols <- function(df, url = "") {
-    df <- data.table::setnames(
-      df,
-      old = c("survey_year", "reporting_year", "reporting_pop", "reporting_gdp", "reporting_pce", "pce_data_level"),
-      new = c("welfare_time", "year", "pop", "gdp", "hfce", "hfce_data_level"),
-      skip_absent = TRUE
-    )
+  # PR 63
+  oldnames = c(
+    "survey_year",
+    "reporting_year",
+    "reporting_pop",
+    "reporting_gdp",
+    "reporting_pce",
+    "pce_data_level"
+  )
 
-  return(df)
+  newnames = c("welfare_time",
+               "year",
+               "pop",
+               "gdp",
+               "hfce",
+               "hfce_data_level")
+
+  rename_cols(df,oldnames, newnames)
+}
+
+
+#' pip_is_transient
+#'
+#' Helper function to determine if an error is due to the number of requests
+#' going over the rate limit
+#'
+#' @param resp A httr response
+#'
+#' @return logical
+#'
+pip_is_transient <- function(resp) {
+  if (httr2::resp_is_error(resp)) {
+    if (httr2::resp_status(resp) == 429) {
+      stringr::str_detect(httr2::resp_body_json(resp, check_type = FALSE)$message,
+                          "Rate limit is exceeded")
+    } else {
+      FALSE
+    }
+  } else {
+    FALSE
+  }
+}
+
+#' retry_after
+#'
+#' Helper function to determine how much time to wait before a new
+#' query can be sent
+#'
+#' @param resp A httr response
+#'
+#' @return numeric
+#'
+retry_after <- function(resp) {
+  if (httr2::resp_is_error(resp)) {
+    time <- httr2::resp_body_json(resp, check_type = FALSE)$message
+    time <- stringr::str_remove(time, "Rate limit is exceeded. Try again in ")
+    readr::parse_number(time)
+  } else {
+    0
+  }
+}
+
+#' parse_error_body
+#'
+#' Helper function to parse error messages generated by the PIP API
+#'
+#' @param resp A httr response
+#'
+#' @return character
+#'
+parse_error_body <- function(resp) {
+  if (httr2::resp_is_error(resp)) {
+    if (is_gateway_timeout(resp)) {
+      # Handle gateway timeout
+      return(httr2::resp_status_desc(resp))
+    } else if (is_bad_gateway(resp)) {
+      # Handle bad gateway timeout
+      return(httr2::resp_status_desc(resp))
+    }  else {
+      # Handle regular PIP errors
+      out <- httr2::resp_body_json(resp)
+      message1 <- out$error[[1]]
+      message2 <- out$details[[1]]$msg[[1]]
+      message3 <- paste(unlist(out$details[[names(out$details)]]$valid), collapse = ", ")
+      message <- c(message1, message2, message3)
+      return(message)
+    }
+  }
+}
+
+is_gateway_timeout <- function(resp) {
+  httr2::resp_status(resp) == 504 &
+    httr2::resp_status_desc(resp) == "Gateway Timeout"
+}
+
+is_bad_gateway <- function(resp) {
+  httr2::resp_status(resp) == 502 &
+    httr2::resp_status_desc(resp) == "Bad Gateway"
+}
+
+#' Deletes content of the cache folder
+#'
+#'
+#' @return Side effect. Deletes files.
+#'
+#' @export
+#'
+#' @examples \dontrun{delete_cache()}
+delete_cache <- function() {
+
+  cached_files <- list.files(tools::R_user_dir("pipr", which = "cache"),
+                             full.names = TRUE)
+
+  if (length(cached_files) == 0) {
+    message("Cache is empty. Nothing to delete")
+  } else {
+    lapply(cached_files, file.remove)
+    message("All items have been deleted from the cache.")
+  }
+}
+
+#' Provides some information about cached items
+#'
+#'
+#' @return character.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{get_cache_info()}
+get_cache_info <- function() {
+
+  cache_path <- tools::R_user_dir("pipr", which = "cache")
+  n_cached <- length(list.files(cache_path))
+
+  if (n_cached > 1) {
+    message_text <-  " API responses are currently cached in "
+  } else {
+    message_text <-  " API response is currently cached in "
+  }
+
+    message(cli::format_message(c("Cache status:",
+                                "i" = paste0(n_cached, message_text, cache_path))))
+}
+
+
+#' Change the list-output to dataframe (Function from pipapi)
+#'
+#' @param out output from wbpip::gd_compute_pip_stats
+#'
+#' @return dataframe
+#' @export
+change_grouped_stats_to_csv <- function(out) {
+  out[paste0("decile", seq_along(out$deciles))] <- out$deciles
+  out$deciles <- NULL
+  data.frame(out)
 }

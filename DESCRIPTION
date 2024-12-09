@@ -1,6 +1,6 @@
 Package: pipr
 Title: Client for the Poverty and Inequality Platform ('PIP') API
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: 
     c(person(given = "Tony",
             family = "Fujs",
@@ -28,7 +28,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 URL: https://worldbank.github.io/pipr/, 
     https://github.com/worldbank/pipr, 
     <https://pip.worldbank.org/api>
@@ -41,7 +41,6 @@ Suggests:
     rmarkdown,
     markdown,
     callr,
-    mockery,
     ggplot2,
     tidyr,
     ggthemes,
@@ -50,20 +49,20 @@ Suggests:
     dplyr,
     readr
 Language: en-US
-Imports: 
+Imports:
+    arrow,
     attempt,
     curl,
-    httr,
     jsonlite,
     tibble,
     purrr,
-    memoise,
-    cachem,
-    data.table,
     cli,
     rlang,
-    utils
+    utils,
+    httr2,
+    stringr,
+    vroom
 Depends: 
-    R (>= 3.6.0)
+    R (>= 4.1.0)
 Config/testthat/edition: 3
 Date: 2023-04-28
