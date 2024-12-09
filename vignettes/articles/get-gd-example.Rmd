@@ -95,8 +95,7 @@ get_gd(
   cum_population = datt_rural$p,
   estimate = "lorenz",
   lorenz = "lb",
-  n_bins = 10,
-  server = "dev"
+  n_bins = 10
 )
 ```
 
