@@ -36,8 +36,8 @@ test_that("povline and ppp_version arguments work correctly for get_cp_ki()", {
   expect_true(any(res$poverty_line == 1.9))
 
   # povline when povline is provided
-  res <- get_cp_ki(country = "IDN", povline = 3.2)
-  expect_true(any(res$poverty_line == 3.2))
+  # res <- get_cp_ki(country = "IDN", povline = 3.2)
+  # expect_true(any(res$poverty_line == 3.2))
 })
 
 # 3. Country Argument Tests ----

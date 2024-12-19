@@ -80,8 +80,7 @@ lorenz_100 <- get_gd(
   cum_welfare = datt_rural$L,
   cum_population = datt_rural$p,
   estimate = "lorenz",
-  n_bins = 10,
-  server = "dev"
+  n_bins = 10
 )
 
 str(lorenz_100)
