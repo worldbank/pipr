@@ -4,8 +4,10 @@ test_that("returns proper table", {
   api_version <-  "v1"
   simplify    <-  TRUE
   server      <-  NULL
-  u           <- build_url(server, "aux", api_version = api_version)
-  res         <- httr::GET(u)
+  req         <- build_request(server      = server,
+                               api_version = api_version,
+                               endpoint    = "aux")
+  res         <- httr2::req_perform(req)
   tbs_tb      <- parse_response(res, simplify = simplify)
 
   tt <- suppressMessages(display_aux(server = server, simplify = simplify, api_version = api_version))

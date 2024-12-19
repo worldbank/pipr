@@ -8,6 +8,7 @@
 #'   poverty line
 #' @param fill_gaps logical: If TRUE, will interpolate / extrapolate values for
 #'   missing years
+#' @param nowcast logical: If TRUE, will return nowcast estimates.
 #' @param subgroup character: If used result will be aggregated for predefined
 #'   sub-groups. Either 'wb_regions' or 'none'.
 #' @param welfare_type character: Welfare type either of c("all", "income", "consumption")
@@ -62,6 +63,7 @@ get_stats <- function(country = "all",
                       povline = NULL,
                       popshare = NULL,
                       fill_gaps = FALSE,
+                      nowcast = FALSE,
                       subgroup = NULL,
                       welfare_type = c("all", "income", "consumption"),
                       reporting_level = c("all", "national", "urban", "rural"),
@@ -69,7 +71,7 @@ get_stats <- function(country = "all",
                       ppp_version = NULL,
                       release_version = NULL,
                       api_version = "v1",
-                      format = c("rds", "json", "csv"),
+                      format = c("arrow", "rds", "json", "csv"),
                       simplify = TRUE,
                       server = NULL) {
   # Match args
@@ -77,11 +79,20 @@ get_stats <- function(country = "all",
   reporting_level <- match.arg(reporting_level)
   api_version <- match.arg(api_version)
   format <- match.arg(format)
+
   # popshare can't be used together with povline
   if (!is.null(popshare)) povline <- NULL
 
+  # nowcast = TRUE -> fill_gaps = TRUE
+  if (nowcast) fill_gaps <- TRUE
+
+  # otherwise we cannot filter correctly because estimate_type not returned
+  if (isFALSE(fill_gaps)) nowcast <- FALSE
+
+  # subgroup can't be used together with fill_gaps
   if (!is.null(subgroup)) {
     fill_gaps <- NULL # subgroup can't be used together with fill_gaps
+    nowcast <- NULL # assuming this is the same for nowcast
     endpoint <- "pip-grp"
     subgroup <- match.arg(subgroup, c("none", "wb_regions"))
     if (subgroup == "wb_regions") {
@@ -94,27 +105,39 @@ get_stats <- function(country = "all",
     group_by <- NULL
   }
 
+
   # Build query string
-  args <- build_args(
-    .country = country,
-    .year = year,
-    .povline = povline,
-    .popshare = popshare,
-    .fill_gaps = fill_gaps,
-    .group_by = group_by,
-    .welfare_type = welfare_type,
-    .reporting_level = reporting_level,
-    .version = version,
-    .ppp_version = ppp_version,
-    .release_version = release_version,
-    .format = format
+  req <- build_request(
+    country         = country,
+    year            = year,
+    povline         = povline,
+    popshare        = popshare,
+    fill_gaps       = fill_gaps,
+    nowcast         = nowcast,
+    group_by        = group_by,
+    welfare_type    = welfare_type,
+    reporting_level = reporting_level,
+    version         = version,
+    ppp_version     = ppp_version,
+    release_version = release_version,
+    format          = format,
+    server          = server,
+    api_version     = api_version,
+    endpoint        = endpoint
   )
-  u <- build_url(server, endpoint, api_version)
-  # Send query
-  res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
+
+  # Perform request
+  res <- req |>
+    httr2::req_perform()
 
   # Parse result
   out <- parse_response(res, simplify)
+
+  # Filter nowcast
+  ## (only when simplify == TRUE) because filtering happens after the request is returned.
+  if ( !is.null(nowcast) & isFALSE(nowcast) & simplify == TRUE) {
+    out <- out[!grepl("nowcast", out$estimate_type),]
+  }
 
   return(out)
 }
@@ -136,20 +159,21 @@ get_wb <- function(year = "all",
   format <- match.arg(format)
 
   # Build query string
-  args <- build_args(
-    .country = "all",
-    .year = year,
-    .povline = povline,
-    .group_by = "wb",
-    .version = version,
-    .ppp_version = ppp_version,
-    .release_version = release_version,
-    .format = format
+  req <- build_request(
+    year            = year,
+    povline         = povline,
+    group_by        = "wb",
+    version         = version,
+    ppp_version     = ppp_version,
+    release_version = release_version,
+    format          = format,
+    server          = server,
+    api_version     = api_version,
+    endpoint        = "pip-grp"
   )
-  u <- build_url(server, "pip-grp", api_version)
-
-  # Send query
-  res <- httr::GET(u, query = args, httr::user_agent(pipr_user_agent))
+  # Perform request
+  res <- req |>
+    httr2::req_perform()
 
   # Parse result
   out <- parse_response(res, simplify)

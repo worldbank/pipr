@@ -4,14 +4,14 @@
 \alias{set_aux}
 \title{Set auxiliary table in .pip environment for later call}
 \usage{
-set_aux(table, value, force = FALSE)
+set_aux(table, value, replace = FALSE)
 }
 \arguments{
 \item{table}{character: name of the table in .pip env}
 
 \item{value}{data to be saved}
 
-\item{force}{logical: force replacement. Default is FALSE}
+\item{replace}{logical.}
 }
 \value{
 Invisible TRUE if set correctly. FALSE otherwise
