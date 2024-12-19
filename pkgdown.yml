@@ -1,13 +1,14 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
-  pip-env-aux-tables: pip-env-aux-tables.html
-  pipr: pipr.html
-  reproducible-research: reproducible-research.html
-  visualization-examples: visualization-examples.html
-last_built: 2023-07-06T02:11Z
+  articles/get-cp-example: get-cp-example.html
+  articles/get-gd-example: get-gd-example.html
+  articles/pip-env-aux-tables: pip-env-aux-tables.html
+  articles/pipr: pipr.html
+  articles/reproducible-research: reproducible-research.html
+  articles/visualization-examples: visualization-examples.html
+last_built: 2024-12-19T21:56Z
 urls:
   reference: https://worldbank.github.io/pipr/reference
   article: https://worldbank.github.io/pipr/articles
-

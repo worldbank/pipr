@@ -1,78 +1,45 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://worldbank.github.io/pipr/404.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/PULL_REQUEST_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/articles/pip-env-aux-tables.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/articles/pipr.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/articles/reproducible-research.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/articles/visualization-examples.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/index.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/args_to_string.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/call_aux.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/check_api.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/display_aux.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/get_aux.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/get_pip_info.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/get_stats.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/get_versions.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/parse_response.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/run_cli.html</loc>
-  </url>
-  <url>
-    <loc>https://worldbank.github.io/pipr/reference/set_aux.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://worldbank.github.io/pipr/404.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/CONTRIBUTING.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/LICENSE-text.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/LICENSE.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/PULL_REQUEST_TEMPLATE.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/articles/get-cp-example.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/articles/get-gd-example.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/articles/index.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/articles/pip-env-aux-tables.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/articles/pipr.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/articles/reproducible-research.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/articles/visualization-examples.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/authors.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/index.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/news/index.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/args_to_string.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/build_request.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/build_request_old.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/call_aux.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/change_grouped_stats_to_csv.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/check_api.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/datt_rural.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/datt_urban.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/delete_cache.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/display_aux.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/get_aux.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/get_cache_info.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/get_cp.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/get_cp_ki.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/get_gd.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/get_pip_info.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/get_stats.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/get_versions.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/index.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/parse_error_body.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/parse_response.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/pip_is_transient.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/rename_cols.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/retry_after.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/run_cli.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/set_aux.html</loc></url>
+<url><loc>https://worldbank.github.io/pipr/reference/unnest_ki.html</loc></url>
 </urlset>
+
