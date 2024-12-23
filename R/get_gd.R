@@ -16,15 +16,9 @@
 #' @examples
 #' \dontrun{
 #'
-#' datt_data <- data.frame(p = c(0.0092, 0.0339, 0.0850, 0.160, 0.2609, 0.4133,
-#'                               0.5497, 0.7196, 0.8196, 0.9174, 0.9570, 0.9751,
-#'                               1),
-#'                        L = c(0.00208, 0.001013, 0.03122, 0.07083, 0.12808,
-#'                              0.23498, 0.34887, 051994, 0.64270, 0.79201,
-#'                              0.86966, 0.91277, 1)
 #'
 #' # estimate = 'stats': retrieve poverty statistics.
-#' stats <- get_gd(cum_welfare = datt_data$L, cum_population = datt_data$p,
+#' stats <- get_gd(cum_welfare = datt_rural$L, cum_population = datt_rural$p,
 #'                 estimate = "stats",
 #'                 requested_mean = 19, # default is 1.
 #'                 povline = 2.15)  # default is 1.
@@ -32,29 +26,29 @@
 #' # estimate = 'lorenz': retrieve Lorenz curve data points for a specified number of bins.
 #'
 #' ## Best lorenz curve methodolody selected by default:
-#' lorenz <- get_gd(cum_welfare = datt_data$L,
-#'                  cum_population = datt_data$p,
+#' lorenz <- get_gd(cum_welfare = datt_rural$L,
+#'                  cum_population = datt_rural$p,
 #'                  estimate = "lorenz",
 #'                  n_bins = 100)  # must be specified, default is NULL.
 #'
 #' ## Specify lorenz curve methodology:
 #' ### Beta Lorenz ("lb")
-#' lorenz_lb <- get_gd(cum_welfare = datt_data$L,
-#'                  cum_population = datt_data$p,
+#' lorenz_lb <- get_gd(cum_welfare = datt_rural$L,
+#'                  cum_population = datt_rural$p,
 #'                  estimate = "lorenz",
 #'                  lorenz = "lb",
 #'                  n_bins = 100)
 #'
 #' ### Quadratic Lorenz ("lq")
-#' lorenz_lq <- get_gd(cum_welfare = datt_data$L,
-#'                  cum_population = datt_data$p,
+#' lorenz_lq <- get_gd(cum_welfare = datt_rural$L,
+#'                  cum_population = datt_rural$p,
 #'                  estimate = "lorenz",
 #'                  lorenz = "lq",
 #'                  n_bins = 100)
 #'
 #' # estimate = 'params': retrieve regression parameters used for the lorenz curve estimation.
-#' params <- get_gd(cum_welfare = datt_data$L,
-#'                  cum_population = datt_data$p,
+#' params <- get_gd(cum_welfare = datt_rural$L,
+#'                  cum_population = datt_rural$p,
 #'                  estimate = "params")
 #'}
 
@@ -87,6 +81,11 @@ get_gd <- function(cum_welfare =  NULL,
       endpoint <- "grouped-stats"
 
       # 1.1 grouped-stats args checks ------
+
+      if (is.null(cum_welfare) || is.null(cum_population)) {
+        cli::cli_abort("For endpoint {endpoint}, {.val cum_welfare} and {.val cum_population} must be provided.")
+      }
+
       if (is.null(requested_mean)) {
         cli::cli_abort("For endpoint {endpoint}, {.val requested_mean} must be provided.")
       }
