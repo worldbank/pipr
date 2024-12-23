@@ -1,25 +1,12 @@
+# Load package (no-store branch)
 library(devtools)
 load_all()
 
-# Version 1
-server = "http://127.0.0.1:8080"
-api_version = "v1"
-endpoint = "pip"
 
-req <- httr2::request(server) |>
-  httr2::req_url_path_append(api_version) |>
-  httr2::req_url_path_append(endpoint) |>
-  httr2::req_url_query(country = "COL", year = "2008", povline = 2.15, fill_gaps = FALSE, additional_ind = FALSE, ppp_version = 2017) |>
-  httr2::req_cache(tools::R_user_dir("pipr", which = "cache"),
-                   use_on_error = TRUE,
-                   debug = TRUE) |>
-  httr2::req_verbose()
 
-# Version 2
-req <- httr2::request("http://127.0.0.1:8080/api/v1/pip?country=COL&year=all&povline=2.15&fill_gaps=false&additional_ind=false&ppp_version=2017")
-
+# get_stats() (pip) test ----
 req <- httr2::request("http://127.0.0.1:8080/api/v1/pip") |>
-  httr2::req_url_query(country = "COL", year = "all",
+  httr2::req_url_query(country = "COL", year = "2008",
                        povline = 2.15, fill_gaps = "false",
                        additional_ind = "false", ppp_version = 2017) |>
   httr2::req_cache(tools::R_user_dir("pipr", which = "cache"),
@@ -40,6 +27,70 @@ res <- req |>
 
 # Parse result
 out <- parse_response(res, simplify)
+
+
+# get_gd() (grouped-stats) test ----
+cum_welfare <- paste(datt_rural$L, collapse = ",")
+cum_population <- paste(datt_rural$p, collapse = ",")
+
+requested_mean <- 109
+povline <- 89
+
+# Build the query string
+query_string <- paste0("http://127.0.0.1:8080",
+  "/api/v1/grouped-stats?",
+  "cum_welfare=", cum_welfare, "&",
+  "cum_population=", cum_population, "&",
+  "requested_mean=", requested_mean, "&",
+  "povline=", povline
+)
+
+req <- httr2::request(query_string) |>
+  httr2::req_cache(tools::R_user_dir("pipr", which = "cache"),
+                   use_on_error = TRUE,
+                   debug = TRUE) |>
+  httr2::req_user_agent(pipr_user_agent) |>
+  httr2::req_error(body = parse_error_body) |>
+  httr2::req_retry(
+    is_transient = pip_is_transient,
+    after = retry_after,
+    max_seconds = 60
+  ) |>
+  httr2::req_verbose()
+
+# Perform request
+res <- req |>
+  httr2::req_perform()
+
+# get_cp() test ----
+country = "ITA"
+povline = 2.15 # GC: default value like Stata
+ppp_version = 2017 # GC: default value like Stata
+
+query_string <- paste0("http://127.0.0.1:8080",
+                       "/api/v1/cp-download?",
+                       "country=", country, "&",
+                       "povline=", povline, "&",
+                       "ppp_version=", ppp_version)
+
+req <- httr2::request(query_string) |>
+  httr2::req_cache(tools::R_user_dir("pipr", which = "cache"),
+                   use_on_error = TRUE,
+                   debug = TRUE) |>
+  httr2::req_user_agent(pipr_user_agent) |>
+  httr2::req_error(body = parse_error_body) |>
+  httr2::req_retry(
+    is_transient = pip_is_transient,
+    after = retry_after,
+    max_seconds = 60
+  ) |>
+  httr2::req_verbose()
+
+# Perform request
+res <- req |>
+  httr2::req_perform()
+
+
 
 
 
