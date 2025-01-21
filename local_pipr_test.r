@@ -1,10 +1,16 @@
-# Load package (no-store branch)
+# 0. Set-up (no-store branches) ----
+## load no-store branch of pipr
 library(devtools)
 load_all()
 
+## install no-store branch of pipapi
+# devtools::install_github("PIP-Technical-Team/pipapi@no-store")
 
+# 1. Initialize the api through pipapi ----
+## 1.1 Go to no-store branch of pipapi, inst/TMP folder
+## 1.2 Open TMP_local_steup.R and follow instructions.
 
-# get_stats() (pip) test ----
+# 2. get_stats() (pip) test ----
 req <- httr2::request("http://127.0.0.1:8080/api/v1/pip") |>
   httr2::req_url_query(country = "COL", year = "2008",
                        povline = 2.15, fill_gaps = "false",
@@ -21,15 +27,15 @@ req <- httr2::request("http://127.0.0.1:8080/api/v1/pip") |>
   ) |>
   httr2::req_verbose()
 
-# Perform request
+## Perform request
 res <- req |>
   httr2::req_perform()
 
-# Parse result
-out <- parse_response(res, simplify)
+## Parse result
+out <- parse_response(res, simplify = TRUE)
 
 
-# get_gd() (grouped-stats) test ----
+# 3. get_gd() (grouped-stats) test ----
 cum_welfare <- paste(datt_rural$L, collapse = ",")
 cum_population <- paste(datt_rural$p, collapse = ",")
 
@@ -62,7 +68,10 @@ req <- httr2::request(query_string) |>
 res <- req |>
   httr2::req_perform()
 
-# get_cp() test ----
+## Parse result
+out <- parse_response(res, simplify = TRUE)
+
+# 4. get_cp() test ----
 country = "ITA"
 povline = 2.15 # GC: default value like Stata
 ppp_version = 2017 # GC: default value like Stata
