@@ -103,7 +103,10 @@ get_regions()
 ## A note on caching
 Finally, a short note on how `pipr` uses caching. By default, `pipr` caches the results of API calls in a local cache. This is to avoid unnecessary API calls and to speed up subsequent calls. The cache is stored in a temporary directory and is cleared after 2 hours. Practically, this means that if you call the same function with the same arguments within 2 hours, the result will be returned from the cache and not from the API.
 
-Here is what the console will show if it is retrieving a result from the cache:
+Here is what the console will show when caching:
+![Caching](images/caching_01.png)
 
+And here is what it will show if it is retrieving a result from the cache:
+![Retrieving](images/caching_02.png)
 
 
