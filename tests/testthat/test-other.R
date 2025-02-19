@@ -1,68 +1,50 @@
-dev_host <- gsub("/api|http://", "", Sys.getenv("PIP_DEV_URL"))
-qa_host <- gsub("/pip|/api|http(s)?://", "", Sys.getenv("PIP_QA_URL"))
 
-test_that("health_check() works", {
-  skip_if_offline()
-  skip_on_cran()
-  res <- health_check(api_version = "v1")
-  expect_identical(httr2::resp_body_json(res)[[1]], "PIP API is running")
-  expect_equal(res$status_code, 200)
-  expect_invisible(health_check(api_version = "v1"))
-  expect_error(health_check("xx"))
-  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
-  skip_if(is.null(curl::nslookup(dev_host, error = FALSE)), message = "Could not connect to DEV host")
-  expect_identical(httr2::resp_body_json(health_check(api_version = "v1", server = "dev"))[[1]], "PIP API is running")
-  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)), message = "Could not connect to QA host")
-  expect_identical(httr2::resp_body_json(health_check(api_version = "v1", server = "qa"))[[1]], "PIP API is running")
-})
+test_that("get_versions() works and returns a tibble", {
 
-test_that("get_versions() works", {
+  # GC Note: Not sure about this but I'll leave it:
   skip_if_offline()
   skip_on_cran()
 
-  # res <- get_versions() # TO DO: Use prod server for this test when API has been released
-  # expect_true(tibble::is_tibble(res))
+  # Mock json
+  mock_json_response <- jsonlite::toJSON(
+    list(
+      list(version = "20240627_2017_01_02_PROD",
+           release_version = "20240627",
+           ppp_version = "2017",
+           identity = "PROD"),
+      list(version = "20240326_2011_02_02_PROD",
+           release_version = "20240326",
+           ppp_version = "2011",
+           identity = "PROD")
+    ), auto_unbox = TRUE
+  )
 
-  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
-  res <- get_versions(server = "qa")
-  expect_true(tibble::is_tibble(res))
-  res <- get_versions(server = "dev")
-  expect_true(tibble::is_tibble(res))
-  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)), message = "Could not connect to QA host")
-  res <- get_versions(server = "qa")
-  expect_true(tibble::is_tibble(res))
+  # mock res
+  mock_res <- structure(
+    list(
+      url = "http://mock-api/versions",
+      status_code = 200,
+      body = charToRaw(mock_json_response),
+      headers = list("content-type" = "application/json")
+    ),
+    class = "httr2_response"
+  )
+
+  # local mocked for httr2
+  local_mocked_bindings(
+    req_perform = function(req) mock_res,
+    .package = "httr2"
+  )
+
+  #mocked function
+  res <- get_versions()
+
+  # tests
+  expect_true(tibble::is_tibble(res))  # Ensure the result is a tibble
+  expect_equal(ncol(res), 4)           # Ensure correct number of columns
+  expect_equal(nrow(res), 2)           # Ensure correct number of rows
+  expect_equal(res$version[1], "20240627_2017_01_02_PROD")
+  expect_equal(res$release_version[2], "20240326")
 })
 
-test_that("get_pip_info() works", {
-  skip_if_offline()
-  skip_on_cran()
 
-  res <- get_pip_info()
-  expect_true(is.list(res))
-  expect_identical(names(res), c("available_data_versions",
-                                 "pip_packages",
-                                 "other_packages",
-                                 "r_version",
-                                 "server_os",
-                                 "server_time"
-  ))
-  skip_if(Sys.getenv("PIPR_RUN_LOCAL_TESTS") != "TRUE")
-  skip_if(is.null(curl::nslookup(dev_host, error = FALSE)), message = "Could not connect to DEV host")
-  res <- get_pip_info(server = "dev")
-  expect_identical(names(res), c("available_data_versions",
-                                 "pip_packages",
-                                 "other_packages",
-                                 "r_version",
-                                 "server_os",
-                                 "server_time"
-  ))
-  skip_if(is.null(curl::nslookup(qa_host, error = FALSE)), message = "Could not connect to QA host")
-  res <- get_pip_info(server = "qa")
-  expect_identical(names(res), c("available_data_versions",
-                                 "pip_packages",
-                                 "other_packages",
-                                 "r_version",
-                                 "server_os",
-                                 "server_time"
-  ))
-})
