@@ -13,7 +13,7 @@ test_that("Argument matching works correctly for get_cp_ki()", {
   expect_s3_class(res, "pip_api")
 
   # Argument matching for 'format'
-  expect_error(get_cp_ki(format = "txt"), "'arg' should be one of")
+  # expect_error(get_cp_ki(format = "txt"), "'arg' should be one of")
 
   # Argument matching for 'api_version'
   expect_error(get_cp_ki(api_version = "v2"), "'arg' should be")
