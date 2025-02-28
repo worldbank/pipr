@@ -56,7 +56,9 @@ theme_wb <- function(base_size = 14) {
 }
 ```
 
-The World Bank's Poverty and Inequality Portal (PIP) houses the world's most comprehensive database on global poverty and inequality statistics. These data is now directly accessible in R through our new package: `{pipr}`. This package allows the user to easily query the [PIP API](https://pip.worldbank.org/api) from R.
+## Introducing pipr: The R Interface to Global Poverty Data
+
+We're excited to announce that `{pipr}` is now available on CRAN! The World Bank's Poverty and Inequality Portal (PIP) hosts the world's most comprehensive database on global poverty and inequality statistics. `{pipr}` allows the user to easily query the [PIP API](https://pip.worldbank.org/api) from R. With this package, R users can seamlessly integrate these statistics into their research and analysis workflows.
 
 `{pipr}` can be installed from CRAN with:
 
@@ -66,19 +68,21 @@ install.packages("pipr")
 
 ## The Data Landscape: What's Available?
 
-PIP data encompasses poverty and inequality measures for over 160 economies worldwide, based on household surveys dating back to 1981. This data powers critical global monitoring efforts like tracking progress toward the World Bank's goal of ending extreme poverty and the United Nations' Sustainable Development Goals.
+PIP data encompasses poverty and inequality measures for over 160 economies worldwide, based on household surveys dating back to 1981. These data powers critical global monitoring efforts - tracking progress toward the World Bank's goal of ending extreme poverty and the United Nations' Sustainable Development Goals.
 
 Through `{pipr}`, you can access:
 
-- **Poverty and Inequality Estimates** at various (and/or custom) poverty lines.
+- **Poverty and Inequality Estimates** at various (or custom) poverty lines.
 - **Regional and global level data** for each of the available indicators.
 - **Grouped data tools** applying the official World Bank methodology.
 - **Country-specific profiles** with additional indicators (e.g. Multidimensional poverty indicators).
 - **Auxiliary economic data** like PPP conversion factors, GDP, and CPI values.
 
+
 ## Poverty and Inequality Estimates
 
-The main function `get_stats()` allows you to query poverty and inequality statistics. The user can specify the country, year, poverty line, and other parameters to retrieve the desired data. Here's an example for Nigeria with the default poverty line, 2.15\$ at 2017 PPPs:
+
+The main function `get_stats()` allows you to query poverty and inequality statistics. The user can specify the country, year, poverty line, and other parameters to retrieve the desired data. Here's an example for Nigeria using the default poverty line, 2.15\$ at 2017 PPPs:
 
 ```{r poverty_data}
 nga_data <- get_stats(country = "NGA", 
@@ -90,7 +94,8 @@ nga_data <- get_stats(country = "NGA",
 nga_data
 ```
 
-Beyond retrieving a single snapshot, `get_stats()` lets you explore how poverty measures change when varying the poverty line. In the example below, data are gathered for Nigeria over a range of poverty lines (from \$2 to \$10 per day). This capability is ideal for sensitivity analyses:
+Beyond retrieving a single snapshot, `get_stats()` lets you explore how poverty measures change when varying the poverty line. In the example below, data are gathered for Nigeria over a range of poverty lines (from \$2 to \$10 per day),  which includes key thresholds such as the default IPL (\$2.15), the lower-middle income IPL (\$3.65), and the higher-middle income IPL (\$6.85). This capability is ideal for sensitivity analyses:
+
 ```{r ipls_sensitivity_data}
 
 # A range of hypothetical international poverty lines (10)
@@ -112,9 +117,9 @@ ipls_sensitivity_data |>
   DT::datatable(options = list(scrollX = TRUE))
 ```
 
-These extracted data points can be visualized to better understand the sensitivity of poverty measures to changes in the poverty line:
+These data can be visualized to illustrate how poverty measures respond to changes in the poverty line. The following graph displays the poverty headcount and poverty gap indicators, along with reference lines for Nigeria’s mean and median poverty lines:
 
-```{r ipls_sensitivity_viz, echo=FALSE, fig.height=6, fig.width=10}
+```{r ipls_sensitivity_viz, echo=FALSE}
 graph_data <- ipls_sensitivity_data |>
   pivot_longer(cols = c(headcount, poverty_gap),
                names_to = "Measure",
@@ -158,7 +163,7 @@ graph <- ggplot(graph_data, aes(x = poverty_line, y = Value, color = Measure)) +
 graph
 ```
 
-`get_stats()` also returns inequality metrics (e.g. Gini coefficient), and can be used for comparative analysis. Here's an example comparing the change in Gini index between 2019 and 2020 for countries with comparable data:
+In addition to poverty measures, `get_stats()` returns inequality metrics (e.g. Gini coefficient), and can be used for comparative analysis. Here's an example comparing the change in Gini index between 2019 and 2020 for countries with comparable data:
 
 ```{r inequality_data}
 df_gini <- get_stats() |>
@@ -174,7 +179,7 @@ df_gini <- get_stats() |>
 
 From extracting the data with `{pipr}` to cleaning and preparing them, it can all be done in one pipeline, as shown above. The data can then be visualized to compare the change in inequality across countries:
 
-```{r inequality_viz, echo=FALSE, fig.height=6, fig.width=10}
+```{r inequality_viz, echo=FALSE}
 gini_plot <- ggplot(df_gini,
                     aes(x = reorder(country_code, ginichange),
                         y = ginichange * 100, fill = region_name)) +
@@ -199,7 +204,7 @@ gini_plot <- ggplot(df_gini,
 gini_plot
 ```
 
-Additionally, `get_stats()` returns indicators which could be used for more advanced analytics, such as income deciles. Here's an example comparing the welfare shares across income deciles for Brazil and Peru in 2019 and 2020.
+Furthermore, `get_stats()` provides indicators suitable for more advanced distributional analyses. For instance, the following code retrieves income decile and welfare share data for Brazil and Peru—countries that have experienced contrasting inequality trends between 2019 and 2020:
 
 ```{r deciles_data}
 country_chosen <- c("BRA", "PER") 
@@ -224,9 +229,9 @@ deciles_long <- bind_rows(deciles_long,
                                       decile = 0, welfare_share = 0, cum_share = 0))
 ```
 
-Having access to welfare shares and income deciles allows the user to simulate a Lorenz curve analysis. 
+Having access to welfare shares and income deciles allows the user to simulate a Lorenz curve analysis, as seen in the graph below:
 
-```{r deciles_viz, echo=FALSE, fig.height=6, fig.width=10}
+```{r deciles_viz, echo=FALSE}
 ggplot(deciles_long, aes(x = decile, y = cum_share,
                          group = as.factor(year), colour = as.factor(year))) +
   geom_line(size = 1) +
@@ -248,17 +253,20 @@ ggplot(deciles_long, aes(x = decile, y = cum_share,
 
 ```
 
+
 ## Regional and World level data
 
-`get_wb()` on the other hand, allows the user to access pre-aggregated data for global and regional aggregates. `get_regions()` can be used to retrieve a list of available regions:
+While country-level analyses offer valuable insights, understanding global and regional trends is essential for putting individual country performance into context and recognizing broader patterns. The `{pipr}` package makes it just as easy to access these aggregated statistics.
+
+The function `get_wb()` allows the user to access pre-aggregated regional and global data. `get_regions()` can be used to retrieve a list of the regions and their respective region codes:
 
 ```{r regional_data_1}
-regions <- get_regions() 
+regions <- pipr:::get_regions() 
 regions |>
   DT::datatable(options = list(scrollX = TRUE))
 ```
 
-Notice that if we include Eastern and Southern Africa (AFE) and Western Africa (AFW) regions, we would double-count the number of poor. To retrieve the data, we can use `get_wb()` and filter out the unwanted regions:
+Notice that if we include Eastern and Southern Africa (AFE) and Western Africa (AFW) together with Sub-Saharan Africa (SSA), we would double-count the number of poor. To retrieve the data, we can use `get_wb()` and filter out the unwanted regions:
 
 ```{r regional_data_2}
 regions <- get_wb() |>
@@ -273,9 +281,9 @@ regions |>
   DT::datatable(options = list(scrollX = TRUE))
 ```
 
-Having access to additional variables, such as the total population in poverty, allows for more advanced visualizations. Here's an example of the number of poor people in each region over time:
+Having access to additional variables, such as the total population in poverty, allows for more advanced visualizations. Here's an example of the number of poor people (in millions) in each region over time:
 
-```{r regional_viz, fig.width=10, fig.height=6}
+```{r regional_viz}
 ggplot(regions, aes(y = pop_in_poverty, x = year, fill = region_name)) +
   geom_area(alpha = 0.85) +
   scale_y_continuous(
@@ -303,9 +311,29 @@ ggplot(regions, aes(y = pop_in_poverty, x = year, fill = region_name)) +
 
 ## Grouped data tools
 
-The `{pipr}` package also allows the user to apply the official [World Bank grouped data methodology](https://datanalytics.worldbank.org/PIP-Methodology/welfareaggregate.html#tgd) to their own data. This can be done using the `get_gd()` function. Here's an example using historical data from [Datt(1998)](https://ageconsearch.umn.edu/record/94862/?ln=en&v=pdf) for rural India in 1983 (with 13 income classes):
+The `{pipr}` package also allows the user to apply the official [World Bank grouped data methodology](https://datanalytics.worldbank.org/PIP-Methodology/welfareaggregate.html#tgd) to their own data. This can be done using the `get_gd()` function. Here's an example using historical data from [Datt(1998)](https://ageconsearch.umn.edu/record/94862/?ln=en&v=pdf) for rural India in 1983:
 
-```{r lorenz_data}
+```{r datt_data}
+datt_rural |>
+  select(monthly_pc_exp, p, L) |>
+  mutate(across(c(p, L), ~ round(.x, 2)) ) |>
+  DT::datatable(options = list(scrollX = TRUE))
+```
+
+As you can see from the table above, the data is grouped by monthly per capita expenditure, with cumulative welfare share (`L`) and cumulative percentage of individuals(`p`) for each group. The `get_gd()` function can be used to estimate poverty metrics from this type of grouped data:
+
+```{r grouped_poverty}
+get_gd(datt_rural$L, 
+       datt_rural$p,
+       requested_mean = 109.9,
+       povline = 89) |>
+  # round all numeric variables (where is numeric)
+  mutate(across(where(is.numeric), ~ round(.x, 2))) |>
+  DT::datatable(options = list(scrollX = TRUE))
+```
+`get_gd()` can also be used to estimate Lorenz curves:
+
+```{r grouped_lorenz_data}
 lorenz_points_lq <- get_gd(datt_rural$L, # Cumulative population
                            datt_rural$p, # Cumulative welfare
                            estimate = "lorenz", 
@@ -314,7 +342,7 @@ lorenz_points_lq <- get_gd(datt_rural$L, # Cumulative population
 
 In this visualization, in red you can see the original data points from Datt (1998), and in orange the Lorenz curve points estimated by `{pipr}`:
 
-```{r lorenz_viz, fig.width=10, fig.height=6}
+```{r lorenz_viz}
 ggplot() +
   geom_point(data = datt_rural, 
              aes(x = p, y = L), 
@@ -338,32 +366,50 @@ ggplot() +
 
 `{pipr}` not only provides the latest data from PIP but also lets users query specific data versions and tracks changes in the underlying R code:
 
-- **Data Versioning**: By default, the API returns the most recent data, but it is possible to list other available versions too using `get_versions()`. Then, a specific version can then be selected (e.g., `my_version <- data_versions$version[1]`) and passed it to `{pipr}` functions:
+- **Data Versioning**: By default, the API returns the most recent data, but it is possible to list other available versions too using `get_versions()`. Then, a specific version can then be selected and passed it to `{pipr}` functions:
 
-```{r data_versions_1}
+```{r data_versions}
 data_versions <- get_versions()
-data_versions
-get_stats(country = "AGO", version = my_version)
+get_stats(country = "AGO", version = data_versions$version[2])
 ```
 
 
 - **Code Versioning**: Methodological changes can affect reproducibility even with unchanged data. The function `get_pip_info()` retrieves version information for the key R packages powering PIP—[{pipapi}](https://github.com/PIP-Technical-Team/pipapi) and [{wbpip}](https://github.com/PIP-Technical-Team/wbpip)— as well as details on the R version and operating system:
 
 
-```{r}
+```{r code_versions}
 pip_info <- get_pip_info()
 pip_info$pip_packages
 ```
+
+## Performance Through Smart Caching
+
+A key feature of `pipr` is its caching system that improves performance for repeated queries:
+
+```{r caching}
+# First API call (slower)
+system.time(get_stats(country = "CHN", year = 2018))
+
+# Second call using cache (much faster)
+system.time(get_stats(country = "CHN", year = 2018))
+```
+
+Results are cached locally for 2 hours, making subsequent identical queries significantly faster.
+This is particularly useful when iteratively developing analyses or working with limited internet connectivity.
 
 
 
 ## Conclusion
 
-The `{pipr}` package transforms how researchers, policy analysts, and data scientists can work with global poverty and inequality data, and it has many notable features... 
+The `{pipr}` package transforms how researchers, policy analysts, and data scientists can work with global poverty and inequality data. 
+Key features include:
 
-- **Direct Access**: Query the World Bank's authoritative poverty database directly from R.
+- **Direct API Access**: Query the World Bank's poverty database directly from R.
 - **Rich Context**: Access not just headline statistics but the full range of supporting data.
 - **Comparative Analysis**: Easily compare poverty and inequality across countries, regions, and time periods.
-- **Reproducibility**: Access previous versions of the PIP database for reproducible research.
-- **Efficiency through caching**: Automatically cache API responses to speed up subsequent queries.
+- **Reproducibility**: Access previous versions of the PIP database for fully reproducible research.
+- **Efficient Workflows**: Automatically cache API responses to speed up subsequent queries.
+
+Whether you're conducting academic research, developing policy recommendations, or creating data visualizations for advocacy, `{pipr}` provides the tools you need to incorporate global poverty data into your R workflow seamlessly.
+
 
