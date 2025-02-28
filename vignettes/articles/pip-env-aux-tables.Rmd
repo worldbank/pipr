@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(pipr)
 ```
 
-The Poverty and Inequality Portal (PIP) not only provides the estimates to monitor global poverty and country-level inequality, but it also makes available all the underlying data necessary for such estimations. These data are called auxiliary tables and you can access them with the {pipr} package via the function `get_aux()`. You need to know the name of the auxiliary table you need to retrieve. For that you can use the function `display_aux()`
+The Poverty and Inequality Portal (PIP) not only provides the estimates to monitor global poverty and country-level inequality, but it also makes available all the underlying data necessary for such estimations. These data are called auxiliary tables and you can access them with the `{pipr}` package via the function `get_aux()`. You need to know the name of the auxiliary table you need to retrieve. For that you can use the function `display_aux()`
 
 ## Display list of auxiliary tables
 
@@ -75,7 +75,7 @@ call_aux("gdp")
 
 ## Using `.pip` in development
 
-You can use the `.pip` environment in development when you need to interact with PIP auxiliary data in several instances during your project and need to make sure the data is not affected by the work in your global environment. `.pip` environment makes sure that all its tables remain unchanged and available when needed as long as {pipr} is not reloaded or a new R session is started
+You can use the `.pip` environment in development when you need to interact with PIP auxiliary data in several instances during your project and need to make sure the data is not affected by the work in your global environment. `.pip` environment makes sure that all its tables remain unchanged and available when needed as long as `{pipr}` is not reloaded or a new R session is started
 
 ```{r developrs}
 # for developers who may need several tables
