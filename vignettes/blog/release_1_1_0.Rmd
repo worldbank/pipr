@@ -29,8 +29,32 @@ library(ggplot2)
 library(tidyverse)
 library(knitr)
 library(DT)
+library(scales)
 ```
 
+```{r wb_palette_setup, include=FALSE}
+wb_colors <- list(
+  blue = "#0071BC",
+  orange = "#F7941D",
+  green = "#6CBE45",
+  red = "#D12229",
+  purple = "#662D91",
+  yellow = "#FFC426",
+  darkblue = "#00205B"
+)
+
+theme_wb <- function(base_size = 14) {
+  theme_minimal(base_size = base_size) +
+  theme(
+    plot.title = element_text(face = "bold", size = base_size + 2, hjust = 0.5),
+    plot.subtitle = element_text(size = base_size, hjust = 0.5, margin = margin(b = 10)),
+    axis.title = element_text(face = "bold"),
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+}
+```
 
 The World Bank's Poverty and Inequality Portal (PIP) houses the world's most comprehensive database on global poverty and inequality statistics. These data is now directly accessible in R through our new package: `{pipr}`. This package allows the user to easily query the [PIP API](https://pip.worldbank.org/api) from R.
 
@@ -47,9 +71,9 @@ PIP data encompasses poverty and inequality measures for over 160 economies worl
 Through `{pipr}`, you can access:
 
 - **Poverty and Inequality Estimates** at various (and/or custom) poverty lines.
-- **Country, regional and global level data** for each of the available indicators.
-- **Grouped data tools** using the official World Bank methodology for your own data.
-- **Country-specific profiles** with additional indicators (e.g. Multidimensional poverty, above and below 40th percentile).
+- **Regional and global level data** for each of the available indicators.
+- **Grouped data tools** applying the official World Bank methodology.
+- **Country-specific profiles** with additional indicators (e.g. Multidimensional poverty indicators).
 - **Auxiliary economic data** like PPP conversion factors, GDP, and CPI values.
 
 ## Poverty and Inequality Estimates
@@ -57,25 +81,38 @@ Through `{pipr}`, you can access:
 The main function `get_stats()` allows you to query poverty and inequality statistics. The user can specify the country, year, poverty line, and other parameters to retrieve the desired data. Here's an example for Nigeria with the default poverty line, 2.15\$ at 2017 PPPs:
 
 ```{r poverty_data}
-nga_data <- get_stats(country = "NGA", year = 2018) |>
-  select(country_name, year, poverty_line, headcount, poverty_gap, poverty_severity, watts)
+nga_data <- get_stats(country = "NGA", 
+                      year = 2018) |> 
+  # Here we select only some indicators, find the full list with: get_aux("dictionary")
+  select(country_name, year, poverty_line, headcount, poverty_gap, 
+         poverty_severity, watts)
 
 nga_data
 ```
-However, `get_stats()` can be used to retrieve data for multiple poverty line as well, creating many analytical opportunities. For instance:
 
+Beyond retrieving a single snapshot, `get_stats()` lets you explore how poverty measures change when varying the poverty line. In the example below, data are gathered for Nigeria over a range of poverty lines (from \$2 to \$10 per day). This capability is ideal for sensitivity analyses:
 ```{r ipls_sensitivity_data}
+
+# A range of hypothetical international poverty lines (10)
+# which includes the default IPL (2.15), the lower middle income ipl(3.65)
+# and the higher middle income ipl (6.85)
 ipls <- seq(from = 2, to = 10, length.out = 10)
 
+# pipr allows you to loop through the ipls and query the API for each ipl using purrr::map()
 ipls_sensitivity_data <- purrr::map(.x = ipls,
                                     .f = ~ get_stats(country = 'NGA',
                                                      year = 2018,
                                                      povline = .x)) |>
   bind_rows() |>
   select(year, poverty_line, headcount, poverty_gap, mean, median)
+
+ipls_sensitivity_data |>
+  select(poverty_line, headcount, poverty_gap) |>
+  mutate(across(c(headcount, poverty_gap), ~ round(.x, 3))) |>
+  DT::datatable(options = list(scrollX = TRUE))
 ```
 
-Which allows the user to analyze how poverty metrics change with different poverty lines:
+These extracted data points can be visualized to better understand the sensitivity of poverty measures to changes in the poverty line:
 
 ```{r ipls_sensitivity_viz, echo=FALSE, fig.height=6, fig.width=10}
 graph_data <- ipls_sensitivity_data |>
@@ -93,55 +130,49 @@ graph_data <- ipls_sensitivity_data |>
 # Get maximum y-value (for annotation placement)
 max_y <- max(graph_data$Value, na.rm = TRUE)
 
-graph <- ggplot(graph1_data, aes(x = poverty_line, y = Value, color = Measure)) +
-  geom_line(size = 1) +
-  geom_vline(xintercept = country_data$median, linetype = "dashed", color = "gray40") +
-  geom_vline(xintercept = country_data$mean, linetype = "dashed", color = "gray60") +
+graph <- ggplot(graph_data, aes(x = poverty_line, y = Value, color = Measure)) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = ipls_sensitivity_data$median[1], linetype = "dashed", color = "gray40") +
+  geom_vline(xintercept = ipls_sensitivity_data$mean[1], linetype = "dashed", color = "gray60") +
   annotate("text",
-           x = country_data$median,
-           y = max_y1,
-           label = paste("Median =", round(country_data$median, 2)),
+           x = ipls_sensitivity_data$median[1],
+           y = max_y * 0.9,
+           label = paste("Median =", round(ipls_sensitivity_data$median[1], 2)),
            angle = 90, vjust = -0.5, hjust = 1, size = 3) +
   annotate("text",
-           x = country_data$mean,
-           y = max_y1,
-           label = paste("Mean =", round(country_data$mean, 2)),
+           x = ipls_sensitivity_data$mean[1],
+           y = max_y * 0.9,
+           label = paste("Mean =", round(ipls_sensitivity_data$mean[1], 2)),
            angle = 90, vjust = -0.5, hjust = 1, size = 3) +
-  scale_color_brewer(palette = "Dark2") +
+  scale_color_manual(values = c("Headcount (%)" = wb_colors$blue, 
+                                "Poverty Gap (%)" = wb_colors$orange)) +
   labs(
-    title = paste("Poverty Sensitivity Analysis for", country_chosen),
-    subtitle = paste("Year:", country_data$year),
-    x = "Poverty Line($/day)",
-    y = "",
-    color = ""
+    title = "Poverty Sensitivity Analysis for Nigeria",
+    subtitle = paste("Year:", ipls_sensitivity_data$year[1]),
+    x = "Poverty Line ($/day)",
+    y = ""
   ) +
   scale_y_continuous(labels = scales::percent_format(scale = 1)) +
-  theme_minimal(base_size = 14) +
-  theme(
-    legend.position = "bottom",
-    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
-    plot.subtitle = element_text(size = 14, hjust = 0.5),
-    axis.title = element_text(face = "bold")
-  )
+  theme_wb()
 
 graph
 ```
 
-`get_stats()` also returns inequality metrics (e.g. Gini coefficient) which can be seamlessly integrated into your analysis:
+`get_stats()` also returns inequality metrics (e.g. Gini coefficient), and can be used for comparative analysis. Here's an example comparing the change in Gini index between 2019 and 2020 for countries with comparable data:
 
 ```{r inequality_data}
 df_gini <- get_stats() |>
-  filter((year == 2019 | year == 2020) & reporting_level == "national") |> # Select years and national data
-  group_by(country_code, welfare_type, comparable_spell) |> # Group by country and welfare type
+  filter((year == 2019 | year == 2020) & reporting_level == "national") |> 
+  group_by(country_code, welfare_type, comparable_spell) |> 
   filter(n() == 2) |> # Keep only countries with data in both years
   arrange(country_code, year) |> # Ensure sorted order
-  mutate(ginichange = gini - lag(gini),
-         country_code_chr = as.character(country_code)) |> # Calculate change in Gini
-  filter(year == 2020) |> # Keep only 2020 data for plotting
+  mutate(ginichange = gini - lag(gini)) |> # Calculate change in Gini
+  filter(year == 2020) |>
   group_by(country_code, region_name) |> # Find mean for countries with two survey sources
   summarize(ginichange = mean(ginichange, na.rm = TRUE))
 ```
 
+From extracting the data with `{pipr}` to cleaning and preparing them, it can all be done in one pipeline, as shown above. The data can then be visualized to compare the change in inequality across countries:
 
 ```{r inequality_viz, echo=FALSE, fig.height=6, fig.width=10}
 gini_plot <- ggplot(df_gini,
@@ -154,19 +185,21 @@ gini_plot <- ggplot(df_gini,
     x = "Country",
     y = "Change in Gini Points"
   ) +
-  theme_minimal(base_size = 14) +
-  theme(
-    plot.title = element_text(face = "bold", hjust = 0.5),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
-  )+
-  # remove legend title
-  guides(fill = guide_legend(title = NULL))
-
-
+  scale_fill_manual(values = c(
+    "Sub-Saharan Africa" = wb_colors$yellow,
+    "East Asia & Pacific" = wb_colors$red,
+    "Europe & Central Asia" = wb_colors$orange,
+    "Latin America & Caribbean" = wb_colors$green,
+    "Middle East & North Africa" = wb_colors$purple,
+    "Other High Income Countries" = wb_colors$blue
+  )) +
+  theme_wb() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  
 gini_plot
 ```
 
-And you can also explore how poverty is distributed across different deciles of the population:
+Additionally, `get_stats()` returns indicators which could be used for more advanced analytics, such as income deciles. Here's an example comparing the welfare shares across income deciles for Brazil and Peru in 2019 and 2020.
 
 ```{r deciles_data}
 country_chosen <- c("BRA", "PER") 
@@ -191,30 +224,28 @@ deciles_long <- bind_rows(deciles_long,
                                       decile = 0, welfare_share = 0, cum_share = 0))
 ```
 
-Having access to welfare shares deciles allows the user to simulate a Lorenz curve analysis:
+Having access to welfare shares and income deciles allows the user to simulate a Lorenz curve analysis. 
+
 ```{r deciles_viz, echo=FALSE, fig.height=6, fig.width=10}
-library(scales)
 ggplot(deciles_long, aes(x = decile, y = cum_share,
                          group = as.factor(year), colour = as.factor(year))) +
   geom_line(size = 1) +
   geom_point(size = 2) +
   geom_abline(slope = 1/10, intercept = 0, linetype = "dashed", color = "gray50") +
-  scale_color_brewer(palette = "Dark2", name = "Year") +
+  scale_color_manual(
+    values = c("2019" = wb_colors$blue, "2020" = wb_colors$orange),
+    name = "Year"
+  ) +
   labs(
     title = paste("Cumulative Welfare Shares for", paste(country_chosen, collapse = " and ")),
     subtitle = "Comparison across years",
     x = "Income Decile",
     y = "Cumulative Welfare Share (%)"
   ) +
-  scale_y_continuous(labels = percent_format(scale = 1)) +
+  scale_y_continuous(labels = percent_format(scale = 100)) +
   facet_wrap(~ country_code) +
-  theme_minimal(base_size = 14) +
-  theme(
-    legend.position = "bottom",
-    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
-    plot.subtitle = element_text(size = 14, hjust = 0.5),
-    axis.title = element_text(face = "bold")
-  )
+  theme_wb()
+
 ```
 
 ## Regional and World level data
@@ -242,49 +273,88 @@ regions |>
   DT::datatable(options = list(scrollX = TRUE))
 ```
 
+Having access to additional variables, such as the total population in poverty, allows for more advanced visualizations. Here's an example of the number of poor people in each region over time:
 
 ```{r regional_viz, fig.width=10, fig.height=6}
 ggplot(regions, aes(y = pop_in_poverty, x = year, fill = region_name)) +
-  geom_area() +
+  geom_area(alpha = 0.85) +
   scale_y_continuous(
     limits = c(0, 2000),
     breaks = c(0, 500, 1000, 1500, 2000)
   ) +
-  scale_fill_tableau(palette = "Tableau 10") +
+  scale_fill_manual(
+    values = c(
+    "Sub-Saharan Africa" = wb_colors$yellow,
+    "East Asia & Pacific" = wb_colors$red,
+    "Europe & Central Asia" = wb_colors$orange,
+    "Latin America & Caribbean" = wb_colors$green,
+    "Middle East & North Africa" = wb_colors$purple,
+    "Other High Income Countries" = wb_colors$blue,
+    "South Asia" = wb_colors$darkblue
+    ),
+    name = ""
+  ) +
   labs(
     y = "Number of poor (million)",
     x = ""
   ) +
-  theme_classic() +
-  theme(
-    legend.position = "bottom"
-  ) +
-  guides(fill = guide_legend(title = ""))
-
+  theme_wb()
 ```
 
-## Group data tools
+## Grouped data tools
 
-The `{pipr}` package also allows the user to apply the official group data methodology to their own data. This can be done using the `get_gd()` function. Here's an example using the Datt dataset:
+The `{pipr}` package also allows the user to apply the official [World Bank grouped data methodology](https://datanalytics.worldbank.org/PIP-Methodology/welfareaggregate.html#tgd) to their own data. This can be done using the `get_gd()` function. Here's an example using historical data from [Datt(1998)](https://ageconsearch.umn.edu/record/94862/?ln=en&v=pdf) for rural India in 1983 (with 13 income classes):
 
 ```{r lorenz_data}
-lorenz_points_lq <- get_gd(datt_rural$L, datt_rural$p, estimate = "lorenz", lorenz = "lq")
-lorenz_points_lq_10 <- get_gd(datt_rural$L, datt_rural$p, estimate = "lorenz", lorenz = "lq", n_bins = 10)
+lorenz_points_lq <- get_gd(datt_rural$L, # Cumulative population
+                           datt_rural$p, # Cumulative welfare
+                           estimate = "lorenz", 
+                           lorenz = "lq") # Type of Lorenz curve methodology
 ```
+
+In this visualization, in red you can see the original data points from Datt (1998), and in orange the Lorenz curve points estimated by `{pipr}`:
 
 ```{r lorenz_viz, fig.width=10, fig.height=6}
 ggplot() +
-  geom_bar(data = lorenz_points_lq_10, aes(x = weight, y = welfare), stat = "identity", fill = "darkorange", alpha = 0.3) +
-  geom_point(data = datt_rural, aes(x = p, y = L), color = "darkorange", size = 2) +
-  geom_point(data = lorenz_points_lq, aes(x = weight, y = welfare), color = "darkorange", size = 0.5) +
+  geom_point(data = datt_rural, 
+             aes(x = p, y = L), 
+             color = wb_colors$red, 
+             size = 3) +
+  geom_point(data = lorenz_points_lq, 
+             aes(x = weight, y = welfare), 
+             color = wb_colors$orange, 
+             size = 1) +
   geom_abline(intercept = 0, slope = 1, color = "black") +
   labs(
     title = "Lorenz Curve for Rural India, 1983",
     x = "Cumulative Share of Population",
     y = "Cumulative Share of Welfare"
   ) +
-  theme_minimal()
+  theme_wb()
 ```
+
+
+## Reproducible data and methods
+
+`{pipr}` not only provides the latest data from PIP but also lets users query specific data versions and tracks changes in the underlying R code:
+
+- **Data Versioning**: By default, the API returns the most recent data, but it is possible to list other available versions too using `get_versions()`. Then, a specific version can then be selected (e.g., `my_version <- data_versions$version[1]`) and passed it to `{pipr}` functions:
+
+```{r data_versions_1}
+data_versions <- get_versions()
+data_versions
+get_stats(country = "AGO", version = my_version)
+```
+
+
+- **Code Versioning**: Methodological changes can affect reproducibility even with unchanged data. The function `get_pip_info()` retrieves version information for the key R packages powering PIP—[{pipapi}](https://github.com/PIP-Technical-Team/pipapi) and [{wbpip}](https://github.com/PIP-Technical-Team/wbpip)— as well as details on the R version and operating system:
+
+
+```{r}
+pip_info <- get_pip_info()
+pip_info$pip_packages
+```
+
 
 
 ## Conclusion
