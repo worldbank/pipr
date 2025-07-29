@@ -6,7 +6,7 @@
 
 * There was one Note:
 checking CRAN incoming feasibility ... NOTE
-Maintainer: 'Tony Fujs <tonyfujs@gmail.com>'
+Maintainer: 'R.Andres Castaneda <acastanedaa@worldbank.org>'
 
 ### Test environments
 
