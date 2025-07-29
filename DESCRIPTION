@@ -4,7 +4,7 @@ Version: 1.1.0.9000
 Authors@R: 
     c(person(given = "Tony",
             family = "Fujs",
-            role = c("aut", "cre"),
+            role = c("aut"),
             email = "tonyfujs@gmail.com"),
      person(given = "Aleksander",
             family = "Eilertsen",
@@ -12,17 +12,17 @@ Authors@R:
             email = "aeilertsen@worldbank.org"),
       person(given = "Ronak",
             family = "Shah",
-            role =  "aut",
-            email = "shahronak47@yahoo.in"),
+            role   =  "aut",
+            email  = "shahronak47@yahoo.in"),
       person(given = "R.Andrés",
             family = "Castañeda",
-            role = "aut",
-            email = "acastanedaa@worldbank.org"),
+            role   = c("aut", "cre"),
+            email  = "acastanedaa@worldbank.org"),
       person(given = "Giorgia",
             family = "Cecchinato",
-            role = "aut",
-            email = "gcecchinato@worldbank.org"),
-     person(given = "World Bank",
+            role   = "aut",
+            email  = "gcecchinato@worldbank.org"),
+     person(given  = "World Bank",
             role = "cph")
      )
 Description: An interface to compute poverty and inequality 
