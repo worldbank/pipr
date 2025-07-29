@@ -1,6 +1,6 @@
 ## Initial release
 
-## R CMD check results
+### R CMD check results
 
 0 errors ✓ | 0 warnings ✓ | 1 note x
 
@@ -8,7 +8,7 @@
 checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Tony Fujs <tonyfujs@gmail.com>'
 
-## Test environments
+### Test environments
 
 - local OS X install, R 4.3.0
 - win-builder (devel)
