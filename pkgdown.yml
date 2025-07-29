@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   articles/get-cp-example: get-cp-example.html
@@ -8,7 +8,7 @@ articles:
   articles/pipr: pipr.html
   articles/reproducible-research: reproducible-research.html
   articles/visualization-examples: visualization-examples.html
-last_built: 2024-12-19T21:56Z
+last_built: 2025-07-29T15:12Z
 urls:
   reference: https://worldbank.github.io/pipr/reference
   article: https://worldbank.github.io/pipr/articles
