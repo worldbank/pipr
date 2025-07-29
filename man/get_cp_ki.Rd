@@ -11,7 +11,6 @@ get_cp_ki(
   ppp_version = 2017,
   release_version = NULL,
   api_version = "v1",
-  format = c("arrow", "rds", "json", "csv"),
   simplify = TRUE,
   server = NULL
 )
@@ -29,8 +28,6 @@ get_cp_ki(
 \item{release_version}{date when the data was published in YYYYMMDD format}
 
 \item{api_version}{character: API version}
-
-\item{format}{character: Response format either of c("rds", "json", "csv")}
 
 \item{simplify}{logical: If TRUE (the default) the response is returned as a
 \code{tibble}}

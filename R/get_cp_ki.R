@@ -24,14 +24,14 @@ get_cp_ki <- function(country = NULL,
                       ppp_version = 2017, # GC: default value like Stata
                       release_version = NULL,
                       api_version = "v1",
-                      format = c("arrow", "rds", "json", "csv"),
+                      #format = c("arrow", "rds", "json", "csv"),
                       simplify = TRUE,
                       server = NULL) {
 
 
   # 0. Match args ----
   api_version <- match.arg(api_version)
-  format <- match.arg(format)
+  #format <- match.arg(format)
 
   # 1. povline set-up ----
   # (GC: stata equivalent but no 2005 and default to 2.15)
@@ -58,7 +58,7 @@ get_cp_ki <- function(country = NULL,
     version         = version,
     ppp_version     = ppp_version,
     release_version = release_version,
-    format          = format,
+    #format          = format,
     server          = server,
     api_version     = api_version,
     endpoint        = "cp-key-indicators"
