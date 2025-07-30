@@ -5,8 +5,8 @@
 \title{Get grouped stats}
 \usage{
 get_gd(
-  cum_welfare = NULL,
-  cum_population = NULL,
+  cum_welfare,
+  cum_population,
   estimate = c("stats", "lorenz", "params"),
   requested_mean = NULL,
   povline = NULL,

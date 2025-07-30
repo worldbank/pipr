@@ -58,8 +58,8 @@
 #'                  estimate = "params")
 #'}
 
-get_gd <- function(cum_welfare =  NULL,
-                   cum_population = NULL,
+get_gd <- function(cum_welfare,
+                   cum_population,
                    estimate = c("stats", "lorenz", "params"),
                    requested_mean = NULL, # stats specific.
                    povline = NULL, # stats specific.

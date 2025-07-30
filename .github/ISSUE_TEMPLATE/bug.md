@@ -6,7 +6,7 @@ labels: 'type: bug'
 assignees: ''
 ---
 
-## Describition
+## Description
 
 A clear and concise description of what the bug is.
 ## Reproducible example
