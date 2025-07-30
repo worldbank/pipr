@@ -37,7 +37,10 @@ any poverty line.
 You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+# From CRAN
+install.packages("devtools")
+
+# From Github
 devtools::install_github("worldbank/pipr")
 ```
 

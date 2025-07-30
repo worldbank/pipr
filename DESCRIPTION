@@ -34,8 +34,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 URL: https://worldbank.github.io/pipr/, 
-    https://github.com/worldbank/pipr, 
-    <https://pip.worldbank.org/api>
+    https://github.com/worldbank/pipr
 BugReports: https://github.com/worldbank/pipr/issues
 Suggests: 
     covr,
