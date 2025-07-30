@@ -1,4 +1,4 @@
-# pipr (development version)
+# pipr 1.2.0
 
 # pipr 1.1.0
 
