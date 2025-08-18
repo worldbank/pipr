@@ -1,3 +1,11 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Added a web reference for the API in the form <https:.....> to the
+description of the DESCRIPTION file with no space after 'https:' and
+angle brackets for auto-linking.
+
+
 ## Initial release
 
 ### R CMD check results

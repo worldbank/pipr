@@ -27,7 +27,8 @@ Authors@R:
      )
 Description: An interface to compute poverty and inequality 
     indicators for more than 160 countries and regions from the World
-    Bank's database of household surveys. 
+    Bank's database of household surveys, through the 
+    Poverty and Inequality Portal (PIP) <https://pip.worldbank.org/api>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
