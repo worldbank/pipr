@@ -12,7 +12,7 @@
 #' @param n_bins numeric: Number of bins. Required for estimate = "lorenz".
 #'
 #' @export
-#'
+#' @returns data.frame
 #' @examples
 #' \dontrun{
 #'
@@ -20,8 +20,8 @@
 #'                               0.5497, 0.7196, 0.8196, 0.9174, 0.9570, 0.9751,
 #'                               1),
 #'                        L = c(0.00208, 0.001013, 0.03122, 0.07083, 0.12808,
-#'                              0.23498, 0.34887, 051994, 0.64270, 0.79201,
-#'                              0.86966, 0.91277, 1)
+#'                              0.23498, 0.34887, 0.51994, 0.64270, 0.79201,
+#'                              0.86966, 0.91277, 1))
 #'
 #' # estimate = 'stats': retrieve poverty statistics.
 #' stats <- get_gd(cum_welfare = datt_data$L, cum_population = datt_data$p,

@@ -46,6 +46,9 @@ poverty line}
 
 \item{server}{character: Server. For WB internal use only}
 }
+\value{
+data.frame
+}
 \description{
 Get grouped stats from the PIP API.
 }
@@ -56,8 +59,8 @@ datt_data <- data.frame(p = c(0.0092, 0.0339, 0.0850, 0.160, 0.2609, 0.4133,
                               0.5497, 0.7196, 0.8196, 0.9174, 0.9570, 0.9751,
                               1),
                        L = c(0.00208, 0.001013, 0.03122, 0.07083, 0.12808,
-                             0.23498, 0.34887, 051994, 0.64270, 0.79201,
-                             0.86966, 0.91277, 1)
+                             0.23498, 0.34887, 0.51994, 0.64270, 0.79201,
+                             0.86966, 0.91277, 1))
 
 # estimate = 'stats': retrieve poverty statistics.
 stats <- get_gd(cum_welfare = datt_data$L, cum_population = datt_data$p,
