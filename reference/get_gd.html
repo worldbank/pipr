@@ -148,10 +148,57 @@ poverty line</p></dd>
 <dd><p>character: Server. For WB internal use only</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>data.frame</p>
+    </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">datt_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0092</span>, <span class="fl">0.0339</span>, <span class="fl">0.0850</span>, <span class="fl">0.160</span>, <span class="fl">0.2609</span>, <span class="fl">0.4133</span>,</span></span>
+<span class="r-in"><span>                              <span class="fl">0.5497</span>, <span class="fl">0.7196</span>, <span class="fl">0.8196</span>, <span class="fl">0.9174</span>, <span class="fl">0.9570</span>, <span class="fl">0.9751</span>,</span></span>
+<span class="r-in"><span>                              <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                       L <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.00208</span>, <span class="fl">0.001013</span>, <span class="fl">0.03122</span>, <span class="fl">0.07083</span>, <span class="fl">0.12808</span>,</span></span>
+<span class="r-in"><span>                             <span class="fl">0.23498</span>, <span class="fl">0.34887</span>, <span class="fl">0.51994</span>, <span class="fl">0.64270</span>, <span class="fl">0.79201</span>,</span></span>
+<span class="r-in"><span>                             <span class="fl">0.86966</span>, <span class="fl">0.91277</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># estimate = 'stats': retrieve poverty statistics.</span></span></span>
+<span class="r-in"><span><span class="va">stats</span> <span class="op">&lt;-</span> <span class="fu">get_gd</span><span class="op">(</span>cum_welfare <span class="op">=</span> <span class="va">datt_data</span><span class="op">$</span><span class="va">L</span>, cum_population <span class="op">=</span> <span class="va">datt_data</span><span class="op">$</span><span class="va">p</span>,</span></span>
+<span class="r-in"><span>                estimate <span class="op">=</span> <span class="st">"stats"</span>,</span></span>
+<span class="r-in"><span>                requested_mean <span class="op">=</span> <span class="fl">19</span>, <span class="co"># default is 1.</span></span></span>
+<span class="r-in"><span>                povline <span class="op">=</span> <span class="fl">2.15</span><span class="op">)</span>  <span class="co"># default is 1.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># estimate = 'lorenz': retrieve Lorenz curve data points for a specified number of bins.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Best lorenz curve methodolody selected by default:</span></span></span>
+<span class="r-in"><span><span class="va">lorenz</span> <span class="op">&lt;-</span> <span class="fu">get_gd</span><span class="op">(</span>cum_welfare <span class="op">=</span> <span class="va">datt_data</span><span class="op">$</span><span class="va">L</span>,</span></span>
+<span class="r-in"><span>                 cum_population <span class="op">=</span> <span class="va">datt_data</span><span class="op">$</span><span class="va">p</span>,</span></span>
+<span class="r-in"><span>                 estimate <span class="op">=</span> <span class="st">"lorenz"</span>,</span></span>
+<span class="r-in"><span>                 n_bins <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>  <span class="co"># must be specified, default is NULL.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Specify lorenz curve methodology:</span></span></span>
+<span class="r-in"><span><span class="co">### Beta Lorenz ("lb")</span></span></span>
+<span class="r-in"><span><span class="va">lorenz_lb</span> <span class="op">&lt;-</span> <span class="fu">get_gd</span><span class="op">(</span>cum_welfare <span class="op">=</span> <span class="va">datt_data</span><span class="op">$</span><span class="va">L</span>,</span></span>
+<span class="r-in"><span>                 cum_population <span class="op">=</span> <span class="va">datt_data</span><span class="op">$</span><span class="va">p</span>,</span></span>
+<span class="r-in"><span>                 estimate <span class="op">=</span> <span class="st">"lorenz"</span>,</span></span>
+<span class="r-in"><span>                 lorenz <span class="op">=</span> <span class="st">"lb"</span>,</span></span>
+<span class="r-in"><span>                 n_bins <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### Quadratic Lorenz ("lq")</span></span></span>
+<span class="r-in"><span><span class="va">lorenz_lq</span> <span class="op">&lt;-</span> <span class="fu">get_gd</span><span class="op">(</span>cum_welfare <span class="op">=</span> <span class="va">datt_data</span><span class="op">$</span><span class="va">L</span>,</span></span>
+<span class="r-in"><span>                 cum_population <span class="op">=</span> <span class="va">datt_data</span><span class="op">$</span><span class="va">p</span>,</span></span>
+<span class="r-in"><span>                 estimate <span class="op">=</span> <span class="st">"lorenz"</span>,</span></span>
+<span class="r-in"><span>                 lorenz <span class="op">=</span> <span class="st">"lq"</span>,</span></span>
+<span class="r-in"><span>                 n_bins <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># estimate = 'params': retrieve regression parameters used for the lorenz curve estimation.</span></span></span>
+<span class="r-in"><span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu">get_gd</span><span class="op">(</span>cum_welfare <span class="op">=</span> <span class="va">datt_data</span><span class="op">$</span><span class="va">L</span>,</span></span>
+<span class="r-in"><span>                 cum_population <span class="op">=</span> <span class="va">datt_data</span><span class="op">$</span><span class="va">p</span>,</span></span>
+<span class="r-in"><span>                 estimate <span class="op">=</span> <span class="st">"params"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+</code></pre></div>
     </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
