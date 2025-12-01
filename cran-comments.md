@@ -1,9 +1,15 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Added a web reference for the API in the form <https:.....> to the
-description of the DESCRIPTION file with no space after 'https:' and
-angle brackets for auto-linking.
+* Fixed the note: 
+  Unexecutable code in man/get_gd.Rd:
+   stats:
+   
+   and:
+  Missing Rd-tags:
+      get_gd.Rd: \value
+
+Proper value has been added. 
 
 
 ## Initial release
