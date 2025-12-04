@@ -54,6 +54,9 @@
 #'
 #' # Short hand to get WB global/regional stats
 #' res <- get_wb()
+#' 
+#' # Short hand to get fcv stats
+#' res <- get_agg(aggregate = "fcv", server = "qa")
 #'
 #' # Custom aggregates
 #' res <- get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")
