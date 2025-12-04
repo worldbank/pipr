@@ -1,0 +1,472 @@
+---
+title: "Get Poverty and Inequality Statistics with get_stats()"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{get-stats-example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE, message=FALSE, warning=FALSE}
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  purl = NOT_CRAN
+)
+```
+
+```{r setup}
+library(pipr)
+library(dplyr)
+library(ggplot2)
+```
+
+## Overview
+
+The `get_stats()` function is the primary workhorse of the `pipr` package. It retrieves comprehensive **poverty and inequality statistics** from the World Bank's Poverty and Inequality Platform (PIP) for over 160 countries and regions.
+
+This vignette covers practical examples of how to use `get_stats()` to extract and work with poverty and inequality data.
+
+## What Data Does `get_stats()` Return?
+
+The function returns a tibble with 44 columns containing:
+
+- **Geographic identifiers**: region, country, year
+- **Poverty metrics**: headcount ratio, poverty gap, poverty severity, Watts index
+- **Inequality metrics**: Gini coefficient, MLD (Mean Log Deviation), polarization
+- **Distribution data**: Income/consumption shares by decile (decile1 through decile10)
+- **Macro indicators**: CPI, PPP, population, GDP, HFCE
+- **Data quality flags**: interpolation status, estimation type, distribution type
+
+## Basic Usage
+
+### Default: All Countries, All Available Data
+
+By default, `get_stats()` retrieves all available data at the international poverty line of $2.15 (2017 PPP):
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+all_stats <- get_stats()
+head(all_stats)
+```
+
+### Single Country
+
+Retrieve all available data for a single country:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+albania <- get_stats(country = "ALB")
+head(albania)
+```
+
+### Multiple Countries
+
+Get data for multiple countries at once:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+countries <- get_stats(country = c("ALB", "AZE", "BLR"))
+head(countries)
+```
+
+### Specific Year or Years
+
+Retrieve data for particular survey years:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Single year
+albania_2012 <- get_stats(country = "ALB", year = 2012)
+
+# Multiple years
+albania_multiple <- get_stats(country = "ALB", year = c(1996, 2002, 2012))
+
+# Most Recent Value available
+albania_mrv <- get_stats(country = "ALB", year = "MRV")
+```
+
+**Important Note**: By default, `get_stats()` only returns data for years when surveys are available. If you request a year without survey data, you'll get an empty result. Use `fill_gaps = TRUE` to get interpolated estimates (see below).
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# No data for 2000 (no survey that year)
+albania_2000 <- get_stats(country = "ALB", year = 2000)
+nrow(albania_2000)
+```
+
+## Filtering Parameters
+
+### Alternative Poverty Lines
+
+Query data at different poverty line thresholds:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# $1.90 per day poverty line
+albania_190 <- get_stats(country = "ALB", povline = 1.90)
+
+# $3.20 per day poverty line
+albania_320 <- get_stats(country = "ALB", povline = 3.20)
+```
+
+### Population Share
+
+Instead of specifying a poverty line, get the poverty rate at a specific population share:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# What is the poverty line for the bottom 20% of population?
+albania_popshare <- get_stats(country = "ALB", year = 2012, popshare = 0.20)
+albania_popshare |> 
+  dplyr::select(country_name, year, poverty_line, headcount, mean)
+```
+
+### Welfare Type
+
+Filter by income or consumption-based estimates:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Only consumption-based estimates
+albania_consumption <- get_stats(
+  country = "ALB", 
+  welfare_type = "consumption"
+)
+
+# Only income-based estimates
+albania_income <- get_stats(
+  country = "ALB", 
+  welfare_type = "income"
+)
+```
+
+### Reporting Level
+
+Get data at different geographic levels:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# National level only
+albania_national <- get_stats(country = "ALB", reporting_level = "national")
+
+# Urban and rural separate
+#albania_urban_rural <- get_stats(
+#  country = "ALB", 
+#  reporting_level = c("urban", "rural")
+#)
+```
+
+## Advanced Features
+
+### Fill Gaps: Interpolate Missing Years
+
+Use `fill_gaps = TRUE` to get estimates for years without survey data through interpolation/extrapolation:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Without fill_gaps: only survey years
+albania_surveys <- get_stats(country = "ALB", fill_gaps = FALSE)
+unique(albania_surveys$year)
+
+# With fill_gaps: all years between first and last survey
+albania_filled <- get_stats(country = "ALB", fill_gaps = TRUE)
+unique(albania_filled$year)
+```
+
+The `is_interpolated` column indicates whether values are from surveys or interpolated:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+albania_filled |> 
+  dplyr::select(year, headcount, is_interpolated) |> 
+  head(15)
+```
+
+### Nowcast Estimates
+
+Include nowcast (forecast) estimates:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# With nowcast estimates
+albania_nowcast <- get_stats(
+  country = "ALB", 
+  year = "all",
+  nowcast = TRUE
+)
+
+# Check what types of estimates are included
+albania_nowcast |> 
+  distinct(estimate_type)
+```
+
+### Aggregated Data: World Bank Regions
+
+Get pre-aggregated statistics for World Bank regions:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# World Bank regional aggregates
+regional_stats <- get_stats(country = "all", year = "all", subgroup = "wb_regions")
+
+# View unique regions
+regional_stats |> 
+  distinct(region_name)
+```
+
+### Custom Aggregates
+
+Aggregate data across selected countries:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Combine multiple countries
+east_africa <- get_stats(
+  country = c("ETH", "KEN", "TZA", "UGA"),
+  year = "all",
+  subgroup = "none"
+)
+
+head(east_africa)
+```
+
+## Working with Results
+
+### Data Exploration
+
+Once you have the data, you can perform analysis:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Get headcount ratios over time for multiple countries
+comparison <- get_stats(
+  country = c("IND", "IDN", "PAK"),
+  year = "all"
+) |>
+  dplyr::select(country_name, year, headcount, gini, mean) |>
+  dplyr::arrange(country_name, year)
+
+head(comparison, 10)
+```
+
+### Poverty Trends
+
+Visualize poverty trends over time:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN, fig.width=8, fig.height=5}
+trends <- get_stats(
+  country = c("ALB", "AZE", "BLR", "BOL"),
+  year = "all"
+) |>
+  dplyr::filter(!is_interpolated) # Use only survey data
+
+ggplot(trends, aes(x = year, y = headcount, color = country_name)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(
+    title = "Poverty Headcount Ratio Over Time",
+    subtitle = "International poverty line ($2.15 per day, 2017 PPP)",
+    x = "Year",
+    y = "Headcount Ratio (%)",
+    color = "Country",
+    caption = "Source: World Bank PIP"
+  ) +
+  scale_y_continuous(limits = c(0, NA))
+```
+
+### Inequality Analysis
+
+Compare inequality metrics across countries and time:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+inequality <- get_stats(
+  country = c("ALB", "AZE", "BLR"),
+  year = 2012
+) |>
+  dplyr::select(country_name, gini, mld, polarization, decile1, decile10) |>
+  mutate(
+    decile_ratio = decile10 / decile1,
+    .before = decile1
+  )
+
+inequality
+```
+
+## Response Formats
+
+By default, `get_stats()` returns a tibble (simplified format). You can also get the raw API response:
+
+### Simplified (Default)
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Returns a tibble
+result_simple <- get_stats(country = "ALB", year = 2012, simplify = TRUE)
+class(result_simple)
+```
+
+### Raw Response
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Returns a list with API metadata
+result_raw <- get_stats(country = "ALB", year = 2012, simplify = FALSE)
+names(result_raw)
+class(result_raw)
+```
+
+## Data Versions and PPP
+
+### Check Available Versions
+
+See what data versions are available:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+versions <- get_versions()
+head(versions)
+```
+
+### Specify Version and PPP
+
+You can request specific data versions and PPP years:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Specific data version
+albania_v1 <- get_stats(
+  country = "ALB",
+  version = NULL  # Latest by default
+)
+
+# Different PPP year (e.g., 2011 PPP instead of default 2017)
+albania_ppp2011 <- get_stats(
+  country = "ALB",
+  ppp_version = 2011
+)
+```
+
+## Practical Examples
+
+### Example 1: Poverty Reduction Analysis
+
+Track poverty reduction for a specific country:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+poverty_reduction <- get_stats(
+  country = "IND",
+  year = "all"
+) |>
+  dplyr::filter(!is_interpolated) |>
+  dplyr::arrange(year) |>
+  dplyr::select(year, headcount, poverty_gap, median, mean) |>
+  dplyr::mutate(
+    headcount_change = headcount - lag(headcount),
+    headcount_pct_change = (headcount - lag(headcount)) / lag(headcount) * 100
+  )
+
+tail(poverty_reduction, 5)
+```
+
+### Example 2: Regional Comparison
+
+Compare across regions:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+regional_inequality <- get_stats(
+  country = "all",
+  year = 2012,
+  subgroup = "wb_regions"
+) 
+
+head(regional_inequality, 10)
+```
+
+### Example 3: Multi-Dimensional Analysis
+
+Compare multiple indicators for a snapshot in time:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+snapshot <- get_stats(
+  country = c("ALB", "AZE", "ARM", "AUT"),
+  year = 2012
+) |>
+  dplyr::select(
+    country_name,
+    year,
+    headcount,
+    gini,
+    median,
+    mean,
+    mld,
+    poverty_gap,
+    decile1,
+    decile10
+  ) |>
+  dplyr::mutate(
+    across(where(is.numeric), ~round(., 3))
+  )
+
+snapshot
+```
+
+## Tips and Best Practices
+
+### 1. Check Data Availability First
+
+Use `get_aux("country")` to see available countries and `get_versions()` for data versions:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+countries_available <- get_aux("countries")
+head(countries_available)
+```
+
+### 2. Handle Missing Data
+
+Always check for empty results when querying specific years:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+# Check if data exists before proceeding
+result <- get_stats(country = "ALB", year = 1999)
+if (nrow(result) == 0) {
+  message("No data available for this query")
+} else {
+  # Process the data
+}
+```
+
+### 3. Combine Survey Data Only
+
+Filter for actual survey data (not interpolated):
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+survey_data <- get_stats(country = "ALB", year = "all") |>
+  dplyr::filter(!is_interpolated) |>
+  dplyr::filter(welfare_type == "consumption")  # Consumption-based only
+```
+
+### 4. Understand Comparable Spells
+
+The `comparable_spell` column indicates periods of methodological consistency:
+
+```{r, warning=FALSE, message=FALSE, eval=NOT_CRAN}
+spells <- get_stats(country = "ALB") |>
+  distinct(comparable_spell)
+
+spells
+```
+
+## Common Issues and Solutions
+
+| Issue | Solution |
+|-------|----------|
+| Empty result for a year | Use `fill_gaps = TRUE` or check survey availability with `get_aux("country")` |
+| Different poverty metrics values | Ensure `povline` and `ppp_version` are as intended |
+| Urban/rural split missing | Check with `reporting_level = "all"` first |
+| Outdated data | Update pipr package with `devtools::install_github("worldbank/pipr")` |
+| API timeout | Use `delete_cache()` and retry; check internet connection |
+
+## Related Functions
+
+- `get_wb()` - Shorthand for World Bank global and regional aggregates
+- `get_aux()` - Access auxiliary tables (countries, regions, metadata)
+- `get_cp()` - Country profiles with key indicators
+- `get_gd()` - Growth decomposition analysis
+- `get_versions()` - Check available data versions
+- `delete_cache()` - Clear cached API responses
+
+## See Also
+
+- [PIP Website](https://pip.worldbank.org)
+- [PIP API Documentation](https://pip.worldbank.org/api)
+- [World Bank Data](https://data.worldbank.org)
+
+## References
+
+World Bank. (2023). Poverty and Inequality Platform. Retrieved from https://pip.worldbank.org
+
+The Global Monitoring Database (GMD) is the World Bank's repository of multi-topic income and expenditure household surveys used to monitor global poverty and shared prosperity. The data comes from household surveys collected by national statistical offices and processed through the PIP system.

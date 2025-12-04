@@ -64,12 +64,12 @@ test_that("get_stats() works w/ subgroup = 'wb_regions'", {
   skip_on_cran()
 
   df <- get_stats("all", year = 2011, subgroup = "wb_regions", server = "prod")
-  expect_equal(nrow(df), 10)
+  expect_equal(nrow(df), 17)
   expect_identical(
     sort(df$region_code),
     sort(c(
-      "AFE", "AFW", "EAP", "ECA", "LAC", "MNA",
-      "OHI", "SAS", "SSA", "WLD"
+      "AFE", "AFW", "EAP", "EAS", "ECA", "ECS", "LAC", "LCN", "MEA", "MNA", "NAC", 
+      "OHI", "SAR", "SAS", "SSA", "SSF", "WLD"
     ))
   )
 })
@@ -146,12 +146,12 @@ test_that("get_wb() works", {
   skip_on_cran()
 
   df <- get_wb(year = 2011, server = "prod")
-  expect_equal(nrow(df), 10)
+  expect_equal(nrow(df), 17)
   expect_identical(
     sort(df$region_code),
     sort(c(
-      "AFE", "AFW", "EAP", "ECA", "LAC", "MNA",
-      "OHI", "SAS", "SSA", "WLD"
+      "AFE", "AFW", "EAP", "EAS", "ECA", "ECS", "LAC", "LCN", "MEA", "MNA", "NAC", 
+      "OHI", "SAR", "SAS", "SSA", "SSF", "WLD"
     ))
   )
 })
