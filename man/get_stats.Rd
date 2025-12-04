@@ -3,6 +3,7 @@
 \name{get_stats}
 \alias{get_stats}
 \alias{get_wb}
+\alias{get_agg}
 \title{Get poverty and inequality statistics}
 \usage{
 get_stats(
@@ -30,6 +31,19 @@ get_wb(
   version = NULL,
   ppp_version = NULL,
   release_version = NULL,
+  api_version = "v1",
+  format = c("rds", "json", "csv"),
+  simplify = TRUE,
+  server = NULL
+)
+
+get_agg(
+  year = "all",
+  povline = NULL,
+  version = NULL,
+  ppp_version = NULL,
+  release_version = NULL,
+  aggregate = NULL,
   api_version = "v1",
   format = c("rds", "json", "csv"),
   simplify = TRUE,
@@ -73,6 +87,8 @@ sub-groups. Either 'wb_regions' or 'none'.}
 \code{tibble}}
 
 \item{server}{character: Server. For WB internal use only}
+
+\item{aggregate}{character: Aggregate name. See \code{get_aux("countries")} for available options.}
 }
 \value{
 If \code{simplify = FALSE}, it returns a list of class "pip_api". If
@@ -109,6 +125,9 @@ res <- get_stats("all", year = "all", subgroup = "wb")
 
 # Short hand to get WB global/regional stats
 res <- get_wb()
+
+# Short hand to get fcv stats
+res <- get_agg(aggregate = "fcv", server = "qa")
 
 # Custom aggregates
 res <- get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")

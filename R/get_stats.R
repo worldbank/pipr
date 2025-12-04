@@ -185,6 +185,7 @@ get_wb <- function(year = "all",
 }
 
 #' @rdname get_stats
+#' @param aggregate character: Aggregate name. See `get_aux("countries")` for available options.
 #' @export
 get_agg <- function(year = "all",
                    povline = NULL,
