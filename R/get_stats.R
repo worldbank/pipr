@@ -180,3 +180,83 @@ get_wb <- function(year = "all",
 
   return(out)
 }
+
+#' @rdname get_stats
+#' @export
+get_agg <- function(year = "all",
+                   povline = NULL,
+                   version = NULL,
+                   ppp_version = NULL,
+                   release_version = NULL,
+                   aggregate = NULL,
+                   api_version = "v1",
+                   format = c("rds", "json", "csv"),
+                   simplify = TRUE,
+                   server = NULL) {
+
+  # Match args
+  api_version <- match.arg(api_version)
+  format <- match.arg(format)
+
+  # Extract varibale name that don't have "_code" and "_name" suffixes from countries auxiliary table
+  df <- get_aux("countries")
+  ctry_vars <- names(df)[!grepl("_code$|_name$", names(df))]
+  ctry_vars <- c("official", "pcn", "vintage", ctry_vars)
+
+  # Validate aggregate
+  if (!is.null(aggregate)) {
+
+    aggregate <- tolower(aggregate)
+    if (!(aggregate %in% ctry_vars)) {
+      cli::cli_abort(
+      c(
+        "Invalid aggregate name.",
+        "x" = "Please use one of the following: {.val {ctry_vars}}"
+      )
+      )
+    } else if (aggregate %in% c("official", "region", "world")) {
+
+      agg <- "wb"
+
+    } else if (aggregate %in% c("pcn", "vintage", "regionpcn")) {
+
+      agg <- "vintage"
+
+    } else {
+
+      agg <- aggregate
+
+    }
+
+  } else {
+
+    cli::cli_abort(
+      c(
+        "Aggregate name is required.",
+        "i" = "Please use one of the following: {.val {ctry_vars}}"
+      )
+    )
+  }
+
+  # Build query string
+  req <- build_request(
+    year            = year,
+    povline         = povline,
+    group_by        = agg,
+    version         = version,
+    ppp_version     = ppp_version,
+    release_version = release_version,
+    format          = format,
+    server          = server,
+    api_version     = api_version,
+    endpoint        = "pip-grp"
+  )
+  # Perform request
+  res <- req |>
+    httr2::req_perform()
+
+  # Parse result
+  out <- parse_response(res, simplify)
+
+  return(out)
+}
