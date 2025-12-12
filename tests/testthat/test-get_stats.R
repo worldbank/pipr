@@ -198,3 +198,33 @@ test_that("get_stats() works with nowcast == TRUE",{
   nowcast_output <- get_stats("AGO", nowcast = TRUE)
   expect_true("nowcast" %in% nowcast_output$estimate_type)
 })
+
+test_that("get_agg(official) and get_agg(region) return identical data", {
+  skip_if_offline()
+  skip_on_cran()
+  df_official <- get_agg(aggregate = "official", server = "prod")
+  df_region   <- get_agg(aggregate = "region", server = "prod")
+  expect_identical(df_official, df_region)
+})
+
+test_that("get_agg(pcn) and get_agg(regionpcn) return identical data", {
+  skip_if_offline()
+  skip_on_cran()
+  df_pcn       <- get_agg(aggregate = "pcn", server = "prod")
+  df_regionpcn <- get_agg(aggregate = "regionpcn", server = "prod")
+  expect_identical(df_pcn, df_regionpcn)
+})
+
+test_that("get_agg(fcv) returns non-NULL data", {
+  skip_if_offline()
+  skip_on_cran()
+  df_fcv <- get_agg(aggregate = "fcv", server = "prod")
+  expect_false(is.null(df_fcv))
+})
+
+test_that("get_agg(ida) returns non-NULL data", {
+  skip_if_offline()
+  skip_on_cran()
+  df_ida <- get_agg(aggregate = "ida", server = "prod")
+  expect_false(is.null(df_ida))
+})
