@@ -203,7 +203,7 @@ get_agg <- function(year = "all",
   format <- match.arg(format)
 
   # Extract varibale name that don't have "_code" and "_name" suffixes from countries auxiliary table
-  df <- get_aux("countries")
+  df <- get_aux("country_list")
   ctry_vars <- names(df)[!grepl("_code$|_name$", names(df))]
   ctry_vars <- c("official", "pcn", "vintage", ctry_vars)
 
