@@ -82,8 +82,6 @@ test_that("get_stats() works w/ subgroup = 'wb_regions'", {
       "SAS",
       "SSF",
       "WLD"
-      # "AFE", "AFW", "EAP", "EAS", "ECA", "ECS", "LAC", "LCN", "MEA", "MNA", "NAC",
-      # "OHI", "SAR", "SAS", "SSA", "SSF", "WLD"
     ))
   )
 })
