@@ -1,6 +1,7 @@
 # constants
 dev_host <- gsub("/api|http://", "", Sys.getenv("PIP_DEV_URL"))
 qa_host <- gsub("/pip|/api|http(s)://", "", Sys.getenv("PIP_QA_URL"))
+server <- "prod"
 
 # tests
 test_that("get_stats() returns the correct format", {
@@ -12,7 +13,10 @@ test_that("get_stats() returns the correct format", {
   # Return custom response list if simplify = FALSE
   res <- get_stats("AGO", year = 2000, simplify = FALSE)
   expect_true(is.list(res))
-  expect_identical(names(res), c("url", "status", "type", "content", "response"))
+  expect_identical(
+    names(res),
+    c("url", "status", "type", "content", "response")
+  )
   expect_identical(class(res), "pip_api")
 })
 
@@ -63,12 +67,21 @@ test_that("get_stats() works w/ subgroup = 'wb_regions'", {
   skip_if_offline()
   skip_on_cran()
 
-  df <- get_stats("all", year = 2011, subgroup = "wb_regions", server = "prod")
+  df <- get_stats("all", year = 2011, subgroup = "wb_regions", server = server)
   expect_equal(nrow(df), 10)
   expect_identical(
     sort(df$region_code),
     sort(c(
-      "AFE", "AFW", "EAS", "ECS", "LCN", "MEA", "NAC", "SAS", "SSF", "WLD"
+      "AFE",
+      "AFW",
+      "EAS",
+      "ECS",
+      "LCN",
+      "MEA",
+      "NAC",
+      "SAS",
+      "SSF",
+      "WLD"
       # "AFE", "AFW", "EAP", "EAS", "ECA", "ECS", "LAC", "LCN", "MEA", "MNA", "NAC",
       # "OHI", "SAR", "SAS", "SSA", "SSF", "WLD"
     ))
@@ -83,10 +96,15 @@ test_that("get_stats() works w/ subgroup = 'none'", {
   # skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
   #   message = "Could not connect to QA host"
   # )
-  df <- get_stats("all", year = 2011, subgroup = "none", server = "prod")
+  df <- get_stats("all", year = 2011, subgroup = "none", server = server)
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
-  df <- get_stats(c("ARG", "BRA"), year = 2011, subgroup = "none", server = "prod")
+  df <- get_stats(
+    c("ARG", "BRA"),
+    year = 2011,
+    subgroup = "none",
+    server = server
+  )
   expect_equal(nrow(df), 1)
   expect_identical(df$region_code, "CUSTOM")
 })
@@ -127,7 +145,6 @@ test_that("get_stats() returns a tibble with named columns for empty response (f
   # res2 <- get_stats("AGO", 2005, format = "json") # empty response
   # expect_equal(dim(res2)[2], 0)
   # expect_equal(length(names(res2)), 0)
-
 })
 
 test_that("get_stats() works w/ simplify = FALSE", {
@@ -136,7 +153,10 @@ test_that("get_stats() works w/ simplify = FALSE", {
 
   res <- get_stats("AGO", year = "all", simplify = FALSE)
   expect_true(is.list(res))
-  expect_identical(names(res), c("url", "status", "type", "content", "response"))
+  expect_identical(
+    names(res),
+    c("url", "status", "type", "content", "response")
+  )
   expect_identical(class(res), "pip_api")
   expect_true(is.data.frame(res$content))
   expect_gte(nrow(res$content), 3)
@@ -146,12 +166,21 @@ test_that("get_wb() works", {
   skip_if_offline()
   skip_on_cran()
 
-  df <- get_wb(year = 2011, server = "prod")
+  df <- get_wb(year = 2011, server = server)
   expect_equal(nrow(df), 10)
   expect_identical(
     sort(df$region_code),
     sort(c(
-      "AFE", "AFW", "EAS", "ECS", "LCN", "MEA", "NAC", "SAS", "SSF", "WLD"
+      "AFE",
+      "AFW",
+      "EAS",
+      "ECS",
+      "LCN",
+      "MEA",
+      "NAC",
+      "SAS",
+      "SSF",
+      "WLD"
       # "AFE", "AFW", "EAP", "EAS", "ECA", "ECS", "LAC", "LCN", "MEA", "MNA", "NAC",
       # "OHI", "SAR", "SAS", "SSA", "SSF", "WLD"
     ))
@@ -162,13 +191,13 @@ test_that("get_wb() works w/ all response formats", {
   skip_if_offline()
   skip_on_cran()
 
-  df <- get_wb(year = "all", format = "json", server = "prod")
+  df <- get_wb(year = "all", format = "json", server = server)
   expect_true(tibble::is_tibble(df))
   expect_gte(nrow(df), 3)
-  df <- get_wb(year = "all", format = "csv", server = "prod")
+  df <- get_wb(year = "all", format = "csv", server = server)
   expect_true(tibble::is_tibble(df))
   expect_gte(nrow(df), 3)
-  df <- get_wb(year = "all", format = "rds", server = "prod")
+  df <- get_wb(year = "all", format = "rds", server = server)
   expect_true(tibble::is_tibble(df))
   expect_gte(nrow(df), 3)
 })
@@ -182,16 +211,19 @@ test_that("get_wb() works w/ simplify = FALSE", {
   # skip_if(is.null(curl::nslookup(qa_host, error = FALSE)),
   #   message = "Could not connect to QA host"
   # )
-  res <- get_wb(year = "all", simplify = FALSE, server = "prod")
+  res <- get_wb(year = "all", simplify = FALSE, server = server)
   expect_true(is.list(res))
-  expect_identical(names(res), c("url", "status", "type", "content", "response"))
+  expect_identical(
+    names(res),
+    c("url", "status", "type", "content", "response")
+  )
   expect_identical(class(res), "pip_api")
   expect_true(is.data.frame(res$content))
   expect_gte(nrow(res$content), 3)
 })
 
 
-test_that("get_stats() works with nowcast == TRUE",{
+test_that("get_stats() works with nowcast == TRUE", {
   skip_if_offline()
   skip_on_cran()
 
@@ -202,29 +234,29 @@ test_that("get_stats() works with nowcast == TRUE",{
 test_that("get_agg(official) and get_agg(region) return identical data", {
   skip_if_offline()
   skip_on_cran()
-  df_official <- get_agg(aggregate = "official", server = "prod")
-  df_region   <- get_agg(aggregate = "region", server = "prod")
+  df_official <- get_agg(aggregate = "official", server = server)
+  df_region <- get_agg(aggregate = "region", server = server)
   expect_identical(df_official, df_region)
 })
 
 test_that("get_agg(pcn) and get_agg(regionpcn) return identical data", {
   skip_if_offline()
   skip_on_cran()
-  df_pcn       <- get_agg(aggregate = "pcn", server = "prod")
-  df_regionpcn <- get_agg(aggregate = "regionpcn", server = "prod")
+  df_pcn <- get_agg(aggregate = "pcn", server = server)
+  df_regionpcn <- get_agg(aggregate = "regionpcn", server = server)
   expect_identical(df_pcn, df_regionpcn)
 })
 
 test_that("get_agg(fcv) returns non-NULL data", {
   skip_if_offline()
   skip_on_cran()
-  df_fcv <- get_agg(aggregate = "fcv", server = "prod")
+  df_fcv <- get_agg(aggregate = "fcv", server = server)
   expect_false(is.null(df_fcv))
 })
 
 test_that("get_agg(ida) returns non-NULL data", {
   skip_if_offline()
   skip_on_cran()
-  df_ida <- get_agg(aggregate = "ida", server = "prod")
+  df_ida <- get_agg(aggregate = "ida", server = server)
   expect_false(is.null(df_ida))
 })
