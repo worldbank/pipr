@@ -1,6 +1,6 @@
 Package: pipr
 Title: Client for the Poverty and Inequality Platform ('PIP') API
-Version: 1.3.0
+Version: 1.4.0
 Authors@R: 
     c(person(given = "Tony",
             family = "Fujs",
