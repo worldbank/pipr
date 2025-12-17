@@ -1,6 +1,6 @@
 Package: pipr
 Title: Client for the Poverty and Inequality Platform ('PIP') API
-Version: 1.2.0
+Version: 1.4.0
 Authors@R: 
     c(person(given = "Tony",
             family = "Fujs",
@@ -28,7 +28,7 @@ Authors@R:
 Description: An interface to compute poverty and inequality 
     indicators for more than 160 countries and regions from the World
     Bank's database of household surveys, through the 
-    Poverty and Inequality Portal (PIP) <https://pip.worldbank.org/api>.
+    Poverty and Inequality Portal (PIP).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -69,4 +69,4 @@ Imports:
 Depends: 
     R (>= 4.1.0)
 Config/testthat/edition: 3
-Date: 2025-07-30
+Date: 2025-12-17
