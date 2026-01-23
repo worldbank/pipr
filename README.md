@@ -31,7 +31,7 @@ You can install the development version from
 
 ``` r
 # From CRAN
-install.packages("devtools")
+install.packages("pipr")
 
 # From Github
 devtools::install_github("worldbank/pipr")
@@ -53,7 +53,7 @@ glimpse(df)
 #> Rows: 15
 #> Columns: 44
 #> $ region_name          <chr> "Europe & Central Asia", "Europe & Central Asia",…
-#> $ region_code          <chr> "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", "ECA", …
+#> $ region_code          <chr> "ECS", "ECS", "ECS", "ECS", "ECS", "ECS", "ECS", …
 #> $ country_name         <chr> "Albania", "Albania", "Albania", "Albania", "Alba…
 #> $ country_code         <chr> "ALB", "ALB", "ALB", "ALB", "ALB", "ALB", "ALB", …
 #> $ year                 <dbl> 1996, 2002, 2005, 2008, 2012, 2014, 2015, 2016, 2…
@@ -87,8 +87,8 @@ glimpse(df)
 #> $ cpi                  <dbl> 0.3724766, 0.6539548, 0.7027200, 0.7643803, 0.854…
 #> $ ppp                  <dbl> 50.7723, 50.7723, 50.7723, 50.7723, 50.7723, 50.7…
 #> $ pop                  <dbl> 3168033, 3051010, 3011487, 2947314, 2900401, 2889…
-#> $ gdp                  <dbl> 1633.552, 2247.498, 2675.509, 3298.479, 3736.340,…
-#> $ hfce                 <dbl> 1716.337, 1685.203, 2079.203, 2820.280, 2990.397,…
+#> $ gdp                  <dbl> 1683.770, 2297.109, 2712.870, 3345.982, 3720.229,…
+#> $ hfce                 <dbl> 1522.872, 1572.295, 1969.242, 2735.224, 2875.741,…
 #> $ is_interpolated      <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
 #> $ distribution_type    <chr> "micro", "micro", "micro", "micro", "micro", "mic…
 #> $ estimation_type      <chr> "survey", "survey", "survey", "survey", "survey",…
@@ -102,7 +102,7 @@ glimpse(df)
 
 ``` r
 get_aux("dictionary")
-#> # A tibble: 41 × 2
+#> # A tibble: 79 × 2
 #>    variable        definition                                                   
 #>    <chr>           <chr>                                                        
 #>  1 region_name     World Bank region name                                       
@@ -115,21 +115,5 @@ get_aux("dictionary")
 #>  8 survey_coverage Geographic coverage of the country survey (i.e. national, ur…
 #>  9 welfare_time    Welfare time                                                 
 #> 10 welfare_type    Type of welfare vector used for estimates (income or consump…
-#> # ℹ 31 more rows
+#> # ℹ 69 more rows
 ```
-
-## Citation
-
-To cite package `pipr` in publications use:
-
-      Tony Fujs, Aleksander Eilertsen, Ronak Shah and R. Andrés Castañeda (2022). pipr: Client for the PIP
-      API. https://github.com/worldbank/pipr, https://worldbank.github.io/pipr/.
-
-A BibTeX entry for LaTeX users is
-
-      @Manual{,
-        title = {pipr: Client for the PIP API},
-        author = {Tony Fujs and Aleksander Eilertsen and Ronak Shah and R. Andrés Castañeda},
-        year = {2022},
-        note = {https://github.com/worldbank/pipr,https://worldbank.github.io/pipr/},
-      }
