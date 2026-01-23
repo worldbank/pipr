@@ -31,7 +31,7 @@ You can install the development version from
 
 ``` r
 # From CRAN
-install.packages("devtools")
+install.packages("pipr")
 
 # From Github
 devtools::install_github("worldbank/pipr")
@@ -117,19 +117,3 @@ get_aux("dictionary")
 #> 10 welfare_type    Type of welfare vector used for estimates (income or consump…
 #> # ℹ 69 more rows
 ```
-
-## Citation
-
-To cite package `pipr` in publications use:
-
-      Tony Fujs, Aleksander Eilertsen, Ronak Shah and R. Andrés Castañeda (2022). pipr: Client for the PIP
-      API. https://github.com/worldbank/pipr, https://worldbank.github.io/pipr/.
-
-A BibTeX entry for LaTeX users is
-
-      @Manual{,
-        title = {pipr: Client for the PIP API},
-        author = {Tony Fujs and Aleksander Eilertsen and Ronak Shah and R. Andrés Castañeda},
-        year = {2022},
-        note = {https://github.com/worldbank/pipr,https://worldbank.github.io/pipr/},
-      }

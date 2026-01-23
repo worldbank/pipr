@@ -38,7 +38,7 @@ You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # From CRAN
-install.packages("devtools")
+install.packages("pipr")
 
 # From Github
 devtools::install_github("worldbank/pipr")
@@ -61,26 +61,5 @@ glimpse(df)
 ### Access data dictionary
 ```{r}
 get_aux("dictionary")
-```
-
-
-## Citation
-
-To cite package `pipr` in publications use:
-
-```
-  Tony Fujs, Aleksander Eilertsen, Ronak Shah and R. Andrés Castañeda (2022). pipr: Client for the PIP
-  API. https://github.com/worldbank/pipr, https://worldbank.github.io/pipr/.
-```
-
-A BibTeX entry for LaTeX users is
-
-```
-  @Manual{,
-    title = {pipr: Client for the PIP API},
-    author = {Tony Fujs and Aleksander Eilertsen and Ronak Shah and R. Andrés Castañeda},
-    year = {2022},
-    note = {https://github.com/worldbank/pipr,https://worldbank.github.io/pipr/},
-  }
 ```
 
