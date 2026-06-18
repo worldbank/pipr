@@ -142,6 +142,23 @@ get_stats <- function(country = "all",
     out <- out[!grepl("nowcast", out$estimate_type),]
   }
 
+  # generating dictionary to label variables in the output dataframe
+  df_dic <- pipr::get_aux("dictionary")
+
+  # keep only dictionary rows present in output
+  df_dic <- df_dic[df_dic$variable %in% names(out), ]
+
+  # reorder dictionary to follow output column order
+  idx <- match(names(out), df_dic$variable)
+  idx <- idx[!is.na(idx)]
+  df_dic <- df_dic[idx, , drop = FALSE]
+
+  # apply labels
+  for (i in seq_len(nrow(df_dic))) {
+    var <- df_dic$variable[i]
+    attr(out[[var]], "label") <- df_dic$definition[i]
+  }
+
   return(out)
 }
 
