@@ -1,0 +1,46 @@
+schemaVersion: "compound-gpid-wiki-v1"
+folder: "wiki"
+pages:
+  - id: "readme"
+    file: "README.md"
+    title: "Home"
+    ownership: "auto"
+    order: 1
+    sections:
+      - id: "overview"
+        managed: true
+      - id: "installation"
+        managed: true
+      - id: "quick-start"
+        managed: true
+  - id: "api-reference"
+    file: "api-reference.md"
+    title: "API Reference"
+    ownership: "auto"
+    order: 2
+    sections:
+      - id: "functions"
+        managed: true
+      - id: "parameters"
+        managed: true
+      - id: "return-values"
+        managed: true
+  - id: "vignettes"
+    file: "vignettes.md"
+    title: "Vignettes"
+    ownership: "auto"
+    order: 3
+    sections:
+      - id: "examples"
+        managed: true
+      - id: "use-cases"
+        managed: true
+  - id: "changelog"
+    file: "changelog.md"
+    title: "Changelog"
+    ownership: "auto"
+    order: 4
+    sections:
+      - id: "version-history"
+        managed: true
+lastUpdated: "2026-09-17"
