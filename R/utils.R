@@ -414,3 +414,158 @@ change_grouped_stats_to_csv <- function(out) {
   out$deciles <- NULL
   data.frame(out)
 }
+
+#' Abort with an invalid-argument error
+#'
+#' @param argument character: Name of the invalid argument
+#' @param expected character: Description of the expected value or format
+#' @noRd
+abort_invalid_argument <- function(argument, expected) {
+  cli::cli_abort(c(
+    "Invalid `{argument}`.",
+    "i" = "`{argument}` must be {expected}."
+  ))
+}
+
+#' Match an argument against a set of choices
+#'
+#' @param value The value to match
+#' @param argument character: Name of the argument
+#' @param choices character: Allowed values
+#' @return The matched value
+#' @noRd
+match_choice <- function(value, argument, choices) {
+  matched_value <- tryCatch(
+    match.arg(value, choices),
+    error = function(error) NULL
+  )
+
+  if (is.null(matched_value)) {
+    abort_invalid_argument(argument, paste0("one of: ",
+                                             paste(choices, collapse = ", ")))
+  }
+
+  matched_value
+}
+
+#' Validate get_stats arguments
+#'
+#' Checks that the arguments supplied to `get_stats()` are valid before any
+#' HTTP request is made. Aborts with a `cli` error naming the invalid argument
+#' and the expected value or format.
+#'
+#' @inheritParams get_stats
+#' @return A list with the matched values for `welfare_type`,
+#'   `reporting_level`, `api_version`, and `format`.
+#' @noRd
+validate_get_stats_args <- function(country,
+                                    year,
+                                    povline,
+                                    popshare,
+                                    fill_gaps,
+                                    nowcast,
+                                    subgroup,
+                                    welfare_type,
+                                    reporting_level,
+                                    version,
+                                    ppp_version,
+                                    release_version,
+                                    api_version,
+                                    format,
+                                    simplify,
+                                    server) {
+  is_valid_country <- is.character(country) &&
+    length(country) > 0 &&
+    all(!is.na(country)) &&
+    all(country == "all" | grepl("^[A-Z]{3}$", country))
+  if (!is_valid_country) {
+    abort_invalid_argument("country", "`all` or uppercase ISO 3 country codes")
+  }
+
+  is_valid_year <- (is.numeric(year) &&
+    all(is.finite(year)) &&
+    all(year == trunc(year))) ||
+    (is.character(year) &&
+      all(year %in% c("all", "MRV")))
+  if (length(year) == 0 || anyNA(year) || !is_valid_year) {
+    abort_invalid_argument("year", "integer years, `all`, or `MRV`")
+  }
+
+  if (!is.null(povline) &&
+      (!is.numeric(povline) || length(povline) != 1 || !is.finite(povline) ||
+        povline < 0)) {
+    abort_invalid_argument("povline", "one non-negative numeric value")
+  }
+
+  if (!is.null(popshare) &&
+      (!is.numeric(popshare) || length(popshare) != 1 || !is.finite(popshare) ||
+        popshare < 0 || popshare > 1)) {
+    abort_invalid_argument("popshare", "one numeric value between 0 and 1")
+  }
+
+  if (!is.logical(fill_gaps) || length(fill_gaps) != 1 || is.na(fill_gaps)) {
+    abort_invalid_argument("fill_gaps", "TRUE or FALSE")
+  }
+
+  if (!is.logical(nowcast) || length(nowcast) != 1 || is.na(nowcast)) {
+    abort_invalid_argument("nowcast", "TRUE or FALSE")
+  }
+
+  if (!is.null(subgroup) &&
+      (!is.character(subgroup) || length(subgroup) != 1 ||
+        !subgroup %in% c("none", "wb_regions"))) {
+    abort_invalid_argument("subgroup", "`none` or `wb_regions`")
+  }
+
+  is_valid_version <- is.character(version) &&
+    length(version) == 1 &&
+    !is.na(version) &&
+    grepl("^[0-9]{8}_[0-9]{4}_[0-9]{2}_[0-9]{2}_[A-Z]+$", version)
+  if (!is.null(version) && !is_valid_version) {
+    abort_invalid_argument(
+      "version",
+      "a version string in YYYYMMDD_PPP_XX_YY_IDENTITY format, e.g. `20260324_2021_01_02_PROD`"
+    )
+  }
+
+  is_valid_ppp_version <- is.numeric(ppp_version) ||
+    (is.character(ppp_version) && grepl("^[0-9]{4}$", ppp_version))
+  if (!is.null(ppp_version) &&
+      (length(ppp_version) != 1 || is.na(ppp_version) || !is_valid_ppp_version)) {
+    abort_invalid_argument("ppp_version", "one PPP year")
+  }
+
+  is_valid_release_version <- is.character(release_version) &&
+    length(release_version) == 1 &&
+    !is.na(release_version) &&
+    grepl("^[0-9]{8}$", release_version) &&
+    !is.na(as.Date(release_version, format = "%Y%m%d"))
+  if (!is.null(release_version) && !is_valid_release_version) {
+    abort_invalid_argument("release_version", "a date in YYYYMMDD format")
+  }
+
+  if (!is.logical(simplify) || length(simplify) != 1 || is.na(simplify)) {
+    abort_invalid_argument("simplify", "TRUE or FALSE")
+  }
+
+  if (!is.null(server) &&
+      (!is.character(server) || length(server) != 1 || is.na(server) ||
+        !nzchar(server))) {
+    abort_invalid_argument("server", "one non-empty character value")
+  }
+
+  list(
+    welfare_type = match_choice(
+      welfare_type,
+      "welfare_type",
+      c("all", "income", "consumption")
+    ),
+    reporting_level = match_choice(
+      reporting_level,
+      "reporting_level",
+      c("all", "national", "urban", "rural")
+    ),
+    api_version = match_choice(api_version, "api_version", "v1"),
+    format = match_choice(format, "format", c("arrow", "rds", "json", "csv"))
+  )
+}
