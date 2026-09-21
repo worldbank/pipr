@@ -24,15 +24,15 @@ active-deviation-policy: "ask"
 - None
 
 ### Accepted Exceptions
-- None
+- **V4** (user-approved, 2026-09-21): The 2 full-suite failures (`test-get_cp.R:47`, `test-get_cp_ki.R:49`) are pre-existing on `main` — the user verified the same tests fail on the main branch. They are PIP API-side errors for `ppp_version = 2011` requests (HTTP 500 / non-JSON body), unrelated to this refactor. All validation tests pass. Exception accepted by user; V4 treated as satisfied with no regressions.
 
 ### Evidence Table
 | ID | Evidence Required | Status | Artifact |
 |----|-------------------|--------|----------|
 | V1 | `validate_get_stats_args()` passes existing `test-get_stats.R` tests | passed | 93 pass, 1 pre-existing skip |
-| V2 | New shared validators pass offline tests in `test-utils.R` | passed | 159 pass, 3 pre-existing skips |
+| V2 | New shared validators pass offline tests in `test-utils.R` | passed | 165 pass, 3 pre-existing skips |
 | V3 | `get_cp()`, `get_cp_ki()`, `get_aux()` reject malformed shared args before HTTP | passed | 18/19/25 pass; 2 pre-existing network failures |
-| V4 | Full suite passes with no regressions | partial | 3 failures, all pre-existing/transient network errors (get_cp, get_cp_ki, get_gd) |
+| V4 | Full suite passes with no regressions | passed (accepted exception) | 2 failures confirmed pre-existing on main; no regressions from this work |
 | V5 | `get_stats(release_version = "2024-06-27")` aborts locally with `YYYYMMDD` | passed | validation test confirms local abort |
 
 ### Constraints Check
@@ -44,7 +44,7 @@ active-deviation-policy: "ask"
 | C4 | Version identity suffix not hard-coded to `PROD` | passed |
 
 ### Remaining Uncertainty
-- V4 (full suite) blocked by transient PIP API unavailability. Direct API tests confirm both `ppp_version = 2017` (HTTP 504) and `ppp_version = 2011` (parse error) fail -- the API is currently unstable. All validation tests pass; the 3 full-suite failures are pre-existing/transient API errors, not regressions.
+- None. V4 resolved via user-approved accepted exception (failures confirmed pre-existing on main).
 
 ### Final Status
-- blocked (awaiting stable PIP API to confirm V4 full-suite evidence)
+- completed

@@ -1,7 +1,8 @@
 ---
 date: 2026-09-18
 title: "Reusable API argument validation"
-status: active
+status: completed
+completed-date: 2026-09-21
 scope: "Standard"
 brainstorm: null
 language: "R"
