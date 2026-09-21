@@ -13,6 +13,17 @@ test_that("get_aux returns available tables when no argument is specified", {
   expect_equal(names(res), "tables")
 })
 
+test_that("get_aux() rejects malformed shared arguments before HTTP", {
+  expect_error(get_aux(version = "20260324"), "version")
+  expect_error(get_aux(version = "20260324_2021_01_02"), "version")
+  expect_error(get_aux(ppp_version = "2017a"), "ppp_version")
+  expect_error(get_aux(release_version = "2024-06-27"), "release_version")
+  expect_error(get_aux(simplify = "TRUE"), "simplify")
+  expect_error(get_aux(server = 123), "server")
+  expect_error(get_aux(format = "txt"), "Invalid `format`")
+  expect_error(get_aux(api_version = "v2"), "Invalid `api_version`")
+})
+
 
 test_that("get_aux() works when calling specific tables", {
   skip_if_offline()

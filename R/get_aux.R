@@ -58,8 +58,17 @@ get_aux <- function(table           = NULL,
                     replace         = FALSE) {
 
   # Match args
-  api_version <- match.arg(api_version)
-  format      <- match.arg(format)
+  validated_args <- validate_get_aux_args(
+    version         = version,
+    ppp_version     = ppp_version,
+    release_version = release_version,
+    api_version     = api_version,
+    format          = format,
+    simplify        = simplify,
+    server          = server
+  )
+  api_version <- validated_args$api_version
+  format      <- validated_args$format
   run_cli     <- run_cli()
   # Build query string
   req <- build_request(server = server,

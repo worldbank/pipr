@@ -1,4 +1,19 @@
 {
   "schemaVersion": "compound-gpid-roadmap-v1",
-  "milestones": []
+  "milestones": [
+    {
+      "id": "reusable-api-argument-validation",
+      "title": "Reusable API argument validation",
+      "objective": "Provide a reusable, consistent argument validation layer for the pipr API functions.",
+      "status": "in-progress",
+      "features": [
+        {
+          "id": "reusable-api-argument-validation",
+          "title": "Reusable API argument validation",
+          "status": "active",
+          "plan": ".cg-docs/plans/2026-09-18-reusable-api-argument-validation.md"
+        }
+      ]
+    }
+  ]
 }

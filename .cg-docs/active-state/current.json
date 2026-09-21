@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "compound-gpid-active-state-v1",
+  "updatedAt": "2026-09-18T00:00:00Z",
+  "workflow": "/cg-work",
+  "status": "blocked",
+  "branch": "fix_version_error",
+  "plan": ".cg-docs/plans/2026-09-18-reusable-api-argument-validation.md",
+  "executionReport": ".cg-docs/work-reports/2026-09-18-reusable-api-argument-validation.md",
+  "currentPhase": null,
+  "evidenceStatus": [
+    {"id": "V1", "status": "passed", "artifact": "tests/testthat/test-get_stats.R"},
+    {"id": "V2", "status": "passed", "artifact": "tests/testthat/test-utils.R"},
+    {"id": "V3", "status": "passed", "artifact": "tests/testthat/test-get_cp.R, test-get_cp_ki.R, test-get_aux.R"},
+    {"id": "V4", "status": "partial", "artifact": "devtools::test() - 3 pre-existing network failures"},
+    {"id": "V5", "status": "passed", "artifact": "validation test confirms local abort"}
+  ],
+  "unresolvedDecisions": [
+    {"id": "V4", "summary": "Full-suite evidence blocked by transient PIP API unavailability (504/500). Re-run when API is stable.", "blocking": true}
+  ],
+  "artifactRefs": [
+    {"kind": "plan", "path": ".cg-docs/plans/2026-09-18-reusable-api-argument-validation.md", "status": "active"},
+    {"kind": "execution-report", "path": ".cg-docs/work-reports/2026-09-18-reusable-api-argument-validation.md", "status": "blocked"}
+  ],
+  "nextCommand": "/cg-work"
+}

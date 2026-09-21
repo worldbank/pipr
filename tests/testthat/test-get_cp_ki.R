@@ -16,7 +16,21 @@ test_that("Argument matching works correctly for get_cp_ki()", {
   # expect_error(get_cp_ki(format = "txt"), "'arg' should be one of")
 
   # Argument matching for 'api_version'
-  expect_error(get_cp_ki(api_version = "v2"), "'arg' should be")
+  expect_error(get_cp_ki(country = "IDN", api_version = "v2"), "Invalid `api_version`")
+})
+
+# 1.5. Shared Argument Validation Tests ----
+test_that("get_cp_ki() rejects malformed shared arguments before HTTP", {
+  expect_error(get_cp_ki(country = "AG"), "country")
+  expect_error(get_cp_ki(country = "ago"), "country")
+  expect_error(get_cp_ki(country = "IDN", povline = -1), "povline")
+  expect_error(get_cp_ki(country = "IDN", povline = "2.15"), "povline")
+  expect_error(get_cp_ki(country = "IDN", version = "20260324"), "version")
+  expect_error(get_cp_ki(country = "IDN", version = "20260324_2021_01_02"), "version")
+  expect_error(get_cp_ki(country = "IDN", ppp_version = "2017a"), "ppp_version")
+  expect_error(get_cp_ki(country = "IDN", release_version = "2024-06-27"), "release_version")
+  expect_error(get_cp_ki(country = "IDN", simplify = "TRUE"), "simplify")
+  expect_error(get_cp_ki(country = "IDN", server = 123), "server")
 })
 
 # 2. povline Set-up Tests ----
@@ -64,7 +78,7 @@ test_that("Requests threws error for get_cp_ki()", {
   skip_on_cran()
 
   # Check that the response for invalid country throws an error
-  expect_error(get_cp_ki(country = "INVALID"), "404")
+  expect_error(get_cp_ki(country = "INVALID"), "country")
 })
 
 # 6. Response Parsing and Unnesting Tests ----

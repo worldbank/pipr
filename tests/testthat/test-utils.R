@@ -5,6 +5,148 @@ res_ex_rds <- readRDS(test_path("testdata", "res-ex-rds.RDS"))
 res_ex_404 <- readRDS(test_path("testdata", "res-ex-404.RDS"))
 dictionary <- readRDS(test_path("testdata", "dictionary.RDS"))
 
+# Shared argument validators ----
+test_that("validate_country() accepts valid values", {
+  expect_identical(validate_country("AGO"), "AGO")
+  expect_identical(validate_country("all"), "all")
+  expect_identical(validate_country(c("AGO", "ALB")), c("AGO", "ALB"))
+})
+
+test_that("validate_country() rejects invalid values", {
+  expect_error(validate_country("AG"), "country")
+  expect_error(validate_country("ago"), "country")
+  expect_error(validate_country("AGO1"), "country")
+  expect_error(validate_country(character()), "country")
+  expect_error(validate_country(c("AGO", NA)), "country")
+})
+
+test_that("validate_year() accepts valid values", {
+  expect_identical(validate_year(2000), 2000)
+  expect_identical(validate_year(c(2000, 2018)), c(2000, 2018))
+  expect_identical(validate_year("all"), "all")
+  expect_identical(validate_year("MRV"), "MRV")
+})
+
+test_that("validate_year() rejects invalid values", {
+  expect_error(validate_year(2000.5), "year")
+  expect_error(validate_year("2000"), "year")
+  expect_error(validate_year("MRVX"), "year")
+  expect_error(validate_year(integer()), "year")
+  expect_error(validate_year(c(2000, NA)), "year")
+})
+
+test_that("validate_povline() accepts valid values", {
+  expect_identical(validate_povline(2.15), 2.15)
+  expect_identical(validate_povline(0), 0)
+  expect_null(validate_povline(NULL))
+})
+
+test_that("validate_povline() rejects invalid values", {
+  expect_error(validate_povline(-1), "povline")
+  expect_error(validate_povline("2.15"), "povline")
+  expect_error(validate_povline(c(2.15, 3.2)), "povline")
+  expect_error(validate_povline(Inf), "povline")
+})
+
+test_that("validate_popshare() accepts valid values", {
+  expect_identical(validate_popshare(0.4), 0.4)
+  expect_identical(validate_popshare(0), 0)
+  expect_identical(validate_popshare(1), 1)
+  expect_null(validate_popshare(NULL))
+})
+
+test_that("validate_popshare() rejects invalid values", {
+  expect_error(validate_popshare(-0.1), "popshare")
+  expect_error(validate_popshare(1.5), "popshare")
+  expect_error(validate_popshare("0.4"), "popshare")
+  expect_error(validate_popshare(c(0.4, 0.5)), "popshare")
+})
+
+test_that("validate_logical() accepts valid values", {
+  expect_true(validate_logical(TRUE, "fill_gaps"))
+  expect_false(validate_logical(FALSE, "fill_gaps"))
+})
+
+test_that("validate_logical() rejects invalid values", {
+  expect_error(validate_logical("TRUE", "fill_gaps"), "fill_gaps")
+  expect_error(validate_logical(NA, "fill_gaps"), "fill_gaps")
+  expect_error(validate_logical(1, "fill_gaps"), "fill_gaps")
+})
+
+test_that("validate_subgroup() accepts valid values", {
+  expect_identical(validate_subgroup("none"), "none")
+  expect_identical(validate_subgroup("wb_regions"), "wb_regions")
+  expect_null(validate_subgroup(NULL))
+})
+
+test_that("validate_subgroup() rejects invalid values", {
+  expect_error(validate_subgroup("wb"), "subgroup")
+  expect_error(validate_subgroup("regions"), "subgroup")
+  expect_error(validate_subgroup(c("none", "wb_regions")), "subgroup")
+})
+
+test_that("validate_version() accepts valid values", {
+  expect_identical(
+    validate_version("20260324_2021_01_02_PROD"),
+    "20260324_2021_01_02_PROD"
+  )
+  expect_null(validate_version(NULL))
+})
+
+test_that("validate_version() rejects invalid values", {
+  expect_error(validate_version(2024), "version")
+  expect_error(validate_version(""), "version")
+  expect_error(validate_version(NA), "version")
+  expect_error(validate_version("20260324"), "version")
+  expect_error(validate_version("20260324_2021_01_02"), "version")
+  expect_error(validate_version("20260324_2021_01_02_PROD_extra"), "version")
+})
+
+test_that("validate_ppp_version() accepts valid values", {
+  expect_identical(validate_ppp_version(2017), 2017)
+  expect_identical(validate_ppp_version("2021"), "2021")
+  expect_null(validate_ppp_version(NULL))
+})
+
+test_that("validate_ppp_version() rejects invalid values", {
+  expect_error(validate_ppp_version("2017a"), "ppp_version")
+  expect_error(validate_ppp_version(c(2017, 2011)), "ppp_version")
+  expect_error(validate_ppp_version(NA), "ppp_version")
+})
+
+test_that("validate_release_version() accepts valid values", {
+  expect_identical(validate_release_version("20240627"), "20240627")
+  expect_null(validate_release_version(NULL))
+})
+
+test_that("validate_release_version() rejects invalid values", {
+  expect_error(validate_release_version("2024-06-27"), "release_version")
+  expect_error(validate_release_version("2024062"), "release_version")
+  expect_error(validate_release_version("20241301"), "release_version")
+  expect_error(validate_release_version(20240627), "release_version")
+})
+
+test_that("validate_simplify() accepts valid values", {
+  expect_true(validate_simplify(TRUE))
+  expect_false(validate_simplify(FALSE))
+})
+
+test_that("validate_simplify() rejects invalid values", {
+  expect_error(validate_simplify("TRUE"), "simplify")
+  expect_error(validate_simplify(NA), "simplify")
+})
+
+test_that("validate_server() accepts valid values", {
+  expect_identical(validate_server("prod"), "prod")
+  expect_null(validate_server(NULL))
+})
+
+test_that("validate_server() rejects invalid values", {
+  expect_error(validate_server(123), "server")
+  expect_error(validate_server(""), "server")
+  expect_error(validate_server(NA), "server")
+})
+
 # tests
 test_that("check_internet() works", {
   skip_if_offline()

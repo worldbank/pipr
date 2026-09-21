@@ -11,11 +11,25 @@ test_that("Argument matching works correctly for get_cp()", {
   expect_s3_class(res, "pip_api")
 
   # Argument matching for 'format'
-  expect_error(get_cp(format = "txt"), "'arg' should be one of")
+  expect_error(get_cp(format = "txt"), "Invalid `format`")
 
   # Argument matching for 'api_version'
-  expect_error(get_cp(api_version = "v2"), "'arg' should be")
+  expect_error(get_cp(api_version = "v2"), "Invalid `api_version`")
 
+})
+
+# 1.5. Shared Argument Validation Tests ----
+test_that("get_cp() rejects malformed shared arguments before HTTP", {
+  expect_error(get_cp(country = "AG"), "country")
+  expect_error(get_cp(country = "ago"), "country")
+  expect_error(get_cp(povline = -1), "povline")
+  expect_error(get_cp(povline = "2.15"), "povline")
+  expect_error(get_cp(version = "20260324"), "version")
+  expect_error(get_cp(version = "20260324_2021_01_02"), "version")
+  expect_error(get_cp(ppp_version = "2017a"), "ppp_version")
+  expect_error(get_cp(release_version = "2024-06-27"), "release_version")
+  expect_error(get_cp(simplify = "TRUE"), "simplify")
+  expect_error(get_cp(server = 123), "server")
 })
 
 # 2. povline Set-up Tests ----
@@ -45,7 +59,7 @@ test_that("Requests execute successfully for get_cp()", {
   skip_on_cran()
 
   # Check that the response for invalid country throws an error
-  expect_error(get_cp(country = "INVALID"), "404")
+  expect_error(get_cp(country = "INVALID"), "country")
 
   # All countries with a povline
   res <- get_cp(country = "all", povline = 2.15)
