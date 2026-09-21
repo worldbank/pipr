@@ -62,7 +62,9 @@ test_that("Country argument validation works correctly in get_cp_ki()", {
   # Valid country
   res <- get_cp_ki(country = "IDN")
   expect_type(res, "list")
+})
 
+test_that("get_cp_ki() validates the required single-country rule", {
   # Missing country argument
   expect_error(get_cp_ki(country = NULL), "Please provide a country code.")
 

@@ -415,6 +415,27 @@ change_grouped_stats_to_csv <- function(out) {
   data.frame(out)
 }
 
+# API contract constants
+PIP_API_VERSIONS <- "v1"
+PIP_CP_FORMATS <- c("arrow", "rds", "json", "csv")
+PIP_AUX_FORMATS <- c("rds", "json", "csv")
+
+#' Validate shared version/simplify/server arguments
+#'
+#' @inheritParams get_stats
+#' @noRd
+validate_shared_versions <- function(version,
+                                     ppp_version,
+                                     release_version,
+                                     simplify,
+                                     server) {
+  validate_version(version)
+  validate_ppp_version(ppp_version)
+  validate_release_version(release_version)
+  validate_simplify(simplify)
+  validate_server(server)
+}
+
 #' Abort with an invalid-argument error
 #'
 #' @param argument character: Name of the invalid argument
@@ -451,9 +472,19 @@ match_choice <- function(value, argument, choices) {
 #' Validate a country argument
 #'
 #' @param country character: ISO 3 codes or 'all'
+#' @param required logical: If TRUE, NULL is rejected with a friendly message
+#' @param single logical: If TRUE, more than one country is rejected
 #' @return The validated country vector
 #' @noRd
-validate_country <- function(country) {
+validate_country <- function(country, required = FALSE, single = FALSE) {
+  if (required && is.null(country)) {
+    cli::cli_abort("Please provide a country code.")
+  }
+
+  if (single && length(country) > 1) {
+    cli::cli_abort("Please provide only one country code.")
+  }
+
   is_valid_country <- is.character(country) &&
     length(country) > 0 &&
     all(!is.na(country)) &&
@@ -561,8 +592,11 @@ validate_version <- function(version) {
 #' @return The validated ppp_version value
 #' @noRd
 validate_ppp_version <- function(ppp_version) {
-  is_valid_ppp_version <- is.numeric(ppp_version) ||
-    (is.character(ppp_version) && grepl("^[0-9]{4}$", ppp_version))
+  is_valid_ppp_version <- length(ppp_version) == 1 &&
+    ((is.numeric(ppp_version) &&
+      is.finite(ppp_version) &&
+      ppp_version == trunc(ppp_version)) ||
+      (is.character(ppp_version) && grepl("^[0-9]{4}$", ppp_version)))
   if (!is.null(ppp_version) &&
       (length(ppp_version) != 1 || is.na(ppp_version) || !is_valid_ppp_version)) {
     abort_invalid_argument("ppp_version", "one PPP year")
@@ -628,15 +662,11 @@ validate_get_aux_args <- function(version,
                                   format,
                                   simplify,
                                   server) {
-  validate_version(version)
-  validate_ppp_version(ppp_version)
-  validate_release_version(release_version)
-  validate_simplify(simplify)
-  validate_server(server)
+  validate_shared_versions(version, ppp_version, release_version, simplify, server)
 
   list(
-    api_version = match_choice(api_version, "api_version", "v1"),
-    format = match_choice(format, "format", c("rds", "json", "csv"))
+    api_version = match_choice(api_version, "api_version", PIP_API_VERSIONS),
+    format = match_choice(format, "format", PIP_AUX_FORMATS)
   )
 }
 
@@ -656,24 +686,12 @@ validate_get_cp_ki_args <- function(country,
                                     api_version,
                                     simplify,
                                     server) {
-  if (is.null(country)) {
-    cli::cli_abort("Please provide a country code.")
-  }
-
-  if (length(country) > 1) {
-    cli::cli_abort("Please provide only one country code.")
-  }
-
-  validate_country(country)
+  validate_country(country, required = TRUE, single = TRUE)
   validate_povline(povline)
-  validate_version(version)
-  validate_ppp_version(ppp_version)
-  validate_release_version(release_version)
-  validate_simplify(simplify)
-  validate_server(server)
+  validate_shared_versions(version, ppp_version, release_version, simplify, server)
 
   list(
-    api_version = match_choice(api_version, "api_version", "v1")
+    api_version = match_choice(api_version, "api_version", PIP_API_VERSIONS)
   )
 }
 
@@ -696,15 +714,11 @@ validate_get_cp_args <- function(country,
                                  server) {
   validate_country(country)
   validate_povline(povline)
-  validate_version(version)
-  validate_ppp_version(ppp_version)
-  validate_release_version(release_version)
-  validate_simplify(simplify)
-  validate_server(server)
+  validate_shared_versions(version, ppp_version, release_version, simplify, server)
 
   list(
-    api_version = match_choice(api_version, "api_version", "v1"),
-    format = match_choice(format, "format", c("arrow", "rds", "json", "csv"))
+    api_version = match_choice(api_version, "api_version", PIP_API_VERSIONS),
+    format = match_choice(format, "format", PIP_CP_FORMATS)
   )
 }
 
@@ -741,11 +755,7 @@ validate_get_stats_args <- function(country,
   validate_logical(fill_gaps, "fill_gaps")
   validate_logical(nowcast, "nowcast")
   validate_subgroup(subgroup)
-  validate_version(version)
-  validate_ppp_version(ppp_version)
-  validate_release_version(release_version)
-  validate_simplify(simplify)
-  validate_server(server)
+  validate_shared_versions(version, ppp_version, release_version, simplify, server)
 
   list(
     welfare_type = match_choice(
@@ -758,7 +768,7 @@ validate_get_stats_args <- function(country,
       "reporting_level",
       c("all", "national", "urban", "rural")
     ),
-    api_version = match_choice(api_version, "api_version", "v1"),
-    format = match_choice(format, "format", c("arrow", "rds", "json", "csv"))
+    api_version = match_choice(api_version, "api_version", PIP_API_VERSIONS),
+    format = match_choice(format, "format", PIP_CP_FORMATS)
   )
 }

@@ -93,6 +93,7 @@ get_aux <- function(table           = NULL,
     return(invisible(tables))
   # If a table is specified, returns that table
   } else {
+    # ppp_version is validated but not sent: the aux endpoint does not accept it
     req <- build_request(server          = server,
                          api_version     = api_version,
                          endpoint        = "aux",

@@ -10,6 +10,8 @@ test_that("validate_country() accepts valid values", {
   expect_identical(validate_country("AGO"), "AGO")
   expect_identical(validate_country("all"), "all")
   expect_identical(validate_country(c("AGO", "ALB")), c("AGO", "ALB"))
+  # "all" may be mixed with codes; each element must be "all" or an ISO 3 code
+  expect_identical(validate_country(c("all", "AGO")), c("all", "AGO"))
 })
 
 test_that("validate_country() rejects invalid values", {
@@ -90,6 +92,12 @@ test_that("validate_version() accepts valid values", {
     validate_version("20260324_2021_01_02_PROD"),
     "20260324_2021_01_02_PROD"
   )
+  # Structural format only: components are not semantically validated
+  # (identity suffix is not limited to PROD; see get_versions())
+  expect_identical(
+    validate_version("20260324_9999_99_99_QA"),
+    "20260324_9999_99_99_QA"
+  )
   expect_null(validate_version(NULL))
 })
 
@@ -112,6 +120,8 @@ test_that("validate_ppp_version() rejects invalid values", {
   expect_error(validate_ppp_version("2017a"), "ppp_version")
   expect_error(validate_ppp_version(c(2017, 2011)), "ppp_version")
   expect_error(validate_ppp_version(NA), "ppp_version")
+  expect_error(validate_ppp_version(2017.5), "ppp_version")
+  expect_error(validate_ppp_version(Inf), "ppp_version")
 })
 
 test_that("validate_release_version() accepts valid values", {
@@ -134,6 +144,8 @@ test_that("validate_simplify() accepts valid values", {
 test_that("validate_simplify() rejects invalid values", {
   expect_error(validate_simplify("TRUE"), "simplify")
   expect_error(validate_simplify(NA), "simplify")
+  expect_error(validate_simplify(c(TRUE, FALSE)), "simplify")
+  expect_error(validate_simplify(1), "simplify")
 })
 
 test_that("validate_server() accepts valid values", {
