@@ -27,6 +27,94 @@ test_that("get_stats() works for a single country-year", {
   expect_equal(nrow(df), 1)
 })
 
+test_that("get_stats() rejects malformed release_version values", {
+  expect_error(
+    get_stats(release_version = "2024-06-27"),
+    "release_version.*YYYYMMDD"
+  )
+})
+
+test_that("get_stats() rejects invalid country values", {
+  expect_error(get_stats(country = "AG"), "country")
+  expect_error(get_stats(country = "ago"), "country")
+  expect_error(get_stats(country = "AGO1"), "country")
+  expect_error(get_stats(country = character()), "country")
+  expect_error(get_stats(country = c("AGO", NA)), "country")
+})
+
+test_that("get_stats() rejects invalid year values", {
+  expect_error(get_stats(year = 2000.5), "year")
+  expect_error(get_stats(year = "2000"), "year")
+  expect_error(get_stats(year = "MRVX"), "year")
+  expect_error(get_stats(year = integer()), "year")
+  expect_error(get_stats(year = c(2000, NA)), "year")
+})
+
+test_that("get_stats() rejects invalid povline values", {
+  expect_error(get_stats(povline = -1), "povline")
+  expect_error(get_stats(povline = "2.15"), "povline")
+  expect_error(get_stats(povline = c(2.15, 3.2)), "povline")
+  expect_error(get_stats(povline = Inf), "povline")
+})
+
+test_that("get_stats() rejects invalid popshare values", {
+  expect_error(get_stats(popshare = -0.1), "popshare")
+  expect_error(get_stats(popshare = 1.5), "popshare")
+  expect_error(get_stats(popshare = "0.4"), "popshare")
+  expect_error(get_stats(popshare = c(0.4, 0.5)), "popshare")
+})
+
+test_that("get_stats() rejects invalid fill_gaps and nowcast values", {
+  expect_error(get_stats(fill_gaps = "TRUE"), "fill_gaps")
+  expect_error(get_stats(fill_gaps = NA), "fill_gaps")
+  expect_error(get_stats(nowcast = 1), "nowcast")
+  expect_error(get_stats(nowcast = NA), "nowcast")
+})
+
+test_that("get_stats() rejects invalid subgroup values", {
+  expect_error(get_stats(subgroup = "wb"), "subgroup")
+  expect_error(get_stats(subgroup = "regions"), "subgroup")
+  expect_error(get_stats(subgroup = c("none", "wb_regions")), "subgroup")
+})
+
+test_that("get_stats() rejects invalid version values", {
+  expect_error(get_stats(version = 2024), "version")
+  expect_error(get_stats(version = ""), "version")
+  expect_error(get_stats(version = NA), "version")
+  expect_error(get_stats(version = "20260324"), "version")
+  expect_error(get_stats(version = "20260324_2021_01_02"), "version")
+  expect_error(get_stats(version = "20260324_2021_01_02_PROD_extra"), "version")
+})
+
+test_that("get_stats() rejects invalid ppp_version values", {
+  expect_error(get_stats(ppp_version = "2017a"), "ppp_version")
+  expect_error(get_stats(ppp_version = c(2017, 2011)), "ppp_version")
+  expect_error(get_stats(ppp_version = NA), "ppp_version")
+})
+
+test_that("get_stats() rejects invalid simplify and server values", {
+  expect_error(get_stats(simplify = "TRUE"), "simplify")
+  expect_error(get_stats(simplify = NA), "simplify")
+  expect_error(get_stats(server = 123), "server")
+  expect_error(get_stats(server = ""), "server")
+})
+
+test_that("get_stats() rejects invalid welfare_type values", {
+  expect_error(get_stats(welfare_type = "incomex"), "welfare_type")
+  expect_error(get_stats(welfare_type = "expenditure"), "welfare_type")
+})
+
+test_that("get_stats() rejects invalid reporting_level values", {
+  expect_error(get_stats(reporting_level = "nationalx"), "reporting_level")
+  expect_error(get_stats(reporting_level = "province"), "reporting_level")
+})
+
+test_that("get_stats() rejects invalid api_version and format values", {
+  expect_error(get_stats(api_version = "v2"), "api_version")
+  expect_error(get_stats(format = "xml"), "format")
+  expect_error(get_stats(format = "parquet"), "format")
+})
+
 test_that("get_stats() works for multiple countries and years", {
   skip_if_offline()
   skip_on_cran()
