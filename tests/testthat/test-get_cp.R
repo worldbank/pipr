@@ -43,13 +43,66 @@ test_that("povline and ppp_version arguments work correctly", {
   res <- get_cp(country = "AGO", ppp_version = 2017)
   expect_true(any(res$poverty_line == 2.15))
 
-  # povline with ppp_version 2011
-  res <- get_cp(country = "AGO", ppp_version = 2011, povline = NULL)
-  expect_true(any(res$poverty_line == 1.9))
+  # povline with ppp_version 2011 is covered by the mocked tests below
+  # (the live API errors for ppp_version = 2011)
 
   # povline when povline is provided
   res <- get_cp(country = "AGO", povline = 3.2)
   expect_true(any(res$poverty_line == 3.2))
+})
+
+test_that("get_cp() sends povline = 1.9 when ppp_version = 2011 and povline is NULL", {
+  # Mocked: the live API errors for ppp_version = 2011, so assert on the
+  # request URL instead of the response
+  captured_url <- NULL
+  mock_res <- structure(
+    list(
+      url = "http://mock-api/cp-download",
+      status_code = 200,
+      body = charToRaw("{}"),
+      headers = list("content-type" = "application/json")
+    ),
+    class = "httr2_response"
+  )
+
+  local_mocked_bindings(
+    req_perform = function(req) {
+      captured_url <<- req$url
+      mock_res
+    },
+    .package = "httr2"
+  )
+
+  suppressWarnings(get_cp(country = "AGO", ppp_version = 2011, povline = NULL))
+
+  expect_true(grepl("povline=1.9", captured_url))
+})
+
+test_that("get_cp() sends the default povline when ppp_version is not 2011", {
+  captured_url <- NULL
+  mock_res <- structure(
+    list(
+      url = "http://mock-api/cp-download",
+      status_code = 200,
+      body = charToRaw("{}"),
+      headers = list("content-type" = "application/json")
+    ),
+    class = "httr2_response"
+  )
+
+  local_mocked_bindings(
+    req_perform = function(req) {
+      captured_url <<- req$url
+      mock_res
+    },
+    .package = "httr2"
+  )
+
+  suppressWarnings(get_cp(country = "AGO", ppp_version = 2017, povline = NULL))
+
+  # The 2.15 default is applied server-side; the client sends no povline
+  expect_false(grepl("povline=1.9", captured_url))
+  expect_false(grepl("povline=", captured_url))
 })
 
 
