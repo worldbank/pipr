@@ -12,6 +12,7 @@ NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  eval = NOT_CRAN,
   purl = NOT_CRAN
 )
 ```
@@ -202,6 +203,5 @@ ggplot() +
 - Datt, Gaurav (1998). "Computational tools for poverty measurement and analysis." FCND Discussion Paper 50. International Food Policy Research Institute (IFPRI). Washington, DC. [Link](https://www.ifpri.org/publication/computational-tools-poverty-measurement-and-analysis)
 
 - Sarveskhana, Vol IX n 4 (April 1986). [Link](https://mospi.gov.in/sites/default/files/publication_reports/Sarvekshana_issue%20no.%2027_%20Vol%20%209%20No%204.PDF)
-
 
 

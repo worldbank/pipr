@@ -9,6 +9,9 @@
   API without local validation may now fail before the request.
 * Tests for the 2011 PPP poverty-line defaults in `get_cp()` and `get_cp_ki()`
   now use mocked responses because the live API rejects these requests.
+  Automated CRAN-mode checks skip live API integration tests so temporary
+  gateway failures do not fail package checks. The package website displays
+  examples without making live API requests during deployment.
 * Corrected API argument, return-value, and example documentation. The
   `call_aux()` example no longer makes a network request during package checks.
 

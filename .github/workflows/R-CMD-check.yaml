@@ -47,6 +47,9 @@ jobs:
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
+        env:
+          # Match CRAN: live API integration tests use skip_on_cran().
+          NOT_CRAN: "false"
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
