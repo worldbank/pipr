@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -39,6 +39,9 @@
     </li>
     <li>
       <a href="../articles/get-gd-example.html">Get Grouped Data Parameters</a>
+    </li>
+    <li>
+      <a href="../articles/get-stats-example.html">Get Poverty and Inequality Statistics with get_stats()</a>
     </li>
     <li>
       <a href="../articles/pip-env-aux-tables.html">Auxiliary tables and the `.pip` environment</a>
@@ -72,6 +75,19 @@
       <small>Source: <a href="https://github.com/worldbank/pipr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.5.0" id="pipr-150">pipr 1.5.0<a class="anchor" aria-label="anchor" href="#pipr-150"></a></h2>
+<ul><li>
+<code><a href="../reference/get_stats.html">get_stats()</a></code>, <code><a href="../reference/get_cp.html">get_cp()</a></code>, <code><a href="../reference/get_cp_ki.html">get_cp_ki()</a></code>, and <code><a href="../reference/get_aux.html">get_aux()</a></code> now check their arguments before making an API request. Invalid country codes, years, poverty lines, population shares, data versions, dates, response formats, and other options produce an error that names the argument. Country codes must be uppercase three-letter codes (or <code>"all"</code> where supported); <code><a href="../reference/get_cp_ki.html">get_cp_ki()</a></code> requires exactly one country code. Inputs that were previously sent to the API without local validation may now fail before the request.</li>
+<li>Tests for the 2011 PPP poverty-line defaults in <code><a href="../reference/get_cp.html">get_cp()</a></code> and <code><a href="../reference/get_cp_ki.html">get_cp_ki()</a></code> now use mocked responses because the live API rejects these requests. Automated CRAN-mode checks skip live API integration tests so temporary gateway failures do not fail package checks. The package website displays examples without making live API requests during deployment.</li>
+<li>Corrected API argument, return-value, and example documentation. The <code><a href="../reference/call_aux.html">call_aux()</a></code> example no longer makes a network request during package checks.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.4.0" id="pipr-140">pipr 1.4.0<small>2025-12-22</small><a class="anchor" aria-label="anchor" href="#pipr-140"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.3.0" id="pipr-130">pipr 1.3.0<a class="anchor" aria-label="anchor" href="#pipr-130"></a></h2>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.2.0" id="pipr-120">pipr 1.2.0<a class="anchor" aria-label="anchor" href="#pipr-120"></a></h2>
 </div>
@@ -136,7 +152,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

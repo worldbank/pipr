@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -56,6 +56,9 @@
     </li>
     <li>
       <a href="../articles/get-gd-example.html">Get Grouped Data Parameters</a>
+    </li>
+    <li>
+      <a href="../articles/get-stats-example.html">Get Poverty and Inequality Statistics with get_stats()</a>
     </li>
     <li>
       <a href="../articles/pip-env-aux-tables.html">Auxiliary tables and the `.pip` environment</a>
@@ -122,23 +125,7 @@ specific data versions however.</p>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_versions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_versions.html">get_versions</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Pruning cache</span></span>
-<span><span class="va">data_versions</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 4</span></span></span>
-<span><span class="co">#&gt;    version                  release_version ppp_version identity</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 20250401_2021_01_02_PROD 20250401        2021        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 20250401_2017_01_02_PROD 20250401        2017        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 20240627_2017_01_02_PROD 20240627        2017        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 20240627_2011_02_02_PROD 20240627        2011        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 20240326_2017_01_02_PROD 20240326        2017        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 20240326_2011_02_02_PROD 20240326        2011        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 20230919_2017_01_02_PROD 20230919        2017        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 20230919_2011_02_02_PROD 20230919        2011        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 20230328_2017_01_02_PROD 20230328        2017        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 20230328_2011_02_02_PROD 20230328        2011        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 20220909_2017_01_02_PROD 20220909        2017        PROD    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> 20220909_2011_02_02_PROD 20220909        2011        PROD</span></span></code></pre></div>
+<span><span class="va">data_versions</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="querying-a-specific-data-version">Querying a specific data version<a class="anchor" aria-label="anchor" href="#querying-a-specific-data-version"></a>
@@ -146,25 +133,11 @@ specific data versions however.</p>
 <p>Select a version:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_version</span> <span class="op">&lt;-</span> <span class="va">data_versions</span><span class="op">$</span><span class="va">version</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
-<span><span class="va">my_version</span></span>
-<span><span class="co">#&gt; [1] "20250401_2021_01_02_PROD"</span></span></code></pre></div>
+<span><span class="va">my_version</span></span></code></pre></div>
 <p>Pass it to the <code>version</code> argument of
 <code>get_stats</code> or other functions:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"AGO"</span>, version <span class="op">=</span> <span class="va">my_version</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 44</span></span></span>
-<span><span class="co">#&gt;   region_name        region_code country_name country_code  year reporting_level</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Sub-Saharan Africa SSA         Angola       AGO           <span style="text-decoration: underline;">2</span>000 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Sub-Saharan Africa SSA         Angola       AGO           <span style="text-decoration: underline;">2</span>008 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Sub-Saharan Africa SSA         Angola       AGO           <span style="text-decoration: underline;">2</span>018 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 38 more variables: survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_time &lt;dbl&gt;, welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"AGO"</span>, version <span class="op">=</span> <span class="va">my_version</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="retrieve-information-about-pip-code">Retrieve information about PIP code<a class="anchor" aria-label="anchor" href="#retrieve-information-about-pip-code"></a>
@@ -184,22 +157,7 @@ particular moment in time.</p>
 information about the versions of these packages</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pip_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_pip_info.html">get_pip_info</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Saving response to cache <span style="color: #0000BB;">"e64a91499cabd8232b327aba32e94d6e"</span></span></span>
-<span><span class="va">pip_info</span><span class="op">$</span><span class="va">pip_packages</span></span>
-<span><span class="co">#&gt; $pipapi</span></span>
-<span><span class="co">#&gt; $pipapi$pkg_version</span></span>
-<span><span class="co">#&gt; [1] "1.3.22"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $pipapi$pkg_hash</span></span>
-<span><span class="co">#&gt; [1] "96338b36b66c4ea469054559e2c5187b86056c7c"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $wbpip</span></span>
-<span><span class="co">#&gt; $wbpip$pkg_version</span></span>
-<span><span class="co">#&gt; [1] "0.1.6"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $wbpip$pkg_hash</span></span>
-<span><span class="co">#&gt; [1] "fd2c687ed527ebe33d0a7addf9859f72f71ff39f"</span></span></code></pre></div>
+<span><span class="va">pip_info</span><span class="op">$</span><span class="va">pip_packages</span></span></code></pre></div>
 <p>These are the two packages which changes are are most likely to
 impact reproducibility, but the <code><a href="../reference/get_pip_info.html">get_pip_info()</a></code> function
 also provides additional information about the <code>R</code> version
@@ -223,7 +181,7 @@ being used by PIP, the Operating System, etc.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -39,6 +39,9 @@
     </li>
     <li>
       <a href="../articles/get-gd-example.html">Get Grouped Data Parameters</a>
+    </li>
+    <li>
+      <a href="../articles/get-stats-example.html">Get Poverty and Inequality Statistics with get_stats()</a>
     </li>
     <li>
       <a href="../articles/pip-env-aux-tables.html">Auxiliary tables and the `.pip` environment</a>
@@ -96,55 +99,57 @@
 
 
 <dl><dt id="arg-country">country<a class="anchor" aria-label="anchor" href="#arg-country"></a></dt>
-<dd><p>character: A vector with one or more <a href="https://wits.worldbank.org/wits/wits/witshelp/content/codes/country_codes.htm" class="external-link">country ISO 3 codes</a> or
-'all'</p></dd>
+<dd><p>Uppercase, three-letter country ISO codes or <code>"all"</code>.</p></dd>
 
 
 <dt id="arg-povline">povline<a class="anchor" aria-label="anchor" href="#arg-povline"></a></dt>
-<dd><p>numeric: Poverty line</p></dd>
+<dd><p>One finite, non-negative numeric poverty line, or <code>NULL</code>.
+With <code>ppp_version = 2011</code>, <code>NULL</code> sends 1.9; otherwise the API applies
+its default poverty line.</p></dd>
 
 
 <dt id="arg-version">version<a class="anchor" aria-label="anchor" href="#arg-version"></a></dt>
-<dd><p>character: Data version. See <code><a href="get_versions.html">get_versions()</a></code></p></dd>
+<dd><p>Data version in <code>YYYYMMDD_PPP_XX_YY_IDENTITY</code> format, or
+<code>NULL</code>. See <code><a href="get_versions.html">get_versions()</a></code>.</p></dd>
 
 
 <dt id="arg-ppp-version">ppp_version<a class="anchor" aria-label="anchor" href="#arg-ppp-version"></a></dt>
-<dd><p>ppp year to be used</p></dd>
+<dd><p>One integer-valued numeric PPP year, a four-digit year
+string, or <code>NULL</code>.</p></dd>
 
 
 <dt id="arg-release-version">release_version<a class="anchor" aria-label="anchor" href="#arg-release-version"></a></dt>
-<dd><p>date when the data was published in YYYYMMDD format</p></dd>
+<dd><p>A valid publication date in <code>YYYYMMDD</code> format, or
+<code>NULL</code>.</p></dd>
 
 
 <dt id="arg-api-version">api_version<a class="anchor" aria-label="anchor" href="#arg-api-version"></a></dt>
-<dd><p>character: API version</p></dd>
+<dd><p>API version. Currently only <code>"v1"</code> is supported.</p></dd>
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
-<dd><p>character: Response format either of c("rds", "json", "csv")</p></dd>
+<dd><p>Response format: <code>"arrow"</code>, <code>"rds"</code>, <code>"json"</code>, or <code>"csv"</code>.</p></dd>
 
 
 <dt id="arg-simplify">simplify<a class="anchor" aria-label="anchor" href="#arg-simplify"></a></dt>
-<dd><p>logical: If TRUE (the default) the response is returned as a
-<code>tibble</code></p></dd>
+<dd><p>One non-missing logical value. If <code>TRUE</code> (the default),
+return simplified data.</p></dd>
 
 
 <dt id="arg-server">server<a class="anchor" aria-label="anchor" href="#arg-server"></a></dt>
-<dd><p>character: Server. For WB internal use only</p></dd>
+<dd><p>One non-empty server name, or <code>NULL</code> for the production server.
+For World Bank internal use only.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If <code>simplify = FALSE</code>, it returns a list of class "pip_api". If
-<code>simplify = TRUE</code>, it returns a tibble with the requested data. This is the
-default. Only for <code><a href="get_aux.html">get_aux()</a></code>, If <code>assign_tb = TRUE</code> or character, it
-returns TRUE when data was assign properly to .pip env. FALSE, if it was
-not assigned.</p>
+    <p>A tibble of country profile data when <code>simplify = TRUE</code>, or a
+<code>pip_api</code> list when <code>simplify = FALSE</code>.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># One country, all years with default ppp_version = 2017</span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_cp</span><span class="op">(</span>country <span class="op">=</span> <span class="st">"AGO"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -153,7 +158,7 @@ not assigned.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># All countries and years with default values</span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_cp</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -168,7 +173,7 @@ not assigned.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

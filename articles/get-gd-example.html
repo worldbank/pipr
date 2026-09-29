@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -56,6 +56,9 @@
     </li>
     <li>
       <a href="../articles/get-gd-example.html">Get Grouped Data Parameters</a>
+    </li>
+    <li>
+      <a href="../articles/get-stats-example.html">Get Poverty and Inequality Statistics with get_stats()</a>
     </li>
     <li>
       <a href="../articles/pip-env-aux-tables.html">Auxiliary tables and the `.pip` environment</a>
@@ -141,14 +144,7 @@ greater or equal to the corresponding welfare values.</p>
 <span></span>
 <span><span class="va">datt_povline</span> <span class="op">&lt;-</span> <span class="fl">89</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">datt_rural</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 'data.frame':    13 obs. of  6 variables:</span></span>
-<span><span class="co">#&gt;  $ monthly_pc_exp       : chr  "0 – 30" "30 – 40" "40 – 50" "50 – 60" ...</span></span>
-<span><span class="co">#&gt;  $ mean_monthly_pc_exp  : num  24.4 35.8 45.4 55.1 64.9 ...</span></span>
-<span><span class="co">#&gt;  $ percentage_of_persons: num  0.92 2.47 5.11 7.9 9.69 ...</span></span>
-<span><span class="co">#&gt;  $ p                    : num  0.0092 0.0339 0.085 0.164 0.2609 ...</span></span>
-<span><span class="co">#&gt;  $ L                    : num  0.00204 0.01009 0.03118 0.0708 0.12805 ...</span></span>
-<span><span class="co">#&gt;  $ area                 : chr  "rural" "rural" "rural" "rural" ...</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">datt_rural</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="get-headcount-from-poverty-line">Get headcount from poverty line<a class="anchor" aria-label="anchor" href="#get-headcount-from-poverty-line"></a>
 </h3>
@@ -162,14 +158,7 @@ line.</p>
 <span>  estimate <span class="op">=</span> <span class="st">"stats"</span>,</span>
 <span>  requested_mean <span class="op">=</span> <span class="va">datt_mean</span>,</span>
 <span>  povline <span class="op">=</span> <span class="va">datt_povline</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 20</span></span></span>
-<span><span class="co">#&gt;   poverty_line  mean median headcount poverty_gap poverty_severity watts  gini</span></span>
-<span><span class="co">#&gt;          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>           89  110.   94.3     0.451       0.125           0.047<span style="text-decoration: underline;">6</span> 0.165 0.289</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 12 more variables: mld &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;</span></span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="get-poverty-line-from-headcount-popshare">Get poverty line from headcount (<code>popshare</code>)<a class="anchor" aria-label="anchor" href="#get-poverty-line-from-headcount-popshare"></a>
@@ -185,14 +174,7 @@ statistics (and the poverty line itself):</p>
 <span>  estimate <span class="op">=</span> <span class="st">"stats"</span>,</span>
 <span>  requested_mean <span class="op">=</span> <span class="va">datt_mean</span>,</span>
 <span>  popshare <span class="op">=</span> <span class="fl">0.3</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 20</span></span></span>
-<span><span class="co">#&gt;   poverty_line  mean median headcount poverty_gap poverty_severity  watts  gini</span></span>
-<span><span class="co">#&gt;          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         73.4  110.   94.3       0.3      0.071<span style="text-decoration: underline;">6</span>           0.023<span style="text-decoration: underline;">7</span> 0.091<span style="text-decoration: underline;">3</span> 0.289</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 12 more variables: mld &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;</span></span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -212,10 +194,7 @@ be selected by default.</p>
 <span>  n_bins <span class="op">=</span> <span class="fl">10</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">lorenz_100</span><span class="op">)</span></span>
-<span><span class="co">#&gt; tibble [10 × 2] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;  $ welfare: num [1:10] 0 0.0443 0.1036 0.1754 0.2589 ...</span></span>
-<span><span class="co">#&gt;  $ weight : num [1:10] 0 0.111 0.222 0.333 0.444 ...</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">lorenz_100</span><span class="op">)</span></span></code></pre></div>
 <p>You can also specify the Lorenz curve methodology by setting the
 <code>lorenz</code> parameter to either <code>"lb"</code> (Beta Lorenz)
 or <code>"lq"</code> (Quadratic Lorenz).</p>
@@ -226,20 +205,7 @@ or <code>"lq"</code> (Quadratic Lorenz).</p>
 <span>  estimate <span class="op">=</span> <span class="st">"lorenz"</span>,</span>
 <span>  lorenz <span class="op">=</span> <span class="st">"lb"</span>,</span>
 <span>  n_bins <span class="op">=</span> <span class="fl">10</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
-<span><span class="co">#&gt;    welfare weight</span></span>
-<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  0       0    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  0.043<span style="text-decoration: underline;">2</span>  0.111</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  0.103   0.222</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  0.174   0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  0.257   0.444</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  0.353   0.556</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  0.463   0.667</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  0.592   0.778</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  0.748   0.889</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  1       1</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="retrieve-regression-parameters">Retrieve regression parameters<a class="anchor" aria-label="anchor" href="#retrieve-regression-parameters"></a>
@@ -253,14 +219,7 @@ described in detail in Datt (1998).</p>
 <span>  cum_welfare <span class="op">=</span> <span class="va">datt_rural</span><span class="op">$</span><span class="va">L</span>,</span>
 <span>  cum_population <span class="op">=</span> <span class="va">datt_rural</span><span class="op">$</span><span class="va">p</span>,</span>
 <span>  estimate <span class="op">=</span> <span class="st">"params"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 16</span></span></span>
-<span><span class="co">#&gt;   lorenz     A      B     C  ymean     sst     sse    r2     mse    se_A    se_B</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> lq     0.888 -<span style="color: #BB0000;">1.45</span>  0.202  0.122  0.084<span style="text-decoration: underline;">6</span> 3.51<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span> 1.000 3.90<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span> 0.006<span style="text-decoration: underline;">76</span> 0.019<span style="text-decoration: underline;">3</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> lb     0.561  0.930 0.580 -<span style="color: #BB0000;">2.50</span>  11.0    3.25<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 1.000 3.61<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 0.015<span style="text-decoration: underline;">0</span>  0.005<span style="text-decoration: underline;">54</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: se_C &lt;dbl&gt;, validity &lt;lgl&gt;, normality &lt;lgl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   selected_for_dist &lt;chr&gt;, selected_for_pov &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <p>The variable <code>selected_for_dist</code> shows the Lorenz curve
 methodology selected by default when calculating the Lorenz curve data
 points and the deciles. The variable <code>selected_for_pov</code> shows
@@ -317,7 +276,6 @@ data.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>, </span>
 <span>        legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="get-gd-example_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="lorenz-curve-data">Lorenz Curve Data<a class="anchor" aria-label="anchor" href="#lorenz-curve-data"></a>
@@ -337,7 +295,6 @@ data.</p>
 <span>    y <span class="op">=</span> <span class="st">"Cumulative Share of Welfare"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="get-gd-example_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="rural-vs-urban">Rural vs Urban<a class="anchor" aria-label="anchor" href="#rural-vs-urban"></a>
@@ -356,7 +313,6 @@ data.</p>
 <span>    y <span class="op">=</span> <span class="st">"Cumulative Share of Welfare"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="get-gd-example_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -386,7 +342,7 @@ Research Institute (IFPRI). Washington, DC. <a href="https://www.ifpri.org/publi
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>

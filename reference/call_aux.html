@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -39,6 +39,9 @@
     </li>
     <li>
       <a href="../articles/get-gd-example.html">Get Grouped Data Parameters</a>
+    </li>
+    <li>
+      <a href="../articles/get-stats-example.html">Get Poverty and Inequality Statistics with get_stats()</a>
     </li>
     <li>
       <a href="../articles/pip-env-aux-tables.html">Auxiliary tables and the `.pip` environment</a>
@@ -92,62 +95,19 @@ names of tables available in .pip env</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data frame of auxiliary table</p>
+    <p>The stored auxiliary table when <code>table</code> is given. With <code>table = NULL</code>,
+invisibly returns the names of stored tables.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># call one table</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="get_aux.html">get_aux</a></span><span class="op">(</span><span class="st">"gdp"</span>, assign_tb <span class="op">=</span> <span class="cn">TRUE</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># PR 63</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Pruning cache</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Auxiliary table <span style="font-weight: bold;">gdp</span> successfully fetched. You can now call it by typing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `pipr::call_aux('gdp')`</span>
-<span class="r-in"><span><span class="fu">call_aux</span><span class="op">(</span><span class="st">"gdp"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10,608 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    country_code data_level year   value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ABW          national   1977     <span style="color: #BB0000;">NA</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ABW          national   1978     <span style="color: #BB0000;">NA</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> ABW          national   1979     <span style="color: #BB0000;">NA</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> ABW          national   1980     <span style="color: #BB0000;">NA</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> ABW          national   1981     <span style="color: #BB0000;">NA</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> ABW          national   1982     <span style="color: #BB0000;">NA</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> ABW          national   1983     <span style="color: #BB0000;">NA</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> ABW          national   1984     <span style="color: #BB0000;">NA</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ABW          national   1985     <span style="color: #BB0000;">NA</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> ABW          national   1986  <span style="text-decoration: underline;">17</span>354.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 10,598 more rows</span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># see the name of several tables in memory</span></span></span>
-<span class="r-in"><span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cpi"</span>, <span class="st">"ppp"</span>, <span class="st">"pop"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">tb</span>, <span class="va">get_aux</span>, assign_tb <span class="op">=</span> <span class="cn">TRUE</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># PR 63</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Auxiliary table <span style="font-weight: bold;">cpi</span> successfully fetched. You can now call it by typing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `pipr::call_aux('cpi')`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Auxiliary table <span style="font-weight: bold;">ppp</span> successfully fetched. You can now call it by typing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `pipr::call_aux('ppp')`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Auxiliary table <span style="font-weight: bold;">pop</span> successfully fetched. You can now call it by typing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `pipr::call_aux('pop')`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  cpi </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TRUE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ppp </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TRUE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  pop </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TRUE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># List tables already stored in this R session (no network request).</span></span></span>
 <span class="r-in"><span><span class="fu">call_aux</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">tables available in env pip</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `gdp`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `ppp`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `cpi`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `pop`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> no tables available in .pip environment</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="get_aux.html">get_aux</a></span><span class="op">(</span><span class="st">"gdp"</span>, assign_tb <span class="op">=</span> <span class="cn">TRUE</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">call_aux</span><span class="op">(</span><span class="st">"gdp"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -162,7 +122,7 @@ names of tables available in .pip env</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

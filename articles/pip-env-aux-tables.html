@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -56,6 +56,9 @@
     </li>
     <li>
       <a href="../articles/get-gd-example.html">Get Grouped Data Parameters</a>
+    </li>
+    <li>
+      <a href="../articles/get-stats-example.html">Get Poverty and Inequality Statistics with get_stats()</a>
     </li>
     <li>
       <a href="../articles/pip-env-aux-tables.html">Auxiliary tables and the `.pip` environment</a>
@@ -181,26 +184,9 @@ clean.</li>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># this simulates a `display_aux() call`</span></span>
 <span><span class="fu"><a href="../reference/get_aux.html">get_aux</a></span><span class="op">(</span><span class="st">"gdp"</span>, assign_tb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Pruning cache</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Auxiliary table <span style="font-weight: bold;">gdp</span> successfully fetched. You can now call it by typing</span></span>
-<span><span class="co">#&gt; `pipr::call_aux('gdp')`</span></span>
 <span></span>
 <span><span class="co"># now you can call it</span></span>
-<span><span class="fu"><a href="../reference/call_aux.html">call_aux</a></span><span class="op">(</span><span class="st">"gdp"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10,608 × 4</span></span></span>
-<span><span class="co">#&gt;    country_code data_level year   value</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ABW          national   1977     <span style="color: #BB0000;">NA</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> ABW          national   1978     <span style="color: #BB0000;">NA</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> ABW          national   1979     <span style="color: #BB0000;">NA</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> ABW          national   1980     <span style="color: #BB0000;">NA</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> ABW          national   1981     <span style="color: #BB0000;">NA</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> ABW          national   1982     <span style="color: #BB0000;">NA</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> ABW          national   1983     <span style="color: #BB0000;">NA</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ABW          national   1984     <span style="color: #BB0000;">NA</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ABW          national   1985     <span style="color: #BB0000;">NA</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ABW          national   1986  <span style="text-decoration: underline;">17</span>354.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 10,598 more rows</span></span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/call_aux.html">call_aux</a></span><span class="op">(</span><span class="st">"gdp"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="using--pip-in-development">Using <code>.pip</code> in development<a class="anchor" aria-label="anchor" href="#using--pip-in-development"></a>
@@ -215,36 +201,9 @@ as <a href="https://worldbank.github.io/pipr/">pipr</a> is not reloaded or a new
 <code class="sourceCode R"><span><span class="co"># for developers who may need several tables</span></span>
 <span><span class="va">tb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cpi"</span>, <span class="st">"ppp"</span>, <span class="st">"pop"</span><span class="op">)</span></span>
 <span><span class="va">l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">tb</span>, <span class="va">get_aux</span>, assign_tb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Auxiliary table <span style="font-weight: bold;">cpi</span> successfully fetched. You can now call it by typing</span></span>
-<span><span class="co">#&gt; `pipr::call_aux('cpi')`</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Auxiliary table <span style="font-weight: bold;">ppp</span> successfully fetched. You can now call it by typing</span></span>
-<span><span class="co">#&gt; `pipr::call_aux('ppp')`</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Auxiliary table <span style="font-weight: bold;">pop</span> successfully fetched. You can now call it by typing</span></span>
-<span><span class="co">#&gt; `pipr::call_aux('pop')`</span></span>
 <span><span class="fu"><a href="../reference/call_aux.html">call_aux</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">tables available in env pip</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; `gdp`</span></span>
-<span><span class="co">#&gt; `ppp`</span></span>
-<span><span class="co">#&gt; `cpi`</span></span>
-<span><span class="co">#&gt; `pop`</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/call_aux.html">call_aux</a></span><span class="op">(</span><span class="st">"pop"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 31,200 × 4</span></span></span>
-<span><span class="co">#&gt;    country_code data_level year  value</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ABW          national   1977  <span style="text-decoration: underline;">58</span>580</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> ABW          rural      1977  <span style="text-decoration: underline;">28</span>987</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> ABW          urban      1977  <span style="text-decoration: underline;">29</span>593</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> ABW          national   1978  <span style="text-decoration: underline;">58</span>776</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> ABW          rural      1978  <span style="text-decoration: underline;">29</span>093</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> ABW          urban      1978  <span style="text-decoration: underline;">29</span>683</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> ABW          national   1979  <span style="text-decoration: underline;">59</span>191</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ABW          rural      1979  <span style="text-decoration: underline;">29</span>307</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ABW          urban      1979  <span style="text-decoration: underline;">29</span>884</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ABW          national   1980  <span style="text-decoration: underline;">59</span>909</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 31,190 more rows</span></span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/call_aux.html">call_aux</a></span><span class="op">(</span><span class="st">"pop"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr>
@@ -272,7 +231,7 @@ available auxiliary tables.<a href="#fnref1" class="footnote-back">↩︎</a></p
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>

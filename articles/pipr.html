@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pipr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5.0</span>
       </span>
     </div>
 
@@ -56,6 +56,9 @@
     </li>
     <li>
       <a href="../articles/get-gd-example.html">Get Grouped Data Parameters</a>
+    </li>
+    <li>
+      <a href="../articles/get-stats-example.html">Get Poverty and Inequality Statistics with get_stats()</a>
     </li>
     <li>
       <a href="../articles/pip-env-aux-tables.html">Auxiliary tables and the `.pip` environment</a>
@@ -121,27 +124,7 @@
 </ul>
 <p>For the most recent data available.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,504 × 44</span></span></span>
-<span><span class="co">#&gt;    region_name       region_code country_name country_code  year reporting_level</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Sub-Saharan Afri… SSA         Angola       AGO           <span style="text-decoration: underline;">2</span>000 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Sub-Saharan Afri… SSA         Angola       AGO           <span style="text-decoration: underline;">2</span>008 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Sub-Saharan Afri… SSA         Angola       AGO           <span style="text-decoration: underline;">2</span>018 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">1</span>996 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>002 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>005 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>008 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>012 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>014 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>015 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2,494 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 38 more variables: survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_time &lt;dbl&gt;, welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="basic-options">Basic options<a class="anchor" aria-label="anchor" href="#basic-options"></a>
@@ -152,54 +135,9 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Specify ONE country</span></span>
 <span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 44</span></span></span>
-<span><span class="co">#&gt;    region_name       region_code country_name country_code  year reporting_level</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">1</span>996 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>002 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>005 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>008 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>012 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>014 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>015 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>016 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>016 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>017 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>017 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>018 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>018 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>019 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>020 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 38 more variables: survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_time &lt;dbl&gt;, welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, …</span></span></span>
 <span></span>
 <span><span class="co"># Specify MULTIPLE countries</span></span>
-<span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ALB"</span>, <span class="st">"CHN"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 81 × 44</span></span></span>
-<span><span class="co">#&gt;    region_name       region_code country_name country_code  year reporting_level</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">1</span>996 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>002 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>005 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>008 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>012 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>014 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>015 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>016 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>016 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>017 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 71 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 38 more variables: survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_time &lt;dbl&gt;, welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ALB"</span>, <span class="st">"CHN"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="filter-by-year">Filter by year<a class="anchor" aria-label="anchor" href="#filter-by-year"></a>
@@ -210,86 +148,19 @@ requested <strong>year</strong>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Survey year available</span></span>
 <span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span>, year <span class="op">=</span> <span class="fl">2012</span><span class="op">)</span>         <span class="co"># single year</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 44</span></span></span>
-<span><span class="co">#&gt;   region_name        region_code country_name country_code  year reporting_level</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Europe &amp; Central … ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>012 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 38 more variables: survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_time &lt;dbl&gt;, welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, …</span></span></span>
 <span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span>, year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1996</span>,<span class="fl">2012</span><span class="op">)</span><span class="op">)</span> <span class="co"># multiple years</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 44</span></span></span>
-<span><span class="co">#&gt;   region_name        region_code country_name country_code  year reporting_level</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Europe &amp; Central … ECA         Albania      ALB           <span style="text-decoration: underline;">1</span>996 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Europe &amp; Central … ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>012 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 38 more variables: survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_time &lt;dbl&gt;, welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, …</span></span></span>
 <span></span>
 <span><span class="co"># Survey year NOT available - Empty response</span></span>
 <span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span>, year <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 × 44</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 44 variables: region_name &lt;chr&gt;, region_code &lt;chr&gt;, country_name &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   country_code &lt;chr&gt;, year &lt;dbl&gt;, reporting_level &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;, welfare_time &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;, comparable_spell &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;, poverty_gap &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;, median &lt;dbl&gt;, mld &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;, decile2 &lt;dbl&gt;, …</span></span></span>
 <span></span>
 <span><span class="co"># Most Recent Value available</span></span>
-<span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span>, year <span class="op">=</span> <span class="st">"MRV"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 44</span></span></span>
-<span><span class="co">#&gt;   region_name        region_code country_name country_code  year reporting_level</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Europe &amp; Central … ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>020 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 38 more variables: survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_time &lt;dbl&gt;, welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span>, year <span class="op">=</span> <span class="st">"MRV"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="modify-the-poverty-line">Modify the poverty line<a class="anchor" aria-label="anchor" href="#modify-the-poverty-line"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span>, povline <span class="op">=</span> <span class="fl">3.2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 44</span></span></span>
-<span><span class="co">#&gt;    region_name       region_code country_name country_code  year reporting_level</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">1</span>996 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>002 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>005 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>008 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>012 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>014 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>015 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>016 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>016 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>017 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>017 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>018 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>018 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>019 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Europe &amp; Central… ECA         Albania      ALB           <span style="text-decoration: underline;">2</span>020 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 38 more variables: survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_time &lt;dbl&gt;, welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"ALB"</span>, povline <span class="op">=</span> <span class="fl">3.2</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -304,41 +175,8 @@ given year.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># fill_gaps = FALSE (default)</span></span>
 <span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"HTI"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 44</span></span></span>
-<span><span class="co">#&gt;   region_name        region_code country_name country_code  year reporting_level</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Latin America &amp; C… LAC         Haiti        HTI           <span style="text-decoration: underline;">2</span>001 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Latin America &amp; C… LAC         Haiti        HTI           <span style="text-decoration: underline;">2</span>012 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Latin America &amp; C… LAC         Haiti        HTI           <span style="text-decoration: underline;">2</span>012 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 38 more variables: survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_time &lt;dbl&gt;, welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, decile6 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile7 &lt;dbl&gt;, decile8 &lt;dbl&gt;, decile9 &lt;dbl&gt;, decile10 &lt;dbl&gt;, cpi &lt;dbl&gt;, …</span></span></span>
 <span><span class="co"># fill_gaps = TRUE</span></span>
-<span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"HTI"</span>, fill_gaps <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 43 × 44</span></span></span>
-<span><span class="co">#&gt;    region_name       region_code country_name country_code  year reporting_level</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Latin America &amp; … LAC         Haiti        HTI           <span style="text-decoration: underline;">1</span>981 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Latin America &amp; … LAC         Haiti        HTI           <span style="text-decoration: underline;">1</span>982 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Latin America &amp; … LAC         Haiti        HTI           <span style="text-decoration: underline;">1</span>983 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Latin America &amp; … LAC         Haiti        HTI           <span style="text-decoration: underline;">1</span>984 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Latin America &amp; … LAC         Haiti        HTI           <span style="text-decoration: underline;">1</span>985 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Latin America &amp; … LAC         Haiti        HTI           <span style="text-decoration: underline;">1</span>986 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Latin America &amp; … LAC         Haiti        HTI           <span style="text-decoration: underline;">1</span>987 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Latin America &amp; … LAC         Haiti        HTI           <span style="text-decoration: underline;">1</span>988 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Latin America &amp; … LAC         Haiti        HTI           <span style="text-decoration: underline;">1</span>989 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Latin America &amp; … LAC         Haiti        HTI           <span style="text-decoration: underline;">1</span>990 national       </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 33 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 38 more variables: survey_acronym &lt;chr&gt;, survey_coverage &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   welfare_time &lt;dbl&gt;, welfare_type &lt;chr&gt;, survey_comparability &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   comparable_spell &lt;chr&gt;, poverty_line &lt;dbl&gt;, headcount &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   poverty_gap &lt;dbl&gt;, poverty_severity &lt;dbl&gt;, watts &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   median &lt;dbl&gt;, mld &lt;dbl&gt;, gini &lt;dbl&gt;, polarization &lt;dbl&gt;, decile1 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decile2 &lt;dbl&gt;, decile3 &lt;dbl&gt;, decile4 &lt;dbl&gt;, decile5 &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/get_stats.html">get_stats</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"HTI"</span>, fill_gaps <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="compute-aggregates">Compute aggregates<a class="anchor" aria-label="anchor" href="#compute-aggregates"></a>
@@ -385,7 +223,7 @@ cache: <img src="images/caching_02.png" alt="Retrieving"></p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>
