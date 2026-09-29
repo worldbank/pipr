@@ -1,0 +1,125 @@
+{
+  "edge_count": 2,
+  "edges": [
+    {
+      "edge_type": "reviews",
+      "source": ".cg-docs/reviews/2026-09-18-reusable-api-argument-validation-review.md",
+      "target": ".cg-docs/plans/2026-09-18-reusable-api-argument-validation.md",
+      "target_missing": false
+    },
+    {
+      "edge_type": "implements",
+      "source": ".cg-docs/plans/2026-09-18-reusable-api-argument-validation.md",
+      "target": "roadmap.json#reusable-api-argument-validation",
+      "target_missing": false
+    }
+  ],
+  "entities": [
+    {
+      "date": "2026-09-18",
+      "entity_type": "plan",
+      "path": ".cg-docs/plans/2026-09-18-reusable-api-argument-validation.md",
+      "slug": "2026-09-18-reusable-api-argument-validation",
+      "status": "completed",
+      "summary": "Refactor the current `validate_get_stats_args()` implementation into focused, reusable validators in `R/utils.R`, then compose the applicable shared checks in `get_stats()`, `get_cp()`, `get_cp_ki()`, and `get_aux()`. Malformed arguments abort locally with a clear `cli` message instead of producing an HTTP 404.",
+      "tags": [
+        "validation",
+        "refactor",
+        "api-client",
+        "utils"
+      ],
+      "title": "Reusable API argument validation",
+      "top_keywords": [
+        "get_cp_ki()",
+        "validate_get_stats_args()",
+        "get_cp()",
+        "utils.r",
+        "get_aux()",
+        "r/utils.r",
+        "test-utils.r",
+        "test-get_stats.r",
+        "get_stats()",
+        "get_gd()"
+      ]
+    },
+    {
+      "date": "2026-09-21",
+      "entity_type": "review",
+      "path": ".cg-docs/reviews/2026-09-18-reusable-api-argument-validation-review.md",
+      "slug": "2026-09-18-reusable-api-argument-validation-review",
+      "status": "",
+      "summary": "**Review mode**: light **Files reviewed**: 8 (4 source + 4 test) **Findings**: 8 (P0: 0, P1: 2, P2: 4, P3: 3) — 1 fixed",
+      "tags": [],
+      "title": "2026-09-18-reusable-api-argument-validation-review",
+      "top_keywords": [
+        "utils.r",
+        "ppp_version",
+        "inf",
+        "fix",
+        "validate_get_cp_ki_args()",
+        "validate_country()",
+        "2017.5",
+        "test-utils.r",
+        "required",
+        "get_cp_ki"
+      ]
+    },
+    {
+      "date": "2026-09-21",
+      "entity_type": "solution",
+      "path": ".cg-docs/solutions/data-quality/2026-09-21-reusable-api-argument-validation.md",
+      "slug": "2026-09-21-reusable-api-argument-validation",
+      "status": "",
+      "summary": "The `pipr` package's API client functions (`get_stats()`, `get_cp()`, `get_cp_ki()`, `get_aux()`) validated arguments inconsistently. Only `get_stats()` had a dedicated validator; the others used scattered inline checks or none at all. Malformed arguments (e.g. `release_version = \"2024-06-27\"` instead of `\"20240627\"`) were forwarded to the PIP API, which returned a generic HTTP 404 \"Invalid query arguments\" — giving the user no clue which argument was wrong or what format was expected.",
+      "tags": [
+        "validation",
+        "api-client",
+        "cli-abort",
+        "vector-coercion",
+        "testthat",
+        "dry",
+        "refactoring"
+      ],
+      "title": "Reusable API argument validation with per-client composers",
+      "top_keywords": [
+        "validation",
+        "length",
+        "inf",
+        "get_stats()",
+        "abort_invalid_argument()",
+        "{argument}",
+        "is.finite()",
+        "api",
+        "argument",
+        "composers"
+      ]
+    },
+    {
+      "date": "",
+      "entity_type": "feature",
+      "path": "roadmap.json#reusable-api-argument-validation",
+      "slug": "reusable-api-argument-validation",
+      "status": "done",
+      "summary": "Reusable API argument validation",
+      "tags": [],
+      "title": "Reusable API argument validation",
+      "top_keywords": [
+        "reusable",
+        "api",
+        "argument",
+        "validation",
+        "feature",
+        "milestone",
+        "objective",
+        "provide",
+        "consistent",
+        "layer"
+      ]
+    }
+  ],
+  "entity_count": 4,
+  "generated": "2026-09-21",
+  "schema_version": "0.2.0",
+  "topic_count": 0,
+  "topics": []
+}

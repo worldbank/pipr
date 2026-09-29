@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "compound-gpid-roadmap-v1",
+  "milestones": [
+    {
+      "id": "reusable-api-argument-validation",
+      "title": "Reusable API argument validation",
+      "objective": "Provide a reusable, consistent argument validation layer for the pipr API functions.",
+      "status": "done",
+      "features": [
+        {
+          "id": "reusable-api-argument-validation",
+          "title": "Reusable API argument validation",
+          "status": "done",
+          "plan": ".cg-docs/plans/2026-09-18-reusable-api-argument-validation.md"
+        },
+        {
+          "id": "restore-ppp-2011-live-tests",
+          "title": "Restore live ppp_version = 2011 API tests",
+          "status": "todo",
+          "notes": "The live ppp_version = 2011 tests in test-get_cp.R and test-get_cp_ki.R were replaced with mocked URL-assertion tests because the PIP API errors (HTTP 500 / non-JSON) for 2011 requests. Restore the live assertions (res$poverty_line == 1.9) once the API supports ppp_version = 2011. See .cg-docs/solutions/bugs/2026-09-25-ppp-version-2011-api-test-failures.md"
+        }
+      ]
+    }
+  ]
+}

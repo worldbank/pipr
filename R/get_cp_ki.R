@@ -30,8 +30,17 @@ get_cp_ki <- function(country = NULL,
 
 
   # 0. Match args ----
-  api_version <- match.arg(api_version)
-  #format <- match.arg(format)
+  validated_args <- validate_get_cp_ki_args(
+    country         = country,
+    povline         = povline,
+    version         = version,
+    ppp_version     = ppp_version,
+    release_version = release_version,
+    api_version     = api_version,
+    simplify        = simplify,
+    server          = server
+  )
+  api_version <- validated_args$api_version
 
   # 1. povline set-up ----
   # (GC: stata equivalent but no 2005 and default to 2.15)
@@ -40,16 +49,6 @@ get_cp_ki <- function(country = NULL,
       povline <- 1.9
     }
   }
-
-  # 2. country set-up ----
-  if (is.null(country)) {
-    cli::cli_abort("Please provide a country code.")
-  }
-
-  if (length(country) > 1) {
-    cli::cli_abort("Please provide only one country code.")
-  }
-
 
   # 2. Build query string ----
   req <- build_request(

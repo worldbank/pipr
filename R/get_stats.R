@@ -78,10 +78,28 @@ get_stats <- function(country = "all",
                       simplify = TRUE,
                       server = NULL) {
   # Match args
-  welfare_type <- match.arg(welfare_type)
-  reporting_level <- match.arg(reporting_level)
-  api_version <- match.arg(api_version)
-  format <- match.arg(format)
+  validated_args <- validate_get_stats_args(
+    country = country,
+    year = year,
+    povline = povline,
+    popshare = popshare,
+    fill_gaps = fill_gaps,
+    nowcast = nowcast,
+    subgroup = subgroup,
+    welfare_type = welfare_type,
+    reporting_level = reporting_level,
+    version = version,
+    ppp_version = ppp_version,
+    release_version = release_version,
+    api_version = api_version,
+    format = format,
+    simplify = simplify,
+    server = server
+  )
+  welfare_type <- validated_args$welfare_type
+  reporting_level <- validated_args$reporting_level
+  api_version <- validated_args$api_version
+  format <- validated_args$format
 
   # popshare can't be used together with povline
   if (!is.null(popshare)) povline <- NULL

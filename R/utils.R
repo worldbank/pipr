@@ -414,3 +414,361 @@ change_grouped_stats_to_csv <- function(out) {
   out$deciles <- NULL
   data.frame(out)
 }
+
+# API contract constants
+PIP_API_VERSIONS <- "v1"
+PIP_CP_FORMATS <- c("arrow", "rds", "json", "csv")
+PIP_AUX_FORMATS <- c("rds", "json", "csv")
+
+#' Validate shared version/simplify/server arguments
+#'
+#' @inheritParams get_stats
+#' @noRd
+validate_shared_versions <- function(version,
+                                     ppp_version,
+                                     release_version,
+                                     simplify,
+                                     server) {
+  validate_version(version)
+  validate_ppp_version(ppp_version)
+  validate_release_version(release_version)
+  validate_simplify(simplify)
+  validate_server(server)
+}
+
+#' Abort with an invalid-argument error
+#'
+#' @param argument character: Name of the invalid argument
+#' @param expected character: Description of the expected value or format
+#' @noRd
+abort_invalid_argument <- function(argument, expected) {
+  cli::cli_abort(c(
+    "Invalid `{argument}`.",
+    "i" = "`{argument}` must be {expected}."
+  ))
+}
+
+#' Match an argument against a set of choices
+#'
+#' @param value The value to match
+#' @param argument character: Name of the argument
+#' @param choices character: Allowed values
+#' @return The matched value
+#' @noRd
+match_choice <- function(value, argument, choices) {
+  matched_value <- tryCatch(
+    match.arg(value, choices),
+    error = function(error) NULL
+  )
+
+  if (is.null(matched_value)) {
+    abort_invalid_argument(argument, paste0("one of: ",
+                                             paste(choices, collapse = ", ")))
+  }
+
+  matched_value
+}
+
+#' Validate a country argument
+#'
+#' @param country character: ISO 3 codes or 'all'
+#' @param required logical: If TRUE, NULL is rejected with a friendly message
+#' @param single logical: If TRUE, more than one country is rejected
+#' @return The validated country vector
+#' @noRd
+validate_country <- function(country, required = FALSE, single = FALSE) {
+  if (required && is.null(country)) {
+    cli::cli_abort("Please provide a country code.")
+  }
+
+  if (single && length(country) > 1) {
+    cli::cli_abort("Please provide only one country code.")
+  }
+
+  is_valid_country <- is.character(country) &&
+    length(country) > 0 &&
+    all(!is.na(country)) &&
+    all(country == "all" | grepl("^[A-Z]{3}$", country))
+  if (!is_valid_country) {
+    abort_invalid_argument("country", "`all` or uppercase ISO 3 country codes")
+  }
+  country
+}
+
+#' Validate a year argument
+#'
+#' @param year integer: Years or 'all'/'MRV'
+#' @return The validated year vector
+#' @noRd
+validate_year <- function(year) {
+  is_valid_year <- (is.numeric(year) &&
+    all(is.finite(year)) &&
+    all(year == trunc(year))) ||
+    (is.character(year) &&
+      all(year %in% c("all", "MRV")))
+  if (length(year) == 0 || anyNA(year) || !is_valid_year) {
+    abort_invalid_argument("year", "integer years, `all`, or `MRV`")
+  }
+  year
+}
+
+#' Validate a povline argument
+#'
+#' @param povline numeric: Poverty line
+#' @return The validated povline value
+#' @noRd
+validate_povline <- function(povline) {
+  if (!is.null(povline) &&
+      (!is.numeric(povline) || length(povline) != 1 || !is.finite(povline) ||
+        povline < 0)) {
+    abort_invalid_argument("povline", "one non-negative numeric value")
+  }
+  povline
+}
+
+#' Validate a popshare argument
+#'
+#' @param popshare numeric: Proportion of the population below the poverty line
+#' @return The validated popshare value
+#' @noRd
+validate_popshare <- function(popshare) {
+  if (!is.null(popshare) &&
+      (!is.numeric(popshare) || length(popshare) != 1 || !is.finite(popshare) ||
+        popshare < 0 || popshare > 1)) {
+    abort_invalid_argument("popshare", "one numeric value between 0 and 1")
+  }
+  popshare
+}
+
+#' Validate a logical flag argument
+#'
+#' @param value logical: A single logical value
+#' @param argument character: Name of the argument
+#' @return The validated logical value
+#' @noRd
+validate_logical <- function(value, argument) {
+  if (!is.logical(value) || length(value) != 1 || is.na(value)) {
+    abort_invalid_argument(argument, "TRUE or FALSE")
+  }
+  value
+}
+
+#' Validate a subgroup argument
+#'
+#' @param subgroup character: 'none' or 'wb_regions'
+#' @return The validated subgroup value
+#' @noRd
+validate_subgroup <- function(subgroup) {
+  if (!is.null(subgroup) &&
+      (!is.character(subgroup) || length(subgroup) != 1 ||
+        !subgroup %in% c("none", "wb_regions"))) {
+    abort_invalid_argument("subgroup", "`none` or `wb_regions`")
+  }
+  subgroup
+}
+
+#' Validate a version argument
+#'
+#' @param version character: Version string in YYYYMMDD_PPP_XX_YY_IDENTITY format
+#' @return The validated version value
+#' @noRd
+validate_version <- function(version) {
+  is_valid_version <- is.character(version) &&
+    length(version) == 1 &&
+    !is.na(version) &&
+    grepl("^[0-9]{8}_[0-9]{4}_[0-9]{2}_[0-9]{2}_[A-Z]+$", version)
+  if (!is.null(version) && !is_valid_version) {
+    abort_invalid_argument(
+      "version",
+      "a version string in YYYYMMDD_PPP_XX_YY_IDENTITY format, e.g. `20260324_2021_01_02_PROD`"
+    )
+  }
+  version
+}
+
+#' Validate a ppp_version argument
+#'
+#' @param ppp_version numeric/character: PPP year
+#' @return The validated ppp_version value
+#' @noRd
+validate_ppp_version <- function(ppp_version) {
+  is_valid_ppp_version <- length(ppp_version) == 1 &&
+    ((is.numeric(ppp_version) &&
+      is.finite(ppp_version) &&
+      ppp_version == trunc(ppp_version)) ||
+      (is.character(ppp_version) && grepl("^[0-9]{4}$", ppp_version)))
+  if (!is.null(ppp_version) &&
+      (length(ppp_version) != 1 || is.na(ppp_version) || !is_valid_ppp_version)) {
+    abort_invalid_argument("ppp_version", "one PPP year")
+  }
+  ppp_version
+}
+
+#' Validate a release_version argument
+#'
+#' @param release_version character: Date in YYYYMMDD format
+#' @return The validated release_version value
+#' @noRd
+validate_release_version <- function(release_version) {
+  is_valid_release_version <- is.character(release_version) &&
+    length(release_version) == 1 &&
+    !is.na(release_version) &&
+    grepl("^[0-9]{8}$", release_version) &&
+    !is.na(as.Date(release_version, format = "%Y%m%d"))
+  if (!is.null(release_version) && !is_valid_release_version) {
+    abort_invalid_argument("release_version", "a date in YYYYMMDD format")
+  }
+  release_version
+}
+
+#' Validate a simplify argument
+#'
+#' @param simplify logical: If TRUE, return a tibble
+#' @return The validated simplify value
+#' @noRd
+validate_simplify <- function(simplify) {
+  if (!is.logical(simplify) || length(simplify) != 1 || is.na(simplify)) {
+    abort_invalid_argument("simplify", "TRUE or FALSE")
+  }
+  simplify
+}
+
+#' Validate a server argument
+#'
+#' @param server character: Server. For WB internal use only
+#' @return The validated server value
+#' @noRd
+validate_server <- function(server) {
+  if (!is.null(server) &&
+      (!is.character(server) || length(server) != 1 || is.na(server) ||
+        !nzchar(server))) {
+    abort_invalid_argument("server", "one non-empty character value")
+  }
+  server
+}
+
+#' Validate get_aux arguments
+#'
+#' Checks that the arguments supplied to `get_aux()` are valid before any
+#' HTTP request is made.
+#'
+#' @inheritParams get_stats
+#' @return A list with the matched values for `api_version` and `format`.
+#' @noRd
+validate_get_aux_args <- function(version,
+                                  ppp_version,
+                                  release_version,
+                                  api_version,
+                                  format,
+                                  simplify,
+                                  server) {
+  validate_shared_versions(version, ppp_version, release_version, simplify, server)
+
+  list(
+    api_version = match_choice(api_version, "api_version", PIP_API_VERSIONS),
+    format = match_choice(format, "format", PIP_AUX_FORMATS)
+  )
+}
+
+#' Validate get_cp_ki arguments
+#'
+#' Checks that the arguments supplied to `get_cp_ki()` are valid before any
+#' HTTP request is made. Preserves the required single-country rule.
+#'
+#' @inheritParams get_stats
+#' @return A list with the matched value for `api_version`.
+#' @noRd
+validate_get_cp_ki_args <- function(country,
+                                    povline,
+                                    version,
+                                    ppp_version,
+                                    release_version,
+                                    api_version,
+                                    simplify,
+                                    server) {
+  validate_country(country, required = TRUE, single = TRUE)
+  validate_povline(povline)
+  validate_shared_versions(version, ppp_version, release_version, simplify, server)
+
+  list(
+    api_version = match_choice(api_version, "api_version", PIP_API_VERSIONS)
+  )
+}
+
+#' Validate get_cp arguments
+#'
+#' Checks that the arguments supplied to `get_cp()` are valid before any
+#' HTTP request is made.
+#'
+#' @inheritParams get_stats
+#' @return A list with the matched values for `api_version` and `format`.
+#' @noRd
+validate_get_cp_args <- function(country,
+                                 povline,
+                                 version,
+                                 ppp_version,
+                                 release_version,
+                                 api_version,
+                                 format,
+                                 simplify,
+                                 server) {
+  validate_country(country)
+  validate_povline(povline)
+  validate_shared_versions(version, ppp_version, release_version, simplify, server)
+
+  list(
+    api_version = match_choice(api_version, "api_version", PIP_API_VERSIONS),
+    format = match_choice(format, "format", PIP_CP_FORMATS)
+  )
+}
+
+#' Validate get_stats arguments
+#'
+#' Checks that the arguments supplied to `get_stats()` are valid before any
+#' HTTP request is made. Aborts with a `cli` error naming the invalid argument
+#' and the expected value or format.
+#'
+#' @inheritParams get_stats
+#' @return A list with the matched values for `welfare_type`,
+#'   `reporting_level`, `api_version`, and `format`.
+#' @noRd
+validate_get_stats_args <- function(country,
+                                    year,
+                                    povline,
+                                    popshare,
+                                    fill_gaps,
+                                    nowcast,
+                                    subgroup,
+                                    welfare_type,
+                                    reporting_level,
+                                    version,
+                                    ppp_version,
+                                    release_version,
+                                    api_version,
+                                    format,
+                                    simplify,
+                                    server) {
+  validate_country(country)
+  validate_year(year)
+  validate_povline(povline)
+  validate_popshare(popshare)
+  validate_logical(fill_gaps, "fill_gaps")
+  validate_logical(nowcast, "nowcast")
+  validate_subgroup(subgroup)
+  validate_shared_versions(version, ppp_version, release_version, simplify, server)
+
+  list(
+    welfare_type = match_choice(
+      welfare_type,
+      "welfare_type",
+      c("all", "income", "consumption")
+    ),
+    reporting_level = match_choice(
+      reporting_level,
+      "reporting_level",
+      c("all", "national", "urban", "rural")
+    ),
+    api_version = match_choice(api_version, "api_version", PIP_API_VERSIONS),
+    format = match_choice(format, "format", PIP_CP_FORMATS)
+  )
+}

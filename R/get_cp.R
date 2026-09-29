@@ -32,8 +32,19 @@ get_cp <- function(country = "all",
 
 
   # 0. Match args ----
-  api_version <- match.arg(api_version)
-  format <- match.arg(format)
+  validated_args <- validate_get_cp_args(
+    country         = country,
+    povline         = povline,
+    version         = version,
+    ppp_version     = ppp_version,
+    release_version = release_version,
+    api_version     = api_version,
+    format          = format,
+    simplify        = simplify,
+    server          = server
+  )
+  api_version <- validated_args$api_version
+  format <- validated_args$format
 
   # 1. povline set-up ----
   # (GC: stata equivalent but no 2005 and default to 2.15)
