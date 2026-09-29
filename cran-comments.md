@@ -18,7 +18,7 @@ since 1.4.0.
 
 Checked locally on macOS arm64 with R 4.6.1 using
 `devtools::check(remote = TRUE, manual = TRUE, args = "--as-cran")`.
-The PDF manual was not built because pdflatex is not installed locally.
+Both the PDF and HTML manuals passed their checks.
 
 ## Reverse dependencies
 
