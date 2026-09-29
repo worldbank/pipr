@@ -10,24 +10,26 @@
 #' @param povline numeric: Poverty line. Required for estimate = "stats".
 #' @param lorenz character: Lorenz curve methodology. Either "lb" or "lq".
 #' @param n_bins numeric: Number of bins. Required for estimate = "lorenz".
+#' @param format Response format: `"rds"`, `"json"`, or `"csv"`.
 #'
 #' @export
-#' @returns data.frame
+#' @returns A data frame when `simplify = TRUE`, or a `pip_api` list when
+#'   `simplify = FALSE`.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #'
 #' datt_data <- data.frame(p = c(0.0092, 0.0339, 0.0850, 0.160, 0.2609, 0.4133,
 #'                               0.5497, 0.7196, 0.8196, 0.9174, 0.9570, 0.9751,
 #'                               1),
-#'                        L = c(0.00208, 0.001013, 0.03122, 0.07083, 0.12808,
+#'                        L = c(0.00208, 0.01013, 0.03122, 0.07083, 0.12808,
 #'                              0.23498, 0.34887, 0.51994, 0.64270, 0.79201,
 #'                              0.86966, 0.91277, 1))
 #'
 #' # estimate = 'stats': retrieve poverty statistics.
 #' stats <- get_gd(cum_welfare = datt_data$L, cum_population = datt_data$p,
 #'                 estimate = "stats",
-#'                 requested_mean = 19, # default is 1.
-#'                 povline = 2.15)  # default is 1.
+#'                 requested_mean = 19,
+#'                 povline = 2.15)
 #'
 #' # estimate = 'lorenz': retrieve Lorenz curve data points for a specified number of bins.
 #'

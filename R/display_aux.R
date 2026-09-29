@@ -2,6 +2,7 @@
 #'
 #' @inheritParams get_stats
 #' @inheritParams get_aux
+#' @param format Response format: `"rds"`, `"json"`, or `"csv"`.
 #' @param assign_tb logical: Whether to assign table to .pip env. Default is
 #'   TRUE
 #'
@@ -9,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' display_aux()
 #' }
 display_aux <- function(version         = NULL,

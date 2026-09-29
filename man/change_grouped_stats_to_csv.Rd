@@ -2,16 +2,19 @@
 % Please edit documentation in R/utils.R
 \name{change_grouped_stats_to_csv}
 \alias{change_grouped_stats_to_csv}
-\title{Change the list-output to dataframe (Function from pipapi)}
+\title{Convert a grouped-statistics result to a data frame}
 \usage{
 change_grouped_stats_to_csv(out)
 }
 \arguments{
-\item{out}{output from wbpip::gd_compute_pip_stats}
+\item{out}{A list of grouped statistics with a \code{deciles} vector.}
 }
 \value{
-dataframe
+A data frame with one column per decile and no \code{deciles} list column.
 }
 \description{
-Change the list-output to dataframe (Function from pipapi)
+Convert a grouped-statistics result to a data frame
+}
+\examples{
+change_grouped_stats_to_csv(list(country = "AGO", deciles = c(0.1, 0.2)))
 }

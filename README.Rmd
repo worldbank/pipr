@@ -34,13 +34,11 @@ any poverty line.
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+The CRAN package is currently archived. Install the development version from
+[GitHub](https://github.com/worldbank/pipr) until it is available on CRAN again:
 
 ``` r
-# From CRAN
-install.packages("pipr")
-
-# From Github
+# From GitHub
 devtools::install_github("worldbank/pipr")
 ```
 
@@ -50,7 +48,7 @@ This is a basic example that shows how to retrieve some key poverty and inequity
 
 ### Retrieve statistics
 
-```{r example, warning=FALSE, message=FALSE}
+```{r example, eval=FALSE}
 library(dplyr)
 library(pipr)
 
@@ -59,7 +57,6 @@ glimpse(df)
 ```
 
 ### Access data dictionary
-```{r}
+```{r, eval=FALSE}
 get_aux("dictionary")
 ```
-

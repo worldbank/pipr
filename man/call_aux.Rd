@@ -11,19 +11,17 @@ call_aux(table = NULL)
 names of tables available in .pip env}
 }
 \value{
-data frame of auxiliary table
+The stored auxiliary table when \code{table} is given. With \code{table = NULL},
+invisibly returns the names of stored tables.
 }
 \description{
 call a table from .pip env
 }
 \examples{
-# call one table
-
-get_aux("gdp", assign_tb = TRUE, replace = TRUE) # PR 63
-call_aux("gdp")
-
-# see the name of several tables in memory
-tb <- c("cpi", "ppp", "pop")
-lapply(tb, get_aux, assign_tb = TRUE, replace = TRUE) # PR 63
+# List tables already stored in this R session (no network request).
 call_aux()
+if (interactive()) {
+  get_aux("gdp", assign_tb = TRUE, replace = TRUE)
+  call_aux("gdp")
+}
 }

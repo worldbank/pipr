@@ -14,8 +14,9 @@ A data frame with 13 observations on the following 6 variables:
 \item{p}{Cumulative population}
 \item{area}{rural}
 }
-
-@source Datt, G. (1998). See get_cp vignette.
+}
+\source{
+Datt, G. (1998). See get_cp vignette.
 }
 \usage{
 datt_rural

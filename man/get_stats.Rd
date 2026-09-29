@@ -51,57 +51,62 @@ get_agg(
 )
 }
 \arguments{
-\item{country}{character: A vector with one or more \href{https://wits.worldbank.org/wits/wits/witshelp/content/codes/country_codes.htm}{country ISO 3 codes} or
-'all'}
+\item{country}{Uppercase, three-letter country ISO codes or \code{"all"}.}
 
-\item{year}{integer: A vector with one or more years or 'all'}
+\item{year}{Integer-valued numeric years, \code{"all"}, or \code{"MRV"} (most recent
+value). Character strings containing years are not accepted.}
 
-\item{povline}{numeric: Poverty line}
+\item{povline}{One finite, non-negative numeric poverty line, or \code{NULL}.
+Ignored when \code{popshare} is supplied.}
 
-\item{popshare}{numeric: Proportion of the population living below the
-poverty line}
+\item{popshare}{One numeric population share from 0 to 1, or \code{NULL}.}
 
-\item{fill_gaps}{logical: If TRUE, will interpolate / extrapolate values for
-missing years}
+\item{fill_gaps}{One non-missing logical value. If \code{TRUE}, interpolate or
+extrapolate missing years. Also enabled by \code{nowcast = TRUE}.}
 
-\item{nowcast}{logical: If TRUE, will return nowcast estimates.}
+\item{nowcast}{One non-missing logical value. If \code{TRUE}, return nowcast
+estimates and enable \code{fill_gaps}.}
 
-\item{subgroup}{character: If used result will be aggregated for predefined
-sub-groups. Either 'wb_regions' or 'none'.}
+\item{subgroup}{\code{NULL}, \code{"wb_regions"}, or \code{"none"}. A non-\code{NULL} value uses
+the grouped endpoint and disables gap filling and nowcasting.}
 
 \item{welfare_type}{character: Welfare type either of c("all", "income", "consumption")}
 
 \item{reporting_level}{character: Geographical reporting level either of c("all", "national", "urban", "rural")}
 
-\item{version}{character: Data version. See \code{get_versions()}}
+\item{version}{Data version in \code{YYYYMMDD_PPP_XX_YY_IDENTITY} format, or
+\code{NULL}. See \code{get_versions()}.}
 
-\item{ppp_version}{ppp year to be used}
+\item{ppp_version}{One integer-valued numeric PPP year, a four-digit year
+string, or \code{NULL}.}
 
-\item{release_version}{date when the data was published in YYYYMMDD format}
+\item{release_version}{A valid publication date in \code{YYYYMMDD} format, or
+\code{NULL}.}
 
-\item{api_version}{character: API version}
+\item{api_version}{API version. Currently only \code{"v1"} is supported.}
 
-\item{format}{character: Response format either of c("rds", "json", "csv")}
+\item{format}{Response format: \code{"arrow"}, \code{"rds"}, \code{"json"}, or \code{"csv"} for
+\code{get_stats()}. \code{get_wb()} and \code{get_agg()} accept \code{"rds"}, \code{"json"}, or
+\code{"csv"}.}
 
-\item{simplify}{logical: If TRUE (the default) the response is returned as a
-\code{tibble}}
+\item{simplify}{One non-missing logical value. If \code{TRUE} (the default),
+return simplified data.}
 
-\item{server}{character: Server. For WB internal use only}
+\item{server}{One non-empty server name, or \code{NULL} for the production server.
+For World Bank internal use only.}
 
-\item{aggregate}{character: Aggregate name. See \code{get_aux("countries")} for available options.}
+\item{aggregate}{Aggregate name. See \code{get_aux("country_list")} for available
+options.}
 }
 \value{
-If \code{simplify = FALSE}, it returns a list of class "pip_api". If
-\code{simplify = TRUE}, it returns a tibble with the requested data. This is the
-default. Only for \code{get_aux()}, If \code{assign_tb = TRUE} or character, it
-returns TRUE when data was assign properly to .pip env. FALSE, if it was
-not assigned.
+A tibble of statistics when \code{simplify = TRUE}, or a \code{pip_api} list
+when \code{simplify = FALSE}.
 }
 \description{
 Get poverty and inequality statistics
 }
 \examples{
-\dontrun{
+if (interactive()) {
 # One country-year
 res <- get_stats(country = "AGO", year = 2000)
 
@@ -121,13 +126,13 @@ res <- get_stats(country = "all", year = "all", fill_gaps = TRUE)
 res <- get_stats(country = "all", year = "all", popshare = .4)
 
 # World Bank global and regional aggregates
-res <- get_stats("all", year = "all", subgroup = "wb")
+res <- get_stats("all", year = "all", subgroup = "wb_regions")
 
 # Short hand to get WB global/regional stats
 res <- get_wb()
 
 # Short hand to get fcv stats
-res <- get_agg(aggregate = "fcv", server = "qa")
+res <- get_agg(aggregate = "fcv")
 
 # Custom aggregates
 res <- get_stats(c("ARG", "BRA"), year = "all", subgroup = "none")

@@ -323,11 +323,8 @@ albania_v1 <- get_stats(
   version = NULL  # Latest by default
 )
 
-# Different PPP year (e.g., 2011 PPP instead of default 2017)
-albania_ppp2011 <- get_stats(
-  country = "ALB",
-  ppp_version = 2011
-)
+# The live PIP API does not currently serve 2011 PPP requests; use 2017.
+albania_ppp2017 <- get_stats(country = "ALB", ppp_version = 2017)
 ```
 
 ## Practical Examples

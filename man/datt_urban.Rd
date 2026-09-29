@@ -14,8 +14,9 @@ A data frame with 13 observations on the following 6 variables:
 \item{p}{Cumulative population}
 \item{area}{urban}
 }
-
-@source Sarvekshana N26 Vol 9 N 4, and Datt, G. (1998) for methodology. See get_cp vignette.
+}
+\source{
+Sarvekshana N26 Vol 9 N 4, and Datt, G. (1998) for methodology. See get_cp vignette.
 }
 \usage{
 datt_urban

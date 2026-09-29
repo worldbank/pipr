@@ -13,5 +13,5 @@ Side effect. Deletes files.
 Deletes content of the cache folder
 }
 \examples{
-\dontrun{delete_cache()}
+if (interactive()) delete_cache()
 }

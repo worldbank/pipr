@@ -1,16 +1,17 @@
 #' Get Country Profiles
 #'
 #' @inheritParams get_stats
+#' @param povline One finite, non-negative numeric poverty line, or `NULL`.
+#'   With `ppp_version = 2011`, `NULL` sends 1.9; otherwise the API applies
+#'   its default poverty line.
+#' @param format Response format: `"arrow"`, `"rds"`, `"json"`, or `"csv"`.
 #'
-#' @return If `simplify = FALSE`, it returns a list of class "pip_api". If
-#'   `simplify = TRUE`, it returns a tibble with the requested data. This is the
-#'   default. Only for `get_aux()`, If `assign_tb = TRUE` or character, it
-#'   returns TRUE when data was assign properly to .pip env. FALSE, if it was
-#'   not assigned.
+#' @return A tibble of country profile data when `simplify = TRUE`, or a
+#'   `pip_api` list when `simplify = FALSE`.
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # One country, all years with default ppp_version = 2017
 #' res <- get_cp(country = "AGO")
 #'

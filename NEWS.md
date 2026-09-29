@@ -1,4 +1,16 @@
-# pipr (development version)
+# pipr 1.5.0
+
+* `get_stats()`, `get_cp()`, `get_cp_ki()`, and `get_aux()` now check their
+  arguments before making an API request. Invalid country codes, years, poverty
+  lines, population shares, data versions, dates, response formats, and other
+  options produce an error that names the argument. Country codes must be
+  uppercase three-letter codes (or `"all"` where supported); `get_cp_ki()`
+  requires exactly one country code. Inputs that were previously sent to the
+  API without local validation may now fail before the request.
+* Tests for the 2011 PPP poverty-line defaults in `get_cp()` and `get_cp_ki()`
+  now use mocked responses because the live API rejects these requests.
+* Corrected API argument, return-value, and example documentation. The
+  `call_aux()` example no longer makes a network request during package checks.
 
 # pipr 1.4.0
 

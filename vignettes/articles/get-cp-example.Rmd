@@ -72,7 +72,7 @@ get_cp_ki(country = "IDN", povline = 1.9)
 
 ### Usage
 
-`get_cp()` default returns all data available (`country = all`) for the default poverty line (\$2.15) and PPP version (2017). If the user specifies `ppp_version = 2011`, the default poverty line will be \$1.9.
+`get_cp()` default returns all data available (`country = all`) for the default poverty line (\$2.15) and PPP version (2017). If the user specifies `ppp_version = 2011` and `povline = NULL`, the client sends a poverty line of \$1.9. The live API currently rejects requests for 2011 PPP data.
 
 ```{r eval=FALSE}
 get_cp() # all countries, default poverty line (2.15) and PPP version (2017)

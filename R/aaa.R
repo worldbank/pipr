@@ -60,19 +60,17 @@ set_aux <- function(table,
 #' @param table character: name of table in .pip env. If NULL, it displays the
 #'   names of tables available in .pip env
 #'
-#' @return data frame of auxiliary table
+#' @return The stored auxiliary table when `table` is given. With `table = NULL`,
+#'   invisibly returns the names of stored tables.
 #' @export
 #'
 #' @examples
-#' # call one table
-#'
-#' get_aux("gdp", assign_tb = TRUE, replace = TRUE) # PR 63
-#' call_aux("gdp")
-#'
-#' # see the name of several tables in memory
-#' tb <- c("cpi", "ppp", "pop")
-#' lapply(tb, get_aux, assign_tb = TRUE, replace = TRUE) # PR 63
+#' # List tables already stored in this R session (no network request).
 #' call_aux()
+#' if (interactive()) {
+#'   get_aux("gdp", assign_tb = TRUE, replace = TRUE)
+#'   call_aux("gdp")
+#' }
 call_aux <- function(table = NULL) {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

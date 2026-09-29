@@ -1,10 +1,10 @@
 #' Get auxiliary data
 #'
-#' @description `get_aux()` Get an auxiliary dataset. If no table is specified a
-#'   vector with possible inputs will be returned.
+#' @description `get_aux()` gets an auxiliary dataset. If no table is specified,
+#'   it lists the available tables.
 #'
-#'   `get_countries()` Returns a table countries with their full names, ISO
-#'   codes, and associated region code
+#'   Use `get_aux("countries")` for a table of country names, ISO codes,
+#'   and associated region codes.
 #'
 #'
 #' @param table Aux table
@@ -13,17 +13,20 @@
 #'   assigned to  exactly the same name as the one of the desired table. If
 #'   character, the table will be assigned to that name.
 #' @inheritParams get_stats
+#' @param format Response format: `"rds"`, `"json"`, or `"csv"`.
+#' @param ppp_version Validated as a PPP year, but not sent to the auxiliary
+#'   endpoint because this endpoint does not accept it.
 #' @param replace logical: force replacement of aux files in `.pip` env. Default
 #'   is FALSE.
 #'
-#' @return If `simplify = FALSE`, it returns a list of class "pip_api". If
-#'   `simplify = TRUE`, it returns a tibble with the requested data. This is the
-#'   default. Only for `get_aux()`, If `assign_tb = TRUE` or character, it
-#'   returns TRUE when data was assign properly to .pip env. FALSE, if it was
-#'   not assigned.
+#' @return With no `table`, invisibly returns the available tables (a tibble
+#'   with a `tables` column by default). With a selected table, returns its
+#'   tibble when `simplify = TRUE`, or a `pip_api` list when `simplify = FALSE`.
+#'   With `assign_tb = TRUE` or a name, invisibly returns `TRUE` on successful
+#'   assignment to `.pip`; unsuccessful assignment raises an error.
 #' @export
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Get list of tables
 #' x <- get_aux()
 #'
@@ -35,9 +38,6 @@
 #'
 #' # Display auxiliary tables
 #' get_aux()
-#'
-#' # Display and assign to .pip env the selected auxiliary table
-#' get_aux(assign_tb = TRUE)
 #'
 #' # Bind gdp table to "gdp" in .pip env
 #' get_aux("gdp", assign_tb = TRUE)
@@ -154,9 +154,9 @@ get_aux <- function(table           = NULL,
 #' @describeIn get_aux Returns a table countries with their full names, ISO
 #'   codes, and associated region code
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get countries
-#' get_countries()
+#' get_aux("countries")
 #' }
 get_countries <- function(version = NULL,
                           ppp_version = NULL,
@@ -177,9 +177,9 @@ get_countries <- function(version = NULL,
 #' @describeIn get_aux Returns a table regional grouping used for computing
 #'   aggregate poverty statistics.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get regions
-#' get_regions()
+#' get_aux("regions")
 #' }
 get_regions <- function(version = NULL,
                         ppp_version = NULL,
@@ -200,9 +200,9 @@ get_regions <- function(version = NULL,
 #' @describeIn get_aux Returns a table of Consumer Price Index (CPI) values used
 #'   for poverty and inequality computations. statistics
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get cpi
-#' get_cpi()
+#' get_aux("cpi")
 #' }
 get_cpi <- function(version = NULL,
                     ppp_version = NULL,
@@ -223,9 +223,9 @@ get_cpi <- function(version = NULL,
 #' @describeIn get_aux Returns a data dictionary with a description of all
 #'   variables available through the PIP API.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get dictionary
-#' get_dictionary()
+#' get_aux("dictionary")
 #' }
 get_dictionary <- function(version = NULL,
                            ppp_version = NULL,
@@ -246,9 +246,9 @@ get_dictionary <- function(version = NULL,
 #' @describeIn get_aux Returns a table of Growth Domestic Product (GDP) values
 #'   used for poverty and inequality statistics.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get gdp
-#' get_gdp()
+#' get_aux("gdp")
 #' }
 get_gdp <- function(version = NULL,
                     ppp_version = NULL,
@@ -270,9 +270,9 @@ get_gdp <- function(version = NULL,
 #'   lower-middle income countries. If this coverage is less than 50%, World
 #'   level aggregate statistics will not be computed.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get incgrp_coverage
-#' get_incgrp_coverage()
+#' get_aux("incgrp_coverage")
 #' }
 get_incgrp_coverage <- function(version = NULL,
                                 ppp_version = NULL,
@@ -293,12 +293,12 @@ get_incgrp_coverage <- function(version = NULL,
 #' @describeIn get_aux Returns a table of key information and statistics for all
 #'   years for which poverty and inequality statistics are either available
 #'   (household survey exists) or extra- / interpolated. Please see
-#'   \code{\link{get_dictionary}} for more information about each variable
-#'   available in this table.
+#'   `get_aux("dictionary")` for more information about each variable in this
+#'   table.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get interpolated_means
-#' get_interpolated_means()
+#' get_aux("interpolated_means")
 #' }
 get_interpolated_means <- function(version = NULL,
                                    ppp_version = NULL,
@@ -318,9 +318,9 @@ get_interpolated_means <- function(version = NULL,
 #' @describeIn get_aux Returns a table of Household Final Consumption
 #'   Expenditure (HFCE) values used for poverty and inequality computations.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get hfce
-#' get_hfce()
+#' get_aux("pce")
 #' }
 get_hfce <- function(version = NULL,
                      ppp_version = NULL,
@@ -340,9 +340,9 @@ get_hfce <- function(version = NULL,
 #' @describeIn get_aux Returns a table of population values used for poverty and
 #' inequality computations.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get pop
-#' get_pop()
+#' get_aux("pop")
 #' }
 get_pop <- function(version = NULL,
                     ppp_version = NULL,
@@ -363,9 +363,9 @@ get_pop <- function(version = NULL,
 #'   values are used for the computation of regional aggregate poverty
 #'   statistics.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get pop_region
-#' get_pop_region()
+#' get_aux("pop_region")
 #' }
 get_pop_region <- function(version = NULL,
                            ppp_version = NULL,
@@ -386,9 +386,9 @@ get_pop_region <- function(version = NULL,
 #' @describeIn get_aux Returns a table of Purchasing Power Parity (PPP) values
 #'   used for poverty and inequality computations.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get ppp
-#' get_ppp()
+#' get_aux("ppp")
 #' }
 get_ppp <- function(version = NULL,
                     ppp_version = NULL,
@@ -408,9 +408,9 @@ get_ppp <- function(version = NULL,
 #' @describeIn get_aux Return a table of regional survey coverage: Percentage of
 #'   available surveys for a specific region-year.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get region_coverage
-#' get_region_coverage()
+#' get_aux("region_coverage")
 #' }
 get_region_coverage <- function(version = NULL,
                                 ppp_version = NULL,
@@ -429,12 +429,12 @@ get_region_coverage <- function(version = NULL,
 
 
 #' @describeIn get_aux Returns a table of all available surveys and associated
-#'   key statistics. Please see \code{\link{get_dictionary}} for more
-#'   information about each variable available in this table.
+#'   key statistics. See `get_aux("dictionary")` for more information about
+#'   each variable in this table.
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # Short hand to get survey_means
-#' get_survey_means()
+#' get_aux("survey_means")
 #' }
 get_survey_means <- function(version = NULL,
                              ppp_version = NULL,

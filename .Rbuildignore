@@ -14,3 +14,7 @@ CONTRIBUTING.md
 ^vignettes/articles$
 ^CRAN-SUBMISSION$
 ^\.cg-docs$
+^\.kilo$
+^compound-gpid(\.context|\.local)?\.md$
+^roadmap\.json$
+^wiki$

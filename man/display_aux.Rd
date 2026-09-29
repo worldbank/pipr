@@ -16,20 +16,24 @@ display_aux(
 )
 }
 \arguments{
-\item{version}{character: Data version. See \code{get_versions()}}
+\item{version}{Data version in \code{YYYYMMDD_PPP_XX_YY_IDENTITY} format, or
+\code{NULL}. See \code{get_versions()}.}
 
-\item{ppp_version}{ppp year to be used}
+\item{ppp_version}{One integer-valued numeric PPP year, a four-digit year
+string, or \code{NULL}.}
 
-\item{release_version}{date when the data was published in YYYYMMDD format}
+\item{release_version}{A valid publication date in \code{YYYYMMDD} format, or
+\code{NULL}.}
 
-\item{api_version}{character: API version}
+\item{api_version}{API version. Currently only \code{"v1"} is supported.}
 
-\item{format}{character: Response format either of c("rds", "json", "csv")}
+\item{format}{Response format: \code{"rds"}, \code{"json"}, or \code{"csv"}.}
 
-\item{simplify}{logical: If TRUE (the default) the response is returned as a
-\code{tibble}}
+\item{simplify}{One non-missing logical value. If \code{TRUE} (the default),
+return simplified data.}
 
-\item{server}{character: Server. For WB internal use only}
+\item{server}{One non-empty server name, or \code{NULL} for the production server.
+For World Bank internal use only.}
 
 \item{assign_tb}{logical: Whether to assign table to .pip env. Default is
 TRUE}
@@ -41,7 +45,7 @@ invisible tibble with names of auxiliary tables
 Display available auxiliary tables
 }
 \examples{
-\dontrun{
+if (interactive()) {
 display_aux()
 }
 }

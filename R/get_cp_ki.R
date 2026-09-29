@@ -1,21 +1,22 @@
 #' Get Country Profiles Key Indicators
 #'
 #' @inheritParams get_stats
+#' @param country One uppercase, three-letter country ISO code (required).
+#' @param povline One finite, non-negative numeric poverty line, or `NULL`.
+#'   With `ppp_version = 2011`, `NULL` sends 1.9; otherwise the API applies
+#'   its default poverty line.
 #'
-#' @return If `simplify = FALSE`, it returns a list of class "pip_api". If
-#'   `simplify = TRUE`, it returns a tibble with the requested data. This is the
-#'   default. Only for `get_aux()`, If `assign_tb = TRUE` or character, it
-#'   returns TRUE when data was assign properly to .pip env. FALSE, if it was
-#'   not assigned.
+#' @return An unnested data frame of key indicators when `simplify = TRUE`,
+#'   or a `pip_api` list when `simplify = FALSE`.
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # One country, all years with default ppp_version = 2017
-#' res <- get_cp(country = "IDN")
+#' res <- get_cp_ki(country = "IDN")
 #'
-#' # All countries, povline = 1.9
-#' res <- get_cp(country = "IDN", povline = 1.9)
+#' # One country, povline = 1.9
+#' res <- get_cp_ki(country = "IDN", povline = 1.9)
 #'
 #' }
 get_cp_ki <- function(country = NULL,
@@ -121,4 +122,3 @@ unnest_ki <- function(out){
   return(final_df)
 
 }
-

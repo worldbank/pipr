@@ -150,20 +150,24 @@ get_survey_means(
 \arguments{
 \item{table}{Aux table}
 
-\item{version}{character: Data version. See \code{get_versions()}}
+\item{version}{Data version in \code{YYYYMMDD_PPP_XX_YY_IDENTITY} format, or
+\code{NULL}. See \code{get_versions()}.}
 
-\item{ppp_version}{ppp year to be used}
+\item{ppp_version}{Validated as a PPP year, but not sent to the auxiliary
+endpoint because this endpoint does not accept it.}
 
-\item{release_version}{date when the data was published in YYYYMMDD format}
+\item{release_version}{A valid publication date in \code{YYYYMMDD} format, or
+\code{NULL}.}
 
-\item{api_version}{character: API version}
+\item{api_version}{API version. Currently only \code{"v1"} is supported.}
 
-\item{format}{character: Response format either of c("rds", "json", "csv")}
+\item{format}{Response format: \code{"rds"}, \code{"json"}, or \code{"csv"}.}
 
-\item{simplify}{logical: If TRUE (the default) the response is returned as a
-\code{tibble}}
+\item{simplify}{One non-missing logical value. If \code{TRUE} (the default),
+return simplified data.}
 
-\item{server}{character: Server. For WB internal use only}
+\item{server}{One non-empty server name, or \code{NULL} for the production server.
+For World Bank internal use only.}
 
 \item{assign_tb}{assigns table to specified name to the \code{.pip} environment.
 If \code{FALSE} no assignment will performed. If \code{TRUE}, the table will be
@@ -174,18 +178,18 @@ character, the table will be assigned to that name.}
 is FALSE.}
 }
 \value{
-If \code{simplify = FALSE}, it returns a list of class "pip_api". If
-\code{simplify = TRUE}, it returns a tibble with the requested data. This is the
-default. Only for \code{get_aux()}, If \code{assign_tb = TRUE} or character, it
-returns TRUE when data was assign properly to .pip env. FALSE, if it was
-not assigned.
+With no \code{table}, invisibly returns the available tables (a tibble
+with a \code{tables} column by default). With a selected table, returns its
+tibble when \code{simplify = TRUE}, or a \code{pip_api} list when \code{simplify = FALSE}.
+With \code{assign_tb = TRUE} or a name, invisibly returns \code{TRUE} on successful
+assignment to \code{.pip}; unsuccessful assignment raises an error.
 }
 \description{
-\code{get_aux()} Get an auxiliary dataset. If no table is specified a
-vector with possible inputs will be returned.
+\code{get_aux()} gets an auxiliary dataset. If no table is specified,
+it lists the available tables.
 
-\code{get_countries()} Returns a table countries with their full names, ISO
-codes, and associated region code
+Use \code{get_aux("countries")} for a table of country names, ISO codes,
+and associated region codes.
 }
 \section{Functions}{
 \itemize{
@@ -211,8 +215,8 @@ level aggregate statistics will not be computed.
 \item \code{get_interpolated_means()}: Returns a table of key information and statistics for all
 years for which poverty and inequality statistics are either available
 (household survey exists) or extra- / interpolated. Please see
-\code{\link{get_dictionary}} for more information about each variable
-available in this table.
+\code{get_aux("dictionary")} for more information about each variable in this
+table.
 
 \item \code{get_hfce()}: Returns a table of Household Final Consumption
 Expenditure (HFCE) values used for poverty and inequality computations.
@@ -231,12 +235,12 @@ used for poverty and inequality computations.
 available surveys for a specific region-year.
 
 \item \code{get_survey_means()}: Returns a table of all available surveys and associated
-key statistics. Please see \code{\link{get_dictionary}} for more
-information about each variable available in this table.
+key statistics. See \code{get_aux("dictionary")} for more information about
+each variable in this table.
 
 }}
 \examples{
-\dontrun{
+if (interactive()) {
 # Get list of tables
 x <- get_aux()
 
@@ -249,9 +253,6 @@ df <- get_aux("countries")
 # Display auxiliary tables
 get_aux()
 
-# Display and assign to .pip env the selected auxiliary table
-get_aux(assign_tb = TRUE)
-
 # Bind gdp table to "gdp" in .pip env
 get_aux("gdp", assign_tb = TRUE)
 
@@ -259,56 +260,56 @@ get_aux("gdp", assign_tb = TRUE)
 get_aux("gdp", assign_tb = "new_name")
 
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get countries
-get_countries()
+get_aux("countries")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get regions
-get_regions()
+get_aux("regions")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get cpi
-get_cpi()
+get_aux("cpi")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get dictionary
-get_dictionary()
+get_aux("dictionary")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get gdp
-get_gdp()
+get_aux("gdp")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get incgrp_coverage
-get_incgrp_coverage()
+get_aux("incgrp_coverage")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get interpolated_means
-get_interpolated_means()
+get_aux("interpolated_means")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get hfce
-get_hfce()
+get_aux("pce")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get pop
-get_pop()
+get_aux("pop")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get pop_region
-get_pop_region()
+get_aux("pop_region")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get ppp
-get_ppp()
+get_aux("ppp")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get region_coverage
-get_region_coverage()
+get_aux("region_coverage")
 }
-\dontrun{
+if (interactive()) {
 # Short hand to get survey_means
-get_survey_means()
+get_aux("survey_means")
 }
 }

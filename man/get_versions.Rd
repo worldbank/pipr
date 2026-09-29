@@ -7,12 +7,13 @@
 get_versions(api_version = "v1", server = NULL, simplify = TRUE)
 }
 \arguments{
-\item{api_version}{character: API version}
+\item{api_version}{API version. Currently only \code{"v1"} is supported.}
 
-\item{server}{character: Server. For WB internal use only}
+\item{server}{One non-empty server name, or \code{NULL} for the production server.
+For World Bank internal use only.}
 
-\item{simplify}{logical: If TRUE (the default) the response is returned as a
-\code{tibble}}
+\item{simplify}{One non-missing logical value. If \code{TRUE} (the default),
+return simplified data.}
 }
 \value{
 tibble or list
@@ -21,7 +22,7 @@ tibble or list
 Get available data versions.
 }
 \examples{
-\dontrun{
+if (interactive()) {
 get_versions()
 }
 }

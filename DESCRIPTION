@@ -1,6 +1,6 @@
 Package: pipr
 Title: Client for the Poverty and Inequality Platform ('PIP') API
-Version: 1.4.0.9000
+Version: 1.5.0
 Authors@R: 
     c(person(given = "Tony",
             family = "Fujs",
@@ -33,7 +33,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 URL: https://worldbank.github.io/pipr/, 
     https://github.com/worldbank/pipr
 BugReports: https://github.com/worldbank/pipr/issues
@@ -69,4 +68,5 @@ Imports:
 Depends: 
     R (>= 4.1.0)
 Config/testthat/edition: 3
-Date: 2025-12-17
+Date: 2026-09-29
+Config/roxygen2/version: 8.0.0

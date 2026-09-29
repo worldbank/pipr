@@ -364,7 +364,8 @@ is_bad_gateway <- function(resp) {
 #'
 #' @export
 #'
-#' @examples \dontrun{delete_cache()}
+#' @examples
+#' if (interactive()) delete_cache()
 delete_cache <- function() {
 
   cached_files <- list.files(tools::R_user_dir("pipr", which = "cache"),
@@ -381,12 +382,12 @@ delete_cache <- function() {
 #' Provides some information about cached items
 #'
 #'
-#' @return character.
+#' @return The result of the cache status message, invisibly (`NULL`).
 #'
 #' @export
 #'
 #' @examples
-#' \dontrun{get_cache_info()}
+#' get_cache_info()
 get_cache_info <- function() {
 
   cache_path <- tools::R_user_dir("pipr", which = "cache")
@@ -403,12 +404,14 @@ get_cache_info <- function() {
 }
 
 
-#' Change the list-output to dataframe (Function from pipapi)
+#' Convert a grouped-statistics result to a data frame
 #'
-#' @param out output from wbpip::gd_compute_pip_stats
+#' @param out A list of grouped statistics with a `deciles` vector.
 #'
-#' @return dataframe
+#' @return A data frame with one column per decile and no `deciles` list column.
 #' @export
+#' @examples
+#' change_grouped_stats_to_csv(list(country = "AGO", deciles = c(0.1, 0.2)))
 change_grouped_stats_to_csv <- function(out) {
   out[paste0("decile", seq_along(out$deciles))] <- out$deciles
   out$deciles <- NULL

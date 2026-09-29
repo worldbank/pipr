@@ -7,11 +7,11 @@
 get_cache_info()
 }
 \value{
-character.
+The result of the cache status message, invisibly (\code{NULL}).
 }
 \description{
 Provides some information about cached items
 }
 \examples{
-\dontrun{get_cache_info()}
+get_cache_info()
 }

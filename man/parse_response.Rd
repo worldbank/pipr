@@ -9,8 +9,8 @@ parse_response(res, simplify)
 \arguments{
 \item{res}{A httr response}
 
-\item{simplify}{logical: If TRUE (the default) the response is returned as a
-\code{tibble}}
+\item{simplify}{One non-missing logical value. If \code{TRUE} (the default),
+return simplified data.}
 }
 \value{
 If \code{simplify = TRUE}, it returns a tibble with the requested content.

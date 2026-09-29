@@ -16,41 +16,43 @@ get_cp_ki(
 )
 }
 \arguments{
-\item{country}{character: A vector with one or more \href{https://wits.worldbank.org/wits/wits/witshelp/content/codes/country_codes.htm}{country ISO 3 codes} or
-'all'}
+\item{country}{One uppercase, three-letter country ISO code (required).}
 
-\item{povline}{numeric: Poverty line}
+\item{povline}{One finite, non-negative numeric poverty line, or \code{NULL}.
+With \code{ppp_version = 2011}, \code{NULL} sends 1.9; otherwise the API applies
+its default poverty line.}
 
-\item{version}{character: Data version. See \code{get_versions()}}
+\item{version}{Data version in \code{YYYYMMDD_PPP_XX_YY_IDENTITY} format, or
+\code{NULL}. See \code{get_versions()}.}
 
-\item{ppp_version}{ppp year to be used}
+\item{ppp_version}{One integer-valued numeric PPP year, a four-digit year
+string, or \code{NULL}.}
 
-\item{release_version}{date when the data was published in YYYYMMDD format}
+\item{release_version}{A valid publication date in \code{YYYYMMDD} format, or
+\code{NULL}.}
 
-\item{api_version}{character: API version}
+\item{api_version}{API version. Currently only \code{"v1"} is supported.}
 
-\item{simplify}{logical: If TRUE (the default) the response is returned as a
-\code{tibble}}
+\item{simplify}{One non-missing logical value. If \code{TRUE} (the default),
+return simplified data.}
 
-\item{server}{character: Server. For WB internal use only}
+\item{server}{One non-empty server name, or \code{NULL} for the production server.
+For World Bank internal use only.}
 }
 \value{
-If \code{simplify = FALSE}, it returns a list of class "pip_api". If
-\code{simplify = TRUE}, it returns a tibble with the requested data. This is the
-default. Only for \code{get_aux()}, If \code{assign_tb = TRUE} or character, it
-returns TRUE when data was assign properly to .pip env. FALSE, if it was
-not assigned.
+An unnested data frame of key indicators when \code{simplify = TRUE},
+or a \code{pip_api} list when \code{simplify = FALSE}.
 }
 \description{
 Get Country Profiles Key Indicators
 }
 \examples{
-\dontrun{
+if (interactive()) {
 # One country, all years with default ppp_version = 2017
-res <- get_cp(country = "IDN")
+res <- get_cp_ki(country = "IDN")
 
-# All countries, povline = 1.9
-res <- get_cp(country = "IDN", povline = 1.9)
+# One country, povline = 1.9
+res <- get_cp_ki(country = "IDN", povline = 1.9)
 
 }
 }

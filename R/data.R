@@ -12,7 +12,7 @@
 #'  \item{area}{rural}
 #'  }
 #'
-#'  @source Datt, G. (1998). See get_cp vignette.
+#' @source Datt, G. (1998). See get_cp vignette.
 #'
 "datt_rural"
 
@@ -31,6 +31,6 @@
 #'  \item{area}{urban}
 #'  }
 #'
-#'  @source Sarvekshana N26 Vol 9 N 4, and Datt, G. (1998) for methodology. See get_cp vignette.
+#' @source Sarvekshana N26 Vol 9 N 4, and Datt, G. (1998) for methodology. See get_cp vignette.
 #'
 "datt_urban"

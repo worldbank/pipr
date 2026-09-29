@@ -3,7 +3,7 @@
 #' @return character
 #' @export
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' check_api()
 #' }
 check_api <- function(api_version = "v1", server = NULL) {
@@ -19,7 +19,7 @@ check_api <- function(api_version = "v1", server = NULL) {
 #' @return tibble or list
 #' @export
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' get_versions()
 #' }
 get_versions <- function(api_version = "v1", server = NULL, simplify = TRUE) {
@@ -38,7 +38,7 @@ get_versions <- function(api_version = "v1", server = NULL, simplify = TRUE) {
 #' @return list
 #' @export
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' get_pip_info()
 #' }
 get_pip_info <- function(api_version = "v1", server = NULL) {
