@@ -16,13 +16,12 @@ knitr::opts_chunk$set(
 # pipr
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/worldbank/pipr/workflows/R-CMD-check/badge.svg)](https://github.com/worldbank/pipr/actions?workflow=R-CMD-check)
-[![test-coverage](https://github.com/worldbank/pipr/workflows/test-coverage/badge.svg)](https://github.com/worldbank/pipr/actions)
-[![pkgdown](https://github.com/worldbank/pipr/workflows/pkgdown/badge.svg)](https://github.com/worldbank/pipr/actions)
+[![CRAN version](https://img.shields.io/cran/v/pipr)](https://CRAN.R-project.org/package=pipr)
+[![R-CMD-check](https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml)
+[![test-coverage](https://github.com/worldbank/pipr/actions/workflows/test-coverage.yaml/badge.svg?branch=main)](https://github.com/worldbank/pipr/actions/workflows/test-coverage.yaml)
+[![pkgdown](https://github.com/worldbank/pipr/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/worldbank/pipr/actions/workflows/pkgdown.yaml)
 [![Codecov test coverage](https://codecov.io/gh/worldbank/pipr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/worldbank/pipr?branch=main)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![R-CMD-check](https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/worldbank/pipr/graph/badge.svg)](https://app.codecov.io/gh/worldbank/pipr)
 <!-- badges: end -->
 
 The `pipr` package allows R users to compute poverty and inequality indicators 
@@ -34,11 +33,17 @@ any poverty line.
 
 ## Installation
 
-The CRAN package is currently archived. Install the development version from
-[GitHub](https://github.com/worldbank/pipr) until it is available on CRAN again:
+`pipr` 1.5.0 is available on [CRAN](https://CRAN.R-project.org/package=pipr).
+Install the released version with:
 
 ``` r
-# From GitHub
+install.packages("pipr")
+```
+
+You can also install the development version from
+[GitHub](https://github.com/worldbank/pipr):
+
+``` r
 devtools::install_github("worldbank/pipr")
 ```
 
