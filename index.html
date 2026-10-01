@@ -104,10 +104,12 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The CRAN package is currently archived. Install the development version from <a href="https://github.com/worldbank/pipr" class="external-link">GitHub</a> until it is available on CRAN again:</p>
+<p><code>pipr</code> 1.5.0 is available on <a href="https://CRAN.R-project.org/package=pipr" class="external-link">CRAN</a>. Install the released version with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># From GitHub</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"worldbank/pipr"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pipr"</span><span class="op">)</span></span></code></pre></div>
+<p>You can also install the development version from <a href="https://github.com/worldbank/pipr" class="external-link">GitHub</a>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"worldbank/pipr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
@@ -116,7 +118,7 @@
 <div class="section level3">
 <h3 id="retrieve-statistics">Retrieve statistics<a class="anchor" aria-label="anchor" href="#retrieve-statistics"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://worldbank.github.io/pipr/">pipr</a></span><span class="op">)</span></span>
 <span></span>
@@ -126,7 +128,7 @@
 <div class="section level3">
 <h3 id="access-data-dictionary">Access data dictionary<a class="anchor" aria-label="anchor" href="#access-data-dictionary"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_aux.html">get_aux</a></span><span class="op">(</span><span class="st">"dictionary"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -180,13 +182,12 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/worldbank/pipr/actions?workflow=R-CMD-check" class="external-link"><img src="https://github.com/worldbank/pipr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://github.com/worldbank/pipr/actions" class="external-link"><img src="https://github.com/worldbank/pipr/workflows/test-coverage/badge.svg" alt="test-coverage"></a></li>
-<li><a href="https://github.com/worldbank/pipr/actions" class="external-link"><img src="https://github.com/worldbank/pipr/workflows/pkgdown/badge.svg" alt="pkgdown"></a></li>
+<li><a href="https://CRAN.R-project.org/package=pipr" class="external-link"><img src="https://img.shields.io/cran/v/pipr" alt="CRAN version"></a></li>
+<li><a href="https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/worldbank/pipr/actions/workflows/test-coverage.yaml" class="external-link"><img src="https://github.com/worldbank/pipr/actions/workflows/test-coverage.yaml/badge.svg?branch=main" alt="test-coverage"></a></li>
+<li><a href="https://github.com/worldbank/pipr/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/worldbank/pipr/actions/workflows/pkgdown.yaml/badge.svg?branch=main" alt="pkgdown"></a></li>
 <li><a href="https://app.codecov.io/gh/worldbank/pipr?branch=main" class="external-link"><img src="https://codecov.io/gh/worldbank/pipr/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
-<li><a href="https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://app.codecov.io/gh/worldbank/pipr" class="external-link"><img src="https://codecov.io/gh/worldbank/pipr/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 

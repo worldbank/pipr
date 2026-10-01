@@ -76,7 +76,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.5.0" id="pipr-150">pipr 1.5.0<a class="anchor" aria-label="anchor" href="#pipr-150"></a></h2>
+<h2 class="page-header" data-toc-text="1.5.0" id="pipr-150">pipr 1.5.0<small>2026-09-30</small><a class="anchor" aria-label="anchor" href="#pipr-150"></a></h2>
 <ul><li>
 <code><a href="../reference/get_stats.html">get_stats()</a></code>, <code><a href="../reference/get_cp.html">get_cp()</a></code>, <code><a href="../reference/get_cp_ki.html">get_cp_ki()</a></code>, and <code><a href="../reference/get_aux.html">get_aux()</a></code> now check their arguments before making an API request. Invalid country codes, years, poverty lines, population shares, data versions, dates, response formats, and other options produce an error that names the argument. Country codes must be uppercase three-letter codes (or <code>"all"</code> where supported); <code><a href="../reference/get_cp_ki.html">get_cp_ki()</a></code> requires exactly one country code. Inputs that were previously sent to the API without local validation may now fail before the request.</li>
 <li>Tests for the 2011 PPP poverty-line defaults in <code><a href="../reference/get_cp.html">get_cp()</a></code> and <code><a href="../reference/get_cp_ki.html">get_cp_ki()</a></code> now use mocked responses because the live API rejects these requests. Automated CRAN-mode checks skip live API integration tests so temporary gateway failures do not fail package checks. The package website displays examples without making live API requests during deployment.</li>
