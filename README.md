@@ -7,9 +7,9 @@
 
 [![CRAN
 version](https://img.shields.io/cran/v/pipr)](https://CRAN.R-project.org/package=pipr)
-[![R-CMD-check](https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/worldbank/pipr/actions/workflows/test-coverage.yaml/badge.svg?branch=main)](https://github.com/worldbank/pipr/actions/workflows/test-coverage.yaml)
-[![pkgdown](https://github.com/worldbank/pipr/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/worldbank/pipr/actions/workflows/pkgdown.yaml)
+[![R-CMD-check](https://img.shields.io/github/actions/workflow/status/worldbank/pipr/R-CMD-check.yaml?branch=main&label=R-CMD-check)](https://github.com/worldbank/pipr/actions/workflows/R-CMD-check.yaml)
+[![test-coverage](https://img.shields.io/github/actions/workflow/status/worldbank/pipr/test-coverage.yaml?branch=main&label=test-coverage)](https://github.com/worldbank/pipr/actions/workflows/test-coverage.yaml)
+[![pkgdown](https://img.shields.io/github/actions/workflow/status/worldbank/pipr/pkgdown.yaml?branch=main&label=pkgdown)](https://github.com/worldbank/pipr/actions/workflows/pkgdown.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/worldbank/pipr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/worldbank/pipr?branch=main)
 [![Lifecycle:
